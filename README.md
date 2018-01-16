@@ -1,2 +1,6 @@
 # lulzx.github.io
-My website
+
+- https://lulzx.cf 
+
+- https://lulzx-6a04b.firebaseapp.com
+ 
