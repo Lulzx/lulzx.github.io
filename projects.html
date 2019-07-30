@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lulzx: portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#333333">
+  <meta name="description" content="Index of Lulzx past and present personal projects">
+  <meta name="author" content="Lulzx">
+  <style>
+    body {
+      background-color: #e5ebef;
+    },
+    html,
+    div {
+      font-family: system-ui, "Helvetica", "Roboto", "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      border: none;
+      color: #333;
+      line-height: 1.5em;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+      margin-bottom: 20px;
+      clear: both;
+    }
+
+    a {
+        color: #333;
+    }
+
+    h1 {
+      margin-top: 24px;
+    }
+
+    h2 {
+      margin-top: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #777;
+    }
+
+    .privacy {
+      color: black;
+      transition: .2s;
+    }
+
+    .privacy:focus,
+    .privacy:hover {
+      opacity: 0.6;
+    }
+
+    #container {
+      padding: 20px 15px;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: visible;
+    }
+
+    #block-container {
+      padding: 15px 0;
+      width: 100%;
+    }
+
+    #block-container>div {
+      padding-bottom: 12px;
+    }
+
+    #block-container>div>h2 {
+      margin-top: 15px;
+    }
+
+    #block-container a {
+      text-decoration: none;
+      display: block;
+      margin-bottom: 6px;
+      width: 100%;
+      transition: box-shadow 0.2s, transform .2s;
+      border-radius: 0 10px 10px 10px;
+      box-sizing: border-box;
+      padding: 6px 12px;
+      font-weight: bold;
+      box-sizing: border-box;
+      box-shadow: 0 0 0 1px #dae0e4;
+      border: 1px solid transparent;
+      position: relative;
+      background: #fff;
+    }
+
+    #block-container a::after {
+      content: attr(title);
+      display: block;
+      font-weight: normal;
+      width: 100%;
+    }
+
+    #block-container a:focus,
+    #block-container a:hover {
+      border: 1px solid #777;
+      outline: none;
+    }
+
+    #block-container a::before {
+      position: absolute;
+      content: '→';
+      top: 6px;
+      right: 12px;
+      transform: translateX(-6px);
+      opacity: 0;
+      transition: transform .3s, opacity .3s;
+    }
+
+    #block-container a:focus::before,
+    #block-container a:hover::before {
+      outline: none;
+      transform: translate(0);
+      opacity: 1;
+    }
+
+    #block-container a:active {
+      transform: scale(.98);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <h1>Projects Directory</h1>
+    <p>Below are links to all of my current and deprecated projects that are still available somewhere online. Some will take
+      you to an about page, others will take you to a GitHub page, but you'll find out more about projects through their
+      links.</p>
+    <p>If you're just interested in what I'm working on right now, you can check out my website, linked at <a href="https://lulzx.github.io/now">lulzx.github.io/now</a>.</p>
+    <div id="block-container">
+      <div>
+        <h2>🌱 Seed-Stage Projects</h2>
+        <p>These projects are currently in active development. They can be considered pre-alpha or alpha-stage in development, will have tons of bugs or errors, or may not be fully executed at all.</p>
+        <a title="A tool to find out code solutions to the problem statements using web scraping." href="https://github.com/lulzx/codesearch">Code snippet search engine</a>
+        <a title="Community of Telegram bot lovers to help your bot grow and give feedback." href="https://github.com/Lulzx/botcatalyst">Bot Catalyst</a>
+      </div>
+      <div>
+        <h2>⚡️ Active Projects</h2>
+        <p>These projects are either in their final stages of beta testing or are production-ready and in active development,
+          continually being updated by me. They are available to use, and are currently being used by potentially thousands of people.</p>
+        <a title="Web consumption for busy humans." href="https://t.me/s/sumitupideas">Sum it up</a>
+      </div>
+      <div>
+        <h2>🚀 Completed Projects</h2>
+        <p>These projects were at one point published and actively developed, but are now ceased to be continually updated.
+          Nonetheless, most of them are still functional and being used by me and thousands of other people, and are a good
+          record of what I've made so far.</p>
+        <a title="Bot for executing snippets of code." href="https://github.com/Lulzx/leaflet">Leaflet</a>
+        <a title="A bot to help you find out a throne room nearby." href="https://t.me/ThroneRoomBot">Throne Room Finder</a>
+        <a title="Insult your co-workers with snarky O RLY parody book covers!" href="https://t.me/oreillybot">Oreilly Parody book generator</a>
+        <a title="Get all contents of multiple messages concatenated, split a merged message and create dialogs." href="https://github.com/Lulzx/messagemerger">Message Merger</a>
+        <a title="Create UML diagrams on the fly, share quick sketches of concepts and quickly create sequence diagrams." href="https://github.com/lulzx/puml">Sequence diagrams creator</a>
+      </div>
+      <div>
+        <h2>📚 Unfinished Projects</h2>
+        <p>These projects were started and worked on for anywhere from weeks to years, but ultimately were never seen to completion
+          or release, for one reason or another. Still, they serve as a good background for what kinds of ideas interest
+          me.</p>
+        <a title="I complete every projects I start." href="#">Nothing, lol</a>
+      </div>
+    </div>
+    <p>&copy; Lulzx 2019</p>
+  </div>
+</body>
+</html>
