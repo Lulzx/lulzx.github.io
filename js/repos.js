@@ -15,6 +15,7 @@ $(function() {
     $('#repos').text('');
     $.each(repos.slice(0, len), function(ind, val) {
       if(val.name == 'lulzx.github.io') return;
+      if(val.fork) return;
       if(ind+1 == len)
         $('#repos').append('<li><a href="' + val.html_url + '">&quot;' + val.name + '&quot;</a></li>');
       else
