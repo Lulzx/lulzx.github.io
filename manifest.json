@@ -1,0 +1,22 @@
+{
+    "dir": "ltr",
+    "lang": "en",
+    "name": "Lulzx",
+    "short_name": "Lulzx",
+    "scope": "/",
+    "display": "browser",
+    "start_url": "https://rishabh.xyz/",
+    "background_color": "transparent",
+    "theme_color": "transparent",
+    "description": "",
+    "orientation": "any",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "https://rishabh.xyz//favicon.ico",
+            "sizes": "16x16"
+        }
+    ],
+    "url": "https://rishabh.xyz"
+}
