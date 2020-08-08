@@ -53,6 +53,13 @@
       </div>
       <p align=center>Doing what nobody does to achieve what nobody has!</p>
   </div>
+  <script type="module">
+    // This is the "Offline copy of pages" service worker
+    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+
+    const el = document.createElement('pwa-update');
+    document.body.appendChild(el);
+  </script>
 </body>
 
 </html>
