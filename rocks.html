@@ -1,0 +1,38 @@
+<style>h1 {
+  color: white;
+  text-shadow: 0 0 10px var(--neon-glow);
+  text-decoration: underline overline wavy var(--neon);
+  font-size: 8vmin;
+}
+
+.neon-green {
+  --neon: #00fe9b;
+  --neon-glow: #02c435;
+}
+
+@media (dynamic-range: high) {
+  .neon-green {
+    --neon-glow: color(display-p3 0 1 0);
+  }
+}
+
+html {
+  block-size: 100%;
+  inline-size: 100%;
+  background-color: hsl(0 0% 5%);
+}
+
+body {
+  min-block-size: 100%;
+  min-inline-size: 100%;
+  margin: 0;
+  padding: 5vmin;
+  box-sizing: border-box;
+  display: flex;
+  gap: 5vmin;
+  flex-wrap: wrap;
+  place-content: center;
+  font-family: system-ui, sans-serif;
+}
+</style>
+<h1 class="neon-green">Lulzx rocks!</h1>
