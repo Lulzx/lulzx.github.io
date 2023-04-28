@@ -1,3 +1,3 @@
 # lulzx.github.io
 
-- https://rishabh.xyz
+- https://lulzx.com
