@@ -20,6 +20,7 @@
       --green: #10B981;
       --yellow: #FCD34D;
       --pink: #EC4899;
+      --blue: #3B82F6;
       --bg: #FAFAFA;
       --text: #000000;
       --border: 4px solid #000000;
@@ -33,23 +34,176 @@
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
+      position: relative;
+      cursor: none;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 30px;
+      height: 30px;
+      border: 3px solid #000000;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: all 0.1s ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-follower {
+      width: 50px;
+      height: 50px;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+      opacity: 0.5;
+    }
+
+    /* Animated Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.4;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* Animated Gradient Mesh */
+    .gradient-mesh {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 50%, var(--primary) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, var(--accent) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, var(--purple) 0%, transparent 50%),
+        radial-gradient(circle at 60% 70%, var(--yellow) 0%, transparent 50%),
+        radial-gradient(circle at 90% 10%, var(--pink) 0%, transparent 50%);
+      animation: meshMove 20s ease-in-out infinite;
+      filter: blur(80px);
+    }
+
+    @keyframes meshMove {
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+      }
+      33% {
+        transform: scale(1.1) rotate(5deg);
+      }
+      66% {
+        transform: scale(0.9) rotate(-5deg);
+      }
+    }
+
+    /* Floating Particles */
+    .particle {
+      position: absolute;
+      background: var(--accent);
+      border: 3px solid #000000;
+      pointer-events: none;
+    }
+
+    .particle.square {
+      width: 40px;
+      height: 40px;
+      transform: rotate(45deg);
+      animation: floatParticle 15s infinite ease-in-out;
+    }
+
+    .particle.circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      animation: floatParticle 12s infinite ease-in-out;
+    }
+
+    .particle.triangle {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 35px solid var(--primary);
+      border: 3px solid #000000;
+      animation: floatParticle 18s infinite ease-in-out;
+    }
+
+    @keyframes floatParticle {
+      0%, 100% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0.3;
+      }
+      25% {
+        transform: translateY(-100px) translateX(50px) rotate(90deg);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translateY(-50px) translateX(-50px) rotate(180deg);
+        opacity: 0.3;
+      }
+      75% {
+        transform: translateY(-150px) translateX(30px) rotate(270deg);
+        opacity: 0.6;
+      }
+    }
+
+    /* Noise Texture Overlay */
+    .noise-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E");
+      animation: noiseMove 0.5s infinite;
+    }
+
+    @keyframes noiseMove {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(-2px, 2px); }
+      100% { transform: translate(0, 0); }
     }
 
     .container {
       max-width: 1400px;
       margin: 0 auto;
       padding: 20px;
+      position: relative;
+      z-index: 2;
     }
 
-    /* Header Section */
+    /* Header Section with Holographic Effect */
     .hero {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--purple) 100%);
       border: var(--border);
       box-shadow: var(--shadow);
       padding: 60px 40px;
       margin-bottom: 40px;
       position: relative;
       overflow: hidden;
+      animation: heroGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes heroGlow {
+      0%, 100% {
+        filter: brightness(1) contrast(1);
+      }
+      50% {
+        filter: brightness(1.1) contrast(1.05);
+      }
     }
 
     .hero::before {
@@ -62,6 +216,53 @@
       background: var(--accent);
       opacity: 0.3;
       transform: rotate(45deg);
+      animation: heroShapeMove 6s ease-in-out infinite;
+    }
+
+    @keyframes heroShapeMove {
+      0%, 100% {
+        transform: rotate(45deg) scale(1);
+      }
+      50% {
+        transform: rotate(225deg) scale(1.2);
+      }
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -5%;
+      width: 250px;
+      height: 250px;
+      background: var(--yellow);
+      opacity: 0.4;
+      border-radius: 50%;
+      animation: heroShapeMove 8s ease-in-out infinite reverse;
+    }
+
+    /* Holographic Overlay */
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 70%
+      );
+      background-size: 200% 200%;
+      animation: holographic 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes holographic {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
     }
 
     .hero-content {
@@ -75,6 +276,26 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+      animation: titleGlitch 5s ease-in-out infinite;
+    }
+
+    @keyframes titleGlitch {
+      0%, 90%, 100% {
+        transform: translate(0);
+        text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+      }
+      92% {
+        transform: translate(-2px, 2px);
+        text-shadow: 6px 2px 0px var(--accent), -2px 4px 0px var(--pink);
+      }
+      94% {
+        transform: translate(2px, -2px);
+        text-shadow: -2px 6px 0px var(--yellow), 4px -2px 0px var(--purple);
+      }
+      96% {
+        transform: translate(-2px, -2px);
+        text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+      }
     }
 
     .tagline {
@@ -82,29 +303,72 @@
       font-weight: bold;
       margin-bottom: 30px;
       font-family: Arial, sans-serif;
+      animation: fadeInUp 1s ease-out;
     }
 
-    /* Grid Layout */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 3D Bento Grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 30px;
       margin-bottom: 40px;
+      perspective: 1000px;
     }
 
-    /* Cards */
+    /* Cards with 3D Effect */
     .card {
       background: white;
       border: var(--border);
       box-shadow: var(--shadow);
       padding: 30px;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       position: relative;
+      transform-style: preserve-3d;
+      animation: cardEntry 0.6s ease-out backwards;
+    }
+
+    @keyframes cardEntry {
+      from {
+        opacity: 0;
+        transform: translateY(50px) rotateX(-10deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+      }
     }
 
     .card:hover {
-      transform: translate(-4px, -4px);
-      box-shadow: 12px 12px 0px #000000;
+      transform: translate(-4px, -4px) rotateX(5deg) rotateY(5deg);
+      box-shadow: 16px 16px 0px #000000;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 0%, rgba(0, 217, 255, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .card:hover::before {
+      opacity: 1;
     }
 
     .card h2 {
@@ -123,6 +387,12 @@
       width: 60px;
       height: 6px;
       background: var(--accent);
+      animation: underlineGrow 0.6s ease-out;
+    }
+
+    @keyframes underlineGrow {
+      from { width: 0; }
+      to { width: 60px; }
     }
 
     .card.primary { border-left: 12px solid var(--primary); }
@@ -133,7 +403,7 @@
     .card.yellow { border-left: 12px solid var(--yellow); }
     .card.pink { border-left: 12px solid var(--pink); }
 
-    /* About Section */
+    /* Animated Stat Boxes */
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -145,20 +415,52 @@
       background: var(--yellow);
       border: var(--border);
       box-shadow: var(--shadow);
-      padding: 20px;
+      padding: 30px;
       text-align: center;
       transform: rotate(-1deg);
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
     }
 
     .stat-box:hover {
-      transform: rotate(0deg) scale(1.05);
+      transform: rotate(0deg) scale(1.1);
+      box-shadow: 12px 12px 0px #000000;
     }
 
     .stat-number {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: bold;
       display: block;
+      animation: countUp 2s ease-out;
+    }
+
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .stat-label {
@@ -166,10 +468,10 @@
       font-family: Arial, sans-serif;
     }
 
-    /* Skills Section */
+    /* Skills Grid with Pulse Effect */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 20px;
       margin: 20px 0;
     }
@@ -181,17 +483,37 @@
       padding: 15px 20px;
       text-align: center;
       font-weight: bold;
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-tag::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translate(-50%, -50%);
+      transition: width 0.4s ease, height 0.4s ease;
+      z-index: -1;
+    }
+
+    .skill-tag:hover::before {
+      width: 200%;
+      height: 200%;
     }
 
     .skill-tag:hover {
-      background: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: 6px 6px 0px #000000;
+      transform: translateY(-4px) rotate(-2deg);
+      box-shadow: 8px 8px 0px #000000;
     }
 
-    /* Projects Section */
+    /* Glitch Effect on Projects */
     .project-item {
       background: white;
       border: var(--border);
@@ -199,6 +521,65 @@
       padding: 25px;
       margin-bottom: 20px;
       transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .project-item::before,
+    .project-item::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      border: var(--border);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .project-item:hover::before {
+      opacity: 0.8;
+      animation: glitch1 0.3s infinite;
+    }
+
+    .project-item:hover::after {
+      opacity: 0.8;
+      animation: glitch2 0.3s infinite reverse;
+    }
+
+    @keyframes glitch1 {
+      0%, 100% {
+        transform: translate(0);
+        clip-path: inset(0 0 0 0);
+      }
+      25% {
+        transform: translate(-2px, 2px);
+        clip-path: inset(0 0 50% 0);
+        background: var(--accent);
+      }
+      75% {
+        transform: translate(2px, -2px);
+        clip-path: inset(50% 0 0 0);
+        background: var(--pink);
+      }
+    }
+
+    @keyframes glitch2 {
+      0%, 100% {
+        transform: translate(0);
+        clip-path: inset(0 0 0 0);
+      }
+      25% {
+        transform: translate(2px, -2px);
+        clip-path: inset(0 0 60% 0);
+        background: var(--yellow);
+      }
+      75% {
+        transform: translate(-2px, 2px);
+        clip-path: inset(60% 0 0 0);
+        background: var(--purple);
+      }
     }
 
     .project-item:hover {
@@ -210,11 +591,15 @@
       font-size: 1.5rem;
       margin-bottom: 10px;
       font-weight: bold;
+      position: relative;
+      z-index: 1;
     }
 
     .project-desc {
       font-family: Arial, sans-serif;
       margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .project-tag {
@@ -226,44 +611,16 @@
       margin-top: 5px;
       font-size: 0.9rem;
       font-weight: bold;
-    }
-
-    /* Services Section */
-    .service-box {
-      background: white;
-      border: var(--border);
-      box-shadow: var(--shadow);
-      padding: 30px;
-      margin-bottom: 30px;
-    }
-
-    .service-box h3 {
-      font-size: 1.8rem;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-    }
-
-    .service-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .service-list li {
-      font-family: Arial, sans-serif;
-      padding: 10px 0 10px 30px;
       position: relative;
-      font-size: 1.1rem;
+      z-index: 1;
+      transition: all 0.3s ease;
     }
 
-    .service-list li::before {
-      content: '▸';
-      position: absolute;
-      left: 0;
-      font-weight: bold;
-      font-size: 1.5rem;
+    .project-tag:hover {
+      transform: scale(1.1) rotate(-3deg);
     }
 
-    /* Contact Buttons */
+    /* Animated Contact Buttons */
     .contact-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -282,13 +639,33 @@
       border: var(--border);
       box-shadow: var(--shadow);
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+
+    .btn:hover::before {
+      width: 300%;
+      height: 300%;
     }
 
     .btn:hover {
-      transform: translate(-4px, -4px);
-      box-shadow: 12px 12px 0px #000000;
+      transform: translate(-6px, -6px) scale(1.05);
+      box-shadow: 16px 16px 0px #000000;
     }
 
     .btn:active {
@@ -301,21 +678,58 @@
     .btn.purple { background: var(--purple); color: white; }
     .btn.green { background: var(--green); color: white; }
 
-    /* Price Tag */
+    /* Animated Price Tag with Rotation */
     .price-tag {
       background: var(--pink);
       border: var(--border);
       box-shadow: var(--shadow);
-      padding: 30px;
+      padding: 40px;
       text-align: center;
       margin: 40px 0;
       transform: rotate(1deg);
+      position: relative;
+      overflow: hidden;
+      animation: priceFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes priceFloat {
+      0%, 100% {
+        transform: rotate(1deg) translateY(0);
+      }
+      50% {
+        transform: rotate(-1deg) translateY(-10px);
+      }
+    }
+
+    .price-tag::before {
+      content: '💰';
+      position: absolute;
+      font-size: 8rem;
+      top: -30px;
+      right: -30px;
+      opacity: 0.2;
+      animation: spin 10s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     .price {
-      font-size: 3.5rem;
+      font-size: 4rem;
       font-weight: bold;
       margin-bottom: 10px;
+      animation: priceGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes priceGlow {
+      0%, 100% {
+        text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+      }
+      50% {
+        text-shadow: 4px 4px 8px rgba(0,0,0,0.5), -2px -2px 8px rgba(255,255,255,0.3);
+      }
     }
 
     .price-desc {
@@ -323,9 +737,9 @@
       font-family: Arial, sans-serif;
     }
 
-    /* Quote Box */
+    /* Quote Box with Gradient Animation */
     .quote-box {
-      background: var(--purple);
+      background: linear-gradient(135deg, var(--purple), var(--pink));
       color: white;
       border: var(--border);
       box-shadow: var(--shadow);
@@ -335,18 +749,33 @@
       font-style: italic;
       text-align: center;
       position: relative;
+      overflow: hidden;
+      animation: gradientShift 5s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .quote-box::before {
       content: '"';
-      font-size: 6rem;
+      font-size: 8rem;
       position: absolute;
-      top: -20px;
+      top: -30px;
       left: 20px;
-      opacity: 0.3;
+      opacity: 0.2;
+      animation: quoteFloat 3s ease-in-out infinite;
     }
 
-    /* Interests Section */
+    @keyframes quoteFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Interest Tags with Stagger Animation */
     .interest-tags {
       display: flex;
       flex-wrap: wrap;
@@ -361,7 +790,28 @@
       font-weight: bold;
       font-size: 1.1rem;
       transform: rotate(-2deg);
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      animation: tagEntry 0.5s ease-out backwards;
+      cursor: pointer;
+    }
+
+    .interest-tag:nth-child(1) { animation-delay: 0.1s; }
+    .interest-tag:nth-child(2) { animation-delay: 0.2s; }
+    .interest-tag:nth-child(3) { animation-delay: 0.3s; }
+    .interest-tag:nth-child(4) { animation-delay: 0.4s; }
+    .interest-tag:nth-child(5) { animation-delay: 0.5s; }
+    .interest-tag:nth-child(6) { animation-delay: 0.6s; }
+    .interest-tag:nth-child(7) { animation-delay: 0.7s; }
+
+    @keyframes tagEntry {
+      from {
+        opacity: 0;
+        transform: rotate(-2deg) scale(0) translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: rotate(-2deg) scale(1) translateY(0);
+      }
     }
 
     .interest-tag:nth-child(even) {
@@ -370,18 +820,120 @@
     }
 
     .interest-tag:hover {
-      transform: rotate(0deg) scale(1.1);
+      transform: rotate(0deg) scale(1.15);
+      box-shadow: 6px 6px 0px #000000;
     }
 
-    /* Footer */
+    /* Section Title with Decorative Elements */
+    .section-title {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      margin: 60px 0 30px 0;
+      padding: 25px 30px;
+      background: white;
+      border: var(--border);
+      box-shadow: var(--shadow);
+      display: inline-block;
+      position: relative;
+      animation: titleSlideIn 0.6s ease-out;
+    }
+
+    @keyframes titleSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--accent);
+      border: 3px solid #000000;
+      transform: rotate(45deg);
+      animation: decorSpin 3s ease-in-out infinite;
+    }
+
+    @keyframes decorSpin {
+      0%, 100% { transform: rotate(45deg); }
+      50% { transform: rotate(225deg); }
+    }
+
+    /* Floating Decorative Shapes */
+    .deco-element {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .deco-circle {
+      width: 100px;
+      height: 100px;
+      border: 5px solid var(--primary);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .deco-square {
+      width: 80px;
+      height: 80px;
+      background: var(--green);
+      border: var(--border);
+      transform: rotate(45deg);
+      animation: float 6s ease-in-out infinite reverse;
+    }
+
+    .deco-line {
+      width: 150px;
+      height: 6px;
+      background: var(--yellow);
+      border: 2px solid #000000;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-30px) rotate(180deg);
+      }
+    }
+
+    /* Footer with Gradient */
     footer {
-      background: #000000;
+      background: linear-gradient(135deg, #000000, #333333);
       color: white;
-      padding: 30px;
+      padding: 40px;
       text-align: center;
       border: var(--border);
-      margin-top: 60px;
+      margin-top: 80px;
       font-size: 1.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      animation: footerShine 3s infinite;
+    }
+
+    @keyframes footerShine {
+      to { left: 100%; }
     }
 
     /* Responsive */
@@ -390,61 +942,64 @@
       .tagline { font-size: 1.2rem; }
       .about-grid { grid-template-columns: 1fr; }
       .hero { padding: 40px 20px; }
-      .stat-number { font-size: 2rem; }
+      .stat-number { font-size: 2.5rem; }
       .price { font-size: 2.5rem; }
       .quote-box { font-size: 1.3rem; padding: 30px; }
+      .section-title { font-size: 2rem; margin: 40px 0 20px 0; }
+      body { cursor: auto; }
+      .cursor, .cursor-follower { display: none; }
     }
 
-    /* Animations */
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+    /* Scroll Reveal Animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s ease-out;
     }
 
-    .float-animation {
-      animation: float 3s ease-in-out infinite;
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    /* Decorative Elements */
-    .deco-square {
-      width: 80px;
-      height: 80px;
-      background: var(--green);
-      border: var(--border);
-      position: absolute;
-      transform: rotate(45deg);
-      opacity: 0.6;
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      text-transform: uppercase;
-      margin: 40px 0 30px 0;
-      padding: 20px;
-      background: white;
-      border: var(--border);
-      box-shadow: var(--shadow);
-      display: inline-block;
-      position: relative;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 20px;
-      width: 40px;
-      height: 40px;
-      background: var(--accent);
-      border: 3px solid #000000;
-      transform: rotate(45deg);
+    /* Loading Animation */
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(0.98);
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Custom Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="gradient-mesh"></div>
+
+    <!-- Floating Particles -->
+    <div class="particle square" style="top: 10%; left: 10%; background: var(--primary);"></div>
+    <div class="particle circle" style="top: 20%; left: 80%; background: var(--accent);"></div>
+    <div class="particle square" style="top: 60%; left: 15%; background: var(--yellow);"></div>
+    <div class="particle circle" style="top: 70%; left: 75%; background: var(--pink);"></div>
+    <div class="particle square" style="top: 40%; left: 50%; background: var(--purple);"></div>
+    <div class="particle circle" style="top: 85%; left: 30%; background: var(--green);"></div>
+  </div>
+
+  <!-- Noise Overlay -->
+  <div class="noise-overlay"></div>
+
   <div class="container">
     <!-- Hero Section -->
     <div class="hero">
+      <div class="hero-overlay"></div>
       <div class="hero-content">
         <h1>LULZX</h1>
         <p class="tagline">Software Engineer • Designer • Builder</p>
@@ -453,7 +1008,7 @@
     </div>
 
     <!-- Quick Stats -->
-    <div class="about-grid">
+    <div class="about-grid reveal">
       <div class="stat-box">
         <span class="stat-number">$1K</span>
         <span class="stat-label">Per Day Rate</span>
@@ -464,15 +1019,20 @@
       </div>
     </div>
 
+    <!-- Decorative Elements -->
+    <div class="deco-element deco-circle" style="top: 800px; left: 5%;"></div>
+    <div class="deco-element deco-square" style="top: 1200px; right: 8%;"></div>
+    <div class="deco-element deco-line" style="top: 1600px; left: 10%;"></div>
+
     <!-- Quote -->
-    <div class="quote-box">
+    <div class="quote-box reveal">
       Doing what nobody does to achieve what nobody has!
     </div>
 
     <!-- About Me Section -->
     <h2 class="section-title">Who Am I?</h2>
 
-    <div class="card primary">
+    <div class="card primary reveal">
       <h2>The Builder</h2>
       <p style="font-family: Arial, sans-serif; font-size: 1.1rem; line-height: 1.8;">
         I'm Lulzx, a software engineer and designer who loves creating lightweight, performant, and beautifully designed software. I specialize in turning complex problems into simple, elegant solutions. Whether it's a startup emergency or building something from scratch, I thrive on challenges that push the boundaries of what's possible.
@@ -496,8 +1056,8 @@
     <h2 class="section-title">What I Do</h2>
 
     <div class="grid">
-      <div class="card accent">
-        <h2>Startup Emergencies</h2>
+      <div class="card accent reveal">
+        <h2>🚨 Startup Emergencies</h2>
         <ul class="service-list">
           <li>Engineering disasters</li>
           <li>Database problems</li>
@@ -508,8 +1068,8 @@
         </ul>
       </div>
 
-      <div class="card pink">
-        <h2>Creative Marketing</h2>
+      <div class="card pink reveal">
+        <h2>🎨 Creative Marketing</h2>
         <ul class="service-list">
           <li>UI/UX design</li>
           <li>Graphic design</li>
@@ -522,8 +1082,8 @@
         </ul>
       </div>
 
-      <div class="card green">
-        <h2>Software Engineering</h2>
+      <div class="card green reveal">
+        <h2>⚡ Software Engineering</h2>
         <ul class="service-list">
           <li>Rapid prototyping</li>
           <li>Web performance</li>
@@ -535,70 +1095,74 @@
       </div>
     </div>
 
+    <div class="deco-element deco-circle" style="top: 2400px; right: 5%;"></div>
+
     <!-- Skills -->
     <h2 class="section-title">My Toolkit</h2>
 
-    <div class="skills-grid">
-      <div class="skill-tag">JavaScript</div>
-      <div class="skill-tag">Python</div>
-      <div class="skill-tag">Node.js</div>
-      <div class="skill-tag">Web Design</div>
-      <div class="skill-tag">UI/UX</div>
-      <div class="skill-tag">Databases</div>
-      <div class="skill-tag">APIs</div>
-      <div class="skill-tag">Automation</div>
-      <div class="skill-tag">Bot Development</div>
-      <div class="skill-tag">Web Scraping</div>
-      <div class="skill-tag">Performance</div>
-      <div class="skill-tag">Architecture</div>
+    <div class="skills-grid reveal">
+      <div class="skill-tag" style="animation-delay: 0.1s;">JavaScript</div>
+      <div class="skill-tag" style="animation-delay: 0.15s;">Python</div>
+      <div class="skill-tag" style="animation-delay: 0.2s;">Node.js</div>
+      <div class="skill-tag" style="animation-delay: 0.25s;">Web Design</div>
+      <div class="skill-tag" style="animation-delay: 0.3s;">UI/UX</div>
+      <div class="skill-tag" style="animation-delay: 0.35s;">Databases</div>
+      <div class="skill-tag" style="animation-delay: 0.4s;">APIs</div>
+      <div class="skill-tag" style="animation-delay: 0.45s;">Automation</div>
+      <div class="skill-tag" style="animation-delay: 0.5s;">Bot Development</div>
+      <div class="skill-tag" style="animation-delay: 0.55s;">Web Scraping</div>
+      <div class="skill-tag" style="animation-delay: 0.6s;">Performance</div>
+      <div class="skill-tag" style="animation-delay: 0.65s;">Architecture</div>
     </div>
+
+    <div class="deco-element deco-square" style="top: 2800px; left: 5%;"></div>
 
     <!-- Projects -->
     <h2 class="section-title">Featured Projects</h2>
 
-    <div class="project-item">
+    <div class="project-item reveal">
       <div class="project-title">🌱 Code Snippet Search Engine</div>
       <div class="project-desc">A powerful tool to find code solutions to problem statements using web scraping technology.</div>
       <span class="project-tag">ACTIVE DEV</span>
       <span class="project-tag" style="background: var(--yellow);">SEARCH</span>
     </div>
 
-    <div class="project-item">
+    <div class="project-item reveal">
       <div class="project-title">🌱 Bot Catalyst</div>
       <div class="project-desc">Community of Telegram bot lovers to help your bot grow and get valuable feedback.</div>
       <span class="project-tag">ACTIVE DEV</span>
       <span class="project-tag" style="background: var(--accent);">COMMUNITY</span>
     </div>
 
-    <div class="project-item">
+    <div class="project-item reveal">
       <div class="project-title">⚡ Sum It Up</div>
       <div class="project-desc">Web consumption for busy humans. Simplify your reading experience.</div>
       <span class="project-tag" style="background: var(--purple); color: white;">PRODUCTION</span>
       <span class="project-tag" style="background: var(--yellow);">WEB</span>
     </div>
 
-    <div class="project-item">
+    <div class="project-item reveal">
       <div class="project-title">⚡ Shoten</div>
       <div class="project-desc">An e-book platform for the web, making reading accessible and enjoyable.</div>
       <span class="project-tag" style="background: var(--purple); color: white;">PRODUCTION</span>
       <span class="project-tag" style="background: var(--pink); color: white;">E-BOOKS</span>
     </div>
 
-    <div class="project-item">
+    <div class="project-item reveal">
       <div class="project-title">🚀 Leaflet</div>
       <div class="project-desc">Bot for executing snippets of code directly in Telegram.</div>
       <span class="project-tag" style="background: var(--secondary);">COMPLETED</span>
       <span class="project-tag" style="background: var(--accent);">BOT</span>
     </div>
 
-    <div class="project-item">
+    <div class="project-item reveal">
       <div class="project-title">🚀 O'Reilly Parody Generator</div>
       <div class="project-desc">Insult your co-workers with snarky O'RLY parody book covers!</div>
       <span class="project-tag" style="background: var(--secondary);">COMPLETED</span>
       <span class="project-tag" style="background: var(--yellow);">FUN</span>
     </div>
 
-    <div class="project-item">
+    <div class="project-item reveal">
       <div class="project-title">🚀 PUML - Sequence Diagrams Creator</div>
       <div class="project-desc">Create UML diagrams on the fly, share quick sketches of concepts and quickly create sequence diagrams.</div>
       <span class="project-tag" style="background: var(--secondary);">COMPLETED</span>
@@ -606,15 +1170,17 @@
     </div>
 
     <!-- Pricing -->
-    <div class="price-tag">
+    <div class="price-tag reveal">
       <div class="price">$1,000/day</div>
       <div class="price-desc">Professional rate for consulting & development</div>
     </div>
 
+    <div class="deco-element deco-line" style="top: 3800px; right: 10%;"></div>
+
     <!-- Contact Section -->
     <h2 class="section-title">Let's Work Together</h2>
 
-    <div class="contact-grid">
+    <div class="contact-grid reveal">
       <a href="https://t.me/lulzx" class="btn primary">💬 Message on Telegram</a>
       <a href="https://cal.com/lulzx/30min" class="btn accent">📅 Book Free Consultation</a>
       <a href="https://github.com/lulzx" class="btn secondary">💻 GitHub Profile</a>
@@ -622,7 +1188,7 @@
     </div>
 
     <!-- Philosophy -->
-    <div class="card purple" style="margin-top: 40px;">
+    <div class="card purple reveal" style="margin-top: 60px;">
       <h2 style="color: white;">My Philosophy</h2>
       <p style="font-family: Arial, sans-serif; font-size: 1.2rem; line-height: 1.8; color: white;">
         I believe in building software that's not just functional, but delightful to use. Every line of code should serve a purpose, every design element should enhance the user experience, and every project should push the boundaries of what's possible. I don't just write code—I craft experiences.
@@ -633,21 +1199,21 @@
     <h2 class="section-title">Fun Facts</h2>
 
     <div class="grid">
-      <div class="card yellow">
+      <div class="card yellow reveal">
         <h2>🎯 Mission</h2>
         <p style="font-family: Arial, sans-serif; font-size: 1.1rem;">
           Complete every project I start. No unfinished business!
         </p>
       </div>
 
-      <div class="card pink">
+      <div class="card pink reveal">
         <h2>⚡ Approach</h2>
         <p style="font-family: Arial, sans-serif; font-size: 1.1rem;">
           Fast iterations, clean code, beautiful design. Always.
         </p>
       </div>
 
-      <div class="card accent">
+      <div class="card accent reveal">
         <h2>🌟 Specialty</h2>
         <p style="font-family: Arial, sans-serif; font-size: 1.1rem;">
           Turning complex problems into simple, elegant solutions.
@@ -657,11 +1223,183 @@
 
     <!-- Footer -->
     <footer>
-      <p>&copy; 2025 Lulzx | Built with passion and lots of coffee</p>
+      <p>&copy; 2025 Lulzx | Built with passion and lots of coffee ☕</p>
       <p style="margin-top: 10px; font-family: Arial, sans-serif;">
         <a href="./" style="color: var(--accent); text-decoration: none; font-weight: bold;">← Back to Home</a>
       </p>
     </footer>
   </div>
+
+  <script>
+    // Custom Cursor
+    const cursor = document.querySelector('.cursor');
+    const cursorFollower = document.querySelector('.cursor-follower');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+
+      setTimeout(() => {
+        cursorFollower.style.left = e.clientX + 'px';
+        cursorFollower.style.top = e.clientY + 'px';
+      }, 100);
+    });
+
+    // Cursor interaction with links and buttons
+    const interactiveElements = document.querySelectorAll('a, button, .skill-tag, .interest-tag');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        cursorFollower.style.transform = 'translate(-50%, -50%) scale(1.5)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
+      });
+    });
+
+    // Scroll Reveal Animation
+    const reveals = document.querySelectorAll('.reveal');
+
+    function checkReveal() {
+      const windowHeight = window.innerHeight;
+      const revealPoint = 100;
+
+      reveals.forEach(reveal => {
+        const revealTop = reveal.getBoundingClientRect().top;
+
+        if (revealTop < windowHeight - revealPoint) {
+          reveal.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', checkReveal);
+    checkReveal(); // Initial check
+
+    // Parallax effect on decorative elements
+    document.addEventListener('mousemove', (e) => {
+      const decoElements = document.querySelectorAll('.deco-element');
+      const mouseX = e.clientX / window.innerWidth;
+      const mouseY = e.clientY / window.innerHeight;
+
+      decoElements.forEach((el, index) => {
+        const speed = (index + 1) * 20;
+        const x = (mouseX - 0.5) * speed;
+        const y = (mouseY - 0.5) * speed;
+        el.style.transform = `translate(${x}px, ${y}px)`;
+      });
+    });
+
+    // Service list items animation
+    const serviceItems = document.querySelectorAll('.service-list li');
+    serviceItems.forEach((item, index) => {
+      item.style.animation = `fadeInUp 0.5s ease-out ${index * 0.1}s backwards`;
+    });
+
+    // Add glitch effect to title on click
+    const title = document.querySelector('h1');
+    title.addEventListener('click', () => {
+      title.style.animation = 'none';
+      setTimeout(() => {
+        title.style.animation = 'titleGlitch 5s ease-in-out infinite';
+      }, 10);
+    });
+
+    // Random color change on skill tags
+    const skillTags = document.querySelectorAll('.skill-tag');
+    const colors = ['var(--primary)', 'var(--secondary)', 'var(--accent)', 'var(--purple)', 'var(--green)', 'var(--yellow)', 'var(--pink)'];
+
+    skillTags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        tag.style.background = randomColor;
+      });
+    });
+
+    // Interest tags interaction
+    const interestTags = document.querySelectorAll('.interest-tag');
+    interestTags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        tag.style.transform = 'rotate(0deg) scale(1.2)';
+        setTimeout(() => {
+          tag.style.transform = '';
+        }, 300);
+      });
+    });
+
+    // Add ripple effect to buttons
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple');
+
+        this.appendChild(ripple);
+
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+
+    // Stat number count animation
+    const statNumbers = document.querySelectorAll('.stat-number');
+    statNumbers.forEach(stat => {
+      const text = stat.textContent;
+      if (text.includes('$1K')) {
+        animateValue(stat, 0, 1000, 2000, '$', '/K');
+      } else if (text.includes('10+')) {
+        animateValue(stat, 0, 10, 2000, '', '+');
+      }
+    });
+
+    function animateValue(element, start, end, duration, prefix = '', suffix = '') {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const value = Math.floor(progress * (end - start) + start);
+        element.textContent = prefix + value + suffix;
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    // Add 3D tilt effect to cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+
+        card.style.transform = `translate(-4px, -4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+
+    console.log('%c🚀 Built by Lulzx', 'font-size: 20px; font-weight: bold; color: #FF6B35;');
+    console.log('%c💡 Doing what nobody does to achieve what nobody has!', 'font-size: 14px; color: #00D9FF;');
+  </script>
 </body>
 </html>
