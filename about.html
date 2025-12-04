@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Software engineer available for contract work. $1000/day.">
-  <title>Hire | Lulzx</title>
+  <meta name="description" content="About Lulzx - Software engineer building tools, bots, and systems that work.">
+  <title>About | Lulzx</title>
   <style>
     * {
       margin: 0;
@@ -127,73 +127,54 @@
     .hero-text {
       font-size: 20px;
       color: var(--text-secondary);
-      line-height: 1.6;
-      max-width: 420px;
+      line-height: 1.7;
+      max-width: 480px;
     }
 
-    .hero-cta {
+    .hero-text p {
+      margin-bottom: 24px;
+    }
+
+    .hero-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .hero-links {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
+      gap: 0;
     }
 
-    .rate-badge {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--text-muted);
-      padding: 12px 20px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      margin-bottom: 8px;
-    }
-
-    .rate-badge strong {
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-
-    .btn {
-      display: inline-flex;
+    .hero-link {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
       font-size: 15px;
-      font-weight: 500;
-      padding: 16px 28px;
-      border-radius: 8px;
+      color: var(--text-secondary);
       transition: all 0.2s;
     }
 
-    .btn-primary {
-      background: var(--text);
-      color: var(--bg);
+    .hero-link:first-child {
+      border-top: 1px solid var(--border);
     }
 
-    .btn-primary:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      color: var(--text-secondary);
-      padding: 16px 0;
-    }
-
-    .btn-secondary:hover {
+    .hero-link:hover {
       color: var(--text);
+      padding-left: 8px;
     }
 
-    .btn-secondary::after {
+    .hero-link::after {
       content: '→';
-      transition: transform 0.2s;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all 0.2s;
     }
 
-    .btn-secondary:hover::after {
-      transform: translateX(4px);
+    .hero-link:hover::after {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     /* Sections */
@@ -217,117 +198,138 @@
       letter-spacing: 0.15em;
     }
 
-    /* Services */
-    .services {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+    /* Story */
+    .story {
+      max-width: 720px;
     }
 
-    .service {
-      position: relative;
+    .story p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .story p:last-child {
+      margin-bottom: 0;
+    }
+
+    .story strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Interests */
+    .interests {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .interest {
       padding: 32px;
-      background: var(--bg-subtle);
       border: 1px solid var(--border);
       border-radius: 12px;
-      transition: all 0.25s;
+      transition: all 0.2s;
     }
 
-    .service:hover {
+    .interest:hover {
       border-color: var(--border-hover);
       transform: translateY(-2px);
     }
 
-    .service-number {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .service h3 {
-      font-size: 20px;
+    .interest h3 {
+      font-size: 16px;
       font-weight: 600;
-      letter-spacing: -0.02em;
       margin-bottom: 12px;
     }
 
-    .service p {
-      font-size: 15px;
+    .interest p {
+      font-size: 14px;
       color: var(--text-secondary);
       line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .service-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .service-tags span {
-      font-size: 12px;
-      color: var(--text-muted);
-      padding: 6px 12px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 100px;
     }
 
     /* Stack */
     .stack-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .stack-item {
-      font-size: 15px;
-      color: var(--text-secondary);
-      padding: 14px 24px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      transition: all 0.2s;
-    }
-
-    .stack-item:hover {
-      color: var(--text);
-      border-color: var(--border-hover);
-    }
-
-    /* Process */
-    .process {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      gap: 16px;
     }
 
-    .process-step {
-      padding: 32px 24px;
+    .stack-category {
+      padding: 24px;
+      background: var(--bg-subtle);
       border: 1px solid var(--border);
       border-radius: 12px;
-      text-align: center;
     }
 
-    .process-num {
-      font-size: 32px;
-      font-weight: 600;
+    .stack-category h3 {
+      font-size: 12px;
+      font-weight: 500;
       color: var(--text-muted);
-      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       margin-bottom: 16px;
     }
 
-    .process-step h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 8px;
+    .stack-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    .process-step p {
+    .stack-items span {
       font-size: 14px;
       color: var(--text-secondary);
-      line-height: 1.5;
+    }
+
+    /* Now */
+    .now-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+    }
+
+    .now-text {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .now-text p {
+      margin-bottom: 24px;
+    }
+
+    .now-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .now-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .now-item-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .now-item-content h4 {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .now-item-content p {
+      font-size: 14px;
+      color: var(--text-secondary);
     }
 
     /* Contact */
@@ -426,12 +428,17 @@
         gap: 48px;
       }
 
-      .services {
+      .interests {
         grid-template-columns: 1fr;
       }
 
-      .process {
+      .stack-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .now-content {
+        grid-template-columns: 1fr;
+        gap: 48px;
       }
 
       .contact-content {
@@ -475,7 +482,11 @@
         margin-bottom: 40px;
       }
 
-      .process {
+      .story p {
+        font-size: 16px;
+      }
+
+      .stack-grid {
         grid-template-columns: 1fr;
       }
 
@@ -511,22 +522,25 @@
   <main>
     <section class="hero">
       <div class="container">
-        <div class="hero-label">Available for Hire</div>
+        <div class="hero-label">About</div>
         <h1>
-          <span class="line">Let's build</span>
-          <span class="line">something <span class="muted">great.</span></span>
+          <span class="line">I'm Lulzx.</span>
+          <span class="line"><span class="muted">I build software.</span></span>
         </h1>
         <div class="hero-grid">
-          <p class="hero-text">
-            I help startups ship products, fix production issues, and build systems that scale. End-to-end development, no fluff.
-          </p>
-          <div class="hero-cta">
-            <div class="rate-badge">
-              <strong>$1,000</strong>
-              <span>/ day</span>
-            </div>
-            <a href="https://cal.com/lulzx/30min" class="btn btn-primary">Book a call</a>
-            <a href="https://t.me/lulzx" class="btn btn-secondary">Message on Telegram</a>
+          <div class="hero-text">
+            <p>
+              Software engineer based in India. I've been writing code since 2017, building everything from Telegram bots to ML inference engines to web frameworks.
+            </p>
+            <p>
+              I care about performance, simplicity, and shipping. Most of my work is open source.
+            </p>
+          </div>
+          <div class="hero-links">
+            <a href="https://github.com/lulzx" class="hero-link">GitHub</a>
+            <a href="https://t.me/lulzx" class="hero-link">Telegram</a>
+            <a href="mailto:hello@lulzx.com" class="hero-link">Email</a>
+            <a href="./hire.html" class="hero-link">Hire me</a>
           </div>
         </div>
       </div>
@@ -535,47 +549,42 @@
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <span class="section-title">Services</span>
+          <span class="section-title">Background</span>
         </div>
-        <div class="services">
-          <div class="service">
-            <span class="service-number">01</span>
-            <h3>Product Development</h3>
-            <p>End-to-end development from idea to launch. MVPs, prototypes, and production systems. I write code, not decks.</p>
-            <div class="service-tags">
-              <span>Prototyping</span>
-              <span>MVP</span>
-              <span>Full-stack</span>
-            </div>
+        <div class="story">
+          <p>
+            I started programming by building Telegram bots. What began as a hobby turned into a deep dive into backend systems, distributed architectures, and eventually ML inference optimization.
+          </p>
+          <p>
+            Over the years, I've shipped <strong>30+ projects</strong> across multiple domains: developer tools, web applications, automation systems, and machine learning. I've worked with <strong>TypeScript, Python, Rust, Swift</strong>, and whatever else gets the job done.
+          </p>
+          <p>
+            I believe in minimal software. Less code, fewer dependencies, better results. Every line should earn its place. Every feature should solve a real problem.
+          </p>
+          <p>
+            Currently focused on <strong>ML inference on Apple Silicon</strong> using MLX-Swift, and building <strong>developer tools</strong> that make shipping faster.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-title">Interests</span>
+        </div>
+        <div class="interests">
+          <div class="interest">
+            <h3>ML Inference</h3>
+            <p>Making LLMs run fast on consumer hardware. Speculative decoding, quantization, MLX-Swift on Apple Silicon.</p>
           </div>
-          <div class="service">
-            <span class="service-number">02</span>
-            <h3>Architecture</h3>
-            <p>Database design, API design, and infrastructure planning. Systems that don't fall over when you get traffic.</p>
-            <div class="service-tags">
-              <span>APIs</span>
-              <span>Databases</span>
-              <span>Infrastructure</span>
-            </div>
+          <div class="interest">
+            <h3>Developer Tools</h3>
+            <p>CLI tools, build systems, anything that makes developers more productive. Rust, Bun, modern toolchains.</p>
           </div>
-          <div class="service">
-            <span class="service-number">03</span>
-            <h3>Performance</h3>
-            <p>Slow software loses users. I find bottlenecks, optimize queries, and make things fast.</p>
-            <div class="service-tags">
-              <span>Profiling</span>
-              <span>Optimization</span>
-              <span>Caching</span>
-            </div>
-          </div>
-          <div class="service">
-            <span class="service-number">04</span>
-            <h3>Emergencies</h3>
-            <p>Production down? Demo tomorrow? I can jump in fast, diagnose the problem, and fix it.</p>
-            <div class="service-tags">
-              <span>Debugging</span>
-              <span>Crisis response</span>
-            </div>
+          <div class="interest">
+            <h3>Systems Programming</h3>
+            <p>Performance-critical code, low-level optimization, understanding what's actually happening on the machine.</p>
           </div>
         </div>
       </div>
@@ -587,18 +596,42 @@
           <span class="section-title">Stack</span>
         </div>
         <div class="stack-grid">
-          <span class="stack-item">TypeScript</span>
-          <span class="stack-item">Python</span>
-          <span class="stack-item">Rust</span>
-          <span class="stack-item">Swift</span>
-          <span class="stack-item">Node.js</span>
-          <span class="stack-item">React</span>
-          <span class="stack-item">Svelte</span>
-          <span class="stack-item">PostgreSQL</span>
-          <span class="stack-item">Redis</span>
-          <span class="stack-item">Docker</span>
-          <span class="stack-item">AWS</span>
-          <span class="stack-item">Cloudflare</span>
+          <div class="stack-category">
+            <h3>Languages</h3>
+            <div class="stack-items">
+              <span>TypeScript</span>
+              <span>Python</span>
+              <span>Rust</span>
+              <span>Swift</span>
+            </div>
+          </div>
+          <div class="stack-category">
+            <h3>Frontend</h3>
+            <div class="stack-items">
+              <span>React</span>
+              <span>Svelte</span>
+              <span>Vue</span>
+              <span>TailwindCSS</span>
+            </div>
+          </div>
+          <div class="stack-category">
+            <h3>Backend</h3>
+            <div class="stack-items">
+              <span>Node.js</span>
+              <span>Bun</span>
+              <span>PostgreSQL</span>
+              <span>Redis</span>
+            </div>
+          </div>
+          <div class="stack-category">
+            <h3>Infrastructure</h3>
+            <div class="stack-items">
+              <span>Docker</span>
+              <span>AWS</span>
+              <span>Cloudflare</span>
+              <span>Vercel</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -606,28 +639,33 @@
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <span class="section-title">Process</span>
+          <span class="section-title">Now</span>
         </div>
-        <div class="process">
-          <div class="process-step">
-            <div class="process-num">01</div>
-            <h3>Call</h3>
-            <p>30 minutes to understand your problem. Free, no commitment.</p>
+        <div class="now-content">
+          <div class="now-text">
+            <p>
+              What I'm currently focused on. Updated December 2024.
+            </p>
           </div>
-          <div class="process-step">
-            <div class="process-num">02</div>
-            <h3>Scope</h3>
-            <p>I send a proposal with clear deliverables and timeline.</p>
-          </div>
-          <div class="process-step">
-            <div class="process-num">03</div>
-            <h3>Build</h3>
-            <p>I work. You get regular updates and working software.</p>
-          </div>
-          <div class="process-step">
-            <div class="process-num">04</div>
-            <h3>Ship</h3>
-            <p>Delivered with docs. Your team can maintain it.</p>
+          <div class="now-list">
+            <div class="now-item">
+              <div class="now-item-content">
+                <h4>MLX-Swift projects</h4>
+                <p>Building native Swift ports for ML models on Apple Silicon</p>
+              </div>
+            </div>
+            <div class="now-item">
+              <div class="now-item-content">
+                <h4>Open source maintenance</h4>
+                <p>Keeping copilot, tanstack-bun, and other projects updated</p>
+              </div>
+            </div>
+            <div class="now-item">
+              <div class="now-item-content">
+                <h4>Available for contract work</h4>
+                <p>Taking on interesting projects at $1k/day</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -637,14 +675,14 @@
       <div class="container">
         <div class="contact-content">
           <h2 class="contact-text">
-            Ready to start?<br>
-            <span>Get in touch.</span>
+            Want to connect?<br>
+            <span>Reach out.</span>
           </h2>
           <div class="contact-links">
-            <a href="https://cal.com/lulzx/30min" class="contact-link">Book a call</a>
+            <a href="https://github.com/lulzx" class="contact-link">GitHub</a>
             <a href="https://t.me/lulzx" class="contact-link">Telegram</a>
             <a href="mailto:hello@lulzx.com" class="contact-link">Email</a>
-            <a href="https://github.com/lulzx" class="contact-link">GitHub</a>
+            <a href="https://cal.com/lulzx/30min" class="contact-link">Book a call</a>
           </div>
         </div>
       </div>
@@ -656,9 +694,9 @@
       <div class="footer-content">
         <div class="footer-links">
           <a href="./">Home</a>
-          <a href="./about.html">About</a>
           <a href="./projects.html">Projects</a>
           <a href="./blog/">Blog</a>
+          <a href="./hire.html">Hire</a>
         </div>
         <span class="footer-copy">&copy; 2025 Lulzx</span>
       </div>
