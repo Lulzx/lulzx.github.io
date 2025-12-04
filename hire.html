@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="I design and develop high-performance software and developer tools that scale.">
-  <title>Lulzx | Product Development & Consulting</title>
+  <meta name="description" content="Software engineer available for contract work. $1000/day.">
+  <title>Hire | Lulzx</title>
   <style>
     * {
       margin: 0;
@@ -13,1023 +13,484 @@
     }
 
     :root {
-      --bg-primary: #0a0a0f;
-      --bg-secondary: #12121a;
-      --bg-card: #16161e;
-      --bg-card-hover: #1e1e28;
-      --accent-primary: #00d4ff;
-      --accent-secondary: #7c3aed;
-      --accent-tertiary: #10b981;
-      --accent-orange: #ff6b35;
-      --accent-pink: #ec4899;
-      --text-primary: #ffffff;
+      --bg: #09090b;
+      --bg-subtle: #18181b;
+      --border: #27272a;
+      --text: #fafafa;
       --text-secondary: #a1a1aa;
-      --text-muted: #71717a;
-      --border-color: #27272a;
-      --border-accent: #3f3f46;
-      --gradient-1: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
-      --gradient-2: linear-gradient(135deg, #ff6b35 0%, #ec4899 100%);
-      --gradient-3: linear-gradient(135deg, #10b981 0%, #00d4ff 100%);
+      --text-muted: #52525b;
+      --accent: #3b82f6;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Animated Background */
-    .bg-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .bg-gradient {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.15;
-      animation: float 20s ease-in-out infinite;
-    }
-
-    .bg-gradient-1 {
-      top: -200px;
-      right: -100px;
-      background: var(--accent-primary);
-    }
-
-    .bg-gradient-2 {
-      bottom: 20%;
-      left: -200px;
-      background: var(--accent-secondary);
-      animation-delay: -5s;
-    }
-
-    .bg-gradient-3 {
-      top: 50%;
-      right: 20%;
-      background: var(--accent-tertiary);
-      width: 400px;
-      height: 400px;
-      animation-delay: -10s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -30px) scale(1.05); }
-      66% { transform: translate(-20px, 20px) scale(0.95); }
-    }
-
-    /* Grid Pattern */
-    .grid-pattern {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-
-    /* Container */
     .container {
-      max-width: 1200px;
+      max-width: 720px;
       margin: 0 auto;
       padding: 0 24px;
-      position: relative;
-      z-index: 1;
     }
 
-    .container-wide {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Navigation */
+    /* Nav */
     nav {
-      padding: 24px 0;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      max-width: 1200px;
     }
 
     .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--accent-tertiary);
-      border-radius: 50%;
-      animation: pulse-dot 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
+      font-weight: 600;
+      font-size: 15px;
     }
 
     .nav-links {
       display: flex;
-      gap: 32px;
-      align-items: center;
+      gap: 24px;
+      font-size: 14px;
     }
 
     .nav-links a {
       color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: color 0.2s;
+      transition: color 0.15s;
     }
 
     .nav-links a:hover {
-      color: var(--text-primary);
+      color: var(--text);
     }
 
-    .nav-cta {
-      background: var(--text-primary);
-      color: var(--bg-primary) !important;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-
-    .nav-cta:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
-    }
-
-    /* Hero Section */
+    /* Hero */
     .hero {
-      padding: 100px 0 80px;
-      max-width: 900px;
+      padding: 80px 0 64px;
     }
 
     .hero h1 {
-      font-size: clamp(2.8rem, 6vw, 4.5rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 32px;
-      color: var(--text-primary);
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
     }
 
-    .hero h1 .highlight {
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-desc {
-      font-size: 1.35rem;
+    .hero .lead {
+      font-size: 18px;
       color: var(--text-secondary);
-      max-width: 700px;
-      line-height: 1.7;
-      margin-bottom: 48px;
+      max-width: 540px;
+      margin-bottom: 32px;
     }
 
-    .hero-cta {
+    .rate {
+      display: inline-block;
+      font-size: 14px;
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 32px;
+    }
+
+    .rate strong {
+      color: var(--text);
+    }
+
+    .cta-row {
       display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 16px 32px;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s;
-      cursor: pointer;
-      border: none;
+      gap: 8px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.15s;
     }
 
     .btn-primary {
-      background: var(--text-primary);
-      color: var(--bg-primary);
+      background: var(--text);
+      color: var(--bg);
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+      opacity: 0.9;
     }
 
     .btn-secondary {
       background: transparent;
-      color: var(--text-primary);
-      border: 1px solid var(--border-accent);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
     }
 
     .btn-secondary:hover {
-      background: var(--bg-card);
-      border-color: var(--text-secondary);
+      color: var(--text);
+      border-color: var(--text-muted);
     }
 
-    /* Expertise Section */
-    .expertise-section {
-      padding: 100px 0;
-      border-top: 1px solid var(--border-color);
+    /* Sections */
+    section {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
     }
 
-    .expertise-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      margin-bottom: 80px;
-      align-items: start;
-    }
-
-    .expertise-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-    }
-
-    .expertise-desc {
-      font-size: 1.15rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-    }
-
-    /* Services Grid - Evil Martians Style */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-      background: var(--border-color);
-      border: 1px solid var(--border-color);
-      border-radius: 24px;
-      overflow: hidden;
-    }
-
-    .service-card {
-      background: var(--bg-card);
-      padding: 48px;
-      transition: all 0.3s;
-      position: relative;
-    }
-
-    .service-card:hover {
-      background: var(--bg-card-hover);
-    }
-
-    .service-card.featured {
-      grid-column: span 2;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .service-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.75rem;
-      margin-bottom: 28px;
-    }
-
-    .service-icon.architecture { background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.15)); }
-    .service-icon.performance { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(0, 212, 255, 0.15)); }
-    .service-icon.product { background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(236, 72, 153, 0.15)); }
-    .service-icon.design { background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(236, 72, 153, 0.15)); }
-
-    .service-card h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 16px;
-      letter-spacing: -0.01em;
-    }
-
-    .service-card p {
-      color: var(--text-secondary);
-      font-size: 1.05rem;
-      line-height: 1.7;
+    section h2 {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       margin-bottom: 24px;
     }
 
-    .service-list {
-      list-style: none;
+    /* Services */
+    .services-list {
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
+      flex-direction: column;
+      gap: 32px;
     }
 
-    .service-list li {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      padding: 8px 16px;
-      background: var(--bg-secondary);
-      border-radius: 100px;
-      border: 1px solid var(--border-color);
-    }
-
-    .featured-visual {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      position: relative;
-    }
-
-    .featured-badge {
-      background: var(--gradient-2);
-      padding: 80px 60px;
-      border-radius: 20px;
-      text-align: center;
-    }
-
-    .featured-badge .rate {
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: white;
-      letter-spacing: -0.02em;
-    }
-
-    .featured-badge .rate-label {
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin-top: 8px;
-    }
-
-    /* Stack Section */
-    .stack-section {
-      padding: 100px 0;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .stack-grid {
+    .service {
       display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 80px;
-      align-items: start;
+      grid-template-columns: 200px 1fr;
+      gap: 24px;
     }
 
-    .stack-label {
-      font-size: 0.875rem;
-      color: var(--accent-primary);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 16px;
-    }
-
-    .stack-title {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 16px;
-    }
-
-    .stack-desc {
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
-    }
-
-    .tech-item {
-      padding: 16px 20px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      font-size: 0.95rem;
+    .service h3 {
+      font-size: 15px;
       font-weight: 500;
-      text-align: center;
-      transition: all 0.2s;
     }
 
-    .tech-item:hover {
-      border-color: var(--accent-primary);
-      background: var(--bg-card-hover);
-      transform: translateY(-2px);
-    }
-
-    /* Process Section */
-    .process-section {
-      padding: 100px 0;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .process-header {
-      max-width: 600px;
-      margin-bottom: 60px;
-    }
-
-    .process-title {
-      font-size: clamp(2rem, 4vw, 2.5rem);
-      font-weight: 700;
-      margin-bottom: 20px;
-      letter-spacing: -0.02em;
-    }
-
-    .process-desc {
+    .service p {
+      font-size: 15px;
       color: var(--text-secondary);
-      font-size: 1.15rem;
-      line-height: 1.7;
-    }
-
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      background: var(--border-color);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .process-step {
-      background: var(--bg-card);
-      padding: 40px 32px;
-      position: relative;
-    }
-
-    .process-step:hover {
-      background: var(--bg-card-hover);
-    }
-
-    .step-number {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--border-accent);
-      margin-bottom: 20px;
-      line-height: 1;
-    }
-
-    .process-step h4 {
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .process-step p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
       line-height: 1.6;
     }
 
-    /* CTA Section */
-    .cta-section {
-      padding: 120px 0;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .cta-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .cta-text h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700;
-      margin-bottom: 24px;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-    }
-
-    .cta-text p {
-      color: var(--text-secondary);
-      font-size: 1.15rem;
-      line-height: 1.7;
-      margin-bottom: 40px;
-    }
-
-    .cta-buttons {
+    .service-tags {
       display: flex;
-      gap: 16px;
       flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
     }
 
-    .cta-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 24px;
-      padding: 48px;
-      position: relative;
-      overflow: hidden;
+    .service-tags span {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      background: var(--bg-subtle);
+      border-radius: 4px;
     }
 
-    .cta-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--gradient-1);
+    /* Stack */
+    .stack-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .stack-list span {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    /* Process */
+    .process-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .process-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 16px;
+    }
+
+    .process-num {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .process-item h3 {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .process-item p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
     }
 
     .contact-item {
-      margin-bottom: 32px;
+      font-size: 14px;
     }
 
-    .contact-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .contact-label {
-      font-size: 0.8rem;
+    .contact-item .label {
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
-    .contact-value {
-      font-size: 1.1rem;
-      color: var(--text-primary);
+    .contact-item a {
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.15s;
     }
 
-    .contact-value a {
-      color: var(--accent-primary);
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-
-    .contact-value a:hover {
-      opacity: 0.8;
+    .contact-item a:hover {
+      border-color: var(--text);
     }
 
     /* Footer */
     footer {
-      padding: 60px 0;
-      border-top: 1px solid var(--border-color);
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
     }
 
-    .footer-content {
+    footer .container {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      max-width: 1200px;
+    }
+
+    footer a {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+
+    footer a:hover {
+      color: var(--text);
     }
 
     .footer-links {
       display: flex;
-      gap: 32px;
-    }
-
-    .footer-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover {
-      color: var(--text-primary);
-    }
-
-    .footer-copy {
-      color: var(--text-muted);
-      font-size: 0.875rem;
+      gap: 24px;
     }
 
     /* Responsive */
-    @media (max-width: 1024px) {
-      .expertise-header {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .service-card.featured {
-        grid-column: span 1;
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .stack-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .process-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .cta-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
+    @media (max-width: 640px) {
       .hero {
-        padding: 60px 0 40px;
+        padding: 48px 0 40px;
       }
 
       .hero h1 {
-        font-size: 2.2rem;
+        font-size: 26px;
       }
 
-      .hero-desc {
-        font-size: 1.1rem;
+      .service {
+        grid-template-columns: 1fr;
+        gap: 8px;
       }
 
-      .service-card {
-        padding: 32px;
-      }
-
-      .process-grid {
+      .contact-grid {
         grid-template-columns: 1fr;
       }
 
-      .footer-content {
-        flex-direction: column;
-        gap: 24px;
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-cta {
+      .cta-row {
         flex-direction: column;
       }
 
       .btn {
-        width: 100%;
         justify-content: center;
       }
 
-      .cta-buttons {
+      .nav-links {
+        display: none;
+      }
+
+      footer .container {
         flex-direction: column;
+        gap: 16px;
       }
-
-      .featured-badge {
-        padding: 48px 32px;
-      }
-
-      .featured-badge .rate {
-        font-size: 2.5rem;
-      }
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .animate-in {
-      animation: fadeInUp 0.6s ease-out forwards;
     }
   </style>
 </head>
 <body>
-  <!-- Animated Background -->
-  <div class="bg-wrapper">
-    <div class="bg-gradient bg-gradient-1"></div>
-    <div class="bg-gradient bg-gradient-2"></div>
-    <div class="bg-gradient bg-gradient-3"></div>
-    <div class="grid-pattern"></div>
-  </div>
-
-  <div class="container">
-    <!-- Navigation -->
-    <nav>
-      <a href="./" class="logo">
-        <span class="logo-dot"></span>
-        lulzx
-      </a>
+  <nav>
+    <div class="container">
+      <a href="./" class="logo">lulzx</a>
       <div class="nav-links">
         <a href="./me.html">About</a>
         <a href="./projects.html">Projects</a>
         <a href="https://github.com/lulzx">GitHub</a>
-        <a href="https://cal.com/lulzx/30min" class="nav-cta">Book a Call</a>
-      </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-      <h1>I design and develop <span class="highlight">high-performance software</span> that scales.</h1>
-      <p class="hero-desc">
-        Product development consulting for startups and teams. From rapid prototypes to production systems, I help you ship faster and build better.
-      </p>
-      <div class="hero-cta">
-        <a href="https://cal.com/lulzx/30min" class="btn btn-primary">
-          Schedule Consultation
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-        <a href="https://t.me/lulzx" class="btn btn-secondary">
-          Message on Telegram
-        </a>
-      </div>
-    </section>
-  </div>
-
-  <!-- Expertise Section -->
-  <section class="expertise-section">
-    <div class="container">
-      <div class="expertise-header">
-        <h2 class="expertise-title">Deep expertise in building products that matter</h2>
-        <p class="expertise-desc">
-          I've spent years helping startups and companies ship software that users love. From fixing critical production issues to architecting systems from scratch, I bring both technical depth and product thinking to every engagement.
-        </p>
       </div>
     </div>
+  </nav>
 
-    <div class="container-wide">
-      <div class="services-grid">
-        <!-- Featured Card -->
-        <div class="service-card featured">
-          <div>
-            <div class="service-icon product">🚀</div>
+  <main>
+    <div class="container">
+      <section class="hero" style="border: none; padding-top: 80px;">
+        <h1>I build software that works.</h1>
+        <p class="lead">
+          Available for contract work. I help startups ship products, fix production issues, and build systems that scale.
+        </p>
+        <div class="rate"><strong>$1,000</strong> / day</div>
+        <div class="cta-row">
+          <a href="https://cal.com/lulzx/30min" class="btn btn-primary">Book a call</a>
+          <a href="https://t.me/lulzx" class="btn btn-secondary">Telegram</a>
+        </div>
+      </section>
+
+      <section>
+        <h2>Services</h2>
+        <div class="services-list">
+          <div class="service">
             <h3>Product Development</h3>
-            <p>
-              End-to-end development from concept to launch. I work with founders and teams to build MVPs, scale existing products, and solve complex technical challenges. Fast iterations, clean architecture, shipped on time.
-            </p>
-            <ul class="service-list">
-              <li>Rapid Prototyping</li>
-              <li>MVP Development</li>
-              <li>Technical Strategy</li>
-              <li>Code Review</li>
-              <li>Team Augmentation</li>
-            </ul>
+            <div>
+              <p>End-to-end development from idea to launch. MVPs, prototypes, and production systems. I write code, not decks.</p>
+              <div class="service-tags">
+                <span>Prototyping</span>
+                <span>MVP</span>
+                <span>Full-stack</span>
+              </div>
+            </div>
           </div>
-          <div class="featured-visual">
-            <div class="featured-badge">
-              <div class="rate">$1,000</div>
-              <div class="rate-label">per day</div>
+          <div class="service">
+            <h3>Architecture</h3>
+            <div>
+              <p>Database design, API design, and infrastructure planning. Systems that don't fall over when you get traffic.</p>
+              <div class="service-tags">
+                <span>APIs</span>
+                <span>Databases</span>
+                <span>Infrastructure</span>
+              </div>
+            </div>
+          </div>
+          <div class="service">
+            <h3>Performance</h3>
+            <div>
+              <p>Slow software loses users. I find bottlenecks, optimize queries, and make things fast.</p>
+              <div class="service-tags">
+                <span>Profiling</span>
+                <span>Optimization</span>
+                <span>Caching</span>
+              </div>
+            </div>
+          </div>
+          <div class="service">
+            <h3>Emergencies</h3>
+            <div>
+              <p>Production down? Demo tomorrow? I can jump in fast, diagnose the problem, and fix it.</p>
+              <div class="service-tags">
+                <span>Debugging</span>
+                <span>Crisis response</span>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- Regular Cards -->
-        <div class="service-card">
-          <div class="service-icon architecture">🏗️</div>
-          <h3>Systems Architecture</h3>
-          <p>
-            Designing scalable systems that grow with your business. Database architecture, API design, microservices, and infrastructure that handles real-world load.
-          </p>
-          <ul class="service-list">
-            <li>API Design</li>
-            <li>Database Design</li>
-            <li>Cloud Architecture</li>
-            <li>Scalability</li>
-          </ul>
+      <section>
+        <h2>Stack</h2>
+        <div class="stack-list">
+          <span>Python</span>
+          <span>JavaScript</span>
+          <span>TypeScript</span>
+          <span>Node.js</span>
+          <span>React</span>
+          <span>PostgreSQL</span>
+          <span>Redis</span>
+          <span>Docker</span>
+          <span>AWS</span>
         </div>
+      </section>
 
-        <div class="service-card">
-          <div class="service-icon performance">⚡</div>
-          <h3>Performance & Optimization</h3>
-          <p>
-            When your app is slow, users leave. I diagnose bottlenecks, optimize queries, improve load times, and make your software fast.
-          </p>
-          <ul class="service-list">
-            <li>Web Performance</li>
-            <li>Database Optimization</li>
-            <li>Caching Strategies</li>
-            <li>Profiling</li>
-          </ul>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon design">🎨</div>
-          <h3>Design & User Experience</h3>
-          <p>
-            Interfaces that convert. I design and build user experiences that are both beautiful and functional, with attention to the details that matter.
-          </p>
-          <ul class="service-list">
-            <li>UI/UX Design</li>
-            <li>Frontend Development</li>
-            <li>Design Systems</li>
-            <li>Branding</li>
-          </ul>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon architecture">🔧</div>
-          <h3>Startup Emergencies</h3>
-          <p>
-            Production is down. The demo is tomorrow. The investor meeting is in two hours. I jump in fast, diagnose the problem, and fix it.
-          </p>
-          <ul class="service-list">
-            <li>Crisis Response</li>
-            <li>Bug Fixing</li>
-            <li>Debugging</li>
-            <li>Recovery</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stack Section -->
-  <section class="stack-section">
-    <div class="container">
-      <div class="stack-grid">
-        <div>
-          <div class="stack-label">Technical Stack</div>
-          <h3 class="stack-title">Tools I use to build</h3>
-          <p class="stack-desc">
-            I work with modern technologies and pick the right tool for the job. Here's what I use most often.
-          </p>
-        </div>
-        <div class="tech-grid">
-          <div class="tech-item">Python</div>
-          <div class="tech-item">JavaScript</div>
-          <div class="tech-item">TypeScript</div>
-          <div class="tech-item">Node.js</div>
-          <div class="tech-item">React</div>
-          <div class="tech-item">PostgreSQL</div>
-          <div class="tech-item">Redis</div>
-          <div class="tech-item">Docker</div>
-          <div class="tech-item">AWS</div>
-          <div class="tech-item">Telegram Bots</div>
-          <div class="tech-item">Web Scraping</div>
-          <div class="tech-item">APIs</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Process Section -->
-  <section class="process-section">
-    <div class="container">
-      <div class="process-header">
-        <h2 class="process-title">How we work together</h2>
-        <p class="process-desc">
-          A simple, transparent process focused on delivering results. No bureaucracy, no wasted time.
-        </p>
-      </div>
-
-      <div class="process-grid">
-        <div class="process-step">
-          <div class="step-number">01</div>
-          <h4>Discovery</h4>
-          <p>Free 30-minute call to understand your project, challenges, and goals. No commitment required.</p>
-        </div>
-        <div class="process-step">
-          <div class="step-number">02</div>
-          <h4>Proposal</h4>
-          <p>Clear scope, timeline, and pricing. You know exactly what you're getting before we start.</p>
-        </div>
-        <div class="process-step">
-          <div class="step-number">03</div>
-          <h4>Build</h4>
-          <p>Focused execution with regular updates. I ship working software, not slideware.</p>
-        </div>
-        <div class="process-step">
-          <div class="step-number">04</div>
-          <h4>Deliver</h4>
-          <p>Polished deliverables with documentation. Your team can maintain and extend what I build.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-content">
-        <div class="cta-text">
-          <h2>Let's build something great together</h2>
-          <p>
-            Whether you need to fix a critical issue, ship an MVP, or scale your existing product, I can help. Book a free consultation to discuss your project.
-          </p>
-          <div class="cta-buttons">
-            <a href="https://cal.com/lulzx/30min" class="btn btn-primary">
-              Book Free Consultation
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </a>
-            <a href="https://t.me/lulzx" class="btn btn-secondary">
-              Quick Message
-            </a>
-          </div>
-        </div>
-        <div class="cta-card">
-          <div class="contact-item">
-            <div class="contact-label">Email</div>
-            <div class="contact-value">
-              <a href="mailto:hello@lulzx.com">hello@lulzx.com</a>
+      <section>
+        <h2>Process</h2>
+        <div class="process-list">
+          <div class="process-item">
+            <span class="process-num">01</span>
+            <div>
+              <h3>Call</h3>
+              <p>30 minutes to understand your problem. Free, no commitment.</p>
             </div>
           </div>
-          <div class="contact-item">
-            <div class="contact-label">Telegram</div>
-            <div class="contact-value">
-              <a href="https://t.me/lulzx">@lulzx</a>
+          <div class="process-item">
+            <span class="process-num">02</span>
+            <div>
+              <h3>Scope</h3>
+              <p>I send a proposal with clear deliverables and timeline.</p>
             </div>
           </div>
-          <div class="contact-item">
-            <div class="contact-label">GitHub</div>
-            <div class="contact-value">
-              <a href="https://github.com/lulzx">github.com/lulzx</a>
+          <div class="process-item">
+            <span class="process-num">03</span>
+            <div>
+              <h3>Build</h3>
+              <p>I work. You get regular updates and working software.</p>
             </div>
           </div>
-          <div class="contact-item">
-            <div class="contact-label">Availability</div>
-            <div class="contact-value">Open for new projects</div>
+          <div class="process-item">
+            <span class="process-num">04</span>
+            <div>
+              <h3>Ship</h3>
+              <p>Delivered with docs. Your team can maintain it.</p>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- Footer -->
+      <section>
+        <h2>Contact</h2>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <div class="label">Email</div>
+            <a href="mailto:hello@lulzx.com">hello@lulzx.com</a>
+          </div>
+          <div class="contact-item">
+            <div class="label">Telegram</div>
+            <a href="https://t.me/lulzx">@lulzx</a>
+          </div>
+          <div class="contact-item">
+            <div class="label">GitHub</div>
+            <a href="https://github.com/lulzx">github.com/lulzx</a>
+          </div>
+          <div class="contact-item">
+            <div class="label">Schedule</div>
+            <a href="https://cal.com/lulzx/30min">cal.com/lulzx</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
   <footer>
     <div class="container">
-      <div class="footer-content">
-        <div class="footer-links">
-          <a href="./">Home</a>
-          <a href="./me.html">About</a>
-          <a href="./projects.html">Projects</a>
-          <a href="https://github.com/lulzx">GitHub</a>
-          <a href="https://t.me/lulzx">Telegram</a>
-        </div>
-        <div class="footer-copy">&copy; 2025 Lulzx</div>
+      <div class="footer-links">
+        <a href="./">Home</a>
+        <a href="./me.html">About</a>
+        <a href="./projects.html">Projects</a>
       </div>
+      <span style="font-size: 14px; color: var(--text-muted);">&copy; 2025</span>
     </div>
   </footer>
-
-  <script>
-    // Intersection Observer for animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.service-card, .process-step, .tech-item').forEach(el => {
-      el.style.opacity = '0';
-      observer.observe(el);
-    });
-
-    // Smooth hover effect on service cards
-    document.querySelectorAll('.service-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--bg-card-hover), var(--bg-card))`;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.background = '';
-      });
-    });
-  </script>
 </body>
 </html>
