@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="About Lulzx - Software engineer building tools, bots, and systems that work.">
+  <meta name="description" content="About Lulzx - Software engineer building developer tools, ML inference systems, and things that ship.">
   <title>About | Lulzx</title>
   <style>
     * {
@@ -15,6 +15,7 @@
     :root {
       --bg: #09090b;
       --bg-subtle: #111113;
+      --bg-card: #0d0d0f;
       --border: #1f1f23;
       --border-hover: #2a2a2f;
       --text: #fafafa;
@@ -198,6 +199,16 @@
       letter-spacing: 0.15em;
     }
 
+    .section-link {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .section-link:hover {
+      color: var(--text);
+    }
+
     /* Story */
     .story {
       max-width: 720px;
@@ -219,33 +230,99 @@
       font-weight: 500;
     }
 
-    /* Interests */
-    .interests {
+    /* Focus Areas */
+    .focus-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
     }
 
-    .interest {
+    .focus-card {
+      position: relative;
       padding: 32px;
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
 
-    .interest:hover {
+    .focus-card:hover {
       border-color: var(--border-hover);
       transform: translateY(-2px);
     }
 
-    .interest h3 {
-      font-size: 16px;
+    .focus-number {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .focus-card h3 {
+      font-size: 18px;
       font-weight: 600;
+      letter-spacing: -0.02em;
       margin-bottom: 12px;
     }
 
-    .interest p {
+    .focus-card p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .focus-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .focus-tags span {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+    }
+
+    /* Timeline */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 720px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 32px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .timeline-item:first-child {
+      padding-top: 0;
+    }
+
+    .timeline-year {
       font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timeline-content h3 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .timeline-content p {
+      font-size: 15px;
       color: var(--text-secondary);
       line-height: 1.6;
     }
@@ -284,52 +361,23 @@
       color: var(--text-secondary);
     }
 
-    /* Now */
-    .now-content {
+    /* Principles */
+    .principles {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
     }
 
-    .now-text {
-      font-size: 18px;
-      color: var(--text-secondary);
-      line-height: 1.8;
+    .principle h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
     }
 
-    .now-text p {
-      margin-bottom: 24px;
-    }
-
-    .now-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .now-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 20px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-    }
-
-    .now-item-icon {
-      font-size: 20px;
-      line-height: 1;
-    }
-
-    .now-item-content h4 {
+    .principle p {
       font-size: 15px;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-
-    .now-item-content p {
-      font-size: 14px;
       color: var(--text-secondary);
+      line-height: 1.7;
     }
 
     /* Contact */
@@ -428,7 +476,7 @@
         gap: 48px;
       }
 
-      .interests {
+      .focus-grid {
         grid-template-columns: 1fr;
       }
 
@@ -436,14 +484,19 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .now-content {
+      .principles {
         grid-template-columns: 1fr;
-        gap: 48px;
+        gap: 32px;
       }
 
       .contact-content {
         grid-template-columns: 1fr;
         gap: 48px;
+      }
+
+      .timeline-item {
+        grid-template-columns: 80px 1fr;
+        gap: 24px;
       }
     }
 
@@ -490,6 +543,11 @@
         grid-template-columns: 1fr;
       }
 
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
       .contact-text {
         font-size: 24px;
       }
@@ -525,15 +583,15 @@
         <div class="hero-label">About</div>
         <h1>
           <span class="line">I'm Lulzx.</span>
-          <span class="line"><span class="muted">I build software.</span></span>
+          <span class="line"><span class="muted">I ship software.</span></span>
         </h1>
         <div class="hero-grid">
           <div class="hero-text">
             <p>
-              Software engineer based in India. I've been writing code since 2017, building everything from Telegram bots to ML inference engines to web frameworks.
+              Software engineer from India. Building developer tools, ML inference systems, and automation that works. 7+ years of shipping code.
             </p>
             <p>
-              I care about performance, simplicity, and shipping. Most of my work is open source.
+              I write Rust, Swift, TypeScript, and Python. Most of my work is open source. I believe in minimal software—less code, fewer dependencies, better results.
             </p>
           </div>
           <div class="hero-links">
@@ -549,21 +607,50 @@
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <span class="section-title">Background</span>
+          <span class="section-title">What I Do</span>
+          <a href="./projects.html" class="section-link">All projects →</a>
         </div>
-        <div class="story">
-          <p>
-            I started programming by building Telegram bots. What began as a hobby turned into a deep dive into backend systems, distributed architectures, and eventually ML inference optimization.
-          </p>
-          <p>
-            Over the years, I've shipped <strong>30+ projects</strong> across multiple domains: developer tools, web applications, automation systems, and machine learning. I've worked with <strong>TypeScript, Python, Rust, Swift</strong>, and whatever else gets the job done.
-          </p>
-          <p>
-            I believe in minimal software. Less code, fewer dependencies, better results. Every line should earn its place. Every feature should solve a real problem.
-          </p>
-          <p>
-            Currently focused on <strong>ML inference on Apple Silicon</strong> using MLX-Swift, and building <strong>developer tools</strong> that make shipping faster.
-          </p>
+        <div class="focus-grid">
+          <div class="focus-card">
+            <span class="focus-number">01</span>
+            <h3>ML Inference</h3>
+            <p>Making LLMs run fast on consumer hardware. Native Swift implementations using MLX for Apple Silicon—speculative decoding, OCR models, reasoning systems.</p>
+            <div class="focus-tags">
+              <span>MLX-Swift</span>
+              <span>Speculative Decoding</span>
+              <span>Apple Silicon</span>
+            </div>
+          </div>
+          <div class="focus-card">
+            <span class="focus-number">02</span>
+            <h3>Developer Tools</h3>
+            <p>CLI tools and infrastructure that makes developers faster. Rust-based TUIs, AI-powered command line assistants, modern build systems with Bun.</p>
+            <div class="focus-tags">
+              <span>Rust</span>
+              <span>Ratatui</span>
+              <span>Bun</span>
+            </div>
+          </div>
+          <div class="focus-card">
+            <span class="focus-number">03</span>
+            <h3>Web & Graphics</h3>
+            <p>High-performance web applications and rendering. Svelte bindings for WebGL2/WebGPU, SSR frameworks, reactive UI libraries.</p>
+            <div class="focus-tags">
+              <span>Svelte</span>
+              <span>WebGPU</span>
+              <span>TanStack</span>
+            </div>
+          </div>
+          <div class="focus-card">
+            <span class="focus-number">04</span>
+            <h3>Automation</h3>
+            <p>Telegram bots and automation systems used by thousands. Video processing, content aggregation, similarity search—systems that run without attention.</p>
+            <div class="focus-tags">
+              <span>Telegram</span>
+              <span>Python</span>
+              <span>Redis</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -571,20 +658,36 @@
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <span class="section-title">Interests</span>
+          <span class="section-title">Journey</span>
         </div>
-        <div class="interests">
-          <div class="interest">
-            <h3>ML Inference</h3>
-            <p>Making LLMs run fast on consumer hardware. Speculative decoding, quantization, MLX-Swift on Apple Silicon.</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="timeline-year">2024</span>
+            <div class="timeline-content">
+              <h3>MLX-Swift & Apple Silicon</h3>
+              <p>Deep dive into ML inference optimization. Built native Swift ports for speculative decoding, PaddleOCR-VL, and reasoning models using MLX framework.</p>
+            </div>
           </div>
-          <div class="interest">
-            <h3>Developer Tools</h3>
-            <p>CLI tools, build systems, anything that makes developers more productive. Rust, Bun, modern toolchains.</p>
+          <div class="timeline-item">
+            <span class="timeline-year">2023</span>
+            <div class="timeline-content">
+              <h3>Rust & Developer Tools</h3>
+              <p>Shifted focus to systems programming. Built CLI tools with Rust, explored TUI frameworks with Ratatui, created AI-powered command line assistants.</p>
+            </div>
           </div>
-          <div class="interest">
-            <h3>Systems Programming</h3>
-            <p>Performance-critical code, low-level optimization, understanding what's actually happening on the machine.</p>
+          <div class="timeline-item">
+            <span class="timeline-year">2020</span>
+            <div class="timeline-content">
+              <h3>Information Retrieval</h3>
+              <p>Experiments in search and discovery. Built similarity search systems, content aggregation pipelines, and early ML-powered tools.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">2017</span>
+            <div class="timeline-content">
+              <h3>Telegram Bots</h3>
+              <p>Started with automation. Built bots that grew to thousands of users—code execution, content summarization, O'Reilly parody generators.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -639,33 +742,20 @@
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <span class="section-title">Now</span>
+          <span class="section-title">Principles</span>
         </div>
-        <div class="now-content">
-          <div class="now-text">
-            <p>
-              What I'm currently focused on. Updated December 2024.
-            </p>
+        <div class="principles">
+          <div class="principle">
+            <h3>Ship fast</h3>
+            <p>Working software beats perfect plans. Get it out, get feedback, iterate. Speed isn't about cutting corners—it's about doing less unnecessary work.</p>
           </div>
-          <div class="now-list">
-            <div class="now-item">
-              <div class="now-item-content">
-                <h4>MLX-Swift projects</h4>
-                <p>Building native Swift ports for ML models on Apple Silicon</p>
-              </div>
-            </div>
-            <div class="now-item">
-              <div class="now-item-content">
-                <h4>Open source maintenance</h4>
-                <p>Keeping copilot, tanstack-bun, and other projects updated</p>
-              </div>
-            </div>
-            <div class="now-item">
-              <div class="now-item-content">
-                <h4>Available for contract work</h4>
-                <p>Taking on interesting projects at $1k/day</p>
-              </div>
-            </div>
+          <div class="principle">
+            <h3>Keep it minimal</h3>
+            <p>Every line of code is a liability. Fewer dependencies, simpler architectures, less to break. The best code is no code at all.</p>
+          </div>
+          <div class="principle">
+            <h3>Make it fast</h3>
+            <p>Performance is a feature. Slow software loses users. Profile first, optimize what matters, don't guess.</p>
           </div>
         </div>
       </div>
