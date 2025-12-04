@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Lulzx - Software engineer building things that work.">
+  <meta name="description" content="Lulzx - Software engineer. I build things that work.">
   <title>Lulzx</title>
   <link rel="manifest" href="./manifest.json">
   <style>
@@ -28,9 +28,6 @@
       color: var(--text);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
 
     a {
@@ -39,23 +36,20 @@
     }
 
     .container {
-      max-width: 720px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 0 24px;
-      width: 100%;
     }
 
     /* Nav */
     nav {
       padding: 20px 0;
-      border-bottom: 1px solid var(--border);
     }
 
     nav .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1200px;
     }
 
     .logo {
@@ -78,98 +72,267 @@
       color: var(--text);
     }
 
-    /* Main */
-    main {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      padding: 80px 0;
-    }
-
+    /* Hero */
     .hero {
-      width: 100%;
+      padding: 120px 0 100px;
+      border-bottom: 1px solid var(--border);
     }
 
     .hero h1 {
-      font-size: 32px;
+      font-size: clamp(48px, 10vw, 96px);
       font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 32px;
     }
 
-    .hero .lead {
+    .hero h1 span {
+      color: var(--text-muted);
+    }
+
+    .hero-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-top: 48px;
+    }
+
+    .hero-text {
       font-size: 18px;
       color: var(--text-secondary);
-      max-width: 480px;
-      margin-bottom: 40px;
+      line-height: 1.7;
     }
 
-    .links {
+    .hero-links {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 12px;
     }
 
-    .links a {
-      font-size: 14px;
+    .hero-links a {
+      font-size: 15px;
       color: var(--text-secondary);
-      padding: 10px 18px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
       transition: all 0.15s;
     }
 
-    .links a:hover {
+    .hero-links a:hover {
       color: var(--text);
+      padding-left: 8px;
+    }
+
+    .hero-links a::after {
+      content: '→';
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all 0.15s;
+    }
+
+    .hero-links a:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Selected Work */
+    .section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .section-link {
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: color 0.15s;
+    }
+
+    .section-link:hover {
+      color: var(--text);
+    }
+
+    /* Projects */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .project {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.15s;
+    }
+
+    .project:hover {
       border-color: var(--text-muted);
+      background: var(--bg-subtle);
     }
 
-    .links a.primary {
-      background: var(--text);
-      color: var(--bg);
+    .project-name {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Writing */
+    .posts {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .post {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.15s;
+    }
+
+    .post:first-child {
+      padding-top: 0;
+    }
+
+    .post:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .post:hover {
+      padding-left: 8px;
+    }
+
+    .post-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .post-date {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Now */
+    .now-content {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+    }
+
+    .now-label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .now-text {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .now-text a {
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.15s;
+    }
+
+    .now-text a:hover {
       border-color: var(--text);
-    }
-
-    .links a.primary:hover {
-      opacity: 0.9;
     }
 
     /* Footer */
     footer {
-      padding: 24px 0;
-      border-top: 1px solid var(--border);
+      padding: 48px 0;
     }
 
-    footer .container {
-      max-width: 1200px;
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    footer p {
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .footer-copy {
       font-size: 13px;
       color: var(--text-muted);
     }
 
     /* Responsive */
-    @media (max-width: 640px) {
-      main {
-        padding: 48px 0;
-        align-items: flex-start;
+    @media (max-width: 768px) {
+      .hero {
+        padding: 80px 0 60px;
       }
 
       .hero h1 {
-        font-size: 26px;
+        font-size: 48px;
       }
 
-      .links {
-        flex-direction: column;
+      .hero-intro {
+        grid-template-columns: 1fr;
+        gap: 40px;
       }
 
-      .links a {
-        text-align: center;
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      .now-content {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .post {
+        grid-template-columns: 1fr;
+        gap: 4px;
       }
 
       .nav-links {
         display: none;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 16px;
       }
     }
   </style>
@@ -189,25 +352,99 @@
   </nav>
 
   <main>
-    <div class="container">
-      <div class="hero">
-        <h1>Hey, I'm Lulzx.</h1>
-        <p class="lead">
-          Software engineer. I build things that work. Currently available for contract work.
-        </p>
-        <div class="links">
-          <a href="./hire.html" class="primary">Hire me</a>
-          <a href="./projects.html">Projects</a>
-          <a href="https://t.me/lulzx">Telegram</a>
-          <a href="https://github.com/lulzx">GitHub</a>
+    <section class="hero">
+      <div class="container">
+        <h1>Software<br>engineer<span>.</span></h1>
+        <div class="hero-intro">
+          <p class="hero-text">
+            I build things that work. Bots, tools, web apps, and whatever else needs building. I care about performance, simplicity, and shipping.
+          </p>
+          <div class="hero-links">
+            <a href="./hire.html">Available for hire</a>
+            <a href="./projects.html">View projects</a>
+            <a href="https://github.com/lulzx">GitHub</a>
+            <a href="https://t.me/lulzx">Telegram</a>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-title">Selected Work</span>
+          <a href="./projects.html" class="section-link">All projects →</a>
+        </div>
+        <div class="projects">
+          <a href="https://github.com/lulzx/shoten" class="project">
+            <div class="project-name">Shoten</div>
+            <div class="project-desc">E-book platform for the web. Read anything, anywhere.</div>
+          </a>
+          <a href="https://t.me/s/sumitupideas" class="project">
+            <div class="project-name">Sum It Up</div>
+            <div class="project-desc">Web content summarization for busy humans.</div>
+          </a>
+          <a href="https://github.com/lulzx/codesearch" class="project">
+            <div class="project-name">Code Search</div>
+            <div class="project-desc">Find code solutions using web scraping.</div>
+          </a>
+          <a href="https://github.com/lulzx/puml" class="project">
+            <div class="project-name">PUML</div>
+            <div class="project-desc">Create UML sequence diagrams on the fly.</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-title">Writing</span>
+          <a href="./blog/" class="section-link">All posts →</a>
+        </div>
+        <div class="posts">
+          <a href="./blog/shipping-fast.html" class="post">
+            <span class="post-title">Shipping fast without breaking things</span>
+            <span class="post-date">Dec 2024</span>
+          </a>
+          <a href="./blog/telegram-bots.html" class="post">
+            <span class="post-title">Building Telegram bots that scale</span>
+            <span class="post-date">Nov 2024</span>
+          </a>
+          <a href="./blog/minimal-software.html" class="post">
+            <span class="post-title">The case for minimal software</span>
+            <span class="post-date">Oct 2024</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-title">Now</span>
+        </div>
+        <div class="now-content">
+          <span class="now-label">What I'm up to</span>
+          <p class="now-text">
+            Taking on contract work. Building tools. Writing occasionally. If you have something interesting to work on, <a href="./hire.html">let's talk</a>.
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
     <div class="container">
-      <p>&copy; 2025 Lulzx</p>
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="./me.html">About</a>
+          <a href="./projects.html">Projects</a>
+          <a href="./blog/">Blog</a>
+          <a href="./hire.html">Hire</a>
+        </div>
+        <span class="footer-copy">&copy; 2025 Lulzx</span>
+      </div>
     </div>
   </footer>
 </body>

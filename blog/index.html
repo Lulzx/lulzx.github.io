@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Blog by Lulzx">
+  <meta name="description" content="Blog by Lulzx - thoughts on software and building things.">
   <title>Blog | Lulzx</title>
   <style>
     * {
@@ -90,16 +90,39 @@
       color: var(--text-secondary);
     }
 
-    /* Empty state */
-    .empty {
-      padding: 80px 0;
-      text-align: center;
+    /* Posts */
+    .posts {
       border-top: 1px solid var(--border);
     }
 
-    .empty p {
+    .post {
+      display: block;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.15s;
+    }
+
+    .post:hover {
+      padding-left: 8px;
+    }
+
+    .post-date {
+      font-size: 13px;
       color: var(--text-muted);
+      margin-bottom: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .post-title {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .post-excerpt {
       font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
     }
 
     /* Footer */
@@ -162,6 +185,7 @@
       <div class="nav-links">
         <a href="../me.html">About</a>
         <a href="../projects.html">Projects</a>
+        <a href="./">Blog</a>
         <a href="../hire.html">Hire</a>
         <a href="https://github.com/lulzx">GitHub</a>
       </div>
@@ -175,8 +199,24 @@
         <p class="lead">Thoughts on software, building things, and whatever else.</p>
       </div>
 
-      <div class="empty">
-        <p>Nothing here yet. Check back later.</p>
+      <div class="posts">
+        <a href="./shipping-fast.html" class="post">
+          <div class="post-date">December 2024</div>
+          <h2 class="post-title">Shipping fast without breaking things</h2>
+          <p class="post-excerpt">How to move quickly without accumulating technical debt or burning out your team.</p>
+        </a>
+
+        <a href="./telegram-bots.html" class="post">
+          <div class="post-date">November 2024</div>
+          <h2 class="post-title">Building Telegram bots that scale</h2>
+          <p class="post-excerpt">Lessons from building bots used by thousands of people.</p>
+        </a>
+
+        <a href="./minimal-software.html" class="post">
+          <div class="post-date">October 2024</div>
+          <h2 class="post-title">The case for minimal software</h2>
+          <p class="post-excerpt">Why less code is almost always better.</p>
+        </a>
       </div>
     </div>
   </main>

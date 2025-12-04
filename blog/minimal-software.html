@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Why less code is almost always better.">
+  <title>The case for minimal software | Lulzx</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #09090b;
+      --bg-subtle: #18181b;
+      --border: #27272a;
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    article {
+      padding: 80px 0;
+    }
+
+    .article-header {
+      margin-bottom: 48px;
+    }
+
+    .article-date {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .article-title {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .article-content {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .article-content p {
+      margin-bottom: 24px;
+    }
+
+    .article-content h2 {
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .article-content ul, .article-content ol {
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+
+    .article-content li {
+      margin-bottom: 8px;
+    }
+
+    .article-content code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 15px;
+      background: var(--bg-subtle);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .article-content strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .article-content blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 20px;
+      margin: 24px 0;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover {
+      color: var(--text);
+    }
+
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+    }
+
+    footer a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-copy {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px) {
+      article {
+        padding: 48px 0;
+      }
+
+      .article-title {
+        font-size: 26px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      footer .container {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="../" class="logo">lulzx</a>
+      <div class="nav-links">
+        <a href="../me.html">About</a>
+        <a href="../projects.html">Projects</a>
+        <a href="./">Blog</a>
+        <a href="../hire.html">Hire</a>
+        <a href="https://github.com/lulzx">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <article>
+        <header class="article-header">
+          <div class="article-date">October 2024</div>
+          <h1 class="article-title">The case for minimal software</h1>
+        </header>
+
+        <div class="article-content">
+          <p>
+            Modern software is bloated. A text editor that needs 500MB of RAM. A todo app that ships a full browser engine. A chat client that uses more memory than the operating system.
+          </p>
+
+          <p>
+            We've normalized this. We've accepted that software needs to be slow, heavy, and resource-hungry. But it doesn't have to be this way.
+          </p>
+
+          <h2>The cost of complexity</h2>
+
+          <p>
+            Every line of code is a liability. It needs to be written, reviewed, tested, documented, and maintained. It can contain bugs. It can be a security vulnerability. It can slow things down.
+          </p>
+
+          <p>
+            The more code you have, the more things can go wrong. The more dependencies you have, the more attack surface you expose. The more features you add, the harder everything becomes.
+          </p>
+
+          <blockquote>
+            The best code is no code at all.
+          </blockquote>
+
+          <h2>What minimal actually means</h2>
+
+          <p>
+            Minimal doesn't mean incomplete. It doesn't mean ugly. It doesn't mean lacking features people actually need.
+          </p>
+
+          <p>
+            Minimal means:
+          </p>
+
+          <ul>
+            <li>Every feature earns its place</li>
+            <li>No code exists without a reason</li>
+            <li>Complexity is a last resort, not a first choice</li>
+            <li>Performance is a feature, not an afterthought</li>
+          </ul>
+
+          <p>
+            Minimal software does fewer things, but does them well. It starts fast, runs fast, and doesn't waste resources.
+          </p>
+
+          <h2>How to build minimal software</h2>
+
+          <p>
+            <strong>Start with the problem, not the solution.</strong> Before writing any code, understand what you're actually trying to solve. Most features exist because someone thought they'd be cool, not because users needed them.
+          </p>
+
+          <p>
+            <strong>Question every dependency.</strong> Each library you add is code you don't control. It's code that can break, that can have security issues, that can bloat your bundle. Only add dependencies that are absolutely necessary.
+          </p>
+
+          <p>
+            <strong>Build for constraints.</strong> What if your software had to run on a 10-year-old computer? What if it had to load on a slow connection? What if it had to work offline? Constraints force simplicity.
+          </p>
+
+          <p>
+            <strong>Remove before you add.</strong> Before adding a new feature, ask if you can remove an old one. Before adding complexity, ask if you can simplify what exists. The best refactoring is deletion.
+          </p>
+
+          <h2>The benefits</h2>
+
+          <p>
+            Minimal software is faster. There's less code to execute, less data to transfer, less work for the CPU to do.
+          </p>
+
+          <p>
+            Minimal software is more reliable. Fewer moving parts means fewer things that can break. Simpler code is easier to understand and easier to fix.
+          </p>
+
+          <p>
+            Minimal software is more maintainable. A small codebase is easier to navigate. Changes are easier to make. Onboarding is faster.
+          </p>
+
+          <p>
+            Minimal software respects users. It doesn't waste their time, their battery, their bandwidth. It does what it says and gets out of the way.
+          </p>
+
+          <h2>The challenge</h2>
+
+          <p>
+            Building minimal software is hard. It's easier to add than to remove. It's easier to solve problems with more code than with better code. It's easier to follow trends than to question them.
+          </p>
+
+          <p>
+            But the result is worth it. Software that works. Software that lasts. Software that doesn't make you wait.
+          </p>
+
+          <p>
+            Less code. Fewer features. Better software.
+          </p>
+        </div>
+
+        <a href="./" class="back-link">← Back to blog</a>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="../">Home</a>
+        <a href="../me.html">About</a>
+        <a href="../projects.html">Projects</a>
+      </div>
+      <span class="footer-copy">&copy; 2025</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How to move quickly without accumulating technical debt or burning out.">
+  <title>Shipping fast without breaking things | Lulzx</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #09090b;
+      --bg-subtle: #18181b;
+      --border: #27272a;
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Nav */
+    nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* Article */
+    article {
+      padding: 80px 0;
+    }
+
+    .article-header {
+      margin-bottom: 48px;
+    }
+
+    .article-date {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .article-title {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .article-content {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .article-content p {
+      margin-bottom: 24px;
+    }
+
+    .article-content h2 {
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .article-content ul, .article-content ol {
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+
+    .article-content li {
+      margin-bottom: 8px;
+    }
+
+    .article-content code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 15px;
+      background: var(--bg-subtle);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .article-content strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Back link */
+    .back-link {
+      display: inline-block;
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover {
+      color: var(--text);
+    }
+
+    /* Footer */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+    }
+
+    footer a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-copy {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px) {
+      article {
+        padding: 48px 0;
+      }
+
+      .article-title {
+        font-size: 26px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      footer .container {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="../" class="logo">lulzx</a>
+      <div class="nav-links">
+        <a href="../me.html">About</a>
+        <a href="../projects.html">Projects</a>
+        <a href="./">Blog</a>
+        <a href="../hire.html">Hire</a>
+        <a href="https://github.com/lulzx">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <article>
+        <header class="article-header">
+          <div class="article-date">December 2024</div>
+          <h1 class="article-title">Shipping fast without breaking things</h1>
+        </header>
+
+        <div class="article-content">
+          <p>
+            There's a common belief that you have to choose between speed and quality. Move fast and break things, or move slowly and build something solid. I don't think that's true.
+          </p>
+
+          <p>
+            The fastest teams I've worked with also had the fewest bugs. The slowest had the most. Speed and quality aren't opposites—they're correlated. Here's what I've learned.
+          </p>
+
+          <h2>Small changes, always</h2>
+
+          <p>
+            Big changes are slow changes. They take longer to write, longer to review, longer to test, and longer to fix when they break. Small changes ship faster and break less.
+          </p>
+
+          <p>
+            If your PR is more than 200 lines, it's probably too big. Split it up. Ship the parts that work. Iterate.
+          </p>
+
+          <h2>Test the right things</h2>
+
+          <p>
+            100% code coverage is a vanity metric. What matters is testing the things that actually break:
+          </p>
+
+          <ul>
+            <li>Integration points between systems</li>
+            <li>Edge cases in business logic</li>
+            <li>User-facing flows that can't be easily fixed</li>
+          </ul>
+
+          <p>
+            Skip testing the things that are obvious, easy to fix, or change frequently. Your time is better spent elsewhere.
+          </p>
+
+          <h2>Deploy constantly</h2>
+
+          <p>
+            The longer code sits undeployed, the scarier it becomes to deploy. Deploy every day. Deploy multiple times a day. Make deployment boring.
+          </p>
+
+          <p>
+            When deployments are routine, failures are small. When they're rare, failures are catastrophic.
+          </p>
+
+          <h2>Fix fast, not perfect</h2>
+
+          <p>
+            When something breaks, the goal is to stop the bleeding, not to solve world hunger. Fix the immediate problem. Ship the fix. Then figure out the root cause.
+          </p>
+
+          <p>
+            A quick fix that stops the bleeding is better than a perfect fix that takes three days.
+          </p>
+
+          <h2>Keep it simple</h2>
+
+          <p>
+            Simple code ships faster because it's easier to understand, easier to review, and easier to debug. Every abstraction you add is something that can break.
+          </p>
+
+          <p>
+            Before adding complexity, ask: is this actually necessary? Usually the answer is no.
+          </p>
+
+          <p>
+            Speed isn't about working more hours or cutting corners. It's about doing less unnecessary work. Build only what's needed. Test only what matters. Keep everything as simple as possible.
+          </p>
+
+          <p>
+            That's how you ship fast without breaking things.
+          </p>
+        </div>
+
+        <a href="./" class="back-link">← Back to blog</a>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="../">Home</a>
+        <a href="../me.html">About</a>
+        <a href="../projects.html">Projects</a>
+      </div>
+      <span class="footer-copy">&copy; 2025</span>
+    </div>
+  </footer>
+</body>
+</html>

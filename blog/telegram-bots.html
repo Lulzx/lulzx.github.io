@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lessons from building Telegram bots used by thousands of people.">
+  <title>Building Telegram bots that scale | Lulzx</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #09090b;
+      --bg-subtle: #18181b;
+      --border: #27272a;
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    article {
+      padding: 80px 0;
+    }
+
+    .article-header {
+      margin-bottom: 48px;
+    }
+
+    .article-date {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .article-title {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .article-content {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .article-content p {
+      margin-bottom: 24px;
+    }
+
+    .article-content h2 {
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .article-content ul, .article-content ol {
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+
+    .article-content li {
+      margin-bottom: 8px;
+    }
+
+    .article-content code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 15px;
+      background: var(--bg-subtle);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .article-content strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover {
+      color: var(--text);
+    }
+
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+    }
+
+    footer a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-copy {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px) {
+      article {
+        padding: 48px 0;
+      }
+
+      .article-title {
+        font-size: 26px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      footer .container {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="../" class="logo">lulzx</a>
+      <div class="nav-links">
+        <a href="../me.html">About</a>
+        <a href="../projects.html">Projects</a>
+        <a href="./">Blog</a>
+        <a href="../hire.html">Hire</a>
+        <a href="https://github.com/lulzx">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <article>
+        <header class="article-header">
+          <div class="article-date">November 2024</div>
+          <h1 class="article-title">Building Telegram bots that scale</h1>
+        </header>
+
+        <div class="article-content">
+          <p>
+            I've built a lot of Telegram bots. Some are used by a handful of people. Others handle thousands of messages per day. Here's what I've learned about building bots that actually scale.
+          </p>
+
+          <h2>Use webhooks, not polling</h2>
+
+          <p>
+            Polling is fine for development, but it doesn't scale. Every polling request costs CPU, memory, and network. Webhooks flip the model—Telegram pushes updates to you instead of you constantly asking for them.
+          </p>
+
+          <p>
+            Set up a proper webhook endpoint. Use HTTPS. Handle errors gracefully. Your server will thank you.
+          </p>
+
+          <h2>Process messages asynchronously</h2>
+
+          <p>
+            Don't process messages in the webhook handler. Accept the message, queue it, and return immediately. Process the queue in background workers.
+          </p>
+
+          <p>
+            This does a few things:
+          </p>
+
+          <ul>
+            <li>Telegram doesn't time out waiting for your response</li>
+            <li>You can retry failed messages without losing them</li>
+            <li>You can scale workers independently of your webhook server</li>
+          </ul>
+
+          <p>
+            Redis queues work great for this. Simple, fast, and battle-tested.
+          </p>
+
+          <h2>Rate limit everything</h2>
+
+          <p>
+            Telegram has rate limits. Your APIs have rate limits. Your database has practical limits. Respect all of them.
+          </p>
+
+          <p>
+            Build rate limiting into your bot from day one. Per-user limits. Per-chat limits. Global limits. It's much easier to relax limits later than to add them when you're getting hammered.
+          </p>
+
+          <h2>Cache aggressively</h2>
+
+          <p>
+            User info doesn't change often. Chat metadata doesn't change often. Cache them. A simple Redis cache with a 5-minute TTL can eliminate most of your API calls.
+          </p>
+
+          <p>
+            Just remember to invalidate the cache when things actually change.
+          </p>
+
+          <h2>Handle errors gracefully</h2>
+
+          <p>
+            Bots fail. APIs timeout. Messages get lost. Build for failure.
+          </p>
+
+          <ul>
+            <li>Retry transient failures with exponential backoff</li>
+            <li>Log errors with enough context to debug them</li>
+            <li>Tell users when something goes wrong instead of silently failing</li>
+          </ul>
+
+          <p>
+            A bot that fails gracefully is better than one that fails silently.
+          </p>
+
+          <h2>Keep state minimal</h2>
+
+          <p>
+            The less state your bot maintains, the easier it is to scale. Avoid storing conversation state if you can. If you must, use a database, not memory.
+          </p>
+
+          <p>
+            Stateless bots are horizontally scalable. Stateful bots require careful coordination.
+          </p>
+
+          <h2>Monitor everything</h2>
+
+          <p>
+            You can't fix what you can't see. Track message throughput. Track response times. Track error rates. Set up alerts for anomalies.
+          </p>
+
+          <p>
+            When something breaks at 3am, you want to know before your users tell you.
+          </p>
+
+          <p>
+            Building scalable bots isn't rocket science. It's just applying the same principles that work for any scalable system: async processing, caching, rate limiting, and good monitoring. Get the basics right and your bot will handle whatever Telegram throws at it.
+          </p>
+        </div>
+
+        <a href="./" class="back-link">← Back to blog</a>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="../">Home</a>
+        <a href="../me.html">About</a>
+        <a href="../projects.html">Projects</a>
+      </div>
+      <span class="footer-copy">&copy; 2025</span>
+    </div>
+  </footer>
+</body>
+</html>
