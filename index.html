@@ -1,67 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="Description" content="Lulzx's website">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="preload" href="./css/paper.min.css" as="style">
-  <link rel="stylesheet" href="./css/paper.min.css">
+  <meta name="description" content="Lulzx - Software engineer building things that work.">
   <title>Lulzx</title>
+  <link rel="manifest" href="./manifest.json">
   <style>
-    body {
-    background-image: url("./img/inverted_geometry.png")
-}
-  </style>
-  <link rel='manifest' href='./manifest.json'>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall@latest/dist/pwa-install.min.js"></script>
-</head>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    :root {
+      --bg: #09090b;
+      --bg-subtle: #18181b;
+      --border: #27272a;
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Nav */
+    nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* Main */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 80px 0;
+    }
+
+    .hero {
+      width: 100%;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .hero .lead {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin-bottom: 40px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .links a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+
+    .links a:hover {
+      color: var(--text);
+      border-color: var(--text-muted);
+    }
+
+    .links a.primary {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .links a.primary:hover {
+      opacity: 0.9;
+    }
+
+    /* Footer */
+    footer {
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    footer .container {
+      max-width: 1200px;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      main {
+        padding: 48px 0;
+        align-items: flex-start;
+      }
+
+      .hero h1 {
+        font-size: 26px;
+      }
+
+      .links {
+        flex-direction: column;
+      }
+
+      .links a {
+        text-align: center;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
 <body>
-  <nav class="border fixed split-nav">
-    <div class="nav-brand">
-      <h3><a href="./index.html">Lulzx</a></h3>
-    </div>
-    <div class="collapsible">
-      <input id="collapsible1" type="checkbox" name="collapsible1">
-      <button>
-        <label for="collapsible1">
-          <div class="bar1"></div>
-          <div class="bar2"></div>
-          <div class="bar3"></div>
-        </label>
-      </button>
-      <div class="collapsible-body">
-        <ul class="inline">
-          <li><a href="./projects.html">Projects</a></li>
-          <li><a href="./hire.html">Hire</a></li>
-          <li><a href="./blog/">Blog</a></li>
-          <li><a href="./stuff.html">More Links</a></li>
-        </ul>
+  <nav>
+    <div class="container">
+      <a href="./" class="logo">lulzx</a>
+      <div class="nav-links">
+        <a href="./me.html">About</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./hire.html">Hire</a>
+        <a href="https://github.com/lulzx">GitHub</a>
       </div>
     </div>
   </nav>
-  <div class="paper container">
-    <center>
-      <h1>Welcome! 😃</h1>
-      <img src="./img/swing.webp" alt="hey there">
-    </center>
-      <div class="row flex-center child-borders">
-        <a class='paper-btn margin' href='./projects.html'>Projects</a>
-        <a class='paper-btn margin' href='https://t.me/lulzx'>Text me</a>
-        <a class='paper-btn margin' href='./blog/'>Blog</a>
-        <a href="https://github.com/lulzx" target="_blank" rel="noreferrer" class="paper-btn margin">Github</a>
+
+  <main>
+    <div class="container">
+      <div class="hero">
+        <h1>Hey, I'm Lulzx.</h1>
+        <p class="lead">
+          Software engineer. I build things that work. Currently available for contract work.
+        </p>
+        <div class="links">
+          <a href="./hire.html" class="primary">Hire me</a>
+          <a href="./projects.html">Projects</a>
+          <a href="https://t.me/lulzx">Telegram</a>
+          <a href="https://github.com/lulzx">GitHub</a>
+        </div>
       </div>
-      <p align=center>Doing what nobody does to achieve what nobody has!</p>
-  </div>
-  <script type="module">
-    // This is the "Offline copy of pages" service worker
-    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+    </div>
+  </main>
 
-    const el = document.createElement('pwa-update');
-    document.body.appendChild(el);
-  </script>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Lulzx</p>
+    </div>
+  </footer>
 </body>
-
 </html>

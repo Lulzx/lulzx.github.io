@@ -1,173 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Lulzx: portfolio</title>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#333333">
-  <meta name="description" content="Index of Lulzx's past and present personal projects">
-  <meta name="author" content="Lulzx">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Projects by Lulzx - bots, tools, and software.">
+  <title>Projects | Lulzx</title>
   <style>
-    body {
-      background-color: #e5ebef;
-    },
-    html,
-    div {
-      font-family: system-ui, "Helvetica", "Roboto", "Arial", sans-serif;
+    * {
       margin: 0;
       padding: 0;
-      border: none;
-      color: #333;
-      line-height: 1.5em;
+      box-sizing: border-box;
     }
 
-    h1,
-    h2,
-    h3,
-    p {
-      margin-top: 0;
-      margin-bottom: 20px;
-      clear: both;
+    :root {
+      --bg: #09090b;
+      --bg-subtle: #18181b;
+      --border: #27272a;
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
     a {
-        color: #333;
-    }
-
-    h1 {
-      margin-top: 24px;
-    }
-
-    h2 {
-      margin-top: 18px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #777;
-    }
-
-    .privacy {
-      color: black;
-      transition: .2s;
-    }
-
-    .privacy:focus,
-    .privacy:hover {
-      opacity: 0.6;
-    }
-
-    #container {
-      padding: 20px 15px;
-      max-width: 800px;
-      margin: 0 auto;
-      overflow: visible;
-    }
-
-    #block-container {
-      padding: 15px 0;
-      width: 100%;
-    }
-
-    #block-container>div {
-      padding-bottom: 12px;
-    }
-
-    #block-container>div>h2 {
-      margin-top: 15px;
-    }
-
-    #block-container a {
+      color: inherit;
       text-decoration: none;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Nav */
+    nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* Header */
+    .header {
+      padding: 80px 0 48px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .header .lead {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 540px;
+    }
+
+    /* Sections */
+    section {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    section h2 {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+    }
+
+    section > p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    /* Project List */
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .project {
       display: block;
-      margin-bottom: 6px;
-      width: 100%;
-      transition: box-shadow 0.2s, transform .2s;
-      border-radius: 0 10px 10px 10px;
-      box-sizing: border-box;
-      padding: 6px 12px;
-      font-weight: bold;
-      box-sizing: border-box;
-      box-shadow: 0 0 0 1px #dae0e4;
-      border: 1px solid transparent;
-      position: relative;
-      background: #fff;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.15s;
     }
 
-    #block-container a::after {
-      content: attr(title);
-      display: block;
-      font-weight: normal;
-      width: 100%;
+    .project:hover {
+      border-color: var(--text-muted);
+      background: var(--bg-subtle);
     }
 
-    #block-container a:focus,
-    #block-container a:hover {
-      border: 1px solid #777;
-      outline: none;
+    .project h3 {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 4px;
     }
 
-    #block-container a::before {
-      position: absolute;
-      content: '→';
-      top: 6px;
-      right: 12px;
-      transform: translateX(-6px);
-      opacity: 0;
-      transition: transform .3s, opacity .3s;
+    .project p {
+      font-size: 14px;
+      color: var(--text-secondary);
     }
 
-    #block-container a:focus::before,
-    #block-container a:hover::before {
-      outline: none;
-      transform: translate(0);
-      opacity: 1;
+    /* Footer */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
     }
 
-    #block-container a:active {
-      transform: scale(.98);
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+    }
+
+    footer a {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-copy {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .header {
+        padding: 48px 0 32px;
+      }
+
+      .header h1 {
+        font-size: 26px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      footer .container {
+        flex-direction: column;
+        gap: 16px;
+      }
     }
   </style>
 </head>
-
 <body>
-  <div id="container">
-    <h1>Projects Directory</h1>
-    <p>Below are links to all of my current and deprecated projects that are still available somewhere online. Some will take
-      you to an about page, others will take you to a GitHub page, but you'll find out more about projects through their
-      links.</p>
-    <p>If you're just interested in what I'm working on right now, you can check out my website, linked at <a href="https://lulzx.github.io/now">my now page</a>.</p>
-    <div id="block-container">
-      <div>
-        <h2>🌱 Seed-Stage Projects</h2>
-        <p>These projects are currently in active development. They can be considered pre-alpha or alpha-stage in development, will have tons of bugs or errors, or may not be fully executed at all.</p>
-        <a title="A tool to find out code solutions to the problem statements using web scraping." href="https://github.com/lulzx/codesearch">Code snippet search engine</a>
-        <a title="Community of Telegram bot lovers to help your bot grow and give feedback." href="https://github.com/Lulzx/botcatalyst">Bot Catalyst</a>
-      </div>
-      <div>
-        <h2>⚡️ Active Projects</h2>
-        <p>These projects are either in their final stages of beta testing or are production-ready and in active development,
-          continually being updated by me. They are available to use, and are currently being used by potentially thousands of people.</p>
-        <a title="Web consumption for busy humans." href="https://tx.me/s/sumitupideas">Sum it up</a>
-        <a title="An e-book platform for web" href="https://github.com/lulzx/shoten">Shoten</a>
-      </div>
-      <div>
-        <h2>🚀 Completed Projects</h2>
-        <p>These projects were at one point published and actively developed, but are now ceased to be continually updated.
-          Nonetheless, most of them are still functional and being used by me and thousands of other people, and are a good
-          record of what I've made so far.</p>
-        <a title="Bot for executing snippets of code." href="https://github.com/Lulzx/leaflet">Leaflet</a>
-        <a title="A bot to help you find out a throne room nearby." href="https://t.me/ThroneRoomBot">Throne Room Finder</a>
-        <a title="Insult your co-workers with snarky O RLY parody book covers!" href="https://t.me/oreillybot">Oreilly Parody book generator</a>
-        <a title="Get all contents of multiple messages concatenated, split a merged message and create dialogs." href="https://github.com/Lulzx/messagemerger">Message Merger</a>
-        <a title="Create UML diagrams on the fly, share quick sketches of concepts and quickly create sequence diagrams." href="https://github.com/lulzx/puml">Sequence diagrams creator</a>
-      </div>
-      <div>
-        <h2>📚 Unfinished Projects</h2>
-        <p>These projects were started and worked on for anywhere from weeks to years, but ultimately were never seen to completion
-          or release, for one reason or another. Still, they serve as a good background for what kinds of ideas interest
-          me.</p>
-        <a title="I complete every projects I start." href="#!">Nothing, lol</a>
+  <nav>
+    <div class="container">
+      <a href="./" class="logo">lulzx</a>
+      <div class="nav-links">
+        <a href="./me.html">About</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./hire.html">Hire</a>
+        <a href="https://github.com/lulzx">GitHub</a>
       </div>
     </div>
-    <p>&copy; Lulzx 2020</p>
-  </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="header">
+        <h1>Projects</h1>
+        <p class="lead">
+          Things I've built. Some are active, some are done, all of them shipped.
+        </p>
+      </div>
+
+      <section>
+        <h2>In Development</h2>
+        <p>Currently being built. Early stage, lots of bugs.</p>
+        <div class="projects">
+          <a href="https://github.com/lulzx/codesearch" class="project">
+            <h3>Code Snippet Search</h3>
+            <p>Find code solutions using web scraping.</p>
+          </a>
+          <a href="https://github.com/Lulzx/botcatalyst" class="project">
+            <h3>Bot Catalyst</h3>
+            <p>Community for Telegram bot developers.</p>
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <h2>Active</h2>
+        <p>Production-ready. Being used by people.</p>
+        <div class="projects">
+          <a href="https://t.me/s/sumitupideas" class="project">
+            <h3>Sum It Up</h3>
+            <p>Web content summarization for busy humans.</p>
+          </a>
+          <a href="https://github.com/lulzx/shoten" class="project">
+            <h3>Shoten</h3>
+            <p>E-book platform for the web.</p>
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <h2>Completed</h2>
+        <p>Done. Still works, no longer actively maintained.</p>
+        <div class="projects">
+          <a href="https://github.com/Lulzx/leaflet" class="project">
+            <h3>Leaflet</h3>
+            <p>Bot for executing code snippets in Telegram.</p>
+          </a>
+          <a href="https://t.me/ThroneRoomBot" class="project">
+            <h3>Throne Room Finder</h3>
+            <p>Find nearby restrooms.</p>
+          </a>
+          <a href="https://t.me/oreillybot" class="project">
+            <h3>O'Reilly Parody Generator</h3>
+            <p>Generate snarky O'RLY book covers.</p>
+          </a>
+          <a href="https://github.com/Lulzx/messagemerger" class="project">
+            <h3>Message Merger</h3>
+            <p>Concatenate and split Telegram messages.</p>
+          </a>
+          <a href="https://github.com/lulzx/puml" class="project">
+            <h3>PUML</h3>
+            <p>Create UML sequence diagrams on the fly.</p>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="./">Home</a>
+        <a href="./me.html">About</a>
+        <a href="./hire.html">Hire</a>
+      </div>
+      <span class="footer-copy">&copy; 2025</span>
+    </div>
+  </footer>
 </body>
 </html>
