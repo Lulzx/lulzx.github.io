@@ -15,11 +15,12 @@
 
     :root {
       --bg: #09090b;
-      --bg-subtle: #18181b;
-      --border: #27272a;
+      --bg-subtle: #111113;
+      --border: #1f1f23;
+      --border-hover: #2a2a2f;
       --text: #fafafa;
-      --text-secondary: #a1a1aa;
-      --text-muted: #52525b;
+      --text-secondary: #9a9a9f;
+      --text-muted: #5a5a5f;
     }
 
     body {
@@ -36,14 +37,22 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 32px;
     }
 
     /* Nav */
     nav {
-      padding: 20px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 0;
+      z-index: 100;
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     nav .container {
@@ -55,17 +64,18 @@
     .logo {
       font-weight: 600;
       font-size: 15px;
+      letter-spacing: -0.01em;
     }
 
     .nav-links {
       display: flex;
-      gap: 24px;
+      gap: 32px;
       font-size: 14px;
     }
 
     .nav-links a {
-      color: var(--text-secondary);
-      transition: color 0.15s;
+      color: var(--text-muted);
+      transition: color 0.2s;
     }
 
     .nav-links a:hover {
@@ -74,80 +84,111 @@
 
     /* Hero */
     .hero {
-      padding: 120px 0 100px;
-      border-bottom: 1px solid var(--border);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 0 80px;
     }
 
-    .hero h1 {
-      font-size: clamp(48px, 10vw, 96px);
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1;
+    .hero-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
       margin-bottom: 32px;
     }
 
-    .hero h1 span {
+    .hero h1 {
+      font-size: clamp(56px, 12vw, 120px);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      margin-bottom: 48px;
+    }
+
+    .hero h1 .line {
+      display: block;
+    }
+
+    .hero h1 .muted {
       color: var(--text-muted);
     }
 
-    .hero-intro {
+    .hero-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      margin-top: 48px;
+      gap: 120px;
+      margin-top: 64px;
+      padding-top: 64px;
+      border-top: 1px solid var(--border);
     }
 
     .hero-text {
-      font-size: 18px;
+      font-size: 20px;
       color: var(--text-secondary);
-      line-height: 1.7;
+      line-height: 1.6;
+      max-width: 420px;
     }
 
-    .hero-links {
+    .hero-cta {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 16px;
     }
 
-    .hero-links a {
-      font-size: 15px;
-      color: var(--text-secondary);
-      display: flex;
-      justify-content: space-between;
+    .btn {
+      display: inline-flex;
       align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 16px 28px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      color: var(--text-secondary);
       padding: 16px 0;
-      border-bottom: 1px solid var(--border);
-      transition: all 0.15s;
     }
 
-    .hero-links a:hover {
+    .btn-secondary:hover {
       color: var(--text);
-      padding-left: 8px;
     }
 
-    .hero-links a::after {
+    .btn-secondary::after {
       content: '→';
-      opacity: 0;
-      transform: translateX(-8px);
-      transition: all 0.15s;
+      transition: transform 0.2s;
     }
 
-    .hero-links a:hover::after {
-      opacity: 1;
-      transform: translateX(0);
+    .btn-secondary:hover::after {
+      transform: translateX(4px);
     }
 
-    /* Selected Work */
+    /* Sections */
     .section {
-      padding: 80px 0;
-      border-bottom: 1px solid var(--border);
+      padding: 120px 0;
+      border-top: 1px solid var(--border);
     }
 
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 48px;
+      margin-bottom: 64px;
     }
 
     .section-title {
@@ -155,13 +196,13 @@
       font-weight: 500;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
     }
 
     .section-link {
       font-size: 14px;
-      color: var(--text-secondary);
-      transition: color 0.15s;
+      color: var(--text-muted);
+      transition: color 0.2s;
     }
 
     .section-link:hover {
@@ -172,31 +213,75 @@
     .projects {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
+      gap: 20px;
     }
 
     .project {
-      padding: 24px;
+      position: relative;
+      padding: 32px;
+      background: var(--bg-subtle);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      transition: all 0.15s;
+      border-radius: 12px;
+      transition: all 0.25s;
+      overflow: hidden;
+    }
+
+    .project::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.25s;
     }
 
     .project:hover {
-      border-color: var(--text-muted);
-      background: var(--bg-subtle);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .project:hover::before {
+      opacity: 1;
+    }
+
+    .project-number {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-variant-numeric: tabular-nums;
     }
 
     .project-name {
-      font-size: 16px;
-      font-weight: 500;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
       margin-bottom: 8px;
     }
 
     .project-desc {
-      font-size: 14px;
+      font-size: 15px;
       color: var(--text-secondary);
-      line-height: 1.6;
+      line-height: 1.5;
+    }
+
+    .project-arrow {
+      position: absolute;
+      top: 32px;
+      right: 32px;
+      font-size: 18px;
+      color: var(--text-muted);
+      opacity: 0;
+      transform: translate(-8px, 8px);
+      transition: all 0.25s;
+    }
+
+    .project:hover .project-arrow {
+      opacity: 1;
+      transform: translate(0, 0);
     }
 
     /* Writing */
@@ -206,12 +291,13 @@
     }
 
     .post {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 24px;
-      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 32px;
+      padding: 28px 0;
       border-bottom: 1px solid var(--border);
-      transition: all 0.15s;
+      transition: all 0.2s;
     }
 
     .post:first-child {
@@ -220,55 +306,117 @@
 
     .post:last-child {
       border-bottom: none;
-      padding-bottom: 0;
     }
 
     .post:hover {
-      padding-left: 8px;
+      padding-left: 12px;
+    }
+
+    .post:hover .post-title {
+      color: var(--text);
     }
 
     .post-title {
-      font-size: 15px;
+      font-size: 17px;
       font-weight: 500;
+      color: var(--text-secondary);
+      transition: color 0.2s;
     }
 
     .post-date {
       font-size: 14px;
       color: var(--text-muted);
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
 
-    /* Now */
-    .now-content {
+    /* Stats */
+    .stats {
       display: grid;
-      grid-template-columns: 200px 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 48px;
     }
 
-    .now-label {
+    .stat {
+      text-align: center;
+      padding: 48px 24px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .stat-value {
+      font-size: 48px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
       font-size: 14px;
       color: var(--text-muted);
     }
 
-    .now-text {
-      font-size: 16px;
-      color: var(--text-secondary);
-      line-height: 1.7;
+    /* Contact */
+    .contact-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
     }
 
-    .now-text a {
-      color: var(--text);
+    .contact-text {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .contact-text span {
+      color: var(--text-muted);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
       border-bottom: 1px solid var(--border);
-      transition: border-color 0.15s;
+      font-size: 15px;
+      color: var(--text-secondary);
+      transition: all 0.2s;
     }
 
-    .now-text a:hover {
-      border-color: var(--text);
+    .contact-link:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-link:hover {
+      color: var(--text);
+      padding-left: 8px;
+    }
+
+    .contact-link::after {
+      content: '→';
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all 0.2s;
+    }
+
+    .contact-link:hover::after {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     /* Footer */
     footer {
       padding: 48px 0;
+      border-top: 1px solid var(--border);
     }
 
     .footer-content {
@@ -279,13 +427,13 @@
 
     .footer-links {
       display: flex;
-      gap: 24px;
+      gap: 32px;
     }
 
     .footer-links a {
       font-size: 14px;
       color: var(--text-muted);
-      transition: color 0.15s;
+      transition: color 0.2s;
     }
 
     .footer-links a:hover {
@@ -298,32 +446,78 @@
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      .hero {
-        padding: 80px 0 60px;
-      }
-
-      .hero h1 {
-        font-size: 48px;
-      }
-
-      .hero-intro {
+    @media (max-width: 900px) {
+      .hero-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 48px;
       }
 
       .projects {
         grid-template-columns: 1fr;
       }
 
-      .now-content {
+      .stats {
         grid-template-columns: 1fr;
         gap: 16px;
       }
 
-      .post {
+      .contact-content {
         grid-template-columns: 1fr;
+        gap: 48px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 20px;
+      }
+
+      nav {
+        padding: 16px 0;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 120px 0 60px;
+      }
+
+      .hero h1 {
+        font-size: 44px;
+      }
+
+      .hero-grid {
+        margin-top: 40px;
+        padding-top: 40px;
+      }
+
+      .hero-text {
+        font-size: 17px;
+      }
+
+      .section {
+        padding: 80px 0;
+      }
+
+      .section-header {
+        margin-bottom: 40px;
+      }
+
+      .post {
+        flex-direction: column;
         gap: 4px;
+        align-items: flex-start;
+      }
+
+      .contact-text {
+        font-size: 24px;
+      }
+
+      .stat {
+        padding: 32px 16px;
+      }
+
+      .stat-value {
+        font-size: 36px;
       }
 
       .nav-links {
@@ -354,16 +548,18 @@
   <main>
     <section class="hero">
       <div class="container">
-        <h1>Software<br>engineer<span>.</span></h1>
-        <div class="hero-intro">
+        <div class="hero-label">Software Engineer</div>
+        <h1>
+          <span class="line">I build things</span>
+          <span class="line">that <span class="muted">work.</span></span>
+        </h1>
+        <div class="hero-grid">
           <p class="hero-text">
-            I build things that work. Bots, tools, web apps, and whatever else needs building. I care about performance, simplicity, and shipping.
+            Bots, tools, web apps—whatever needs building. I care about performance, simplicity, and actually shipping.
           </p>
-          <div class="hero-links">
-            <a href="./hire.html">Available for hire</a>
-            <a href="./projects.html">View projects</a>
-            <a href="https://github.com/lulzx">GitHub</a>
-            <a href="https://t.me/lulzx">Telegram</a>
+          <div class="hero-cta">
+            <a href="./hire.html" class="btn btn-primary">Available for hire</a>
+            <a href="./projects.html" class="btn btn-secondary">View my work</a>
           </div>
         </div>
       </div>
@@ -377,20 +573,28 @@
         </div>
         <div class="projects">
           <a href="https://github.com/lulzx/shoten" class="project">
+            <span class="project-number">01</span>
             <div class="project-name">Shoten</div>
             <div class="project-desc">E-book platform for the web. Read anything, anywhere.</div>
+            <span class="project-arrow">↗</span>
           </a>
           <a href="https://t.me/s/sumitupideas" class="project">
+            <span class="project-number">02</span>
             <div class="project-name">Sum It Up</div>
             <div class="project-desc">Web content summarization for busy humans.</div>
+            <span class="project-arrow">↗</span>
           </a>
           <a href="https://github.com/lulzx/codesearch" class="project">
+            <span class="project-number">03</span>
             <div class="project-name">Code Search</div>
             <div class="project-desc">Find code solutions using web scraping.</div>
+            <span class="project-arrow">↗</span>
           </a>
           <a href="https://github.com/lulzx/puml" class="project">
+            <span class="project-number">04</span>
             <div class="project-name">PUML</div>
             <div class="project-desc">Create UML sequence diagrams on the fly.</div>
+            <span class="project-arrow">↗</span>
           </a>
         </div>
       </div>
@@ -422,13 +626,39 @@
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <span class="section-title">Now</span>
+          <span class="section-title">At a Glance</span>
         </div>
-        <div class="now-content">
-          <span class="now-label">What I'm up to</span>
-          <p class="now-text">
-            Taking on contract work. Building tools. Writing occasionally. If you have something interesting to work on, <a href="./hire.html">let's talk</a>.
-          </p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">$1k</div>
+            <div class="stat-label">Daily rate</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">10+</div>
+            <div class="stat-label">Projects shipped</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">5+</div>
+            <div class="stat-label">Years building</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="contact-content">
+          <h2 class="contact-text">
+            Have a project?<br>
+            <span>Let's talk.</span>
+          </h2>
+          <div class="contact-links">
+            <a href="./hire.html" class="contact-link">Hire me</a>
+            <a href="https://cal.com/lulzx/30min" class="contact-link">Book a call</a>
+            <a href="https://t.me/lulzx" class="contact-link">Telegram</a>
+            <a href="https://github.com/lulzx" class="contact-link">GitHub</a>
+            <a href="mailto:hello@lulzx.com" class="contact-link">Email</a>
+          </div>
         </div>
       </div>
     </section>
