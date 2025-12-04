@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Projects by Lulzx - bots, tools, and software.">
+  <meta name="description" content="Projects by Lulzx - CLI tools, ML research, web frameworks, and Telegram bots.">
   <title>Projects | Lulzx</title>
   <style>
     * {
@@ -14,11 +14,13 @@
 
     :root {
       --bg: #09090b;
-      --bg-subtle: #18181b;
-      --border: #27272a;
+      --bg-subtle: #111113;
+      --bg-card: #0d0d0f;
+      --border: #1f1f23;
+      --border-hover: #2a2a2f;
       --text: #fafafa;
-      --text-secondary: #a1a1aa;
-      --text-muted: #52525b;
+      --text-secondary: #9a9a9f;
+      --text-muted: #5a5a5f;
     }
 
     body {
@@ -35,22 +37,28 @@
     }
 
     .container {
-      max-width: 720px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Nav */
     nav {
-      padding: 20px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 0;
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
+      z-index: 100;
     }
 
     nav .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1200px;
     }
 
     .logo {
@@ -73,86 +81,225 @@
       color: var(--text);
     }
 
-    /* Header */
+    main {
+      padding-top: 60px;
+    }
+
     .header {
-      padding: 80px 0 48px;
+      padding: 80px 0 64px;
+      max-width: 720px;
     }
 
     .header h1 {
-      font-size: 32px;
+      font-size: 48px;
       font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 24px;
     }
 
     .header .lead {
-      font-size: 16px;
+      font-size: 18px;
       color: var(--text-secondary);
-      max-width: 540px;
+      line-height: 1.7;
     }
 
-    /* Sections */
+    .stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
     section {
       padding: 48px 0;
       border-top: 1px solid var(--border);
     }
 
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 32px;
+    }
+
     section h2 {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 24px;
+      letter-spacing: 0.08em;
     }
 
-    section > p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
+    .section-count {
+      font-size: 13px;
+      color: var(--text-muted);
     }
 
-    /* Project List */
-    .projects {
-      display: flex;
-      flex-direction: column;
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
 
     .project {
-      display: block;
-      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      transition: all 0.15s;
+      border-radius: 12px;
+      transition: all 0.2s;
+      position: relative;
     }
 
     .project:hover {
-      border-color: var(--text-muted);
+      border-color: var(--border-hover);
       background: var(--bg-subtle);
+      transform: translateY(-2px);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
     }
 
     .project h3 {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 500;
-      margin-bottom: 4px;
     }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .project-stars {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .project-lang {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lang-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    .lang-dot.rust { background: #dea584; }
+    .lang-dot.python { background: #3572A5; }
+    .lang-dot.typescript { background: #3178c6; }
+    .lang-dot.swift { background: #F05138; }
+    .lang-dot.vue { background: #41b883; }
+    .lang-dot.solidity { background: #AA6746; }
+    .lang-dot.javascript { background: #f1e05a; }
 
     .project p {
       font-size: 14px;
       color: var(--text-secondary);
+      line-height: 1.6;
+      flex-grow: 1;
     }
 
-    /* Footer */
+    .project-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .topic {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg);
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+    }
+
+    .project-arrow {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      opacity: 0;
+      transform: translate(-4px, 4px);
+      transition: all 0.2s;
+      color: var(--text-muted);
+    }
+
+    .project:hover .project-arrow {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    .featured-project {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .featured-project .project-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .featured-project h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .featured-project p {
+      font-size: 15px;
+    }
+
+    .featured-badge {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
     footer {
       padding: 48px 0;
       border-top: 1px solid var(--border);
+      margin-top: 48px;
     }
 
     footer .container {
       display: flex;
       justify-content: space-between;
-      max-width: 1200px;
     }
 
     footer a {
@@ -175,14 +322,27 @@
       color: var(--text-muted);
     }
 
-    /* Responsive */
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       .header {
-        padding: 48px 0 32px;
+        padding: 64px 0 48px;
       }
 
       .header h1 {
-        font-size: 26px;
+        font-size: 36px;
+      }
+
+      .stats {
+        flex-wrap: wrap;
+        gap: 32px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-project {
+        grid-column: span 1;
+        grid-template-columns: 1fr;
       }
 
       .nav-links {
@@ -215,63 +375,278 @@
       <div class="header">
         <h1>Projects</h1>
         <p class="lead">
-          Things I've built. Some are active, some are done, all of them shipped.
+          A collection of tools, libraries, and experiments. Focused on developer tooling, ML inference, and shipping things that work.
         </p>
+        <div class="stats">
+          <div class="stat-item">
+            <span class="stat-value">30+</span>
+            <span class="stat-label">Public repos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">9</span>
+            <span class="stat-label">Languages</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">2017</span>
+            <span class="stat-label">First commit</span>
+          </div>
+        </div>
       </div>
 
       <section>
-        <h2>In Development</h2>
-        <p>Currently being built. Early stage, lots of bugs.</p>
-        <div class="projects">
-          <a href="https://github.com/lulzx/codesearch" class="project">
-            <h3>Code Snippet Search</h3>
-            <p>Find code solutions using web scraping.</p>
+        <div class="section-header">
+          <h2>Developer Tools</h2>
+          <span class="section-count">CLI, infrastructure, DX</span>
+        </div>
+        <div class="projects-grid">
+          <a href="https://github.com/Lulzx/copilot" class="project featured-project" target="_blank">
+            <div class="project-content">
+              <div class="featured-badge">Featured</div>
+              <h3>copilot</h3>
+              <p>The CLI Copilot tool written in Rust. AI-powered command line assistant using Cloudflare Workers for fast inference.</p>
+              <div class="project-topics">
+                <span class="topic">rust</span>
+                <span class="topic">ai</span>
+                <span class="topic">cloudflare</span>
+              </div>
+            </div>
+            <div class="project-meta" style="justify-content: flex-end; align-items: flex-start;">
+              <div class="project-stars">9 stars</div>
+              <div class="project-lang"><span class="lang-dot rust"></span>Rust</div>
+            </div>
+            <span class="project-arrow">&#8599;</span>
           </a>
-          <a href="https://github.com/Lulzx/botcatalyst" class="project">
-            <h3>Bot Catalyst</h3>
-            <p>Community for Telegram bot developers.</p>
+          <a href="https://github.com/Lulzx/orbit" class="project" target="_blank">
+            <div class="project-header">
+              <h3>orbit</h3>
+              <div class="project-meta">
+                <div class="project-lang"><span class="lang-dot rust"></span>Rust</div>
+              </div>
+            </div>
+            <p>The Spatial Dashboard for your Terminal Workflow. Built with Ratatui.</p>
+            <div class="project-topics">
+              <span class="topic">ratatui</span>
+              <span class="topic">tui</span>
+            </div>
+            <span class="project-arrow">&#8599;</span>
+          </a>
+          <a href="https://github.com/Lulzx/tanstack-bun" class="project" target="_blank">
+            <div class="project-header">
+              <h3>tanstack-bun</h3>
+              <div class="project-meta">
+                <div class="project-stars">3 stars</div>
+                <div class="project-lang"><span class="lang-dot typescript"></span>TS</div>
+              </div>
+            </div>
+            <p>Minimal TanStack Router with SSR using only Bun's native APIs. Start-like features, zero overhead.</p>
+            <div class="project-topics">
+              <span class="topic">bun</span>
+              <span class="topic">ssr</span>
+              <span class="topic">tanstack</span>
+            </div>
+            <span class="project-arrow">&#8599;</span>
           </a>
         </div>
       </section>
 
       <section>
-        <h2>Active</h2>
-        <p>Production-ready. Being used by people.</p>
-        <div class="projects">
-          <a href="https://t.me/s/sumitupideas" class="project">
-            <h3>Sum It Up</h3>
-            <p>Web content summarization for busy humans.</p>
+        <div class="section-header">
+          <h2>ML & Inference</h2>
+          <span class="section-count">Apple Silicon, LLMs, research</span>
+        </div>
+        <div class="projects-grid">
+          <a href="https://github.com/Lulzx/speculative-decoding" class="project" target="_blank">
+            <div class="project-header">
+              <h3>speculative-decoding</h3>
+              <div class="project-meta">
+                <div class="project-lang"><span class="lang-dot swift"></span>Swift</div>
+              </div>
+            </div>
+            <p>Native speculative decoding for fast LLM inference on Apple Silicon using MLX-Swift.</p>
+            <div class="project-topics">
+              <span class="topic">mlx</span>
+              <span class="topic">llm</span>
+              <span class="topic">inference</span>
+            </div>
+            <span class="project-arrow">&#8599;</span>
           </a>
-          <a href="https://github.com/lulzx/shoten" class="project">
-            <h3>Shoten</h3>
-            <p>E-book platform for the web.</p>
+          <a href="https://github.com/Lulzx/nano-reasoning" class="project" target="_blank">
+            <div class="project-header">
+              <h3>nano-reasoning</h3>
+              <div class="project-meta">
+                <div class="project-lang"><span class="lang-dot swift"></span>Swift</div>
+              </div>
+            </div>
+            <p>High-performance port of FastRL to Apple Silicon using MLX-Swift.</p>
+            <div class="project-topics">
+              <span class="topic">mlx-swift</span>
+              <span class="topic">fastrl</span>
+            </div>
+            <span class="project-arrow">&#8599;</span>
+          </a>
+          <a href="https://github.com/Lulzx/paddleocr-vl.swift" class="project" target="_blank">
+            <div class="project-header">
+              <h3>paddleocr-vl.swift</h3>
+              <div class="project-meta">
+                <div class="project-lang"><span class="lang-dot swift"></span>Swift</div>
+              </div>
+            </div>
+            <p>Native Swift + MLX port of PaddleOCR-VL. 0.9B doc parsing VLM for OCR, tables, formulas.</p>
+            <div class="project-topics">
+              <span class="topic">ocr</span>
+              <span class="topic">vlm</span>
+            </div>
+            <span class="project-arrow">&#8599;</span>
+          </a>
+          <a href="https://github.com/Lulzx/masked" class="project" target="_blank">
+            <div class="project-header">
+              <h3>masked</h3>
+              <div class="project-meta">
+                <div class="project-stars">1 star</div>
+                <div class="project-lang"><span class="lang-dot python"></span>Python</div>
+              </div>
+            </div>
+            <p>Masked diffusion language model implementation.</p>
+            <span class="project-arrow">&#8599;</span>
+          </a>
+          <a href="https://github.com/Lulzx/paragon" class="project" target="_blank">
+            <div class="project-header">
+              <h3>paragon</h3>
+              <div class="project-meta">
+                <div class="project-stars">3 stars</div>
+              </div>
+            </div>
+            <p>Provably correct, high-performance model training using Bend's massively parallel capabilities.</p>
+            <span class="project-arrow">&#8599;</span>
+          </a>
+          <a href="https://github.com/Lulzx/neurodiverse" class="project" target="_blank">
+            <div class="project-header">
+              <h3>neurodiverse</h3>
+              <div class="project-meta">
+                <div class="project-stars">3 stars</div>
+              </div>
+            </div>
+            <p>Research and Development for AI powered Memory Prosthetics.</p>
+            <span class="project-arrow">&#8599;</span>
           </a>
         </div>
       </section>
 
       <section>
-        <h2>Completed</h2>
-        <p>Done. Still works, no longer actively maintained.</p>
-        <div class="projects">
-          <a href="https://github.com/Lulzx/leaflet" class="project">
-            <h3>Leaflet</h3>
-            <p>Bot for executing code snippets in Telegram.</p>
+        <div class="section-header">
+          <h2>Web & Libraries</h2>
+          <span class="section-count">Svelte, Vue, web video</span>
+        </div>
+        <div class="projects-grid">
+          <a href="https://github.com/Lulzx/svelte-luma" class="project" target="_blank">
+            <div class="project-header">
+              <h3>svelte-luma</h3>
+              <div class="project-meta">
+                <div class="project-lang"><span class="lang-dot typescript"></span>TS</div>
+              </div>
+            </div>
+            <p>Svelte bindings for luma.gl - high-performance WebGL2/WebGPU rendering.</p>
+            <div class="project-topics">
+              <span class="topic">svelte</span>
+              <span class="topic">webgl2</span>
+              <span class="topic">webgpu</span>
+            </div>
+            <span class="project-arrow">&#8599;</span>
           </a>
-          <a href="https://t.me/ThroneRoomBot" class="project">
-            <h3>Throne Room Finder</h3>
-            <p>Find nearby restrooms.</p>
+          <a href="https://github.com/Lulzx/vibe-check" class="project" target="_blank">
+            <div class="project-header">
+              <h3>vibe-check</h3>
+              <div class="project-meta">
+                <div class="project-lang"><span class="lang-dot vue"></span>Vue</div>
+              </div>
+            </div>
+            <p>Check copywriting for your landing page. Instant feedback on tone and clarity.</p>
+            <span class="project-arrow">&#8599;</span>
           </a>
-          <a href="https://t.me/oreillybot" class="project">
-            <h3>O'Reilly Parody Generator</h3>
-            <p>Generate snarky O'RLY book covers.</p>
+          <a href="https://github.com/Lulzx/tickets" class="project" target="_blank">
+            <div class="project-header">
+              <h3>tickets</h3>
+              <div class="project-meta">
+                <div class="project-lang"><span class="lang-dot solidity"></span>Solidity</div>
+              </div>
+            </div>
+            <p>DApp for buying, selling, and trading verifiable football tickets as NFTs.</p>
+            <span class="project-arrow">&#8599;</span>
           </a>
-          <a href="https://github.com/Lulzx/messagemerger" class="project">
-            <h3>Message Merger</h3>
-            <p>Concatenate and split Telegram messages.</p>
+          <a href="https://github.com/Lulzx/discover" class="project" target="_blank">
+            <div class="project-header">
+              <h3>discover</h3>
+              <div class="project-meta">
+                <div class="project-stars">4 stars</div>
+                <div class="project-lang"><span class="lang-dot python"></span>Python</div>
+              </div>
+            </div>
+            <p>Information retrieval experiments for building a discover engine.</p>
+            <span class="project-arrow">&#8599;</span>
           </a>
-          <a href="https://github.com/lulzx/puml" class="project">
-            <h3>PUML</h3>
-            <p>Create UML sequence diagrams on the fly.</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <h2>Telegram Bots</h2>
+          <span class="section-count">Automation, utilities</span>
+        </div>
+        <div class="projects-grid">
+          <a href="https://github.com/Lulzx/tg-jekyll" class="project" target="_blank">
+            <div class="project-header">
+              <h3>tg-jekyll</h3>
+              <div class="project-meta">
+                <div class="project-stars">2 stars</div>
+                <div class="project-lang"><span class="lang-dot python"></span>Python</div>
+              </div>
+            </div>
+            <p>Automatically create blog posts from Telegram channel updates.</p>
+            <span class="project-arrow">&#8599;</span>
+          </a>
+          <a href="https://github.com/Lulzx/subtitles" class="project" target="_blank">
+            <div class="project-header">
+              <h3>subtitles</h3>
+              <div class="project-meta">
+                <div class="project-stars">2 stars</div>
+                <div class="project-lang"><span class="lang-dot python"></span>Python</div>
+              </div>
+            </div>
+            <p>Create videos with subtitles using moviepy. Simple, scriptable.</p>
+            <span class="project-arrow">&#8599;</span>
+          </a>
+          <a href="https://github.com/Lulzx/sentence-similarity-search" class="project" target="_blank">
+            <div class="project-header">
+              <h3>sentence-similarity-search</h3>
+              <div class="project-meta">
+                <div class="project-stars">1 star</div>
+                <div class="project-lang"><span class="lang-dot python"></span>Python</div>
+              </div>
+            </div>
+            <p>Similarity search using SentenceTransformer and HNSW indexing.</p>
+            <span class="project-arrow">&#8599;</span>
+          </a>
+          <a href="https://github.com/Lulzx/botlistbot" class="project" target="_blank">
+            <div class="project-header">
+              <h3>botlistbot</h3>
+              <div class="project-meta">
+                <div class="project-stars">1 star</div>
+                <div class="project-lang"><span class="lang-dot typescript"></span>TS</div>
+              </div>
+            </div>
+            <p>Telegram bot catalog and discovery platform.</p>
+            <span class="project-arrow">&#8599;</span>
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <h2>View All</h2>
+        </div>
+        <div class="projects-grid">
+          <a href="https://github.com/Lulzx?tab=repositories&q=&type=source&language=&sort=" class="project" target="_blank" style="text-align: center; padding: 32px;">
+            <p style="color: var(--text);">See all repositories on GitHub &#8599;</p>
           </a>
         </div>
       </section>
