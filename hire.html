@@ -1,33 +1,880 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/papercss@1.9.1/dist/paper.min.css"
-    />
-    <title>Hire Me</title>
-  </head>
-  <body>
-    <div class="paper container">
-      <h3>Hire Me</h3>
-      <br>
-      I charge $1,000 per day.
-      <br><br>
-      I like text, search interfaces, maps, data transformation, good design, lightweight and performant software
-      <br><br>
-      Schedule a <a href="https://cal.com/lulzx/30min">free consultation</a> or send me a message on <a href="https://t.me/lulzx">telegram</a> if you’re interested in working together.
-      <br><br>
-      <h4>Startup Emergencies</h4>
-      Engineering disasters, database problems, software performance issues, refactoring, crappy user interfaces, optimization
-      <br>
-      <h4>Creative Marketing</h4>
-      UI/UX design, graphic design, branding, storytelling, growth strategy, copywriting, market research, influencer marketing
-      <br>
-      <h4>Software Engineering</h4>
-      Rapid prototyping, web performance, systems architecture, database architecture, high-performance computing, chatbots
-    </div>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hire Lulzx - Software Engineer & Designer for consulting, development, and startup emergencies">
+  <title>Hire Me | Lulzx</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: #1a1a24;
+      --bg-card-hover: #22222e;
+      --accent-primary: #00d4ff;
+      --accent-secondary: #7c3aed;
+      --accent-tertiary: #10b981;
+      --accent-warm: #f59e0b;
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --border-color: #27272a;
+      --border-accent: #3f3f46;
+      --gradient-1: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+      --gradient-2: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+      --gradient-3: linear-gradient(135deg, #10b981 0%, #00d4ff 100%);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .bg-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bg-gradient {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.15;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .bg-gradient-1 {
+      top: -200px;
+      right: -100px;
+      background: var(--accent-primary);
+    }
+
+    .bg-gradient-2 {
+      bottom: 20%;
+      left: -200px;
+      background: var(--accent-secondary);
+      animation-delay: -5s;
+    }
+
+    .bg-gradient-3 {
+      top: 50%;
+      right: 20%;
+      background: var(--accent-tertiary);
+      width: 400px;
+      height: 400px;
+      animation-delay: -10s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    /* Grid Pattern */
+    .grid-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    nav {
+      padding: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-primary);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 100px;
+      font-size: 0.875rem;
+      color: var(--accent-primary);
+      margin-bottom: 32px;
+    }
+
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-tertiary);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-1);
+      color: var(--bg-primary);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+    }
+
+    /* Rate Card */
+    .rate-section {
+      padding: 40px 0;
+    }
+
+    .rate-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rate-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gradient-1);
+    }
+
+    .rate-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .rate-amount {
+      font-size: 4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .rate-amount span {
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+
+    .rate-desc {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    /* Services Section */
+    .services-section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-label {
+      font-size: 0.875rem;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 32px;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .service-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+    }
+
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 24px;
+    }
+
+    .service-icon.emergency { background: rgba(239, 68, 68, 0.15); }
+    .service-icon.creative { background: rgba(168, 85, 247, 0.15); }
+    .service-icon.engineering { background: rgba(16, 185, 129, 0.15); }
+
+    .service-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .service-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .service-tag {
+      padding: 6px 12px;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Interests Section */
+    .interests-section {
+      padding: 60px 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .interests-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .interests-label {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .interests-sublabel {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+
+    .interests-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .interest-tag {
+      padding: 12px 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 100px;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .interest-tag:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    /* Process Section */
+    .process-section {
+      padding: 80px 0;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 32px;
+    }
+
+    .process-step {
+      text-align: center;
+      padding: 32px 24px;
+    }
+
+    .process-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0 auto 20px;
+      color: var(--accent-primary);
+    }
+
+    .process-step h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .process-step p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 80px 0;
+    }
+
+    .cta-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-card h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-card p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 60px 0 40px;
+      }
+
+      .rate-card {
+        padding: 32px 24px;
+      }
+
+      .rate-amount {
+        font-size: 3rem;
+      }
+
+      .interests-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-card {
+        padding: 40px 24px;
+      }
+
+      .process-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-in {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-wrapper">
+    <div class="bg-gradient bg-gradient-1"></div>
+    <div class="bg-gradient bg-gradient-2"></div>
+    <div class="bg-gradient bg-gradient-3"></div>
+    <div class="grid-pattern"></div>
+  </div>
+
+  <div class="container">
+    <!-- Navigation -->
+    <nav>
+      <a href="./" class="logo">
+        <span class="logo-dot"></span>
+        lulzx
+      </a>
+      <div class="nav-links">
+        <a href="./me.html">About</a>
+        <a href="./projects.html">Projects</a>
+        <a href="https://github.com/lulzx">GitHub</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Available for new projects
+      </div>
+      <h1>Build Better Software,<br>Ship Faster</h1>
+      <p class="hero-subtitle">
+        I help startups and teams solve complex engineering challenges,
+        fix critical issues, and build software that scales.
+      </p>
+      <div class="hero-cta">
+        <a href="https://cal.com/lulzx/30min" class="btn btn-primary">
+          Book a Call
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="https://t.me/lulzx" class="btn btn-secondary">
+          Message on Telegram
+        </a>
+      </div>
+    </section>
+
+    <!-- Rate Card -->
+    <section class="rate-section">
+      <div class="rate-card">
+        <div class="rate-label">Daily Rate</div>
+        <div class="rate-amount">$1,000 <span>/ day</span></div>
+        <div class="rate-desc">Professional consulting & development</div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section">
+      <div class="section-header">
+        <div class="section-label">Services</div>
+        <h2 class="section-title">What I Can Help With</h2>
+        <p class="section-desc">From emergency fixes to building new products from scratch</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon emergency">🚨</div>
+          <h3>Startup Emergencies</h3>
+          <p>When things break at the worst time. I jump in to diagnose, fix, and prevent future disasters.</p>
+          <div class="service-tags">
+            <span class="service-tag">Engineering disasters</span>
+            <span class="service-tag">Database issues</span>
+            <span class="service-tag">Performance</span>
+            <span class="service-tag">Refactoring</span>
+            <span class="service-tag">Optimization</span>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon creative">🎨</div>
+          <h3>Creative & Marketing</h3>
+          <p>Design that converts. Strategy that grows. From brand identity to growth experiments.</p>
+          <div class="service-tags">
+            <span class="service-tag">UI/UX Design</span>
+            <span class="service-tag">Branding</span>
+            <span class="service-tag">Growth Strategy</span>
+            <span class="service-tag">Copywriting</span>
+            <span class="service-tag">Market Research</span>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon engineering">⚡</div>
+          <h3>Software Engineering</h3>
+          <p>Building robust, scalable systems. From rapid prototypes to production-ready architecture.</p>
+          <div class="service-tags">
+            <span class="service-tag">Rapid Prototyping</span>
+            <span class="service-tag">Web Performance</span>
+            <span class="service-tag">Systems Architecture</span>
+            <span class="service-tag">APIs</span>
+            <span class="service-tag">Chatbots</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interests Section -->
+    <section class="interests-section">
+      <div class="interests-content">
+        <div>
+          <div class="interests-label">I love working on</div>
+          <div class="interests-sublabel">Things that get me excited</div>
+        </div>
+        <div class="interests-tags">
+          <span class="interest-tag">Text Interfaces</span>
+          <span class="interest-tag">Search Engines</span>
+          <span class="interest-tag">Maps</span>
+          <span class="interest-tag">Data Transformation</span>
+          <span class="interest-tag">Good Design</span>
+          <span class="interest-tag">Performance</span>
+          <span class="interest-tag">Lightweight Software</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+      <div class="section-header">
+        <div class="section-label">Process</div>
+        <h2 class="section-title">How We Work Together</h2>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="process-number">1</div>
+          <h4>Discovery Call</h4>
+          <p>Free 30-min consultation to understand your needs</p>
+        </div>
+        <div class="process-step">
+          <div class="process-number">2</div>
+          <h4>Proposal</h4>
+          <p>Clear scope, timeline, and deliverables</p>
+        </div>
+        <div class="process-step">
+          <div class="process-number">3</div>
+          <h4>Execute</h4>
+          <p>Focused work with regular updates</p>
+        </div>
+        <div class="process-step">
+          <div class="process-number">4</div>
+          <h4>Deliver</h4>
+          <p>Polished results with documentation</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="cta-card">
+        <div class="cta-content">
+          <h2>Ready to start?</h2>
+          <p>Let's discuss your project and see how I can help you ship faster.</p>
+          <div class="cta-buttons">
+            <a href="https://cal.com/lulzx/30min" class="btn btn-primary">
+              Schedule Free Consultation
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="https://t.me/lulzx" class="btn btn-secondary">
+              Quick Message
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-links">
+        <a href="https://github.com/lulzx">GitHub</a>
+        <a href="https://t.me/lulzx">Telegram</a>
+        <a href="./me.html">About Me</a>
+        <a href="./projects.html">Projects</a>
+      </div>
+      <div class="footer-copy">&copy; 2025 Lulzx</div>
+    </footer>
+  </div>
+
+  <script>
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.service-card, .process-step, .interest-tag').forEach(el => {
+      el.style.opacity = '0';
+      observer.observe(el);
+    });
+
+    // Smooth hover effect on cards
+    document.querySelectorAll('.service-card, .rate-card, .cta-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        card.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--bg-card-hover), var(--bg-card))`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.background = '';
+      });
+    });
+  </script>
+</body>
 </html>
