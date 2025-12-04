@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Hire Lulzx - Software Engineer & Designer for consulting, development, and startup emergencies">
-  <title>Hire Me | Lulzx</title>
+  <meta name="description" content="I design and develop high-performance software and developer tools that scale.">
+  <title>Lulzx | Product Development & Consulting</title>
   <style>
     * {
       margin: 0;
@@ -15,19 +15,20 @@
     :root {
       --bg-primary: #0a0a0f;
       --bg-secondary: #12121a;
-      --bg-card: #1a1a24;
-      --bg-card-hover: #22222e;
+      --bg-card: #16161e;
+      --bg-card-hover: #1e1e28;
       --accent-primary: #00d4ff;
       --accent-secondary: #7c3aed;
       --accent-tertiary: #10b981;
-      --accent-warm: #f59e0b;
+      --accent-orange: #ff6b35;
+      --accent-pink: #ec4899;
       --text-primary: #ffffff;
       --text-secondary: #a1a1aa;
       --text-muted: #71717a;
       --border-color: #27272a;
       --border-accent: #3f3f46;
       --gradient-1: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
-      --gradient-2: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+      --gradient-2: linear-gradient(135deg, #ff6b35 0%, #ec4899 100%);
       --gradient-3: linear-gradient(135deg, #10b981 0%, #00d4ff 100%);
     }
 
@@ -111,6 +112,14 @@
       z-index: 1;
     }
 
+    .container-wide {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
     /* Navigation */
     nav {
       padding: 24px 0;
@@ -133,7 +142,7 @@
     .logo-dot {
       width: 8px;
       height: 8px;
-      background: var(--accent-primary);
+      background: var(--accent-tertiary);
       border-radius: 50%;
       animation: pulse-dot 2s ease-in-out infinite;
     }
@@ -146,6 +155,7 @@
     .nav-links {
       display: flex;
       gap: 32px;
+      align-items: center;
     }
 
     .nav-links a {
@@ -160,57 +170,53 @@
       color: var(--text-primary);
     }
 
+    .nav-cta {
+      background: var(--text-primary);
+      color: var(--bg-primary) !important;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+    }
+
     /* Hero Section */
     .hero {
-      padding: 80px 0 60px;
-      text-align: center;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: rgba(0, 212, 255, 0.1);
-      border: 1px solid rgba(0, 212, 255, 0.2);
-      border-radius: 100px;
-      font-size: 0.875rem;
-      color: var(--accent-primary);
-      margin-bottom: 32px;
-    }
-
-    .hero-badge-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--accent-tertiary);
-      border-radius: 50%;
-      animation: pulse-dot 2s ease-in-out infinite;
+      padding: 100px 0 80px;
+      max-width: 900px;
     }
 
     .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.1;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
+      color: var(--text-primary);
+    }
+
+    .hero h1 .highlight {
       background: var(--gradient-1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .hero-subtitle {
-      font-size: 1.25rem;
+    .hero-desc {
+      font-size: 1.35rem;
       color: var(--text-secondary);
-      max-width: 600px;
-      margin: 0 auto 48px;
+      max-width: 700px;
       line-height: 1.7;
+      margin-bottom: 48px;
     }
 
     .hero-cta {
       display: flex;
       gap: 16px;
-      justify-content: center;
       flex-wrap: wrap;
     }
 
@@ -218,8 +224,8 @@
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 14px 28px;
+      gap: 10px;
+      padding: 16px 32px;
       border-radius: 12px;
       font-size: 1rem;
       font-weight: 600;
@@ -230,42 +236,320 @@
     }
 
     .btn-primary {
-      background: var(--gradient-1);
+      background: var(--text-primary);
       color: var(--bg-primary);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3);
+      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
     }
 
     .btn-secondary {
-      background: var(--bg-card);
+      background: transparent;
       color: var(--text-primary);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-accent);
     }
 
     .btn-secondary:hover {
+      background: var(--bg-card);
+      border-color: var(--text-secondary);
+    }
+
+    /* Expertise Section */
+    .expertise-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .expertise-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-bottom: 80px;
+      align-items: start;
+    }
+
+    .expertise-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .expertise-desc {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    /* Services Grid - Evil Martians Style */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: var(--border-color);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      padding: 48px;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .service-card:hover {
       background: var(--bg-card-hover);
-      border-color: var(--border-accent);
     }
 
-    /* Rate Card */
-    .rate-section {
-      padding: 40px 0;
+    .service-card.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
     }
 
-    .rate-card {
+    .service-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin-bottom: 28px;
+    }
+
+    .service-icon.architecture { background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.15)); }
+    .service-icon.performance { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(0, 212, 255, 0.15)); }
+    .service-icon.product { background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(236, 72, 153, 0.15)); }
+    .service-icon.design { background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(236, 72, 153, 0.15)); }
+
+    .service-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .service-card p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .service-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .service-list li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      background: var(--bg-secondary);
+      border-radius: 100px;
+      border: 1px solid var(--border-color);
+    }
+
+    .featured-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      position: relative;
+    }
+
+    .featured-badge {
+      background: var(--gradient-2);
+      padding: 80px 60px;
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    .featured-badge .rate {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    .featured-badge .rate-label {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 8px;
+    }
+
+    /* Stack Section */
+    .stack-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .stack-label {
+      font-size: 0.875rem;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .stack-title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .stack-desc {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .tech-item {
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .tech-item:hover {
+      border-color: var(--accent-primary);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Process Section */
+    .process-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .process-header {
+      max-width: 600px;
+      margin-bottom: 60px;
+    }
+
+    .process-title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .process-desc {
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+      line-height: 1.7;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--border-color);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .process-step {
+      background: var(--bg-card);
+      padding: 40px 32px;
+      position: relative;
+    }
+
+    .process-step:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .step-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--border-accent);
+      margin-bottom: 20px;
+      line-height: 1;
+    }
+
+    .process-step h4 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .process-step p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 120px 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .cta-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .cta-text h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .cta-text p {
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cta-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 24px;
       padding: 48px;
-      text-align: center;
       position: relative;
       overflow: hidden;
     }
 
-    .rate-card::before {
+    .cta-card::before {
       content: '';
       position: absolute;
       top: 0;
@@ -275,291 +559,52 @@
       background: var(--gradient-1);
     }
 
-    .rate-label {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 8px;
-    }
-
-    .rate-amount {
-      font-size: 4rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-
-    .rate-amount span {
-      color: var(--text-muted);
-      font-size: 1.5rem;
-      font-weight: 400;
-    }
-
-    .rate-desc {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
-    }
-
-    /* Services Section */
-    .services-section {
-      padding: 80px 0;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .section-label {
-      font-size: 0.875rem;
-      color: var(--accent-primary);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-size: clamp(2rem, 4vw, 2.5rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-
-    .section-desc {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    /* Services Grid */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 24px;
-    }
-
-    .service-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 32px;
-      transition: all 0.3s;
-      position: relative;
-    }
-
-    .service-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-accent);
-      transform: translateY(-4px);
-    }
-
-    .service-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 24px;
-    }
-
-    .service-icon.emergency { background: rgba(239, 68, 68, 0.15); }
-    .service-icon.creative { background: rgba(168, 85, 247, 0.15); }
-    .service-icon.engineering { background: rgba(16, 185, 129, 0.15); }
-
-    .service-card h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-      letter-spacing: -0.01em;
-    }
-
-    .service-card p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-
-    .service-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .service-tag {
-      padding: 6px 12px;
-      background: var(--bg-secondary);
-      border-radius: 6px;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-    }
-
-    /* Interests Section */
-    .interests-section {
-      padding: 60px 0;
-      border-top: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .interests-content {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 60px;
-      align-items: start;
-    }
-
-    .interests-label {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .interests-sublabel {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-top: 8px;
-    }
-
-    .interests-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .interest-tag {
-      padding: 12px 24px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 100px;
-      font-size: 0.95rem;
-      color: var(--text-primary);
-      font-weight: 500;
-      transition: all 0.2s;
-    }
-
-    .interest-tag:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
-    }
-
-    /* Process Section */
-    .process-section {
-      padding: 80px 0;
-    }
-
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 32px;
-    }
-
-    .process-step {
-      text-align: center;
-      padding: 32px 24px;
-    }
-
-    .process-number {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin: 0 auto 20px;
-      color: var(--accent-primary);
-    }
-
-    .process-step h4 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .process-step p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-    }
-
-    /* CTA Section */
-    .cta-section {
-      padding: 80px 0;
-    }
-
-    .cta-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 24px;
-      padding: 60px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
-      animation: rotate 20s linear infinite;
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .cta-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-card h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
-    }
-
-    .cta-card p {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
+    .contact-item {
       margin-bottom: 32px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
     }
 
-    .cta-buttons {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
+    .contact-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .contact-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .contact-value {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+
+    .contact-value a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .contact-value a:hover {
+      opacity: 0.8;
     }
 
     /* Footer */
     footer {
-      padding: 40px 0;
+      padding: 60px 0;
       border-top: 1px solid var(--border-color);
-      text-align: center;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .footer-links {
       display: flex;
       gap: 32px;
-      justify-content: center;
-      margin-bottom: 24px;
     }
 
     .footer-links a {
@@ -579,6 +624,37 @@
     }
 
     /* Responsive */
+    @media (max-width: 1024px) {
+      .expertise-header {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card.featured {
+        grid-column: span 1;
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .stack-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -588,45 +664,49 @@
         padding: 60px 0 40px;
       }
 
-      .rate-card {
-        padding: 32px 24px;
+      .hero h1 {
+        font-size: 2.2rem;
       }
 
-      .rate-amount {
-        font-size: 3rem;
+      .hero-desc {
+        font-size: 1.1rem;
       }
 
-      .interests-content {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .cta-card {
-        padding: 40px 24px;
+      .service-card {
+        padding: 32px;
       }
 
       .process-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
       }
     }
 
     @media (max-width: 480px) {
-      .process-grid {
-        grid-template-columns: 1fr;
-      }
-
       .hero-cta {
         flex-direction: column;
-        align-items: center;
       }
 
       .btn {
         width: 100%;
         justify-content: center;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .featured-badge {
+        padding: 48px 32px;
+      }
+
+      .featured-badge .rate {
+        font-size: 2.5rem;
       }
     }
 
@@ -634,7 +714,7 @@
     @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
       }
       to {
         opacity: 1;
@@ -645,11 +725,6 @@
     .animate-in {
       animation: fadeInUp 0.6s ease-out forwards;
     }
-
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-    .delay-4 { animation-delay: 0.4s; }
   </style>
 </head>
 <body>
@@ -672,23 +747,19 @@
         <a href="./me.html">About</a>
         <a href="./projects.html">Projects</a>
         <a href="https://github.com/lulzx">GitHub</a>
+        <a href="https://cal.com/lulzx/30min" class="nav-cta">Book a Call</a>
       </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        Available for new projects
-      </div>
-      <h1>Build Better Software,<br>Ship Faster</h1>
-      <p class="hero-subtitle">
-        I help startups and teams solve complex engineering challenges,
-        fix critical issues, and build software that scales.
+      <h1>I design and develop <span class="highlight">high-performance software</span> that scales.</h1>
+      <p class="hero-desc">
+        Product development consulting for startups and teams. From rapid prototypes to production systems, I help you ship faster and build better.
       </p>
       <div class="hero-cta">
         <a href="https://cal.com/lulzx/30min" class="btn btn-primary">
-          Book a Call
+          Schedule Consultation
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
@@ -698,125 +769,181 @@
         </a>
       </div>
     </section>
+  </div>
 
-    <!-- Rate Card -->
-    <section class="rate-section">
-      <div class="rate-card">
-        <div class="rate-label">Daily Rate</div>
-        <div class="rate-amount">$1,000 <span>/ day</span></div>
-        <div class="rate-desc">Professional consulting & development</div>
+  <!-- Expertise Section -->
+  <section class="expertise-section">
+    <div class="container">
+      <div class="expertise-header">
+        <h2 class="expertise-title">Deep expertise in building products that matter</h2>
+        <p class="expertise-desc">
+          I've spent years helping startups and companies ship software that users love. From fixing critical production issues to architecting systems from scratch, I bring both technical depth and product thinking to every engagement.
+        </p>
       </div>
-    </section>
+    </div>
 
-    <!-- Services Section -->
-    <section class="services-section">
-      <div class="section-header">
-        <div class="section-label">Services</div>
-        <h2 class="section-title">What I Can Help With</h2>
-        <p class="section-desc">From emergency fixes to building new products from scratch</p>
-      </div>
-
+    <div class="container-wide">
       <div class="services-grid">
+        <!-- Featured Card -->
+        <div class="service-card featured">
+          <div>
+            <div class="service-icon product">🚀</div>
+            <h3>Product Development</h3>
+            <p>
+              End-to-end development from concept to launch. I work with founders and teams to build MVPs, scale existing products, and solve complex technical challenges. Fast iterations, clean architecture, shipped on time.
+            </p>
+            <ul class="service-list">
+              <li>Rapid Prototyping</li>
+              <li>MVP Development</li>
+              <li>Technical Strategy</li>
+              <li>Code Review</li>
+              <li>Team Augmentation</li>
+            </ul>
+          </div>
+          <div class="featured-visual">
+            <div class="featured-badge">
+              <div class="rate">$1,000</div>
+              <div class="rate-label">per day</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Regular Cards -->
         <div class="service-card">
-          <div class="service-icon emergency">🚨</div>
+          <div class="service-icon architecture">🏗️</div>
+          <h3>Systems Architecture</h3>
+          <p>
+            Designing scalable systems that grow with your business. Database architecture, API design, microservices, and infrastructure that handles real-world load.
+          </p>
+          <ul class="service-list">
+            <li>API Design</li>
+            <li>Database Design</li>
+            <li>Cloud Architecture</li>
+            <li>Scalability</li>
+          </ul>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon performance">⚡</div>
+          <h3>Performance & Optimization</h3>
+          <p>
+            When your app is slow, users leave. I diagnose bottlenecks, optimize queries, improve load times, and make your software fast.
+          </p>
+          <ul class="service-list">
+            <li>Web Performance</li>
+            <li>Database Optimization</li>
+            <li>Caching Strategies</li>
+            <li>Profiling</li>
+          </ul>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon design">🎨</div>
+          <h3>Design & User Experience</h3>
+          <p>
+            Interfaces that convert. I design and build user experiences that are both beautiful and functional, with attention to the details that matter.
+          </p>
+          <ul class="service-list">
+            <li>UI/UX Design</li>
+            <li>Frontend Development</li>
+            <li>Design Systems</li>
+            <li>Branding</li>
+          </ul>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon architecture">🔧</div>
           <h3>Startup Emergencies</h3>
-          <p>When things break at the worst time. I jump in to diagnose, fix, and prevent future disasters.</p>
-          <div class="service-tags">
-            <span class="service-tag">Engineering disasters</span>
-            <span class="service-tag">Database issues</span>
-            <span class="service-tag">Performance</span>
-            <span class="service-tag">Refactoring</span>
-            <span class="service-tag">Optimization</span>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon creative">🎨</div>
-          <h3>Creative & Marketing</h3>
-          <p>Design that converts. Strategy that grows. From brand identity to growth experiments.</p>
-          <div class="service-tags">
-            <span class="service-tag">UI/UX Design</span>
-            <span class="service-tag">Branding</span>
-            <span class="service-tag">Growth Strategy</span>
-            <span class="service-tag">Copywriting</span>
-            <span class="service-tag">Market Research</span>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon engineering">⚡</div>
-          <h3>Software Engineering</h3>
-          <p>Building robust, scalable systems. From rapid prototypes to production-ready architecture.</p>
-          <div class="service-tags">
-            <span class="service-tag">Rapid Prototyping</span>
-            <span class="service-tag">Web Performance</span>
-            <span class="service-tag">Systems Architecture</span>
-            <span class="service-tag">APIs</span>
-            <span class="service-tag">Chatbots</span>
-          </div>
+          <p>
+            Production is down. The demo is tomorrow. The investor meeting is in two hours. I jump in fast, diagnose the problem, and fix it.
+          </p>
+          <ul class="service-list">
+            <li>Crisis Response</li>
+            <li>Bug Fixing</li>
+            <li>Debugging</li>
+            <li>Recovery</li>
+          </ul>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Interests Section -->
-    <section class="interests-section">
-      <div class="interests-content">
+  <!-- Stack Section -->
+  <section class="stack-section">
+    <div class="container">
+      <div class="stack-grid">
         <div>
-          <div class="interests-label">I love working on</div>
-          <div class="interests-sublabel">Things that get me excited</div>
+          <div class="stack-label">Technical Stack</div>
+          <h3 class="stack-title">Tools I use to build</h3>
+          <p class="stack-desc">
+            I work with modern technologies and pick the right tool for the job. Here's what I use most often.
+          </p>
         </div>
-        <div class="interests-tags">
-          <span class="interest-tag">Text Interfaces</span>
-          <span class="interest-tag">Search Engines</span>
-          <span class="interest-tag">Maps</span>
-          <span class="interest-tag">Data Transformation</span>
-          <span class="interest-tag">Good Design</span>
-          <span class="interest-tag">Performance</span>
-          <span class="interest-tag">Lightweight Software</span>
+        <div class="tech-grid">
+          <div class="tech-item">Python</div>
+          <div class="tech-item">JavaScript</div>
+          <div class="tech-item">TypeScript</div>
+          <div class="tech-item">Node.js</div>
+          <div class="tech-item">React</div>
+          <div class="tech-item">PostgreSQL</div>
+          <div class="tech-item">Redis</div>
+          <div class="tech-item">Docker</div>
+          <div class="tech-item">AWS</div>
+          <div class="tech-item">Telegram Bots</div>
+          <div class="tech-item">Web Scraping</div>
+          <div class="tech-item">APIs</div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Process Section -->
-    <section class="process-section">
-      <div class="section-header">
-        <div class="section-label">Process</div>
-        <h2 class="section-title">How We Work Together</h2>
+  <!-- Process Section -->
+  <section class="process-section">
+    <div class="container">
+      <div class="process-header">
+        <h2 class="process-title">How we work together</h2>
+        <p class="process-desc">
+          A simple, transparent process focused on delivering results. No bureaucracy, no wasted time.
+        </p>
       </div>
 
       <div class="process-grid">
         <div class="process-step">
-          <div class="process-number">1</div>
-          <h4>Discovery Call</h4>
-          <p>Free 30-min consultation to understand your needs</p>
+          <div class="step-number">01</div>
+          <h4>Discovery</h4>
+          <p>Free 30-minute call to understand your project, challenges, and goals. No commitment required.</p>
         </div>
         <div class="process-step">
-          <div class="process-number">2</div>
+          <div class="step-number">02</div>
           <h4>Proposal</h4>
-          <p>Clear scope, timeline, and deliverables</p>
+          <p>Clear scope, timeline, and pricing. You know exactly what you're getting before we start.</p>
         </div>
         <div class="process-step">
-          <div class="process-number">3</div>
-          <h4>Execute</h4>
-          <p>Focused work with regular updates</p>
+          <div class="step-number">03</div>
+          <h4>Build</h4>
+          <p>Focused execution with regular updates. I ship working software, not slideware.</p>
         </div>
         <div class="process-step">
-          <div class="process-number">4</div>
+          <div class="step-number">04</div>
           <h4>Deliver</h4>
-          <p>Polished results with documentation</p>
+          <p>Polished deliverables with documentation. Your team can maintain and extend what I build.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-      <div class="cta-card">
-        <div class="cta-content">
-          <h2>Ready to start?</h2>
-          <p>Let's discuss your project and see how I can help you ship faster.</p>
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <div class="cta-text">
+          <h2>Let's build something great together</h2>
+          <p>
+            Whether you need to fix a critical issue, ship an MVP, or scale your existing product, I can help. Book a free consultation to discuss your project.
+          </p>
           <div class="cta-buttons">
             <a href="https://cal.com/lulzx/30min" class="btn btn-primary">
-              Schedule Free Consultation
+              Book Free Consultation
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
@@ -826,20 +953,49 @@
             </a>
           </div>
         </div>
+        <div class="cta-card">
+          <div class="contact-item">
+            <div class="contact-label">Email</div>
+            <div class="contact-value">
+              <a href="mailto:hello@lulzx.com">hello@lulzx.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-label">Telegram</div>
+            <div class="contact-value">
+              <a href="https://t.me/lulzx">@lulzx</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">
+              <a href="https://github.com/lulzx">github.com/lulzx</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-label">Availability</div>
+            <div class="contact-value">Open for new projects</div>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-links">
-        <a href="https://github.com/lulzx">GitHub</a>
-        <a href="https://t.me/lulzx">Telegram</a>
-        <a href="./me.html">About Me</a>
-        <a href="./projects.html">Projects</a>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="./">Home</a>
+          <a href="./me.html">About</a>
+          <a href="./projects.html">Projects</a>
+          <a href="https://github.com/lulzx">GitHub</a>
+          <a href="https://t.me/lulzx">Telegram</a>
+        </div>
+        <div class="footer-copy">&copy; 2025 Lulzx</div>
       </div>
-      <div class="footer-copy">&copy; 2025 Lulzx</div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   <script>
     // Intersection Observer for animations
@@ -856,18 +1012,17 @@
       });
     }, observerOptions);
 
-    document.querySelectorAll('.service-card, .process-step, .interest-tag').forEach(el => {
+    document.querySelectorAll('.service-card, .process-step, .tech-item').forEach(el => {
       el.style.opacity = '0';
       observer.observe(el);
     });
 
-    // Smooth hover effect on cards
-    document.querySelectorAll('.service-card, .rate-card, .cta-card').forEach(card => {
+    // Smooth hover effect on service cards
+    document.querySelectorAll('.service-card').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-
         card.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--bg-card-hover), var(--bg-card))`;
       });
 
