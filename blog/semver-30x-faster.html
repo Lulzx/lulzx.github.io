@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How I rewrote the semver package to be 30x faster with pre-computed versions and compiled range functions.">
+  <title>semver, but 30x faster | Lulzx</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #09090b;
+      --bg-subtle: #18181b;
+      --border: #27272a;
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    article {
+      padding: 80px 0;
+    }
+
+    .article-header {
+      margin-bottom: 48px;
+    }
+
+    .article-date {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .article-title {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .article-content {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .article-content p {
+      margin-bottom: 24px;
+    }
+
+    .article-content h2 {
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .article-content ul, .article-content ol {
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+
+    .article-content li {
+      margin-bottom: 8px;
+    }
+
+    .article-content code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 15px;
+      background: var(--bg-subtle);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .article-content pre {
+      background: var(--bg-subtle);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+
+    .article-content pre code {
+      background: none;
+      padding: 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .article-content strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .article-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    .article-content th, .article-content td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-content th {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover {
+      color: var(--text);
+    }
+
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+    }
+
+    footer a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-copy {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px) {
+      article {
+        padding: 48px 0;
+      }
+
+      .article-title {
+        font-size: 26px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      footer .container {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="../" class="logo">lulzx</a>
+      <div class="nav-links">
+        <a href="../about.html">About</a>
+        <a href="../projects.html">Projects</a>
+        <a href="./">Blog</a>
+        <a href="../hire.html">Hire</a>
+        <a href="https://github.com/lulzx">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <article>
+        <header class="article-header">
+          <div class="article-date">December 2025</div>
+          <h1 class="article-title">semver, but 30x faster</h1>
+        </header>
+
+        <div class="article-content">
+          <p>
+            every <code>npm install</code> parses version strings. thousands of them. <a href="https://marvinh.dev/blog/speeding-up-javascript-ecosystem-part-12/">marvin hagemeister found</a> that installing preact calls <code>semver</code> 21,000+ times. one package. 21 thousand version comparisons.
+          </p>
+
+          <p>
+            the <code>semver</code> package has 150 million weekly downloads. it's the backbone of npm's dependency resolution. and it's doing way more work than it needs to.
+          </p>
+
+          <p>
+            parsing <code>1.2.3</code> should be trivial. three numbers, two dots. but the official package:
+          </p>
+
+          <ul>
+            <li>creates class instances for every single parse. <code>new SemVer()</code> everywhere.</li>
+            <li>uses regex for parsing. yeah.</li>
+            <li>has this fancy Map-based LRU cache with access tracking, eviction policies, the works</li>
+            <li>re-parses the range string every time you call <code>satisfies()</code></li>
+          </ul>
+
+          <p>
+            this is the kind of code that looks reasonable until you realize it runs in a loop 21,000 times.
+          </p>
+
+          <h2>the dumb idea that worked</h2>
+
+          <p>
+            version numbers aren't random. you're not going to see <code>847293.1847.29847</code> in the wild. react is at 18.something. node is at 22.something. most packages never go past major version 50.
+          </p>
+
+          <p>
+            what if we just... precompute all of them?
+          </p>
+
+          <pre><code>const cache = Object.create(null);
+
+for (let M = 0; M < 50; M++) {
+  for (let m = 0; m < 50; m++) {
+    for (let p = 0; p < 20; p++) {
+      const s = M + '.' + m + '.' + p;
+      cache[s] = { major: M, minor: m, patch: p, pre: null };
+    }
+  }
+}</code></pre>
+
+          <p>
+            50,000 version objects. allocated once at module load. takes maybe 2-3ms on startup and a few hundred KB of memory.
+          </p>
+
+          <p>
+            now parsing <code>1.0.0</code> or <code>16.14.2</code> or <code>4.17.21</code> is just a hash lookup. no regex. no string splitting. no nothing. just <code>cache["1.0.0"]</code> and you're done.
+          </p>
+
+          <p>
+            this handles probably 95% of real-world versions. the remaining 5% (prereleases, build metadata, absurdly large numbers) still need proper parsing, but they're the exception.
+          </p>
+
+          <h2>Map is slow, actually</h2>
+
+          <p>
+            everyone says <code>Map</code> is fast. it is, for certain things. but for string key lookups, a plain object beats it.
+          </p>
+
+          <pre><code>// Map version
+const cached = cache.get(str);
+
+// Object version
+const cached = cache[str];</code></pre>
+
+          <p>
+            the difference? <code>.get()</code> is a method call. the object bracket notation is a direct property access that V8 can inline and optimize to basically a hash lookup. no function call overhead. just pointer arithmetic.
+          </p>
+
+          <p>
+            the trick is using <code>Object.create(null)</code> instead of <code>{}</code>. regular objects have prototype pollution issues and slightly slower lookups because V8 has to check the prototype chain. null-prototype objects are pure hash tables.
+          </p>
+
+          <h2>compiling ranges to functions</h2>
+
+          <p>
+            this is where it gets fun.
+          </p>
+
+          <p>
+            a version range like <code>^1.2.3</code> means "anything >= 1.2.3 and < 2.0.0". every time you call <code>satisfies("1.5.0", "^1.2.3")</code>, the old package would:
+          </p>
+
+          <ol>
+            <li>parse the range string</li>
+            <li>build some internal representation</li>
+            <li>parse the version string</li>
+            <li>compare them</li>
+          </ol>
+
+          <p>
+            but the range is always the same. <code>^1.2.3</code> will always mean the same thing. why not compile it once to a function?
+          </p>
+
+          <pre><code>// ^1.2.3 compiles to:
+(M, m, p, pr) => !pr && M === 1 && ((m - 2) || (p - 3)) >= 0</code></pre>
+
+          <p>
+            this closure gets cached. next time you check any version against <code>^1.2.3</code>, it's just a function call with four integers. no parsing. no comparisons against parsed objects. just raw arithmetic that V8 can optimize to near-native speed.
+          </p>
+
+          <p>
+            the <code>((m - 2) || (p - 3)) >= 0</code> trick is cute. it's a branchless way to check if minor > 2 OR (minor === 2 AND patch >= 3). the <code>||</code> operator returns the first truthy value, so if <code>m - 2</code> is positive we're done, otherwise we check the patch.
+          </p>
+
+          <h2>goodbye regex, hello charCodeAt</h2>
+
+          <p>
+            regex is powerful but expensive. for something as simple as parsing <code>1.2.3</code>, it's overkill. manual character-by-character parsing wins:
+          </p>
+
+          <pre><code>let major = 0;
+while (c >= 48 && c <= 57) {  // '0' to '9'
+  major = major * 10 + c - 48;
+  c = s.charCodeAt(++i);
+}</code></pre>
+
+          <p>
+            this is classic number parsing. read digits, multiply by 10, add the new digit. stop when you hit a non-digit. no regex engine startup, no backtracking, no capture groups. just a tight loop that probably fits in the L1 cache.
+          </p>
+
+          <p>
+            <code>charCodeAt</code> returns raw integer ASCII codes, so comparing <code>c >= 48</code> is faster than <code>char >= '0'</code> (no string comparison). it's the kind of micro-optimization that only matters when you're doing it millions of times.
+          </p>
+
+          <h2>function calls are not free</h2>
+
+          <p>
+            the original semver package has a <code>compare()</code> function, and then <code>gt()</code>, <code>lt()</code>, <code>gte()</code>, <code>lte()</code> all call it:
+          </p>
+
+          <pre><code>function gt(a, b) {
+  return compare(a, b) > 0;
+}</code></pre>
+
+          <p>
+            elegant! DRY! and slow.
+          </p>
+
+          <p>
+            every function call has overhead. pushing arguments to the stack, creating a new execution context, popping the return value. for hot code, you want to inline everything:
+          </p>
+
+          <pre><code>function gt(a, b) {
+  const va = parse(a), vb = parse(b);
+  return va.major > vb.major ||
+    (va.major === vb.major && (va.minor > vb.minor ||
+      (va.minor === vb.minor && va.patch > vb.patch)));
+}</code></pre>
+
+          <p>
+            uglier? yes. faster? also yes. V8 can sometimes inline for you, but "sometimes" isn't good enough when you're chasing 30x speedups.
+          </p>
+
+          <h2>the results</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Operation</th>
+                <th>semver</th>
+                <th>pico-semver</th>
+                <th>Speedup</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>parse</code></td>
+                <td>6M ops/s</td>
+                <td>208M ops/s</td>
+                <td><strong>35x</strong></td>
+              </tr>
+              <tr>
+                <td><code>satisfies</code></td>
+                <td>2.4M ops/s</td>
+                <td>70M ops/s</td>
+                <td><strong>30x</strong></td>
+              </tr>
+              <tr>
+                <td><code>valid</code></td>
+                <td>6M ops/s</td>
+                <td>186M ops/s</td>
+                <td><strong>31x</strong></td>
+              </tr>
+              <tr>
+                <td><code>maxSatisfying</code></td>
+                <td>700K ops/s</td>
+                <td>20M ops/s</td>
+                <td><strong>29x</strong></td>
+              </tr>
+              <tr>
+                <td><code>compare</code></td>
+                <td>7M ops/s</td>
+                <td>105M ops/s</td>
+                <td><strong>15x</strong></td>
+              </tr>
+              <tr>
+                <td><code>gt</code></td>
+                <td>7M ops/s</td>
+                <td>108M ops/s</td>
+                <td><strong>15x</strong></td>
+              </tr>
+              <tr>
+                <td><code>inc</code></td>
+                <td>11M ops/s</td>
+                <td>64M ops/s</td>
+                <td><strong>6x</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            208 million parses per second. version strings. javascript.
+          </p>
+
+          <p>
+            this doesn't matter for most applications. if you're parsing 100 versions, the difference is like 50 microseconds. who cares.
+          </p>
+
+          <p>
+            but if you're npm, or a bundler, or a monorepo tool resolving dependencies across 500 packages? those 21,000 calls per install add up. every developer's machine, every CI run, every deploy.
+          </p>
+
+          <h2>things that didn't work</h2>
+
+          <p>
+            not everything made things faster. optimization is humbling.
+          </p>
+
+          <p>
+            <strong>hash-based cache with fixed array:</strong> i thought replacing the object cache with a fixed-size array and a hash function would be faster. less memory allocation! no hash table resizing! except computing the hash cost more than just doing the object lookup. V8's internal hash tables are really good.
+          </p>
+
+          <p>
+            <strong>fast path for simple versions:</strong> i tried adding a <code>tryFastParse()</code> that would quickly check if a string matches the simple <code>X.Y.Z</code> pattern before hitting the cache. sounds smart, right? why do a cache lookup if you can parse directly? but the cache lookup is so fast that the extra check just added overhead.
+          </p>
+
+          <p>
+            <strong>caching inc() results:</strong> <code>inc("1.2.3", "minor")</code> returns <code>"1.3.0"</code>. why not cache it? because building the cache key (<code>version + '\0' + release</code>) costs more than just computing the result. some operations are so cheap that caching is overhead.
+          </p>
+
+          <p>
+            <strong>tagged unions instead of closures:</strong> i tried representing compiled ranges as data structures instead of functions, thinking a switch statement over a type tag would be faster than closure dispatch. it wasn't. V8 optimizes closures really well. like, really really well. the indirection of going through a type tag actually made things slower.
+          </p>
+
+          <p>
+            the lesson, as always: benchmark everything. your intuitions are probably wrong. mine certainly were.
+          </p>
+
+          <h2>the final stats</h2>
+
+          <ul>
+            <li><strong>6.4 kB</strong> gzipped (semver is ~17 kB)</li>
+            <li><strong>zero dependencies</strong></li>
+            <li><strong>~500 lines</strong> of typescript</li>
+          </ul>
+
+          <p>
+            could probably be smaller. but at some point you're just code golfing.
+          </p>
+
+          <h2>drop it in</h2>
+
+          <pre><code>// before
+import semver from 'semver';
+
+// after
+import * as semver from 'pico-semver';</code></pre>
+
+          <p>
+            same API. <code>parse</code>, <code>valid</code>, <code>satisfies</code>, <code>compare</code>, <code>gt</code>, <code>lt</code>, <code>gte</code>, <code>lte</code>, <code>eq</code>, <code>neq</code>, <code>maxSatisfying</code>, <code>minSatisfying</code>, <code>inc</code>, <code>diff</code>, <code>coerce</code>, <code>sort</code>, <code>rsort</code>. all the stuff you'd expect.
+          </p>
+
+          <h2>get it</h2>
+
+          <pre><code>npm install pico-semver</code></pre>
+
+          <p>
+            code is on github: <a href="https://github.com/Lulzx/pico-semver">github.com/Lulzx/pico-semver</a>
+          </p>
+
+          <p>
+            will this make your app faster? probably not. npm installs slightly less annoying? maybe. fun weekend staring at V8 profiler output? yes.
+          </p>
+
+          <p>
+            there's something satisfying about taking code that 150 million people depend on and making it fast. even if most of them never notice.
+          </p>
+        </div>
+
+        <a href="./" class="back-link">&larr; Back to blog</a>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="../">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../projects.html">Projects</a>
+      </div>
+      <span class="footer-copy">&copy; 2025</span>
+    </div>
+  </footer>
+</body>
+</html>
