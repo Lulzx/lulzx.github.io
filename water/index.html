@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Seascape</title>
+    <style>
+      :root {
+        --bg: #020508;
+        --panel: rgba(8, 14, 22, 0.75);
+        --border: rgba(255, 255, 255, 0.08);
+        --text: rgba(240, 248, 255, 0.92);
+        --muted: rgba(240, 248, 255, 0.55);
+        --accent: rgba(100, 180, 255, 0.9);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--text);
+      }
+
+      #c {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        cursor: grab;
+      }
+      #c:active { cursor: grabbing; }
+
+      #ui {
+        position: fixed;
+        left: 16px;
+        top: 16px;
+        width: min(300px, calc(100vw - 32px));
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        background: var(--panel);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        user-select: none;
+        z-index: 100;
+      }
+
+      #ui h1 {
+        margin: 0 0 2px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      #ui .sub {
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      #ui .sub a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .controls { display: grid; gap: 12px; }
+
+      .control { display: grid; gap: 5px; }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      label {
+        font-size: 11px;
+        color: var(--text);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .value {
+        font-variant-numeric: tabular-nums;
+        font-size: 11px;
+        color: var(--accent);
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 18px;
+        background: transparent;
+        margin: 0;
+      }
+
+      input[type="range"]::-webkit-slider-runnable-track {
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(255,255,255,0.1);
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+        margin-top: -5px;
+        border-radius: 50%;
+        background: var(--accent);
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      }
+
+      input[type="range"]::-moz-range-track {
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(255,255,255,0.1);
+        border: none;
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--accent);
+        border: none;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      button {
+        flex: 1;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 6px;
+        padding: 8px 12px;
+        background: rgba(255,255,255,0.05);
+        color: var(--text);
+        font-size: 11px;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      button:hover { background: rgba(255,255,255,0.1); }
+
+      .hint {
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        color: rgba(255,255,255,0.35);
+        font-size: 10px;
+        line-height: 1.4;
+      }
+
+      #stats {
+        position: fixed;
+        right: 16px;
+        top: 16px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: var(--panel);
+        backdrop-filter: blur(12px);
+        font-size: 10px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      #error {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        padding: 20px;
+        background: var(--bg);
+        z-index: 1000;
+      }
+
+      #errorCard {
+        max-width: 400px;
+        padding: 20px;
+        border-radius: 12px;
+        background: var(--panel);
+        text-align: center;
+      }
+
+      #errorCard h2 { margin: 0 0 8px; font-size: 16px; }
+      #errorCard p { margin: 0; color: var(--muted); font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+
+    <section id="ui">
+      <h1>Seascape</h1>
+
+      <div class="controls">
+        <div class="control">
+          <div class="row">
+            <label>Wave Height</label>
+            <span class="value" id="heightVal">0.60</span>
+          </div>
+          <input id="height" type="range" min="0.1" max="1.5" step="0.01" value="0.6" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <label>Choppiness</label>
+            <span class="value" id="choppyVal">4.0</span>
+          </div>
+          <input id="choppy" type="range" min="0.5" max="8" step="0.1" value="4" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <label>Speed</label>
+            <span class="value" id="speedVal">0.8</span>
+          </div>
+          <input id="speed" type="range" min="0" max="3" step="0.05" value="0.8" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <label>Frequency</label>
+            <span class="value" id="freqVal">0.16</span>
+          </div>
+          <input id="freq" type="range" min="0.05" max="0.4" step="0.01" value="0.16" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="reset">Reset</button>
+        <button id="pause">Pause</button>
+      </div>
+
+      <div class="hint">Arrow keys / WASD to move. Drag to look around.</div>
+    </section>
+
+    <div id="stats">-- fps</div>
+
+    <div id="error">
+      <div id="errorCard">
+        <h2>WebGL2 Required</h2>
+        <p>This shader requires WebGL2. Please use a modern browser with hardware acceleration.</p>
+      </div>
+    </div>
+
+    <script id="vs" type="x-shader/x-vertex">
+      #version 300 es
+      precision highp float;
+      in vec2 a_pos;
+      out vec2 v_uv;
+      void main() {
+        v_uv = a_pos * 0.5 + 0.5;
+        gl_Position = vec4(a_pos, 0.0, 1.0);
+      }
+    </script>
+
+    <script id="fs" type="x-shader/x-fragment">
+      #version 300 es
+      precision highp float;
+
+      in vec2 v_uv;
+      out vec4 fragColor;
+
+      uniform vec2 u_resolution;
+      uniform float u_time;
+      uniform vec3 u_camPos;
+      uniform float u_camYaw;
+      uniform float u_camPitch;
+
+      uniform float u_seaHeight;
+      uniform float u_seaChoppy;
+      uniform float u_seaSpeed;
+      uniform float u_seaFreq;
+
+      const int NUM_STEPS = 6;
+      const float PI = 3.141592;
+      const float EPSILON = 1e-3;
+      #define EPSILON_NRM (0.5 / u_resolution.x)
+
+      // Sea iterations (reduced for performance)
+      const int ITER_GEOMETRY = 2;
+      const int ITER_FRAGMENT = 4;
+
+      // Sea colors
+      const vec3 SEA_BASE = vec3(0.0, 0.09, 0.18);
+      const vec3 SEA_WATER_COLOR = vec3(0.8, 0.9, 0.6);
+
+      // Octave matrix for wave layering
+      mat2 octave_m = mat2(1.6, 1.2, -1.2, 1.6);
+
+      // Math utilities
+      mat3 fromEuler(vec3 ang) {
+        vec2 a1 = vec2(sin(ang.x), cos(ang.x));
+        vec2 a2 = vec2(sin(ang.y), cos(ang.y));
+        vec2 a3 = vec2(sin(ang.z), cos(ang.z));
+        mat3 m;
+        m[0] = vec3(a1.y*a3.y + a1.x*a2.x*a3.x, a1.y*a2.x*a3.x + a3.y*a1.x, -a2.y*a3.x);
+        m[1] = vec3(-a2.y*a1.x, a1.y*a2.y, a2.x);
+        m[2] = vec3(a3.y*a1.x*a2.x + a1.y*a3.x, a1.x*a3.x - a1.y*a3.y*a2.x, a2.y*a3.y);
+        return m;
+      }
+
+      float hash(vec2 p) {
+        float h = dot(p, vec2(127.1, 311.7));
+        return fract(sin(h) * 43758.5453123);
+      }
+
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return -1.0 + 2.0 * mix(
+          mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), u.x),
+          mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+          u.y
+        );
+      }
+
+      // Lighting
+      float diffuse(vec3 n, vec3 l, float p) {
+        return pow(dot(n, l) * 0.4 + 0.6, p);
+      }
+
+      float specular(vec3 n, vec3 l, vec3 e, float s) {
+        float nrm = (s + 8.0) / (PI * 8.0);
+        return pow(max(dot(reflect(e, n), l), 0.0), s) * nrm;
+      }
+
+      // Sky color based on view direction
+      vec3 getSkyColor(vec3 e) {
+        e.y = (max(e.y, 0.0) * 0.8 + 0.2) * 0.8;
+        return vec3(pow(1.0 - e.y, 2.0), 1.0 - e.y, 0.6 + (1.0 - e.y) * 0.4) * 1.1;
+      }
+
+      // Sea octave - creates the wave shape
+      float sea_octave(vec2 uv, float choppy) {
+        uv += noise(uv);
+        vec2 wv = 1.0 - abs(sin(uv));
+        vec2 swv = abs(cos(uv));
+        wv = mix(wv, swv, wv);
+        return pow(1.0 - pow(wv.x * wv.y, 0.65), choppy);
+      }
+
+      // Height map for geometry (fewer iterations)
+      float map(vec3 p) {
+        float SEA_TIME = u_time * u_seaSpeed;
+        float freq = u_seaFreq;
+        float amp = u_seaHeight;
+        float choppy = u_seaChoppy;
+        vec2 uv = p.xz;
+        uv.x *= 0.75;
+
+        float d, h = 0.0;
+        for (int i = 0; i < ITER_GEOMETRY; i++) {
+          d = sea_octave((uv + SEA_TIME) * freq, choppy);
+          d += sea_octave((uv - SEA_TIME) * freq, choppy);
+          h += d * amp;
+          uv *= octave_m;
+          freq *= 1.9;
+          amp *= 0.22;
+          choppy = mix(choppy, 1.0, 0.2);
+        }
+        return p.y - h;
+      }
+
+      // Detailed height map for shading (more iterations)
+      float map_detailed(vec3 p) {
+        float SEA_TIME = u_time * u_seaSpeed;
+        float freq = u_seaFreq;
+        float amp = u_seaHeight;
+        float choppy = u_seaChoppy;
+        vec2 uv = p.xz;
+        uv.x *= 0.75;
+
+        float d, h = 0.0;
+        for (int i = 0; i < ITER_FRAGMENT; i++) {
+          d = sea_octave((uv + SEA_TIME) * freq, choppy);
+          d += sea_octave((uv - SEA_TIME) * freq, choppy);
+          h += d * amp;
+          uv *= octave_m;
+          freq *= 1.9;
+          amp *= 0.22;
+          choppy = mix(choppy, 1.0, 0.2);
+        }
+        return p.y - h;
+      }
+
+      // Sea color with fresnel, reflection, refraction (optimized)
+      vec3 getSeaColor(vec3 p, vec3 n, vec3 l, vec3 eye, vec3 dist) {
+        float fresnel = 1.0 - max(dot(n, -eye), 0.0);
+        fresnel = fresnel * fresnel * fresnel * 0.5;
+
+        vec3 reflected = getSkyColor(reflect(eye, n));
+        vec3 refracted = SEA_BASE + diffuse(n, l, 80.0) * SEA_WATER_COLOR * 0.12;
+
+        vec3 color = mix(refracted, reflected, fresnel);
+
+        float distSq = dot(dist, dist);
+        float atten = max(1.0 - distSq * 0.001, 0.0);
+        color += SEA_WATER_COLOR * (p.y - u_seaHeight) * 0.18 * atten;
+
+        // Simplified specular
+        float spec = pow(max(dot(reflect(eye, n), l), 0.0), 60.0) * 0.8;
+        color += vec3(spec);
+
+        return color;
+      }
+
+      // Normal calculation using forward differences (faster)
+      vec3 getNormal(vec3 p, float eps) {
+        float h = map_detailed(p);
+        return normalize(vec3(
+          map_detailed(vec3(p.x + eps, p.y, p.z)) - h,
+          eps,
+          map_detailed(vec3(p.x, p.y, p.z + eps)) - h
+        ));
+      }
+
+      // Ray marching using height map tracing
+      float heightMapTracing(vec3 ori, vec3 dir, out vec3 p) {
+        float tm = 0.0;
+        float tx = 1000.0;
+        float hx = map(ori + dir * tx);
+        if (hx > 0.0) {
+          p = ori + dir * tx;
+          return tx;
+        }
+        float hm = map(ori + dir * tm);
+        float tmid = 0.0;
+        for (int i = 0; i < NUM_STEPS; i++) {
+          tmid = mix(tm, tx, hm / (hm - hx));
+          p = ori + dir * tmid;
+          float hmid = map(p);
+          if (hmid < 0.0) {
+            tx = tmid;
+            hx = hmid;
+          } else {
+            tm = tmid;
+            hm = hmid;
+          }
+        }
+        return tmid;
+      }
+
+      // Main scene color
+      vec3 getSceneColor(vec3 ori, vec3 dir) {
+        // Trace to sea surface
+        vec3 p;
+        heightMapTracing(ori, dir, p);
+        vec3 dist = p - ori;
+        vec3 n = getNormal(p, dot(dist, dist) * EPSILON_NRM);
+        vec3 light = normalize(vec3(0.0, 1.0, 0.8));
+
+        // Mix sky and sea based on ray direction
+        vec3 color = mix(
+          getSkyColor(dir),
+          getSeaColor(p, n, light, dir, dist),
+          pow(smoothstep(0.0, -0.02, dir.y), 0.2)
+        );
+
+        return color;
+      }
+
+      void main() {
+        // Normalized coordinates
+        vec2 uv = v_uv * 2.0 - 1.0;
+        uv.x *= u_resolution.x / u_resolution.y;
+
+        // Camera position from uniforms
+        vec3 ori = u_camPos;
+
+        // Camera basis vectors from yaw and pitch
+        float cosYaw = cos(u_camYaw);
+        float sinYaw = sin(u_camYaw);
+        float cosPitch = cos(u_camPitch);
+        float sinPitch = sin(u_camPitch);
+
+        vec3 forward = vec3(sinYaw * cosPitch, -sinPitch, cosYaw * cosPitch);
+        vec3 right = vec3(cosYaw, 0.0, -sinYaw);
+        vec3 up = cross(forward, right);
+
+        // Ray direction
+        vec3 dir = normalize(forward * 2.0 + right * uv.x + up * uv.y);
+
+        // Get scene color
+        vec3 color = getSceneColor(ori, dir);
+
+        // Gamma correction
+        color = pow(color, vec3(0.65));
+
+        fragColor = vec4(color, 1.0);
+      }
+    </script>
+
+    <script>
+      (() => {
+        const canvas = document.getElementById('c');
+        const stats = document.getElementById('stats');
+        const error = document.getElementById('error');
+
+        const gl = canvas.getContext('webgl2', {
+          alpha: false,
+          antialias: false,
+          depth: false,
+          stencil: false,
+          powerPreference: 'high-performance'
+        });
+
+        if (!gl) {
+          error.style.display = 'grid';
+          return;
+        }
+
+        // UI
+        const $ = id => document.getElementById(id);
+        const ui = {
+          height: $('height'), heightVal: $('heightVal'),
+          choppy: $('choppy'), choppyVal: $('choppyVal'),
+          speed: $('speed'), speedVal: $('speedVal'),
+          freq: $('freq'), freqVal: $('freqVal'),
+          reset: $('reset'), pause: $('pause')
+        };
+
+        // State
+        const state = {
+          paused: false,
+          time: 0,
+          lastFrame: performance.now(),
+          fps: { frames: 0, lastUpdate: performance.now(), value: 0 },
+          params: { height: 0.6, choppy: 4.0, speed: 0.8, freq: 0.16 },
+          mouse: { x: 0, y: 0 },
+          drag: { active: false, startX: 0, startY: 0, baseX: 0 },
+          keys: { up: false, down: false, left: false, right: false },
+          camera: { x: 0, z: 0, yaw: 0, pitch: -0.12 }
+        };
+
+        // Compile shader
+        function compileShader(type, source) {
+          const shader = gl.createShader(type);
+          gl.shaderSource(shader, source);
+          gl.compileShader(shader);
+          if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            console.error(gl.getShaderInfoLog(shader));
+            gl.deleteShader(shader);
+            return null;
+          }
+          return shader;
+        }
+
+        function createProgram(vsSource, fsSource) {
+          const vs = compileShader(gl.VERTEX_SHADER, vsSource);
+          const fs = compileShader(gl.FRAGMENT_SHADER, fsSource);
+          if (!vs || !fs) return null;
+
+          const prog = gl.createProgram();
+          gl.attachShader(prog, vs);
+          gl.attachShader(prog, fs);
+          gl.linkProgram(prog);
+
+          if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+            console.error(gl.getProgramInfoLog(prog));
+            return null;
+          }
+
+          gl.deleteShader(vs);
+          gl.deleteShader(fs);
+          return prog;
+        }
+
+        const program = createProgram(
+          $('vs').textContent.trim(),
+          $('fs').textContent.trim()
+        );
+
+        if (!program) {
+          error.style.display = 'grid';
+          error.querySelector('p').textContent = 'Shader compilation failed.';
+          return;
+        }
+
+        // Uniforms
+        const uniforms = {};
+        ['u_resolution', 'u_time', 'u_camPos', 'u_camYaw', 'u_camPitch', 'u_seaHeight', 'u_seaChoppy', 'u_seaSpeed', 'u_seaFreq'].forEach(name => {
+          uniforms[name] = gl.getUniformLocation(program, name);
+        });
+
+        // Fullscreen triangle
+        const vao = gl.createVertexArray();
+        gl.bindVertexArray(vao);
+        const vbo = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+        const aPos = gl.getAttribLocation(program, 'a_pos');
+        gl.enableVertexAttribArray(aPos);
+        gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+        // UI update
+        function updateValues() {
+          ui.heightVal.textContent = state.params.height.toFixed(2);
+          ui.choppyVal.textContent = state.params.choppy.toFixed(1);
+          ui.speedVal.textContent = state.params.speed.toFixed(2);
+          ui.freqVal.textContent = state.params.freq.toFixed(2);
+        }
+
+        // Event listeners
+        ui.height.oninput = () => { state.params.height = +ui.height.value; updateValues(); };
+        ui.choppy.oninput = () => { state.params.choppy = +ui.choppy.value; updateValues(); };
+        ui.speed.oninput = () => { state.params.speed = +ui.speed.value; updateValues(); };
+        ui.freq.oninput = () => { state.params.freq = +ui.freq.value; updateValues(); };
+
+        ui.reset.onclick = () => {
+          state.params = { height: 0.6, choppy: 4.0, speed: 0.8, freq: 0.16 };
+          state.camera = { x: 0, z: 0, yaw: 0, pitch: -0.12 };
+          ui.height.value = state.params.height;
+          ui.choppy.value = state.params.choppy;
+          ui.speed.value = state.params.speed;
+          ui.freq.value = state.params.freq;
+          updateValues();
+        };
+
+        ui.pause.onclick = () => {
+          state.paused = !state.paused;
+          ui.pause.textContent = state.paused ? 'Resume' : 'Pause';
+        };
+
+        // Mouse drag for camera control
+        const uiPanel = $('ui');
+
+        canvas.onpointerdown = e => {
+          if (e.composedPath().includes(uiPanel)) return;
+          state.drag.active = true;
+          state.drag.startX = e.clientX;
+          state.drag.startY = e.clientY;
+          state.drag.baseYaw = state.camera.yaw;
+          state.drag.basePitch = state.camera.pitch;
+          canvas.setPointerCapture(e.pointerId);
+        };
+
+        window.onpointermove = e => {
+          if (!state.drag.active) return;
+          const dx = e.clientX - state.drag.startX;
+          const dy = e.clientY - state.drag.startY;
+          state.camera.yaw = state.drag.baseYaw + dx * 0.003;
+          state.camera.pitch = Math.max(-0.8, Math.min(0.3, state.drag.basePitch - dy * 0.002));
+        };
+
+        window.onpointerup = e => {
+          if (state.drag.active) {
+            state.drag.active = false;
+            canvas.releasePointerCapture(e.pointerId);
+          }
+        };
+
+        // Keyboard controls
+        window.onkeydown = e => {
+          switch(e.code) {
+            case 'ArrowUp': case 'KeyW': state.keys.up = true; e.preventDefault(); break;
+            case 'ArrowDown': case 'KeyS': state.keys.down = true; e.preventDefault(); break;
+            case 'ArrowLeft': case 'KeyA': state.keys.left = true; e.preventDefault(); break;
+            case 'ArrowRight': case 'KeyD': state.keys.right = true; e.preventDefault(); break;
+          }
+        };
+
+        window.onkeyup = e => {
+          switch(e.code) {
+            case 'ArrowUp': case 'KeyW': state.keys.up = false; break;
+            case 'ArrowDown': case 'KeyS': state.keys.down = false; break;
+            case 'ArrowLeft': case 'KeyA': state.keys.left = false; break;
+            case 'ArrowRight': case 'KeyD': state.keys.right = false; break;
+          }
+        };
+
+        // Resize (capped DPR for performance)
+        function resize() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+          const w = Math.floor(canvas.clientWidth * dpr);
+          const h = Math.floor(canvas.clientHeight * dpr);
+          if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
+            gl.viewport(0, 0, w, h);
+          }
+        }
+
+        window.onresize = resize;
+        resize();
+
+        // Render loop
+        function render(now) {
+          requestAnimationFrame(render);
+
+          const dt = Math.min(0.1, (now - state.lastFrame) / 1000);
+          state.lastFrame = now;
+
+          // FPS
+          state.fps.frames++;
+          if (now - state.fps.lastUpdate > 500) {
+            state.fps.value = Math.round(state.fps.frames * 1000 / (now - state.fps.lastUpdate));
+            state.fps.frames = 0;
+            state.fps.lastUpdate = now;
+            stats.textContent = state.fps.value + ' fps';
+          }
+
+          if (!state.paused) {
+            state.time += dt;
+          }
+
+          // Handle keyboard movement
+          const moveSpeed = 15.0 * dt;
+          const yaw = state.camera.yaw;
+          const forwardX = Math.sin(yaw);
+          const forwardZ = Math.cos(yaw);
+          const rightX = forwardZ;
+          const rightZ = -forwardX;
+
+          if (state.keys.up) {
+            state.camera.x += forwardX * moveSpeed;
+            state.camera.z += forwardZ * moveSpeed;
+          }
+          if (state.keys.down) {
+            state.camera.x -= forwardX * moveSpeed;
+            state.camera.z -= forwardZ * moveSpeed;
+          }
+          if (state.keys.left) {
+            state.camera.x -= rightX * moveSpeed;
+            state.camera.z -= rightZ * moveSpeed;
+          }
+          if (state.keys.right) {
+            state.camera.x += rightX * moveSpeed;
+            state.camera.z += rightZ * moveSpeed;
+          }
+
+          resize();
+
+          gl.useProgram(program);
+          gl.bindVertexArray(vao);
+
+          gl.uniform2f(uniforms.u_resolution, canvas.width, canvas.height);
+          gl.uniform1f(uniforms.u_time, state.time);
+          gl.uniform3f(uniforms.u_camPos, state.camera.x, 3.5, state.camera.z);
+          gl.uniform1f(uniforms.u_camYaw, state.camera.yaw);
+          gl.uniform1f(uniforms.u_camPitch, state.camera.pitch);
+          gl.uniform1f(uniforms.u_seaHeight, state.params.height);
+          gl.uniform1f(uniforms.u_seaChoppy, state.params.choppy);
+          gl.uniform1f(uniforms.u_seaSpeed, state.params.speed);
+          gl.uniform1f(uniforms.u_seaFreq, state.params.freq);
+
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+        }
+
+        requestAnimationFrame(render);
+        updateValues();
+      })();
+    </script>
+  </body>
+</html>
