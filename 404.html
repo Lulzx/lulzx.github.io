@@ -1362,140 +1362,297 @@ const wordData = {
 // Notes data store
 const notesData = {
     'minimal-software': {
-        title: 'The case for minimal software',
+        title: 'Less code',
         stage: 'evergreen',
         planted: '2024-10',
-        tended: '2025-06',
-        words: ['minimal', 'dependencies', 'small', 'footprint', 'zero', 'everything', 'principles'],
-        relatedNotes: ['shipping-fast'],
-        content: `<p>Modern software is bloated. A text editor that needs 500MB of RAM. A todo app that ships a full browser engine. A chat client that uses more memory than the operating system.</p>
-<p>We\u2019ve normalized this. We\u2019ve accepted that software needs to be slow, heavy, and resource-hungry. But it doesn\u2019t have to be this way.</p>
-<h2>The cost of complexity</h2>
-<p>Every line of code is a liability. It needs to be written, reviewed, tested, documented, and maintained. It can contain bugs. It can be a security vulnerability. It can slow things down.</p>
-<p>The more code you have, the more things can go wrong. The more dependencies you have, the more attack surface you expose. The more features you add, the harder everything becomes.</p>
-<blockquote>The best code is no code at all.</blockquote>
-<h2>What minimal actually means</h2>
-<p>Minimal doesn\u2019t mean incomplete. It doesn\u2019t mean ugly. It doesn\u2019t mean lacking features people actually need.</p>
-<p>Minimal means:</p>
-<ul><li>Every feature earns its place</li><li>No code exists without a reason</li><li>Complexity is a last resort, not a first choice</li><li>Performance is a feature, not an afterthought</li></ul>
-<p>Minimal software does fewer things, but does them well. It starts fast, runs fast, and doesn\u2019t waste resources.</p>
-<h2>How to build minimal software</h2>
-<p><strong>Start with the problem, not the solution.</strong> Before writing any code, understand what you\u2019re actually trying to solve. Most features exist because someone thought they\u2019d be cool, not because users needed them.</p>
-<p><strong>Question every dependency.</strong> Each library you add is code you don\u2019t control. It\u2019s code that can break, that can have security issues, that can bloat your bundle. Only add dependencies that are absolutely necessary.</p>
-<p><strong>Build for constraints.</strong> What if your software had to run on a 10-year-old computer? What if it had to load on a slow connection? What if it had to work offline? Constraints force simplicity.</p>
-<p><strong>Remove before you add.</strong> Before adding a new feature, ask if you can remove an old one. Before adding complexity, ask if you can simplify what exists. The best refactoring is deletion.</p>
-<h2>The benefits</h2>
-<p>Minimal software is faster. There\u2019s less code to execute, less data to transfer, less work for the CPU to do.</p>
-<p>Minimal software is more reliable. Fewer moving parts means fewer things that can break. Simpler code is easier to understand and easier to fix.</p>
-<p>Minimal software is more maintainable. A small codebase is easier to navigate. Changes are easier to make. Onboarding is faster.</p>
-<p>Minimal software respects users. It doesn\u2019t waste their time, their battery, their bandwidth. It does what it says and gets out of the way.</p>
-<h2>The challenge</h2>
-<p>Building minimal software is hard. It\u2019s easier to add than to remove. It\u2019s easier to solve problems with more code than with better code. It\u2019s easier to follow trends than to question them.</p>
-<p>But the result is worth it. Software that works. Software that lasts. Software that doesn\u2019t make you wait.</p>
-<p>Less code. Fewer features. Better software.</p>`
+        tended: '2026-01',
+        words: ['minimal', 'dependencies', 'small', 'footprint', 'zero', 'principles'],
+        relatedNotes: ['the-100-line-rule', 'one-file'],
+        content: `<p>I keep coming back to this: the best code is the code I didn't write.</p>
+<p>Not in a lazy way. In a <em>if this line doesn't need to exist, it shouldn't</em> way.</p>
+<p>Every line I add is a line I have to maintain. A line that can break. A line someone else has to read and understand. Including future me, who will have forgotten why it's there.</p>
+<h2>What I actually do</h2>
+<p>Before I add a feature, I try to remove one. Before I add a file, I check if an existing one can hold it. Before I add a dependency, I look at how many lines it would take to write myself.</p>
+<p>Usually fewer than I think.</p>
+<p>My site is one HTML file. My CLI tools compile to single binaries. My libraries have zero runtime dependencies. Not because I'm trying to prove something. Because every time I've done it the other way, I've regretted it.</p>
+<h2>The hard part</h2>
+<p>Removing is harder than adding. Always. Your brain wants to solve problems by creating things. It takes real discipline to solve them by destroying things instead.</p>
+<p>But the projects I'm most proud of are the ones where I looked at the code and thought "there's nothing left to take away."</p>`
     },
     'shipping-fast': {
-        title: 'Shipping fast without breaking things',
+        title: 'Ship small, ship often',
         stage: 'evergreen',
         planted: '2025-12',
-        tended: '2025-12',
-        words: ['systems', 'building', 'adapt', 'execute', 'minimal', 'principles'],
-        relatedNotes: ['minimal-software'],
-        content: `<p>There\u2019s a common belief that you have to choose between speed and quality. Move fast and break things, or move slowly and build something solid. I don\u2019t think that\u2019s true.</p>
-<p>The fastest teams I\u2019ve worked with also had the fewest bugs. The slowest had the most. Speed and quality aren\u2019t opposites\u2014they\u2019re correlated. Here\u2019s what I\u2019ve learned.</p>
-<h2>Small changes, always</h2>
-<p>Big changes are slow changes. They take longer to write, longer to review, longer to test, and longer to fix when they break. Small changes ship faster and break less.</p>
-<p>If your PR is more than 200 lines, it\u2019s probably too big. Split it up. Ship the parts that work. Iterate.</p>
-<h2>Test the right things</h2>
-<p>100% code coverage is a vanity metric. What matters is testing the things that actually break:</p>
-<ul><li>Integration points between systems</li><li>Edge cases in business logic</li><li>User-facing flows that can\u2019t be easily fixed</li></ul>
-<p>Skip testing the things that are obvious, easy to fix, or change frequently. Your time is better spent elsewhere.</p>
-<h2>Deploy constantly</h2>
-<p>The longer code sits undeployed, the scarier it becomes to deploy. Deploy every day. Deploy multiple times a day. Make deployment boring.</p>
-<p>When deployments are routine, failures are small. When they\u2019re rare, failures are catastrophic.</p>
-<h2>Fix fast, not perfect</h2>
-<p>When something breaks, the goal is to stop the bleeding, not to solve world hunger. Fix the immediate problem. Ship the fix. Then figure out the root cause.</p>
-<p>A quick fix that stops the bleeding is better than a perfect fix that takes three days.</p>
-<h2>Keep it simple</h2>
-<p>Simple code ships faster because it\u2019s easier to understand, easier to review, and easier to debug. Every abstraction you add is something that can break.</p>
-<p>Before adding complexity, ask: is this actually necessary? Usually the answer is no.</p>
-<p>Speed isn\u2019t about working more hours or cutting corners. It\u2019s about doing less unnecessary work. Build only what\u2019s needed. Test only what matters. Keep everything as simple as possible.</p>
-<p>That\u2019s how you ship fast without breaking things.</p>`
+        tended: '2026-01',
+        words: ['systems', 'building', 'adapt', 'execute', 'minimal'],
+        relatedNotes: ['worse-is-better', 'minimal-software'],
+        content: `<p>The fastest teams I've worked with shipped the smallest changes.</p>
+<p>Not because small is easy. Because small is <em>safe</em>. A 30-line diff is easy to review, easy to test, easy to revert if it breaks. A 3000-line diff is a prayer.</p>
+<p>I used to batch things up. "I'll ship all of this together when it's ready." It was never ready. And when I finally pushed, something always broke, and I couldn't tell which part did it.</p>
+<p>Now I ship constantly. Multiple times a day sometimes. Each change does one thing. If it breaks, I know exactly what and exactly why.</p>
+<h2>The counterintuitive part</h2>
+<p>Going faster means doing less per step. Not more. The urge is always to do more\u2014add the error handling, refactor that other thing while you're in there, fix that bug you noticed. Don't.</p>
+<p>One thing. Ship it. Next thing.</p>
+<p>Deploy should be boring. If it's exciting, you're doing it wrong.</p>`
     },
     'telegram-bots': {
-        title: 'Building Telegram bots that scale',
+        title: 'Seven years of Telegram bots',
         stage: 'evergreen',
         planted: '2024-06',
-        tended: '2025-03',
-        words: ['systems', 'building', 'adapt', 'learn', 'dependencies', 'runtimes'],
-        relatedNotes: ['shipping-fast', 'minimal-software'],
-        content: `<p>I\u2019ve been building Telegram bots since 2017. Started with simple ones\u2014reply to a command, send a message. Now some of them handle millions of messages per day.</p>
-<p>Here\u2019s what I\u2019ve learned about making bots that actually scale.</p>
-<h2>Use webhooks, not polling</h2>
-<p>Long polling is fine for development. For production, use webhooks. The difference is simple: with polling, your bot constantly asks Telegram \u201cany new messages?\u201d With webhooks, Telegram pushes updates to you instead of you constantly asking for them.</p>
-<p>Set up a proper webhook endpoint. Use HTTPS. Handle errors gracefully. Your server will thank you.</p>
-<h2>Process messages asynchronously</h2>
-<p>Don\u2019t process messages in the webhook handler. Accept the message, queue it, and return immediately. Process the queue in background workers.</p>
-<p>This does a few things:</p>
-<ul><li>Telegram doesn\u2019t time out waiting for your response</li><li>You can retry failed messages without losing them</li><li>You can scale workers independently of your webhook server</li></ul>
-<p>Redis queues work great for this. Simple, fast, and battle-tested.</p>
-<h2>Rate limit everything</h2>
-<p>Telegram has rate limits. Your APIs have rate limits. Your database has practical limits. Respect all of them.</p>
-<p>Build rate limiting into your bot from day one. Per-user limits. Per-chat limits. Global limits. It\u2019s much easier to relax limits later than to add them when you\u2019re getting hammered.</p>
-<h2>Cache aggressively</h2>
-<p>User info doesn\u2019t change often. Chat metadata doesn\u2019t change often. Cache them. A simple Redis cache with a 5-minute TTL can eliminate most of your API calls.</p>
-<p>Just remember to invalidate the cache when things actually change.</p>
-<h2>Handle errors gracefully</h2>
-<p>Bots fail. APIs timeout. Messages get lost. Build for failure.</p>
-<ul><li>Retry transient failures with exponential backoff</li><li>Log errors with enough context to debug them</li><li>Tell users when something goes wrong instead of silently failing</li></ul>
-<p>A bot that fails gracefully is better than one that fails silently.</p>
-<h2>Keep state minimal</h2>
-<p>The less state your bot maintains, the easier it is to scale. Avoid storing conversation state if you can. If you must, use a database, not memory.</p>
-<p>Stateless bots are horizontally scalable. Stateful bots require careful coordination.</p>
-<h2>Monitor everything</h2>
-<p>You can\u2019t fix what you can\u2019t see. Track message throughput. Track response times. Track error rates. Set up alerts for anomalies.</p>
-<p>When something breaks at 3am, you want to know before your users tell you.</p>
-<p>Building scalable bots isn\u2019t rocket science. It\u2019s just applying the same principles that work for any scalable system: async processing, caching, rate limiting, and good monitoring. Get the basics right and your bot will handle whatever Telegram throws at it.</p>`
+        tended: '2026-01',
+        words: ['systems', 'building', 'adapt', 'learn', 'runtimes'],
+        relatedNotes: ['learn-by-building', 'shipping-fast'],
+        content: `<p>I started building Telegram bots in 2017 because I was bored. Wrote one that replied to messages with random quotes. Took maybe an hour.</p>
+<p>That was the gateway drug.</p>
+<p>Seven years later, some of my bots handle millions of messages a day. I've learned more about building reliable systems from bots than from any job or course.</p>
+<h2>The one thing that matters</h2>
+<p>Webhooks, not polling. That's it. That's the entire scaling secret. Polling is you calling Telegram every second asking "anything new?" Webhooks are Telegram calling <em>you</em> when something happens.</p>
+<p>After that, it's the same stuff that makes any system work: queue your messages, process them async, cache aggressively, and log everything.</p>
+<h2>What bots taught me</h2>
+<p>Bots fail constantly. The API times out. Users send garbage. Your server runs out of memory at 3am. You learn to build for failure because you have no choice.</p>
+<p>A bot that crashes and recovers gracefully is infinitely better than one that never crashes but silently drops messages. I apply this to everything I build now.</p>
+<p>Most of what I know about distributed systems, I learned from a chat bot.</p>`
     },
     'semver-30x-faster': {
         title: 'semver, but 30x faster',
         stage: 'evergreen',
         planted: '2025-12',
-        tended: '2025-12',
+        tended: '2026-01',
         words: ['computation', 'minimal', 'zero', 'dependencies', 'small', 'footprint', 'execute'],
-        relatedNotes: ['minimal-software'],
-        content: `<p>Every <code>npm install</code> parses version strings. Thousands of them. Marvin Hagemeister found that installing preact calls <code>semver</code> 21,000+ times. One package. 21 thousand version comparisons.</p>
-<p>The <code>semver</code> package has 150 million weekly downloads. It\u2019s the backbone of npm\u2019s dependency resolution. And it\u2019s doing way more work than it needs to.</p>
-<p>Parsing <code>1.2.3</code> should be trivial. Three numbers, two dots. But the official package creates class instances for every parse, uses regex, has a fancy Map-based LRU cache, and re-parses range strings every time you call <code>satisfies()</code>.</p>
-<h2>The dumb idea that worked</h2>
-<p>Version numbers aren\u2019t random. Most packages never go past major version 50. What if we just precompute all of them?</p>
+        relatedNotes: ['minimal-software', 'the-100-line-rule'],
+        content: `<p>Every <code>npm install</code> parses version strings. Thousands of them. Installing preact alone calls <code>semver</code> 21,000 times. One package.</p>
+<p>The <code>semver</code> package has 150 million weekly downloads. And it's doing way more work than it needs to.</p>
+<h2>The dumb idea</h2>
+<p>Version numbers aren't random. React is at 18. Node is at 22. Most packages never pass major version 50. So I precomputed all of them.</p>
 <pre><code>const cache = Object.create(null);
-for (let M = 0; M &lt; 50; M++) {
-  for (let m = 0; m &lt; 50; m++) {
-    for (let p = 0; p &lt; 20; p++) {
-      const s = M + '.' + m + '.' + p;
-      cache[s] = { major: M, minor: m, patch: p, pre: null };
-    }
-  }
-}</code></pre>
-<p>50,000 version objects. Allocated once at module load. Now parsing any common version is just a hash lookup. No regex. No string splitting. No nothing.</p>
-<h2>Compiling ranges to functions</h2>
-<p>A version range like <code>^1.2.3</code> means \u201canything >= 1.2.3 and < 2.0.0\u201d. Why not compile it once to a closure?</p>
-<pre><code>// ^1.2.3 compiles to:
-(M, m, p, pr) =&gt; !pr && M === 1 && ((m - 2) || (p - 3)) >= 0</code></pre>
-<p>This closure gets cached. Next time you check any version against <code>^1.2.3</code>, it\u2019s just a function call with four integers. No parsing. No comparisons against parsed objects. Just raw arithmetic.</p>
-<h2>Goodbye regex, hello charCodeAt</h2>
-<p>For something as simple as parsing <code>1.2.3</code>, regex is overkill. Manual character-by-character parsing wins. <code>charCodeAt</code> returns raw integer ASCII codes, so comparing <code>c >= 48</code> is faster than <code>char >= '0'</code>.</p>
-<h2>The results</h2>
-<p><strong>parse:</strong> 6M \u2192 208M ops/s (35x). <strong>satisfies:</strong> 2.4M \u2192 70M ops/s (30x). <strong>valid:</strong> 6M \u2192 186M ops/s (31x). <strong>compare:</strong> 7M \u2192 105M ops/s (15x).</p>
-<p>208 million parses per second. Version strings. JavaScript.</p>
-<h2>Things that didn\u2019t work</h2>
-<p>Not everything made things faster. Hash-based cache with fixed array was slower than V8\u2019s internal hash tables. Fast path for simple versions added overhead since the cache lookup was already so fast. Caching <code>inc()</code> results cost more than computing them.</p>
-<p>The lesson: benchmark everything. Your intuitions are probably wrong.</p>
-<h2>The final stats</h2>
-<p><strong>6.4 kB</strong> gzipped (semver is ~17 kB). <strong>Zero dependencies.</strong> <strong>~500 lines</strong> of TypeScript.</p>
-<pre><code>npm install pico-semver</code></pre>
-<p>Code is on GitHub: <a href="https://github.com/Lulzx/pico-semver">github.com/Lulzx/pico-semver</a></p>`
+for (let M = 0; M &lt; 50; M++)
+  for (let m = 0; m &lt; 50; m++)
+    for (let p = 0; p &lt; 20; p++)
+      cache[M+'.'+m+'.'+p] = {major:M, minor:m, patch:p};</code></pre>
+<p>50,000 objects. Allocated once. Now parsing <code>1.0.0</code> is just a hash lookup. No regex. No nothing.</p>
+<h2>Then compile the ranges</h2>
+<p><code>^1.2.3</code> always means the same thing. So compile it once to a closure:</p>
+<pre><code>(M, m, p, pr) =&gt; !pr && M === 1 && ((m-2)||(p-3)) >= 0</code></pre>
+<p>Next time you check any version against <code>^1.2.3</code>, it's four integers and some arithmetic. Done.</p>
+<h2>Result</h2>
+<p><strong>208 million</strong> parses per second. 35x faster. 6.4 kB gzipped. Zero dependencies.</p>
+<p>Half my ideas didn't work. Hash arrays were slower than V8's internals. Fast-path parsing added overhead because the cache was already fast enough. Benchmark everything. Your gut is wrong.</p>
+<p><a href="https://github.com/Lulzx/pico-semver">github.com/Lulzx/pico-semver</a></p>`
+    },
+    'the-100-line-rule': {
+        title: 'The 100-line rule',
+        stage: 'evergreen',
+        planted: '2023-06',
+        tended: '2026-01',
+        words: ['dependencies', 'zero', 'minimal', 'small', 'principles'],
+        relatedNotes: ['minimal-software', 'do-it-yourself'],
+        content: `<p>If a dependency is less than 100 lines of code, I write it myself.</p>
+<p>Not because I think I'm smarter than the library author. Because I think 100 lines I understand completely is better than 100 lines I don't.</p>
+<p>Left-pad was 11 lines. It broke the internet. I could have written it in 30 seconds. So could you. So could anyone. But 2.5 million projects depended on one person not deleting their npm package.</p>
+<p>I have a utils file in most of my projects. It has debounce, throttle, deep clone, a couple of string helpers. Maybe 80 lines total. I've never had a supply chain attack on my utils file.</p>
+<p>The threshold isn't really 100 lines. It's: <em>can I understand every line of this?</em> If yes, I own it. If no, I think very hard about whether I need it.</p>`
+    },
+    'do-it-yourself': {
+        title: 'npm install regret',
+        stage: 'evergreen',
+        planted: '2023-03',
+        tended: '2025-10',
+        words: ['dependencies', 'zero', 'minimal', 'building', 'source'],
+        relatedNotes: ['the-100-line-rule', 'minimal-software'],
+        content: `<p>I used to <code>npm install</code> everything. Need to pad a string? Package. Parse a date? Package. Check if a number is even? Believe it or not, package.</p>
+<p>Then I'd open <code>node_modules</code> and find 800 folders for a project that sends emails.</p>
+<p>The turning point was a security audit. I had to explain every dependency. Why do we need this? What does it do? Can we trust the maintainer? I couldn't answer for half of them. I'd installed packages I'd never read a single line of.</p>
+<p>Now I default to writing it myself. Most things I need are 20-50 lines. The ones that aren't\u2014crypto, compression, database drivers\u2014I add thoughtfully and pin the version.</p>
+<p>My <code>node_modules</code> went from 800 folders to about 30. My builds are faster. My deploys are smaller. And I actually know what my code does.</p>`
+    },
+    'rust-changed-my-brain': {
+        title: 'Rust rewired my brain',
+        stage: 'evergreen',
+        planted: '2023-01',
+        tended: '2025-12',
+        words: ['computation', 'systems', 'learn', 'foundations'],
+        relatedNotes: ['learn-by-building', 'speed-is-a-feature'],
+        content: `<p>I picked up Rust in 2023 expecting a language. I got a way of thinking.</p>
+<p>The borrow checker isn't a restriction. It's a question: <em>who owns this data?</em> I'd never asked that before. In Python and JavaScript, the answer was "who cares, the garbage collector will figure it out." In Rust, you have to know.</p>
+<p>Now I think about ownership in every language. When I write TypeScript, I notice when I'm passing references carelessly. When I design an API, I think about who's responsible for cleanup. Rust didn't teach me Rust. It taught me to think about data.</p>
+<p>The other thing: Rust made me comfortable with the compiler saying no. In dynamic languages, you discover mistakes at runtime. In Rust, the compiler catches them. At first this felt slow. Now every other language feels reckless.</p>
+<p>I still write TypeScript and Python when they're the right tool. But I write them differently than I used to.</p>`
+    },
+    'read-the-source': {
+        title: 'Read the source',
+        stage: 'evergreen',
+        planted: '2020-06',
+        tended: '2025-08',
+        words: ['source', 'auditable', 'learn', 'foundations'],
+        relatedNotes: ['rust-changed-my-brain', 'learn-by-building'],
+        content: `<p>The best programmers I know spend more time reading code than writing it.</p>
+<p>I used to think building things was how you got good. It's part of it. But the other part is reading how other people solved the same problem. Not blog posts <em>about</em> the code. The actual code.</p>
+<p>I learned more from reading the Redis source than from any database course. It's 50,000 lines of beautifully clear C. Every function does what its name says. The comments explain <em>why</em>, not <em>what</em>.</p>
+<p>When I'm stuck on a design decision, I look at how someone I respect solved it. Not Stack Overflow. Not a tutorial. The source. It's always there. Most things worth learning from are open source.</p>
+<p>Reading code is a skill nobody teaches and everyone needs.</p>`
+    },
+    'speed-is-a-feature': {
+        title: 'Speed is respect',
+        stage: 'evergreen',
+        planted: '2024-03',
+        tended: '2025-12',
+        words: ['computation', 'execute', 'minimal', 'systems', 'footprint'],
+        relatedNotes: ['semver-30x-faster', 'minimal-software'],
+        content: `<p>Every millisecond you waste is a millisecond of someone's life.</p>
+<p>That sounds dramatic. But multiply it. A page that takes 2 seconds instead of 200ms, loaded 10,000 times a day. That's 5 hours of human life wasted. Every day. On one page.</p>
+<p>Performance isn't a technical concern. It's a moral one. When your software is slow, you're saying: my time was more valuable than yours. I couldn't be bothered to optimize this.</p>
+<p>I don't mean premature optimization. I mean: choose the right data structure. Don't load what you don't need. Don't make the user wait for something you could have precomputed.</p>
+<p>The fastest software I use is the software I forget is there. It just does the thing instantly and gets out of the way. That's what respect looks like in code.</p>`
+    },
+    'apple-silicon': {
+        title: 'The M1 broke my assumptions',
+        stage: 'sprout',
+        planted: '2024-01',
+        tended: '2025-10',
+        words: ['computation', 'parallel', 'runtimes', 'systems'],
+        relatedNotes: ['rust-changed-my-brain', 'speed-is-a-feature'],
+        content: `<p>In 2024 I started porting ML models to Apple Silicon using MLX-Swift. I expected it to be a compromise. Run models locally, sure, but slowly.</p>
+<p>It wasn't slow.</p>
+<p>Unified memory changes everything. The GPU and CPU share the same RAM. No copying tensors back and forth. You just... use it. A 14-inch laptop running inference faster than my old cloud GPU setup.</p>
+<p>I ported speculative decoding. Then a reasoning model. Then an OCR pipeline. Each time I expected to hit a wall. Each time the wall wasn't there.</p>
+<p>The assumption I had to break: "real ML needs a data center." No. Real ML needs good hardware and good software. A MacBook has both now.</p>
+<p>The models run locally. No API calls. No latency. No sending private data to someone else's server. I think this is the future and most people haven't realized it yet.</p>`
+    },
+    'learn-by-building': {
+        title: 'Learn by building',
+        stage: 'evergreen',
+        planted: '2017-06',
+        tended: '2025-12',
+        words: ['learn', 'building', 'adapt', 'systems'],
+        relatedNotes: ['seven-years', 'telegram-bots'],
+        content: `<p>I never finished a programming course. I've started dozens. Never finished one.</p>
+<p>What I did instead: I built things. A bot that tells you the weather. A search engine for my bookmarks. A CLI tool that does one thing I needed.</p>
+<p>Each one taught me exactly what I needed to know, exactly when I needed to know it. Not "here's how arrays work" in week 3 of a curriculum. But "I need to sort these results by relevance\u2014how do I do that?" at 1am on a Tuesday because I'm obsessed with my side project.</p>
+<p>Courses teach you syntax. Projects teach you engineering. The difference is that projects have real constraints: this needs to actually work, for real users, on a real computer.</p>
+<p>Build something small. Make it work. Make it better. That's the whole curriculum.</p>`
+    },
+    'one-file': {
+        title: 'One file is enough',
+        stage: 'sprout',
+        planted: '2025-06',
+        tended: '2026-02',
+        words: ['minimal', 'small', 'building', 'everything', 'source'],
+        relatedNotes: ['minimal-software', 'the-100-line-rule'],
+        content: `<p>This website is one HTML file. The CSS, the JavaScript, the data, the components, the router\u2014all in one file.</p>
+<p>People ask why. The answer: why not?</p>
+<p>One file means no build step. No bundler config. No module resolution. No "it works on my machine." Open the file, it works. Deploy the file, it's live.</p>
+<p>There's a weird pressure in web development to have a "proper" project structure. Fourteen config files before you write a line of code. A build pipeline that takes longer than the actual program.</p>
+<p>For a lot of projects\u2014especially personal ones\u2014none of that is necessary. You're not building Gmail. You're building a page that shows some text and links. One file handles that just fine.</p>
+<p>I'll add complexity when I need it. So far I haven't needed it.</p>`
+    },
+    'worse-is-better': {
+        title: 'Ship it ugly',
+        stage: 'evergreen',
+        planted: '2024-08',
+        tended: '2025-10',
+        words: ['building', 'adapt', 'execute', 'principles'],
+        relatedNotes: ['shipping-fast', 'learn-by-building'],
+        content: `<p>The first version of everything I've shipped was embarrassing.</p>
+<p>My first Telegram bot was 200 lines of spaghetti Python with hardcoded strings. It worked. People used it. I cleaned it up later.</p>
+<p>My first Rust CLI was a single main.rs with no error handling. It worked. I used it daily. I refactored it later.</p>
+<p>This website was a plain HTML page with no CSS for a week. It worked. You're reading the better version. But the ugly version came first.</p>
+<p>I've watched people spend months "getting it right" before showing anyone. They burn out or lose interest. The project dies in a private repo, perfect and unseen.</p>
+<p>Ship the ugly version. See if anyone cares. If they do, make it less ugly. If they don't, you just saved yourself months of polishing something nobody wanted.</p>`
+    },
+    'remote-from-india': {
+        title: 'The timezone advantage',
+        stage: 'sprout',
+        planted: '2024-04',
+        tended: '2025-06',
+        words: ['building', 'adapt', 'from', 'systems'],
+        relatedNotes: ['seven-years', 'shipping-fast'],
+        content: `<p>I'm in India. Most of my clients are in the US or Europe. People think this is a disadvantage. It's not.</p>
+<p>When my American clients go to sleep, I start working. When they wake up, the thing they asked for is done. It feels like magic to them. It's just timezones.</p>
+<p>The async part is key. I don't do meetings if I can avoid it. Write it down. Put it in a ticket. I'll read it and respond with code.</p>
+<p>Meetings across timezones are miserable for everyone. But a well-written message works in every timezone. I've had entire client relationships where we never had a single call. Just messages and pull requests. The work spoke for itself.</p>
+<p>Remote work isn't about being in the same room at the same time. It's about being reliable and clear. That works from anywhere.</p>`
+    },
+    'seven-years': {
+        title: 'Seven years of shipping code',
+        stage: 'evergreen',
+        planted: '2024-01',
+        tended: '2026-01',
+        words: ['building', 'learn', 'adapt', 'systems', 'source'],
+        relatedNotes: ['learn-by-building', 'rust-changed-my-brain'],
+        content: `<p>2017: Telegram bots in Python. Everything in one file. Deployed by SSH-ing into a $5 server and running <code>python bot.py</code>.</p>
+<p>2018: Discovered Node.js. Rewrote everything. Thought callbacks were fine. They weren't.</p>
+<p>2019: Built an image search engine. Learned about vectors, embeddings, and why databases are hard.</p>
+<p>2020: Information retrieval systems. HNSW, semantic search, the stuff that turned into "AI" a few years later.</p>
+<p>2021: Burned out. Built nothing for three months. Came back and everything was better.</p>
+<p>2023: Found Rust. Rewrote my CLI tools. Realized I'd been thinking about software wrong for years.</p>
+<p>2024: Apple Silicon, MLX-Swift, running models locally that used to need a data center.</p>
+<p>The through-line isn't a plan. I didn't have a five-year roadmap. I just kept building whatever interested me, and the interests kept changing. The only constant: I always shipped something.</p>
+<p>Seven years of following curiosity. That's the whole career strategy.</p>`
+    },
+    'naming': {
+        title: 'Names are interfaces',
+        stage: 'seed',
+        planted: '2025-03',
+        tended: '2025-08',
+        words: ['building', 'source', 'foundations', 'principles'],
+        relatedNotes: ['read-the-source', 'one-file'],
+        content: `<p>I spend more time naming things than writing the code inside them.</p>
+<p>A function called <code>processData</code> tells me nothing. A function called <code>parseVersionString</code> tells me everything. The second one doesn't need a comment. The first one needs a paragraph.</p>
+<p>Good names are compression. They pack meaning into a few characters. Bad names are debt. Every time someone reads <code>handleStuff</code>, they have to open the function and read the body to know what it does.</p>
+<p>I rename things constantly. It's free. It doesn't change behavior. But it changes comprehension. And comprehension is everything when you're debugging at midnight and your brain is half off.</p>
+<p>If I can't name something clearly, it usually means I don't understand it well enough yet. The naming struggle is a design signal.</p>`
+    },
+    'debugging': {
+        title: 'Debug by reading',
+        stage: 'seed',
+        planted: '2025-06',
+        tended: '2025-11',
+        words: ['learn', 'source', 'execute', 'foundations'],
+        relatedNotes: ['read-the-source', 'rust-changed-my-brain'],
+        content: `<p>When something breaks, I don't reach for the debugger. I read the code.</p>
+<p>Not skim. Read. Start from the entry point. Follow the data. Ask: what did I <em>think</em> this does? What does it <em>actually</em> do? The bug is in the gap between those two questions.</p>
+<p>Debuggers are great for watching state. But they don't help you understand <em>why</em> the state is wrong. For that, you need to think. And thinking requires reading.</p>
+<p>My debugging process: read, form a hypothesis, add one log to confirm or deny, repeat. Three rounds of this solves most bugs. The ones it doesn't are the interesting ones.</p>
+<p>The best debugging tool is a good understanding of your own code. If you have that, you barely need anything else.</p>`
+    },
+    'tools-shape-thinking': {
+        title: 'Your tools are your thoughts',
+        stage: 'seed',
+        planted: '2025-08',
+        tended: '2025-12',
+        words: ['computation', 'learn', 'foundations', 'systems'],
+        relatedNotes: ['rust-changed-my-brain', 'learn-by-building'],
+        content: `<p>I write different code in Rust than in Python. Not just syntactically. Structurally. The language shapes how I think about the problem.</p>
+<p>In Python I prototype fast and sloppy. In Rust I design upfront because the compiler won't let me be sloppy. In TypeScript I lean on types to document intent. Each language is a different lens on the same problem.</p>
+<p>Same with editors. Same with operating systems. Same with keyboards. Everything you use daily shapes how you think without you noticing.</p>
+<p>I switched to a tiling window manager and started breaking problems into smaller, independent pieces. Coincidence? Maybe. But probably not.</p>
+<p>Choose your tools deliberately. You become what you use.</p>`
+    },
+    'side-projects': {
+        title: 'Side projects are the real work',
+        stage: 'sprout',
+        planted: '2024-06',
+        tended: '2025-10',
+        words: ['building', 'learn', 'source', 'adapt'],
+        relatedNotes: ['learn-by-building', 'seven-years'],
+        content: `<p>Everything good in my career came from a side project.</p>
+<p>My first job came from a Telegram bot I built for fun. My freelance clients found me through open source repos. My best technical skills came from projects nobody asked me to build.</p>
+<p>Side projects have one advantage over work projects: you choose the constraints. Want to learn Rust? Build something in Rust. Want to understand ML inference? Port a model. Nobody's telling you to use the company's approved stack.</p>
+<p>I don't build side projects to "build a portfolio." I build them because I'm curious about something and the only way to understand it is to build it.</p>
+<p>The portfolio is a side effect. The curiosity is the point.</p>`
+    },
+    'rewrite-it': {
+        title: 'The second version',
+        stage: 'sprout',
+        planted: '2024-11',
+        tended: '2025-12',
+        words: ['building', 'learn', 'adapt', 'systems', 'minimal'],
+        relatedNotes: ['worse-is-better', 'seven-years'],
+        content: `<p>I rewrite things a lot. Not because the first version is bad. Because I understand the problem now.</p>
+<p>The first time you build something, you're learning the domain. You make wrong abstractions. You over-engineer some parts and under-engineer others. You can't know the right design until you've built the wrong one.</p>
+<p>The rewrite isn't starting over. It's starting informed.</p>
+<p>I rewrote my search engine three times. Version one: Python, slow, wrong data structures. Version two: Node.js, faster, better architecture, still wrong in subtle ways. Version three: Rust, correct, fast, half the code of version one.</p>
+<p>People say "don't rewrite." I think they mean "don't rewrite for fun." But rewriting because you now understand the problem deeply? That produces the best software I've ever written.</p>`
     }
 };
 
