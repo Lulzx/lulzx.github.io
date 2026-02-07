@@ -11,6 +11,25 @@
     --gray-subtle: #e5e5e5;
     --gray-mid: #999;
     --gray-light: #f5f5f5;
+    --bg: #fff;
+    --text: #000;
+    --border: #000;
+    --bg-inverted: #000;
+    --text-inverted: #fff;
+    --selection-bg: #000;
+    --selection-text: #fff;
+}
+body.dark {
+    --gray-subtle: #333;
+    --gray-mid: #888;
+    --gray-light: #1a1a1a;
+    --bg: #111;
+    --text: #e5e5e5;
+    --border: #e5e5e5;
+    --bg-inverted: #e5e5e5;
+    --text-inverted: #111;
+    --selection-bg: #e5e5e5;
+    --selection-text: #111;
 }
 
 * {
@@ -20,8 +39,8 @@
 }
 
 ::selection {
-    background: #000;
-    color: #fff;
+    background: var(--selection-bg);
+    color: var(--selection-text);
 }
 
 html {
@@ -30,8 +49,8 @@ html {
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #fff;
-    color: #000;
+    background: var(--bg);
+    color: var(--text);
     line-height: 1.6;
     height: 100vh;
     overflow: hidden;
@@ -46,7 +65,7 @@ body {
     height: calc(100vh - 2rem);
     display: flex;
     flex-direction: column;
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     margin: 1rem;
     overflow: hidden;
 }
@@ -57,7 +76,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 4rem 6rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
 }
 
 .statement {
@@ -85,8 +104,8 @@ body {
 }
 
 .word:hover {
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--bg);
     text-decoration: none;
     transform: scale(1.02);
 }
@@ -101,18 +120,18 @@ body {
     align-items: center;
     padding: 1rem 2rem;
     font-size: 0.875rem;
-    border-top: 2px solid #000;
+    border-top: 2px solid var(--border);
 }
 
 .footer a {
-    color: #000;
+    color: var(--text);
     text-decoration: underline;
     text-underline-offset: 2px;
 }
 
 .footer a:hover {
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--bg);
     text-decoration: none;
 }
 
@@ -124,7 +143,7 @@ body {
 
 /* Word Page Styles */
 .word-page {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     margin: 1rem;
     display: flex;
     flex-direction: column;
@@ -144,7 +163,7 @@ body {
 
 .word-header {
     padding: 1.5rem 2rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -170,7 +189,7 @@ body {
 }
 
 .breadcrumbs a:hover {
-    color: #000;
+    color: var(--text);
 }
 
 .breadcrumbs .sep {
@@ -178,19 +197,19 @@ body {
 }
 
 .back {
-    color: #000;
+    color: var(--text);
     text-decoration: none;
     font-size: 0.875rem;
 }
 
 .back:hover {
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--bg);
 }
 
 .word-title-section {
     padding: 3rem 4rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
     display: flex;
     align-items: baseline;
     gap: 1.5rem;
@@ -214,15 +233,15 @@ body {
 }
 
 .stage-seed {
-    border: 1px dashed #000;
+    border: 1px dashed var(--border);
 }
 
 .stage-sprout {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
 }
 
 .stage-evergreen {
-    border: 4px double #000;
+    border: 4px double var(--border);
 }
 
 .word-meta {
@@ -244,7 +263,7 @@ body {
 }
 
 .block {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     padding: 2rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     animation: blockIn 0.4s ease both;
@@ -259,7 +278,7 @@ body {
 
 .block:hover {
     transform: translateY(-2px);
-    box-shadow: 4px 4px 0 #000;
+    box-shadow: 4px 4px 0 var(--border);
 }
 
 .block h2 {
@@ -268,7 +287,7 @@ body {
     letter-spacing: 0.1em;
     margin-bottom: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--border);
 }
 
 .block p, .block li {
@@ -288,32 +307,32 @@ body {
 }
 
 .block a {
-    color: #000;
+    color: var(--text);
     text-decoration: underline;
 }
 
 .block a:hover {
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--bg);
 }
 
 .block-inverted {
-    background: #000;
-    color: #fff;
-    border-color: #000;
+    background: var(--bg-inverted);
+    color: var(--text-inverted);
+    border-color: var(--bg-inverted);
 }
 
 .block-inverted h2 {
-    border-bottom-color: #fff;
+    border-bottom-color: var(--text-inverted);
 }
 
 .block-inverted a {
-    color: #fff;
+    color: var(--text-inverted);
 }
 
 .block-inverted a:hover {
-    background: #fff;
-    color: #000;
+    background: var(--text-inverted);
+    color: var(--bg-inverted);
 }
 
 .stat {
@@ -349,7 +368,7 @@ code {
 .connections-section,
 .notes-section {
     padding: 2rem 4rem;
-    border-top: 2px solid #000;
+    border-top: 2px solid var(--border);
 }
 
 .section-title {
@@ -368,27 +387,27 @@ code {
 .chip {
     display: inline-block;
     padding: 0.4rem 1rem;
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     text-decoration: none;
-    color: #000;
+    color: var(--text);
     font-size: 0.875rem;
     transition: all 0.15s ease;
     letter-spacing: -0.01em;
 }
 
 .chip:hover {
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--bg);
     transform: translateY(-2px);
-    box-shadow: 2px 2px 0 #000;
+    box-shadow: 2px 2px 0 var(--border);
 }
 
 .note-link {
     display: block;
     padding: 1rem 1.5rem;
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     text-decoration: none;
-    color: #000;
+    color: var(--text);
     margin-bottom: 0.5rem;
     transition: all 0.15s ease;
     font-size: 0.95rem;
@@ -396,7 +415,7 @@ code {
 
 .note-link:hover {
     transform: translateX(4px);
-    box-shadow: 2px 2px 0 #000;
+    box-shadow: 2px 2px 0 var(--border);
 }
 
 .note-link .note-link-title {
@@ -413,13 +432,13 @@ code {
 
 .wander-section {
     padding: 1.5rem 4rem;
-    border-top: 2px solid #000;
+    border-top: 2px solid var(--border);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .wander-btn {
-    color: #000;
+    color: var(--text);
     text-decoration: none;
     font-size: 0.875rem;
     text-decoration: underline;
@@ -434,14 +453,14 @@ code {
 }
 
 .wander-btn:hover {
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--bg);
     text-decoration: none;
 }
 
 /* Inline word link */
 .inline-word-link {
-    color: #000;
+    color: var(--text);
     text-decoration: underline;
     text-decoration-color: var(--gray-subtle);
     text-underline-offset: 2px;
@@ -450,14 +469,14 @@ code {
 }
 
 .inline-word-link:hover {
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--bg);
     text-decoration: none;
 }
 
 /* Note Page Styles */
 .note-page {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     margin: 1rem;
     display: flex;
     flex-direction: column;
@@ -467,7 +486,7 @@ code {
 
 .note-header {
     padding: 3rem 4rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
 }
 
 .note-title {
@@ -491,7 +510,7 @@ code {
     max-width: 760px;
     font-size: 1.05rem;
     line-height: 1.8;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
 }
 
 .note-body p {
@@ -506,7 +525,7 @@ code {
     margin-top: 3rem;
     margin-bottom: 1rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--border);
 }
 
 .note-body ul, .note-body ol {
@@ -519,7 +538,7 @@ code {
 }
 
 .note-body blockquote {
-    border-left: 4px solid #000;
+    border-left: 4px solid var(--border);
     padding-left: 1.5rem;
     margin: 2rem 0;
     font-style: italic;
@@ -532,19 +551,19 @@ code {
 }
 
 .note-body pre {
-    background: #000;
-    color: #fff;
+    background: var(--bg-inverted);
+    color: var(--text-inverted);
     padding: 1.5rem;
     margin: 1.5rem 0;
     overflow-x: auto;
     font-size: 0.9rem;
     line-height: 1.6;
-    border: 2px solid #000;
+    border: 2px solid var(--border);
 }
 
 .note-body pre code {
     background: none;
-    color: #fff;
+    color: var(--text-inverted);
     padding: 0;
     font-size: inherit;
 }
@@ -559,17 +578,17 @@ code {
 
 .note-connections {
     padding: 2rem 4rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
 }
 
 .note-related {
     padding: 2rem 4rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
 }
 
 /* Garden Map Styles */
 .garden-page {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     margin: 1rem;
     display: flex;
     flex-direction: column;
@@ -579,7 +598,7 @@ code {
 
 .garden-header {
     padding: 3rem 4rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
 }
 
 .garden-title {
@@ -598,7 +617,7 @@ code {
 
 .garden-filters {
     padding: 1.25rem 4rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
@@ -606,9 +625,9 @@ code {
 
 .filter-btn {
     padding: 0.35rem 1rem;
-    border: 2px solid #000;
-    background: #fff;
-    color: #000;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
     font-family: inherit;
     font-size: 0.8rem;
     text-transform: uppercase;
@@ -619,13 +638,13 @@ code {
 
 .filter-btn:hover,
 .filter-btn.active {
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--bg);
 }
 
 .garden-section {
     padding: 2rem 4rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--border);
 }
 
 .garden-section-title {
@@ -634,7 +653,7 @@ code {
     letter-spacing: 0.1em;
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--border);
 }
 
 .garden-grid {
@@ -644,10 +663,10 @@ code {
 }
 
 .garden-card {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     padding: 1rem 1.25rem;
     text-decoration: none;
-    color: #000;
+    color: var(--text);
     transition: all 0.15s ease;
     display: flex;
     flex-direction: column;
@@ -670,7 +689,7 @@ code {
 
 .garden-card:hover {
     transform: translateY(-2px);
-    box-shadow: 4px 4px 0 #000;
+    box-shadow: 4px 4px 0 var(--border);
 }
 
 .garden-card-name {
@@ -696,17 +715,17 @@ code {
 }
 
 .stage-dot-seed {
-    border: 1px dashed #000;
+    border: 1px dashed var(--border);
     background: transparent;
 }
 
 .stage-dot-sprout {
-    border: 1.5px solid #000;
+    border: 1.5px solid var(--border);
     background: transparent;
 }
 
 .stage-dot-evergreen {
-    background: #000;
+    background: var(--text);
 }
 
 .garden-notes-grid {
@@ -716,17 +735,17 @@ code {
 }
 
 .garden-note-card {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     padding: 1.25rem 1.5rem;
     text-decoration: none;
-    color: #000;
+    color: var(--text);
     transition: all 0.15s ease;
     animation: blockIn 0.3s ease both;
 }
 
 .garden-note-card:hover {
     transform: translateX(4px);
-    box-shadow: 2px 2px 0 #000;
+    box-shadow: 2px 2px 0 var(--border);
 }
 
 .garden-note-title {
@@ -742,6 +761,146 @@ code {
     display: flex;
     gap: 1rem;
     align-items: center;
+}
+
+/* Search palette */
+.search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.92);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 20vh;
+}
+body.dark .search-overlay {
+    background: rgba(17,17,17,0.92);
+}
+.search-modal {
+    width: 100%;
+    max-width: 520px;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    margin: 0 1rem;
+}
+.search-input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    font-family: inherit;
+    font-size: 1.1rem;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+}
+.search-input::placeholder {
+    color: var(--gray-mid);
+}
+.search-results {
+    max-height: 320px;
+    overflow-y: auto;
+}
+.search-result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-decoration: none;
+    color: var(--text);
+    border-bottom: 1px solid var(--gray-subtle);
+}
+.search-result:last-child {
+    border-bottom: none;
+}
+.search-result:hover,
+.search-result.active {
+    background: var(--text);
+    color: var(--bg);
+}
+.search-result-type {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+}
+.search-hint {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.8rem;
+    color: var(--gray-mid);
+    text-align: center;
+}
+
+/* Hover preview card */
+.preview-card {
+    position: fixed;
+    z-index: 900;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+    padding: 1rem 1.25rem;
+    max-width: 280px;
+    pointer-events: none;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+.preview-card-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+}
+.preview-card-stage {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray-mid);
+    margin-bottom: 0.5rem;
+}
+.preview-card-excerpt {
+    color: var(--gray-mid);
+}
+@media (hover: none) {
+    .preview-card { display: none !important; }
+}
+
+/* Force graph */
+.graph-container {
+    position: relative;
+    height: 500px;
+    border-bottom: 2px solid var(--border);
+    cursor: default;
+}
+.graph-container canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.graph-tooltip {
+    position: absolute;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+/* Page transitions */
+.page-enter-active,
+.page-leave-active {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.page-enter-from {
+    opacity: 0;
+    transform: translateY(8px);
+}
+.page-leave-to {
+    opacity: 0;
+    transform: translateY(-4px);
 }
 
 /* Responsive */
@@ -885,6 +1044,9 @@ code {
         padding-top: 1rem;
         padding-bottom: 1rem;
     }
+    .graph-container {
+        height: 300px;
+    }
 }
 </style>
 </head>
@@ -900,6 +1062,13 @@ const SKIP_WORDS = new Set(['the', 'of', 'at', 'and', 'that', 'not', 'just', 'wh
 
 // All word keys for wander
 const ALL_WORDS = () => Object.keys(wordData);
+
+// Reading time helper
+function readingTime(html) {
+    if (!html) return 0;
+    const words = html.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.round(words / 200));
+}
 
 // Time ago helper
 function timeAgo(dateStr) {
@@ -1881,6 +2050,31 @@ function getNotesForWord(word) {
     return results;
 }
 
+// Get backlinks: words that mention this word in their blocks but aren't in its related array
+function getBacklinks(wordId) {
+    const data = wordData[wordId];
+    const relatedSet = new Set(data?.related || []);
+    const results = [];
+    const pattern = new RegExp('\\b' + wordId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+    for (const [id, w] of Object.entries(wordData)) {
+        if (id === wordId || relatedSet.has(id) || SKIP_WORDS.has(id)) continue;
+        // Check if this word's related array includes wordId
+        if (w.related && w.related.includes(wordId)) {
+            results.push(id);
+            continue;
+        }
+        // Check block text/items for mentions
+        for (const block of (w.blocks || [])) {
+            const texts = [block.text || '', ...(block.items || [])].join(' ');
+            if (pattern.test(texts)) {
+                results.push(id);
+                break;
+            }
+        }
+    }
+    return results;
+}
+
 // Home component
 const Home = {
     template: `
@@ -1931,6 +2125,7 @@ const Home = {
                     <a href="mailto:hello@lulzx.dev">email</a>
                     <router-link to="/garden">garden map</router-link>
                     <a href="#" @click.prevent="wander">wander</a>
+                    <a href="#" @click.prevent="toggleDark">dark/light</a>
                 </div>
             </div>
         </div>
@@ -1940,7 +2135,8 @@ const Home = {
             const words = ALL_WORDS();
             const word = words[Math.floor(Math.random() * words.length)];
             this.$router.push('/words/' + word);
-        }
+        },
+        toggleDark() { toggleDarkMode(); }
     }
 };
 
@@ -1998,7 +2194,14 @@ const WordPage = {
                     <span class="note-link-stage">{{ note.stage }}</span>
                 </router-link>
             </div>
+            <div class="connections-section" v-if="backlinks.length > 0">
+                <div class="section-title">Backlinks</div>
+                <div class="chips">
+                    <router-link v-for="b in backlinks" :key="b" :to="'/words/' + b" class="chip">{{ b }}</router-link>
+                </div>
+            </div>
             <div class="wander-section">
+                <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
                 <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
             </div>
         </div>
@@ -2015,6 +2218,9 @@ const WordPage = {
         },
         related() {
             return this.data?.related || [];
+        },
+        backlinks() {
+            return getBacklinks(this.wordId);
         },
         notes() {
             return getNotesForWord(this.wordId);
@@ -2046,7 +2252,8 @@ const WordPage = {
             const words = ALL_WORDS().filter(w => w !== this.wordId);
             const word = words[Math.floor(Math.random() * words.length)];
             this.$router.push('/words/' + word);
-        }
+        },
+        toggleDark() { toggleDarkMode(); }
     },
     watch: {
         wordId: {
@@ -2074,6 +2281,7 @@ const NotePage = {
                     <span class="stage-badge" :class="'stage-' + note.stage">{{ note.stage }}</span>
                     <span>planted {{ timeAgo(note.planted) }}</span>
                     <span>tended {{ timeAgo(note.tended) }}</span>
+                    <span>{{ readingTime(note.content) }} min read</span>
                 </div>
             </div>
             <div class="note-body" v-html="note.content"></div>
@@ -2090,6 +2298,7 @@ const NotePage = {
                 </router-link>
             </div>
             <div class="wander-section">
+                <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
                 <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
             </div>
         </div>
@@ -2102,7 +2311,7 @@ const NotePage = {
                 <div class="word-title">404</div>
             </div>
             <div class="word-content">
-                <div class="block"><h2>Not Found</h2><p>This note doesn't exist. <router-link to="/garden" style="color:#000;text-decoration: underline;">Browse the garden</router-link>.</p></div>
+                <div class="block"><h2>Not Found</h2><p>This note doesn't exist. <router-link to="/garden" style="color:var(--text);text-decoration: underline;">Browse the garden</router-link>.</p></div>
             </div>
         </div>
     `,
@@ -2116,6 +2325,7 @@ const NotePage = {
     },
     methods: {
         timeAgo,
+        readingTime,
         getNoteTitle(id) {
             return notesData[id]?.title || id;
         },
@@ -2123,7 +2333,8 @@ const NotePage = {
             const words = ALL_WORDS();
             const word = words[Math.floor(Math.random() * words.length)];
             this.$router.push('/words/' + word);
-        }
+        },
+        toggleDark() { toggleDarkMode(); }
     }
 };
 
@@ -2144,6 +2355,12 @@ const GardenMap = {
                 <button class="filter-btn" :class="{ active: filter === 'evergreen' }" @click="filter = 'evergreen'">Evergreen</button>
                 <button class="filter-btn" :class="{ active: filter === 'sprout' }" @click="filter = 'sprout'">Sprout</button>
                 <button class="filter-btn" :class="{ active: filter === 'seed' }" @click="filter = 'seed'">Seed</button>
+            </div>
+            <div class="graph-container" ref="graphContainer">
+                <canvas ref="graphCanvas"></canvas>
+                <div class="graph-tooltip" v-if="tooltip.visible" :style="{ top: tooltip.y + 'px', left: tooltip.x + 'px' }">
+                    <strong>{{ tooltip.name }}</strong> <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;opacity:0.6;margin-left:0.5rem;">{{ tooltip.stage }}</span>
+                </div>
             </div>
             <div class="garden-section">
                 <div class="garden-section-title">Words ({{ filteredWords.length }})</div>
@@ -2170,12 +2387,20 @@ const GardenMap = {
                 </div>
             </div>
             <div class="wander-section">
+                <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
                 <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
             </div>
         </div>
     `,
     data() {
-        return { filter: 'all' };
+        return {
+            filter: 'all',
+            tooltip: { visible: false, x: 0, y: 0, name: '', stage: '' },
+            graphNodes: [],
+            graphEdges: [],
+            hoveredNode: null,
+            _raf: null
+        };
     },
     computed: {
         totalWords() { return Object.keys(wordData).length; },
@@ -2212,6 +2437,275 @@ const GardenMap = {
             const words = ALL_WORDS();
             const word = words[Math.floor(Math.random() * words.length)];
             this.$router.push('/words/' + word);
+        },
+        toggleDark() { toggleDarkMode(); },
+        initGraph() {
+            const canvas = this.$refs.graphCanvas;
+            const container = this.$refs.graphContainer;
+            if (!canvas || !container) return;
+
+            const dpr = window.devicePixelRatio || 1;
+            const rect = container.getBoundingClientRect();
+            const W = rect.width;
+            const H = rect.height;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            canvas.style.width = W + 'px';
+            canvas.style.height = H + 'px';
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+
+            // Build nodes
+            const nodeMap = {};
+            const nodes = [];
+            const edges = [];
+
+            Object.entries(wordData).forEach(([id, d]) => {
+                const connCount = (d.related || []).length;
+                const node = {
+                    id, type: 'word', stage: d.stage,
+                    x: W/2 + (Math.random() - 0.5) * W * 0.6,
+                    y: H/2 + (Math.random() - 0.5) * H * 0.6,
+                    vx: 0, vy: 0,
+                    r: Math.max(4, Math.min(12, 3 + connCount * 1.2)),
+                    label: id, path: '/words/' + id
+                };
+                nodes.push(node);
+                nodeMap[id] = node;
+            });
+
+            Object.entries(notesData).forEach(([id, n]) => {
+                const node = {
+                    id: 'note:' + id, type: 'note', stage: n.stage,
+                    x: W/2 + (Math.random() - 0.5) * W * 0.6,
+                    y: H/2 + (Math.random() - 0.5) * H * 0.6,
+                    vx: 0, vy: 0,
+                    r: 4, label: n.title, path: '/notes/' + id
+                };
+                nodes.push(node);
+                nodeMap['note:' + id] = node;
+            });
+
+            // Build edges (deduplicated)
+            const edgeSet = new Set();
+            Object.entries(wordData).forEach(([id, d]) => {
+                (d.related || []).forEach(r => {
+                    if (wordData[r]) {
+                        const key = [id, r].sort().join('|');
+                        if (!edgeSet.has(key)) { edgeSet.add(key); edges.push({ source: nodeMap[id], target: nodeMap[r] }); }
+                    }
+                });
+            });
+            Object.entries(notesData).forEach(([id, n]) => {
+                (n.words || []).forEach(w => {
+                    if (nodeMap[w]) {
+                        edges.push({ source: nodeMap['note:' + id], target: nodeMap[w] });
+                    }
+                });
+            });
+
+            this.graphNodes = nodes;
+            this.graphEdges = edges;
+
+            // Fruchterman-Reingold
+            const area = W * H;
+            const k = Math.sqrt(area / nodes.length) * 0.85;
+            let temp = W / 10;
+            const cooling = 0.95;
+            let iteration = 0;
+            const maxIter = 300;
+
+            const simulate = () => {
+                if (iteration >= maxIter) {
+                    this.renderGraph(ctx, W, H);
+                    return;
+                }
+                // Repulsive forces
+                for (let i = 0; i < nodes.length; i++) {
+                    nodes[i].vx = 0;
+                    nodes[i].vy = 0;
+                    for (let j = 0; j < nodes.length; j++) {
+                        if (i === j) continue;
+                        let dx = nodes[i].x - nodes[j].x;
+                        let dy = nodes[i].y - nodes[j].y;
+                        let dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
+                        let force = (k * k) / dist;
+                        nodes[i].vx += (dx / dist) * force;
+                        nodes[i].vy += (dy / dist) * force;
+                    }
+                }
+                // Attractive forces
+                for (const e of edges) {
+                    let dx = e.source.x - e.target.x;
+                    let dy = e.source.y - e.target.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
+                    let force = (dist * dist) / k;
+                    let fx = (dx / dist) * force;
+                    let fy = (dy / dist) * force;
+                    e.source.vx -= fx;
+                    e.source.vy -= fy;
+                    e.target.vx += fx;
+                    e.target.vy += fy;
+                }
+                // Apply with temperature
+                for (const n of nodes) {
+                    let dist = Math.sqrt(n.vx * n.vx + n.vy * n.vy) || 0.01;
+                    n.x += (n.vx / dist) * Math.min(dist, temp);
+                    n.y += (n.vy / dist) * Math.min(dist, temp);
+                    // Keep in bounds
+                    const pad = 20;
+                    n.x = Math.max(pad, Math.min(W - pad, n.x));
+                    n.y = Math.max(pad, Math.min(H - pad, n.y));
+                }
+                temp *= cooling;
+                iteration++;
+                this.renderGraph(ctx, W, H);
+                this._raf = requestAnimationFrame(simulate);
+            };
+
+            this._raf = requestAnimationFrame(simulate);
+            this._ctx = ctx;
+            this._W = W;
+            this._H = H;
+
+            // Mouse events
+            const getNode = (mx, my) => {
+                for (let i = nodes.length - 1; i >= 0; i--) {
+                    const n = nodes[i];
+                    const dx = mx - n.x, dy = my - n.y;
+                    const hitR = n.type === 'note' ? n.r + 2 : n.r + 2;
+                    if (dx * dx + dy * dy <= hitR * hitR) return n;
+                }
+                return null;
+            };
+
+            this._onMouseMove = (e) => {
+                const r = canvas.getBoundingClientRect();
+                const mx = e.clientX - r.left;
+                const my = e.clientY - r.top;
+                const node = getNode(mx, my);
+                this.hoveredNode = node;
+                canvas.style.cursor = node ? 'pointer' : 'default';
+                if (node) {
+                    this.tooltip = { visible: true, x: mx + 12, y: my - 10, name: node.label, stage: node.stage };
+                } else {
+                    this.tooltip.visible = false;
+                }
+                this.renderGraph(this._ctx, this._W, this._H);
+            };
+
+            this._onClick = (e) => {
+                const r = canvas.getBoundingClientRect();
+                const node = getNode(e.clientX - r.left, e.clientY - r.top);
+                if (node) this.$router.push(node.path);
+            };
+
+            this._onMouseLeave = () => {
+                this.hoveredNode = null;
+                this.tooltip.visible = false;
+                this.renderGraph(this._ctx, this._W, this._H);
+            };
+
+            canvas.addEventListener('mousemove', this._onMouseMove);
+            canvas.addEventListener('click', this._onClick);
+            canvas.addEventListener('mouseleave', this._onMouseLeave);
+        },
+        renderGraph(ctx, W, H) {
+            const nodes = this.graphNodes;
+            const edges = this.graphEdges;
+            const hovered = this.hoveredNode;
+            const filter = this.filter;
+            const styles = getComputedStyle(document.documentElement);
+            const textColor = styles.getPropertyValue('--text').trim() || '#000';
+            const borderColor = styles.getPropertyValue('--border').trim() || '#000';
+            const bgColor = styles.getPropertyValue('--bg').trim() || '#fff';
+
+            ctx.clearRect(0, 0, W, H);
+
+            // Connected set for hover highlight
+            const connectedIds = new Set();
+            if (hovered) {
+                connectedIds.add(hovered.id);
+                for (const e of edges) {
+                    if (e.source === hovered) connectedIds.add(e.target.id);
+                    if (e.target === hovered) connectedIds.add(e.source.id);
+                }
+            }
+
+            // Draw edges
+            for (const e of edges) {
+                const connected = hovered && (connectedIds.has(e.source.id) && connectedIds.has(e.target.id));
+                ctx.beginPath();
+                ctx.moveTo(e.source.x, e.source.y);
+                ctx.lineTo(e.target.x, e.target.y);
+                ctx.strokeStyle = hovered ? (connected ? textColor : '#e5e5e5') : '#e5e5e5';
+                ctx.lineWidth = connected ? 1.5 : 0.5;
+                ctx.globalAlpha = hovered ? (connected ? 0.8 : 0.1) : 0.4;
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+
+            // Draw nodes
+            for (const n of nodes) {
+                const isConnected = !hovered || connectedIds.has(n.id);
+                const matchFilter = filter === 'all' || n.stage === filter;
+                ctx.globalAlpha = hovered ? (isConnected ? 1 : 0.15) : (matchFilter ? 1 : 0.05);
+
+                if (n.type === 'note') {
+                    // Square for notes
+                    const s = n.r;
+                    ctx.fillStyle = textColor;
+                    ctx.fillRect(n.x - s, n.y - s, s * 2, s * 2);
+                } else {
+                    // Circle for words
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                    if (n.stage === 'evergreen') {
+                        ctx.fillStyle = textColor;
+                        ctx.fill();
+                    } else if (n.stage === 'sprout') {
+                        ctx.fillStyle = bgColor;
+                        ctx.fill();
+                        ctx.strokeStyle = textColor;
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    } else {
+                        ctx.fillStyle = bgColor;
+                        ctx.fill();
+                        ctx.strokeStyle = textColor;
+                        ctx.lineWidth = 1;
+                        ctx.setLineDash([3, 3]);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                }
+
+                // Label for larger/hovered nodes
+                if (isConnected && (n.r >= 6 || n === hovered)) {
+                    ctx.fillStyle = textColor;
+                    ctx.font = n === hovered ? 'bold 11px -apple-system, sans-serif' : '9px -apple-system, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(n.label.length > 12 ? n.label.slice(0, 10) + '..' : n.label, n.x, n.y + n.r + 12);
+                }
+            }
+            ctx.globalAlpha = 1;
+        }
+    },
+    watch: {
+        filter() {
+            if (this._ctx) this.renderGraph(this._ctx, this._W, this._H);
+        }
+    },
+    mounted() {
+        this.$nextTick(() => this.initGraph());
+    },
+    beforeUnmount() {
+        if (this._raf) cancelAnimationFrame(this._raf);
+        const canvas = this.$refs.graphCanvas;
+        if (canvas) {
+            canvas.removeEventListener('mousemove', this._onMouseMove);
+            canvas.removeEventListener('click', this._onClick);
+            canvas.removeEventListener('mouseleave', this._onMouseLeave);
         }
     }
 };
@@ -2223,7 +2717,7 @@ const NotFound = {
             <div class="main" style="text-align: center;">
                 <div>
                     <p style="font-size: 6rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin-bottom: 1rem;">404</p>
-                    <p>Page not found. <router-link to="/" class="word" style="text-decoration-color: #000;">Go home</router-link></p>
+                    <p>Page not found. <router-link to="/" class="word" style="text-decoration-color: var(--border);">Go home</router-link></p>
                 </div>
             </div>
             <div class="footer">
@@ -2231,6 +2725,7 @@ const NotFound = {
                 <div class="footer-links">
                     <router-link to="/garden">garden map</router-link>
                     <a href="#" @click.prevent="wander">wander</a>
+                    <a href="#" @click.prevent="toggleDark">dark/light</a>
                 </div>
             </div>
         </div>
@@ -2240,7 +2735,157 @@ const NotFound = {
             const words = ALL_WORDS();
             const word = words[Math.floor(Math.random() * words.length)];
             this.$router.push('/words/' + word);
+        },
+        toggleDark() { toggleDarkMode(); }
+    }
+};
+
+// Search palette component
+const SearchPalette = {
+    template: `
+        <div class="search-overlay" v-if="isOpen" @click.self="close">
+            <div class="search-modal">
+                <input ref="input" class="search-input" v-model="query" @keydown="onKey" placeholder="Search words and notes..." />
+                <div class="search-results" v-if="results.length > 0">
+                    <div v-for="(r, i) in results" :key="r.path" class="search-result" :class="{ active: i === activeIndex }" @click="go(r)" @mouseenter="activeIndex = i">
+                        <span>{{ r.label }}</span>
+                        <span class="search-result-type">{{ r.type }}</span>
+                    </div>
+                </div>
+                <div class="search-hint" v-else-if="query.length > 0">No results</div>
+                <div class="search-hint" v-else>Type to search. Esc to close.</div>
+            </div>
+        </div>
+    `,
+    data() {
+        return { isOpen: false, query: '', activeIndex: 0, pool: [] };
+    },
+    computed: {
+        results() {
+            if (!this.query) return [];
+            const q = this.query.toLowerCase();
+            const scored = this.pool.map(item => {
+                const name = item.label.toLowerCase();
+                if (name === q) return { ...item, score: 100 };
+                if (name.startsWith(q)) return { ...item, score: 80 };
+                if (name.includes(q)) return { ...item, score: 60 };
+                // Subsequence match
+                let qi = 0;
+                for (let i = 0; i < name.length && qi < q.length; i++) {
+                    if (name[i] === q[qi]) qi++;
+                }
+                if (qi === q.length) return { ...item, score: 30 };
+                return null;
+            }).filter(Boolean);
+            scored.sort((a, b) => b.score - a.score);
+            return scored.slice(0, 12);
         }
+    },
+    watch: {
+        query() { this.activeIndex = 0; },
+        '$route'() { this.close(); }
+    },
+    mounted() {
+        this.pool = [
+            ...Object.keys(wordData).map(id => ({ label: id, path: '/words/' + id, type: 'word' })),
+            ...Object.entries(notesData).map(([id, n]) => ({ label: n.title, path: '/notes/' + id, type: 'note' }))
+        ];
+        window.__gardenSearch = {
+            open: () => this.open(),
+            close: () => this.close(),
+            get isOpen() { return false; }
+        };
+        Object.defineProperty(window.__gardenSearch, 'isOpen', {
+            get: () => this.isOpen
+        });
+    },
+    methods: {
+        open() {
+            this.isOpen = true;
+            this.query = '';
+            this.activeIndex = 0;
+            this.$nextTick(() => this.$refs.input?.focus());
+        },
+        close() {
+            this.isOpen = false;
+            this.query = '';
+        },
+        go(r) {
+            this.$router.push(r.path);
+            this.close();
+        },
+        onKey(e) {
+            if (e.key === 'Escape') { this.close(); return; }
+            if (e.key === 'ArrowDown') { e.preventDefault(); this.activeIndex = Math.min(this.activeIndex + 1, this.results.length - 1); return; }
+            if (e.key === 'ArrowUp') { e.preventDefault(); this.activeIndex = Math.max(this.activeIndex - 1, 0); return; }
+            if (e.key === 'Enter' && this.results[this.activeIndex]) { this.go(this.results[this.activeIndex]); return; }
+        }
+    }
+};
+
+// Preview card component
+const PreviewCard = {
+    template: `
+        <div class="preview-card" v-if="visible" :style="{ top: y + 'px', left: x + 'px' }">
+            <div class="preview-card-name">{{ data.name }}</div>
+            <div class="preview-card-stage">{{ data.stage }}</div>
+            <div class="preview-card-excerpt">{{ data.excerpt }}</div>
+        </div>
+    `,
+    data() {
+        return { visible: false, x: 0, y: 0, data: { name: '', stage: '', excerpt: '' } };
+    },
+    mounted() {
+        this._timer = null;
+        this._onMouseOver = (e) => {
+            const el = e.target.closest('.chip, .inline-word-link, .word');
+            if (!el) return;
+            clearTimeout(this._timer);
+            this._timer = setTimeout(() => {
+                const href = el.getAttribute('href') || el.closest('a')?.getAttribute('href') || '';
+                let info = null;
+                const wordMatch = href.match(/\/words\/(.+)/);
+                const noteMatch = href.match(/\/notes\/(.+)/);
+                if (wordMatch && wordData[wordMatch[1]]) {
+                    const w = wordData[wordMatch[1]];
+                    const firstBlock = w.blocks?.[0];
+                    const excerpt = firstBlock?.text || (firstBlock?.items ? firstBlock.items[0] : '') || '';
+                    info = { name: wordMatch[1], stage: w.stage, excerpt: excerpt.replace(/<[^>]*>/g, '').slice(0, 100) + (excerpt.length > 100 ? '...' : '') };
+                } else if (noteMatch && notesData[noteMatch[1]]) {
+                    const n = notesData[noteMatch[1]];
+                    const text = n.content.replace(/<[^>]*>/g, '');
+                    const firstSentence = text.match(/^[^.!?]+[.!?]/)?.[0] || text.slice(0, 100);
+                    info = { name: n.title, stage: n.stage, excerpt: firstSentence.slice(0, 120) };
+                }
+                if (!info) return;
+                const rect = el.getBoundingClientRect();
+                let left = rect.left;
+                let top = rect.bottom + 8;
+                if (left + 280 > window.innerWidth) left = window.innerWidth - 290;
+                if (top + 150 > window.innerHeight) top = rect.top - 150;
+                this.x = Math.max(10, left);
+                this.y = top;
+                this.data = info;
+                this.visible = true;
+            }, 200);
+        };
+        this._onMouseOut = (e) => {
+            const el = e.target.closest('.chip, .inline-word-link, .word');
+            if (el) { clearTimeout(this._timer); this.visible = false; }
+        };
+        this._onScroll = () => { this.visible = false; };
+        document.getElementById('app').addEventListener('mouseover', this._onMouseOver);
+        document.getElementById('app').addEventListener('mouseout', this._onMouseOut);
+        document.getElementById('app').addEventListener('scroll', this._onScroll);
+    },
+    beforeUnmount() {
+        const el = document.getElementById('app');
+        el?.removeEventListener('mouseover', this._onMouseOver);
+        el?.removeEventListener('mouseout', this._onMouseOut);
+        el?.removeEventListener('scroll', this._onScroll);
+    },
+    watch: {
+        '$route'() { this.visible = false; }
     }
 };
 
@@ -2259,23 +2904,69 @@ const router = createRouter({
     }
 });
 
-// Scroll #app to top on route change
+// Scroll #app to top on route change (delayed to sync with transition)
 router.afterEach(() => {
-    document.getElementById('app').scrollTop = 0;
+    setTimeout(() => { document.getElementById('app').scrollTop = 0; }, 210);
 });
 
 // Expose router for inline links
 window.__gardenRouter = router;
 
+// Dark mode
+function initDarkMode() {
+    if (localStorage.getItem('dark-mode') === 'true') {
+        document.body.classList.add('dark');
+    }
+}
+function toggleDarkMode() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('dark-mode', document.body.classList.contains('dark'));
+}
+initDarkMode();
+
 // Root App component
 const App = {
-    template: `<router-view></router-view>`
+    template: `<div><search-palette ref="search"></search-palette><preview-card></preview-card><router-view v-slot="{ Component }"><transition name="page" mode="out-in"><component :is="Component" :key="$route.fullPath" /></transition></router-view></div>`
 };
 
 // App
 const app = createApp(App);
+app.component('search-palette', SearchPalette);
+app.component('preview-card', PreviewCard);
 app.use(router);
-app.mount('#app');
+const vm = app.mount('#app');
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === '/' || (e.key === 'k' && (e.metaKey || e.ctrlKey))) {
+        e.preventDefault();
+        window.__gardenSearch?.open();
+        return;
+    }
+    if (e.key === 'Escape') {
+        if (window.__gardenSearch?.isOpen) { window.__gardenSearch.close(); return; }
+        router.push('/');
+        return;
+    }
+    if (e.key === 'w') {
+        const words = ALL_WORDS();
+        router.push('/words/' + words[Math.floor(Math.random() * words.length)]);
+        return;
+    }
+    if (e.key === '[' || e.key === ']') {
+        const route = router.currentRoute.value;
+        if (!route.params.word) return;
+        const chips = document.querySelectorAll('.connections-section .chip');
+        if (chips.length === 0) return;
+        const currentActive = document.querySelector('.connections-section .chip:focus');
+        let idx = currentActive ? Array.from(chips).indexOf(currentActive) : -1;
+        if (e.key === ']') idx = (idx + 1) % chips.length;
+        else idx = (idx - 1 + chips.length) % chips.length;
+        chips[idx]?.focus();
+        return;
+    }
+});
 </script>
 </body>
 </html>
