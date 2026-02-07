@@ -265,16 +265,15 @@ body {
 .block {
     border: 2px solid var(--border);
     padding: 2rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    animation: blockIn 0.4s ease both;
+    transition: transform 0.4s ease, box-shadow 0.2s ease, opacity 0.4s ease;
+    opacity: 0;
+    transform: translateY(24px);
 }
 
-.block:nth-child(1) { animation-delay: 0s; }
-.block:nth-child(2) { animation-delay: 0.05s; }
-.block:nth-child(3) { animation-delay: 0.1s; }
-.block:nth-child(4) { animation-delay: 0.15s; }
-.block:nth-child(5) { animation-delay: 0.2s; }
-.block:nth-child(6) { animation-delay: 0.25s; }
+.block.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 .block:hover {
     transform: translateY(-2px);
@@ -667,25 +666,18 @@ code {
     padding: 1rem 1.25rem;
     text-decoration: none;
     color: var(--text);
-    transition: all 0.15s ease;
+    transition: transform 0.4s ease, box-shadow 0.15s ease, opacity 0.4s ease;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    animation: blockIn 0.3s ease both;
+    opacity: 0;
+    transform: translateY(24px);
 }
 
-.garden-card:nth-child(1) { animation-delay: 0s; }
-.garden-card:nth-child(2) { animation-delay: 0.02s; }
-.garden-card:nth-child(3) { animation-delay: 0.04s; }
-.garden-card:nth-child(4) { animation-delay: 0.06s; }
-.garden-card:nth-child(5) { animation-delay: 0.08s; }
-.garden-card:nth-child(6) { animation-delay: 0.1s; }
-.garden-card:nth-child(7) { animation-delay: 0.12s; }
-.garden-card:nth-child(8) { animation-delay: 0.14s; }
-.garden-card:nth-child(9) { animation-delay: 0.16s; }
-.garden-card:nth-child(10) { animation-delay: 0.18s; }
-.garden-card:nth-child(11) { animation-delay: 0.2s; }
-.garden-card:nth-child(12) { animation-delay: 0.22s; }
+.garden-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 .garden-card:hover {
     transform: translateY(-2px);
@@ -739,8 +731,14 @@ code {
     padding: 1.25rem 1.5rem;
     text-decoration: none;
     color: var(--text);
-    transition: all 0.15s ease;
-    animation: blockIn 0.3s ease both;
+    transition: transform 0.4s ease, box-shadow 0.15s ease, opacity 0.4s ease;
+    opacity: 0;
+    transform: translateY(24px);
+}
+
+.garden-note-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .garden-note-card:hover {
@@ -1048,6 +1046,292 @@ body.dark .search-overlay {
         height: 300px;
     }
 }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .block, .garden-card, .garden-note-card {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    .word-page, .note-page, .garden-page, .timeline-page {
+        animation: none !important;
+    }
+}
+
+/* Reading progress */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--gray-subtle);
+    margin-top: 1rem;
+}
+.progress-fill {
+    height: 100%;
+    background: var(--text);
+    transition: width 0.4s ease;
+}
+.discovery-score {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+.discovery-detail {
+    font-size: 0.85rem;
+    color: var(--gray-mid);
+    margin-top: 0.5rem;
+}
+.next-section {
+    padding: 1.5rem 4rem;
+    border-top: 2px solid var(--border);
+}
+.chip-unvisited {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border: 2px dashed var(--border);
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+    letter-spacing: -0.01em;
+}
+.chip-unvisited:hover {
+    background: var(--text);
+    color: var(--bg);
+    border-style: solid;
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 0 var(--border);
+}
+
+/* Full-text search */
+.search-result-excerpt {
+    font-size: 0.75rem;
+    color: var(--gray-mid);
+    margin-top: 0.25rem;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+.search-result:hover .search-result-excerpt,
+.search-result.active .search-result-excerpt {
+    color: var(--bg);
+    opacity: 0.8;
+}
+.search-result-excerpt mark,
+.search-highlight {
+    background: var(--text);
+    color: var(--bg);
+    padding: 0.1em 0.2em;
+}
+.search-result:hover .search-result-excerpt mark,
+.search-result.active .search-result-excerpt mark {
+    background: var(--bg);
+    color: var(--text);
+}
+.search-highlight {
+    animation: highlightPulse 1s ease 2;
+}
+@keyframes highlightPulse {
+    0%, 100% { background: var(--text); color: var(--bg); }
+    50% { background: var(--gray-subtle); color: var(--text); }
+}
+
+/* Graph analytics */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.analytics-grid .block {
+    opacity: 1;
+    transform: none;
+}
+
+/* Community / Topics */
+.view-toggle {
+    padding: 0.35rem 1rem;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-left: auto;
+}
+.view-toggle:hover,
+.view-toggle.active {
+    background: var(--text);
+    color: var(--bg);
+}
+.topic-cluster {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--gray-subtle);
+}
+.topic-cluster:last-child {
+    border-bottom: none;
+}
+.topic-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.topic-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.topic-count {
+    font-size: 0.75rem;
+    color: var(--gray-mid);
+}
+
+/* Graph controls */
+.graph-controls {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+.graph-controls button {
+    padding: 0.35rem 0.75rem;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.graph-controls button:hover,
+.graph-controls button.active {
+    background: var(--text);
+    color: var(--bg);
+}
+.path-instruction {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-inverted);
+    color: var(--text-inverted);
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    z-index: 10;
+}
+
+/* Timeline */
+.timeline-page {
+    border: 2px solid var(--border);
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 2rem);
+    animation: fadeIn 0.3s ease;
+}
+.timeline-header {
+    padding: 3rem 4rem;
+    border-bottom: 2px solid var(--border);
+}
+.timeline-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+.timeline-subtitle {
+    font-size: 1rem;
+    color: var(--gray-mid);
+}
+.timeline-canvas-container {
+    position: relative;
+    height: 400px;
+    border-bottom: 2px solid var(--border);
+    padding: 1rem 2rem;
+}
+.timeline-canvas-container canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.timeline-tooltip {
+    position: absolute;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    max-width: 250px;
+    pointer-events: none;
+    z-index: 10;
+}
+.timeline-tooltip-title {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+.timeline-tooltip-item {
+    cursor: pointer;
+    pointer-events: auto;
+    padding: 0.15rem 0;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-underline-offset: 2px;
+}
+.timeline-tooltip-item:hover {
+    background: var(--text);
+    color: var(--bg);
+    text-decoration: none;
+}
+
+@media (max-width: 800px) {
+    .next-section {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    .timeline-header {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+@media (max-width: 500px) {
+    .next-section {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    .timeline-header {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    .timeline-canvas-container {
+        height: 250px;
+        padding: 0.5rem 1rem;
+    }
+    .analytics-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .timeline-page {
+        margin: 0.5rem;
+        min-height: calc(100vh - 1rem);
+    }
+    .graph-controls {
+        bottom: 0.5rem;
+        right: 0.5rem;
+    }
+}
 </style>
 </head>
 <body>
@@ -1097,6 +1381,38 @@ function addToTrail(word) {
     trail.push(word);
     if (trail.length > 5) trail = trail.slice(-5);
     sessionStorage.setItem('garden-trail', JSON.stringify(trail));
+}
+
+// Reading progress helpers
+function getVisited() {
+    try { return JSON.parse(localStorage.getItem('garden-visited') || '{"words":[],"notes":[]}'); }
+    catch { return { words: [], notes: [] }; }
+}
+function markVisited(type, id) {
+    const v = getVisited();
+    const arr = type === 'word' ? v.words : v.notes;
+    if (!arr.includes(id)) { arr.push(id); localStorage.setItem('garden-visited', JSON.stringify(v)); }
+}
+function isVisited(type, id) {
+    const v = getVisited();
+    return (type === 'word' ? v.words : v.notes).includes(id);
+}
+function getDiscoveryScore() {
+    const v = getVisited();
+    const totalWords = Object.keys(wordData).length;
+    const totalNotes = Object.keys(notesData).length;
+    const total = totalWords + totalNotes;
+    if (total === 0) return 0;
+    return Math.round(((v.words.length + v.notes.length) / total) * 100);
+}
+function getUnvisitedConnections(wordId) {
+    const data = wordData[wordId];
+    if (!data) return [];
+    const related = data.related || [];
+    const backlinks = getBacklinks(wordId);
+    const notes = getNotesForWord(wordId).map(n => ({ type: 'note', id: n.id, label: n.title }));
+    const wordConns = [...new Set([...related, ...backlinks])].map(w => ({ type: 'word', id: w, label: w }));
+    return [...wordConns, ...notes].filter(c => !isVisited(c.type, c.id)).slice(0, 3);
 }
 
 // Word data store
@@ -2075,6 +2391,154 @@ function getBacklinks(wordId) {
     return results;
 }
 
+// Graph analytics
+function computeGraphAnalytics() {
+    const words = Object.keys(wordData);
+    const n = words.length;
+    if (n === 0) return {};
+
+    // Build adjacency list (undirected)
+    const adj = {};
+    words.forEach(w => { adj[w] = new Set(); });
+    words.forEach(w => {
+        (wordData[w].related || []).forEach(r => {
+            if (wordData[r]) { adj[w].add(r); adj[r].add(w); }
+        });
+    });
+
+    // Degree centrality
+    const degrees = words.map(w => ({ id: w, degree: adj[w].size }));
+    degrees.sort((a, b) => b.degree - a.degree);
+    const avgDegree = (degrees.reduce((s, d) => s + d.degree, 0) / n).toFixed(1);
+    const topDegree = degrees.slice(0, 5);
+
+    // Clustering coefficient
+    let totalCC = 0;
+    words.forEach(w => {
+        const neighbors = [...adj[w]];
+        const k = neighbors.length;
+        if (k < 2) return;
+        let edges = 0;
+        for (let i = 0; i < k; i++)
+            for (let j = i + 1; j < k; j++)
+                if (adj[neighbors[i]].has(neighbors[j])) edges++;
+        totalCC += (2 * edges) / (k * (k - 1));
+    });
+    const avgClustering = (totalCC / n).toFixed(3);
+
+    // Betweenness centrality (Brandes)
+    const betweenness = {};
+    words.forEach(w => { betweenness[w] = 0; });
+    words.forEach(s => {
+        const S = [];
+        const P = {};
+        const sigma = {};
+        const d = {};
+        words.forEach(w => { P[w] = []; sigma[w] = 0; d[w] = -1; });
+        sigma[s] = 1; d[s] = 0;
+        const Q = [s];
+        while (Q.length) {
+            const v = Q.shift();
+            S.push(v);
+            adj[v].forEach(w => {
+                if (d[w] < 0) { Q.push(w); d[w] = d[v] + 1; }
+                if (d[w] === d[v] + 1) { sigma[w] += sigma[v]; P[w].push(v); }
+            });
+        }
+        const delta = {};
+        words.forEach(w => { delta[w] = 0; });
+        while (S.length) {
+            const w = S.pop();
+            P[w].forEach(v => { delta[v] += (sigma[v] / sigma[w]) * (1 + delta[w]); });
+            if (w !== s) betweenness[w] += delta[w];
+        }
+    });
+    // Normalize
+    const maxBetween = Math.max(...Object.values(betweenness)) || 1;
+    const topBetweenness = Object.entries(betweenness)
+        .map(([id, val]) => ({ id, value: (val / maxBetween).toFixed(3) }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 5);
+
+    // Bridge nodes (articulation points via DFS)
+    const bridges = [];
+    const visited = new Set();
+    const disc = {};
+    const low = {};
+    const parent = {};
+    let timer = 0;
+    function dfsBridge(u) {
+        visited.add(u);
+        disc[u] = low[u] = timer++;
+        let children = 0;
+        adj[u].forEach(v => {
+            if (!visited.has(v)) {
+                children++;
+                parent[v] = u;
+                dfsBridge(v);
+                low[u] = Math.min(low[u], low[v]);
+                if (!parent[u] && children > 1) { if (!bridges.includes(u)) bridges.push(u); }
+                if (parent[u] && low[v] >= disc[u]) { if (!bridges.includes(u)) bridges.push(u); }
+            } else if (v !== parent[u]) {
+                low[u] = Math.min(low[u], disc[v]);
+            }
+        });
+    }
+    words.forEach(w => { parent[w] = undefined; });
+    words.forEach(w => { if (!visited.has(w)) dfsBridge(w); });
+
+    return { avgDegree, topDegree, avgClustering, topBetweenness, bridges, totalEdges: degrees.reduce((s, d) => s + d.degree, 0) / 2 };
+}
+
+// Community detection (Label Propagation)
+function detectCommunities() {
+    const words = Object.keys(wordData);
+    const labels = {};
+    words.forEach((w, i) => { labels[w] = i; });
+
+    const adj = {};
+    words.forEach(w => { adj[w] = []; });
+    words.forEach(w => {
+        (wordData[w].related || []).forEach(r => {
+            if (wordData[r]) {
+                if (!adj[w].includes(r)) adj[w].push(r);
+                if (!adj[r].includes(w)) adj[r].push(w);
+            }
+        });
+    });
+
+    for (let iter = 0; iter < 50; iter++) {
+        let changed = false;
+        const shuffled = [...words].sort(() => Math.random() - 0.5);
+        for (const w of shuffled) {
+            const neighbors = adj[w];
+            if (neighbors.length === 0) continue;
+            const freq = {};
+            neighbors.forEach(n => { freq[labels[n]] = (freq[labels[n]] || 0) + 1; });
+            let maxFreq = 0, maxLabel = labels[w];
+            for (const [l, f] of Object.entries(freq)) {
+                if (f > maxFreq) { maxFreq = f; maxLabel = Number(l); }
+            }
+            if (labels[w] !== maxLabel) { labels[w] = maxLabel; changed = true; }
+        }
+        if (!changed) break;
+    }
+
+    // Group by label
+    const communities = {};
+    words.forEach(w => {
+        const l = labels[w];
+        if (!communities[l]) communities[l] = [];
+        communities[l].push(w);
+    });
+
+    // Name each community by most-connected member
+    return Object.values(communities).map(members => {
+        members.sort((a, b) => (wordData[b].related?.length || 0) - (wordData[a].related?.length || 0));
+        return { name: members[0], members };
+    }).sort((a, b) => b.members.length - a.members.length);
+}
+
 // Home component
 const Home = {
     template: `
@@ -2124,6 +2588,7 @@ const Home = {
                     <a href="https://github.com/lulzx">github</a>
                     <a href="mailto:hello@lulzx.dev">email</a>
                     <router-link to="/garden">garden map</router-link>
+                    <router-link to="/timeline">timeline</router-link>
                     <a href="#" @click.prevent="wander">wander</a>
                     <a href="#" @click.prevent="toggleDark">dark/light</a>
                 </div>
@@ -2169,7 +2634,7 @@ const WordPage = {
                 <div v-for="(block, index) in blocks" :key="index"
                      class="block"
                      :class="{ 'block-inverted': block.stat || block.check, 'block-zero': block.zero }"
-                     :style="{ animationDelay: (index * 0.05) + 's' }">
+                     v-scroll-reveal="{ delay: index * 0.05 }">
                     <div v-if="block.stat" class="stat">{{ block.stat }}</div>
                     <div v-if="block.zero" class="zero">0</div>
                     <div v-if="block.check" style="font-size: 4rem; margin-bottom: 1rem;">{{ block.check }}</div>
@@ -2200,6 +2665,12 @@ const WordPage = {
                     <router-link v-for="b in backlinks" :key="b" :to="'/words/' + b" class="chip">{{ b }}</router-link>
                 </div>
             </div>
+            <div class="next-section" v-if="unvisited.length > 0">
+                <div class="section-title">Up Next</div>
+                <div class="chips">
+                    <router-link v-for="u in unvisited" :key="u.type + u.id" :to="u.type === 'word' ? '/words/' + u.id : '/notes/' + u.id" class="chip-unvisited">{{ u.label }}</router-link>
+                </div>
+            </div>
             <div class="wander-section">
                 <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
                 <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
@@ -2228,6 +2699,9 @@ const WordPage = {
         trail() {
             const t = getTrail().filter(w => w !== this.wordId);
             return t.slice(-3);
+        },
+        unvisited() {
+            return getUnvisitedConnections(this.wordId);
         }
     },
     methods: {
@@ -2260,6 +2734,7 @@ const WordPage = {
             handler(val) {
                 if (val && wordData[val]) {
                     addToTrail(val);
+                    markVisited('word', val);
                 }
             },
             immediate: true
@@ -2297,6 +2772,12 @@ const NotePage = {
                     <span class="note-link-title">{{ getNoteTitle(rn) }}</span>
                 </router-link>
             </div>
+            <div class="next-section" v-if="unvisitedConns.length > 0">
+                <div class="section-title">Up Next</div>
+                <div class="chips">
+                    <router-link v-for="u in unvisitedConns" :key="u.type + u.id" :to="u.type === 'word' ? '/words/' + u.id : '/notes/' + u.id" class="chip-unvisited">{{ u.label }}</router-link>
+                </div>
+            </div>
             <div class="wander-section">
                 <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
                 <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
@@ -2321,6 +2802,17 @@ const NotePage = {
         },
         note() {
             return notesData[this.noteId];
+        },
+        unvisitedConns() {
+            if (!this.note) return [];
+            const conns = [];
+            (this.note.words || []).forEach(w => {
+                if (!isVisited('word', w)) conns.push({ type: 'word', id: w, label: w });
+            });
+            (this.note.relatedNotes || []).forEach(rn => {
+                if (!isVisited('note', rn)) conns.push({ type: 'note', id: rn, label: notesData[rn]?.title || rn });
+            });
+            return conns.slice(0, 3);
         }
     },
     methods: {
@@ -2334,8 +2826,59 @@ const NotePage = {
             const word = words[Math.floor(Math.random() * words.length)];
             this.$router.push('/words/' + word);
         },
-        toggleDark() { toggleDarkMode(); }
-    }
+        toggleDark() { toggleDarkMode(); },
+        highlightSearchQuery() {
+            const q = this.$route.query.q;
+            const el = this.$el?.querySelector('.note-body');
+            if (!el) return;
+            // Remove old highlights
+            el.querySelectorAll('.search-highlight').forEach(mark => {
+                const parent = mark.parentNode;
+                parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                parent.normalize();
+            });
+            if (!q) return;
+            const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+            const lower = q.toLowerCase();
+            let firstMatch = null;
+            nodes.forEach(node => {
+                const text = node.textContent;
+                const idx = text.toLowerCase().indexOf(lower);
+                if (idx === -1) return;
+                const before = text.slice(0, idx);
+                const match = text.slice(idx, idx + q.length);
+                const after = text.slice(idx + q.length);
+                const mark = document.createElement('mark');
+                mark.className = 'search-highlight';
+                mark.textContent = match;
+                const parent = node.parentNode;
+                if (before) parent.insertBefore(document.createTextNode(before), node);
+                parent.insertBefore(mark, node);
+                if (after) parent.insertBefore(document.createTextNode(after), node);
+                parent.removeChild(node);
+                if (!firstMatch) firstMatch = mark;
+            });
+            if (firstMatch) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    },
+    mounted() {
+        if (this.noteId && notesData[this.noteId]) markVisited('note', this.noteId);
+        this.$nextTick(() => this.highlightSearchQuery());
+    },
+    watch: {
+        noteId(val) {
+            if (val && notesData[val]) markVisited('note', val);
+        },
+        '$route.query.q'() {
+            this.$nextTick(() => this.highlightSearchQuery());
+        }
+    },
+    updated() {
+        this.$nextTick(() => this.highlightSearchQuery());
+    },
+    _highlightApplied: false
 };
 
 // Garden map component
@@ -2349,23 +2892,82 @@ const GardenMap = {
             <div class="garden-header">
                 <div class="garden-title">Garden Map</div>
                 <div class="garden-subtitle">{{ totalWords }} words, {{ totalNotes }} notes. An interconnected web of ideas at various stages of growth.</div>
+                <div style="margin-top: 1.5rem;">
+                    <div class="discovery-score">{{ discoveryScore }}%</div>
+                    <div class="stat-label">discovered</div>
+                    <div class="progress-bar"><div class="progress-fill" :style="{ width: discoveryScore + '%' }"></div></div>
+                    <div class="discovery-detail">{{ visitedCount.words }} of {{ totalWords }} words, {{ visitedCount.notes }} of {{ totalNotes }} notes explored</div>
+                </div>
             </div>
             <div class="garden-filters">
                 <button class="filter-btn" :class="{ active: filter === 'all' }" @click="filter = 'all'">All</button>
                 <button class="filter-btn" :class="{ active: filter === 'evergreen' }" @click="filter = 'evergreen'">Evergreen</button>
                 <button class="filter-btn" :class="{ active: filter === 'sprout' }" @click="filter = 'sprout'">Sprout</button>
                 <button class="filter-btn" :class="{ active: filter === 'seed' }" @click="filter = 'seed'">Seed</button>
+                <button class="view-toggle" :class="{ active: viewMode === 'topics' }" @click="viewMode = viewMode === 'grid' ? 'topics' : 'grid'">{{ viewMode === 'grid' ? 'Topics' : 'Grid' }}</button>
             </div>
             <div class="graph-container" ref="graphContainer">
                 <canvas ref="graphCanvas"></canvas>
                 <div class="graph-tooltip" v-if="tooltip.visible" :style="{ top: tooltip.y + 'px', left: tooltip.x + 'px' }">
                     <strong>{{ tooltip.name }}</strong> <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;opacity:0.6;margin-left:0.5rem;">{{ tooltip.stage }}</span>
                 </div>
+                <div class="graph-controls">
+                    <button @click="resetZoom">Reset Zoom</button>
+                    <button :class="{ active: pathMode }" @click="togglePathMode">{{ pathMode ? 'Cancel Path' : 'Find Path' }}</button>
+                </div>
+                <div class="path-instruction" v-if="pathMode && pathNodes.length < 2">Click {{ pathNodes.length === 0 ? 'start' : 'end' }} node</div>
             </div>
-            <div class="garden-section">
+            <div class="garden-section" v-if="analytics">
+                <div class="garden-section-title">Graph Analytics</div>
+                <div class="analytics-grid">
+                    <div class="block block-inverted">
+                        <div class="stat">{{ analytics.avgDegree }}</div>
+                        <div class="stat-label">Avg Connections</div>
+                    </div>
+                    <div class="block block-inverted">
+                        <div class="stat">{{ analytics.totalEdges }}</div>
+                        <div class="stat-label">Total Edges</div>
+                    </div>
+                    <div class="block block-inverted">
+                        <div class="stat">{{ analytics.avgClustering }}</div>
+                        <div class="stat-label">Clustering Coeff</div>
+                    </div>
+                    <div class="block">
+                        <h2>Most Connected</h2>
+                        <ul>
+                            <li v-for="d in analytics.topDegree" :key="d.id">{{ d.id }} ({{ d.degree }})</li>
+                        </ul>
+                    </div>
+                    <div class="block">
+                        <h2>Highest Betweenness</h2>
+                        <ul>
+                            <li v-for="b in analytics.topBetweenness" :key="b.id">{{ b.id }} ({{ b.value }})</li>
+                        </ul>
+                    </div>
+                    <div class="block" v-if="analytics.bridges.length > 0">
+                        <h2>Bridge Nodes</h2>
+                        <ul>
+                            <li v-for="b in analytics.bridges" :key="b">{{ b }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="garden-section" v-if="viewMode === 'topics'">
+                <div class="garden-section-title">Topics ({{ communities.length }} clusters)</div>
+                <div v-for="c in communities" :key="c.name" class="topic-cluster">
+                    <div class="topic-header">
+                        <span class="topic-name">{{ c.name }}</span>
+                        <span class="topic-count">{{ c.members.length }} words</span>
+                    </div>
+                    <div class="chips">
+                        <router-link v-for="m in c.members" :key="m" :to="'/words/' + m" class="chip">{{ m }}</router-link>
+                    </div>
+                </div>
+            </div>
+            <div class="garden-section" v-if="viewMode === 'grid'">
                 <div class="garden-section-title">Words ({{ filteredWords.length }})</div>
                 <div class="garden-grid">
-                    <router-link v-for="(w, i) in filteredWords" :key="w.id" :to="'/words/' + w.id" class="garden-card" :style="{ animationDelay: (i * 0.02) + 's' }">
+                    <router-link v-for="(w, i) in filteredWords" :key="w.id" :to="'/words/' + w.id" class="garden-card" v-scroll-reveal="{ delay: i * 0.02 }">
                         <div class="garden-card-name">{{ w.id }}</div>
                         <div class="garden-card-meta">
                             <span><span class="stage-dot" :class="'stage-dot-' + w.stage"></span> {{ w.stage }}</span>
@@ -2377,7 +2979,7 @@ const GardenMap = {
             <div class="garden-section">
                 <div class="garden-section-title">Notes ({{ filteredNotes.length }})</div>
                 <div class="garden-notes-grid">
-                    <router-link v-for="n in filteredNotes" :key="n.id" :to="'/notes/' + n.id" class="garden-note-card">
+                    <router-link v-for="(n, ni) in filteredNotes" :key="n.id" :to="'/notes/' + n.id" class="garden-note-card" v-scroll-reveal="{ delay: ni * 0.03 }">
                         <div class="garden-note-title">{{ n.title }}</div>
                         <div class="garden-note-meta">
                             <span><span class="stage-dot" :class="'stage-dot-' + n.stage"></span> {{ n.stage }}</span>
@@ -2387,6 +2989,7 @@ const GardenMap = {
                 </div>
             </div>
             <div class="wander-section">
+                <router-link to="/timeline" class="wander-btn">timeline</router-link>
                 <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
                 <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
             </div>
@@ -2395,16 +2998,26 @@ const GardenMap = {
     data() {
         return {
             filter: 'all',
+            viewMode: 'grid',
             tooltip: { visible: false, x: 0, y: 0, name: '', stage: '' },
             graphNodes: [],
             graphEdges: [],
             hoveredNode: null,
-            _raf: null
+            _raf: null,
+            communities: [],
+            analytics: null,
+            transform: { x: 0, y: 0, scale: 1 },
+            dragState: null,
+            pathMode: false,
+            pathNodes: [],
+            pathEdges: []
         };
     },
     computed: {
         totalWords() { return Object.keys(wordData).length; },
         totalNotes() { return Object.keys(notesData).length; },
+        discoveryScore() { return getDiscoveryScore(); },
+        visitedCount() { const v = getVisited(); return { words: v.words.length, notes: v.notes.length }; },
         allWords() {
             return Object.entries(wordData).map(([id, d]) => ({
                 id,
@@ -2439,6 +3052,51 @@ const GardenMap = {
             this.$router.push('/words/' + word);
         },
         toggleDark() { toggleDarkMode(); },
+        resetZoom() {
+            this.transform = { x: 0, y: 0, scale: 1 };
+            if (this._ctx) this.renderGraph(this._ctx, this._W, this._H);
+        },
+        togglePathMode() {
+            this.pathMode = !this.pathMode;
+            this.pathNodes = [];
+            this.pathEdges = [];
+            if (this._ctx) this.renderGraph(this._ctx, this._W, this._H);
+        },
+        findShortestPath(startId, endId) {
+            const nodes = this.graphNodes;
+            const edges = this.graphEdges;
+            const adj = {};
+            nodes.forEach(n => { adj[n.id] = []; });
+            edges.forEach(e => {
+                adj[e.source.id].push(e.target.id);
+                adj[e.target.id].push(e.source.id);
+            });
+            const visited = new Set([startId]);
+            const parent = {};
+            const queue = [startId];
+            while (queue.length) {
+                const v = queue.shift();
+                if (v === endId) break;
+                for (const w of (adj[v] || [])) {
+                    if (!visited.has(w)) { visited.add(w); parent[w] = v; queue.push(w); }
+                }
+            }
+            if (!parent[endId] && startId !== endId) return [];
+            const path = [endId];
+            let cur = endId;
+            while (cur !== startId) { cur = parent[cur]; if (!cur) return []; path.unshift(cur); }
+            return path;
+        },
+        screenToWorld(e) {
+            const canvas = this.$refs.graphCanvas;
+            const rect = canvas.getBoundingClientRect();
+            const sx = e.clientX - rect.left;
+            const sy = e.clientY - rect.top;
+            return {
+                x: (sx - this.transform.x) / this.transform.scale,
+                y: (sy - this.transform.y) / this.transform.scale
+            };
+        },
         initGraph() {
             const canvas = this.$refs.graphCanvas;
             const container = this.$refs.graphContainer;
@@ -2568,24 +3226,75 @@ const GardenMap = {
             this._W = W;
             this._H = H;
 
-            // Mouse events
+            // Assign community IDs for rendering
+            const communityMap = {};
+            this.communities.forEach((c, ci) => {
+                c.members.forEach(m => { communityMap[m] = ci; });
+            });
+            nodes.forEach(n => { n.community = communityMap[n.id] ?? -1; });
+
+            // Mouse events with zoom/pan/drag
             const getNode = (mx, my) => {
+                const wx = (mx - this.transform.x) / this.transform.scale;
+                const wy = (my - this.transform.y) / this.transform.scale;
                 for (let i = nodes.length - 1; i >= 0; i--) {
                     const n = nodes[i];
-                    const dx = mx - n.x, dy = my - n.y;
-                    const hitR = n.type === 'note' ? n.r + 2 : n.r + 2;
+                    const dx = wx - n.x, dy = wy - n.y;
+                    const hitR = n.r + 3;
                     if (dx * dx + dy * dy <= hitR * hitR) return n;
                 }
                 return null;
+            };
+
+            this._onWheel = (e) => {
+                e.preventDefault();
+                const r = canvas.getBoundingClientRect();
+                const mx = e.clientX - r.left;
+                const my = e.clientY - r.top;
+                const zoom = e.deltaY < 0 ? 1.1 : 0.9;
+                const newScale = Math.max(0.3, Math.min(5, this.transform.scale * zoom));
+                const ratio = newScale / this.transform.scale;
+                this.transform.x = mx - (mx - this.transform.x) * ratio;
+                this.transform.y = my - (my - this.transform.y) * ratio;
+                this.transform.scale = newScale;
+                this.renderGraph(this._ctx, this._W, this._H);
+            };
+
+            this._onMouseDown = (e) => {
+                const r = canvas.getBoundingClientRect();
+                const mx = e.clientX - r.left;
+                const my = e.clientY - r.top;
+                const node = getNode(mx, my);
+                if (node) {
+                    this.dragState = { node, startX: node.x, startY: node.y, mouseStartX: mx, mouseStartY: my, moved: false };
+                } else {
+                    this.dragState = { pan: true, startX: this.transform.x, startY: this.transform.y, mouseStartX: mx, mouseStartY: my, moved: false };
+                }
             };
 
             this._onMouseMove = (e) => {
                 const r = canvas.getBoundingClientRect();
                 const mx = e.clientX - r.left;
                 const my = e.clientY - r.top;
+
+                if (this.dragState) {
+                    const dx = mx - this.dragState.mouseStartX;
+                    const dy = my - this.dragState.mouseStartY;
+                    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) this.dragState.moved = true;
+                    if (this.dragState.pan) {
+                        this.transform.x = this.dragState.startX + dx;
+                        this.transform.y = this.dragState.startY + dy;
+                    } else if (this.dragState.node) {
+                        this.dragState.node.x = this.dragState.startX + dx / this.transform.scale;
+                        this.dragState.node.y = this.dragState.startY + dy / this.transform.scale;
+                    }
+                    this.renderGraph(this._ctx, this._W, this._H);
+                    return;
+                }
+
                 const node = getNode(mx, my);
                 this.hoveredNode = node;
-                canvas.style.cursor = node ? 'pointer' : 'default';
+                canvas.style.cursor = node ? 'pointer' : (this.pathMode ? 'crosshair' : 'grab');
                 if (node) {
                     this.tooltip = { visible: true, x: mx + 12, y: my - 10, name: node.label, stage: node.stage };
                 } else {
@@ -2594,33 +3303,113 @@ const GardenMap = {
                 this.renderGraph(this._ctx, this._W, this._H);
             };
 
-            this._onClick = (e) => {
+            this._onMouseUp = (e) => {
+                const wasDrag = this.dragState?.moved;
+                this.dragState = null;
+                if (wasDrag) return;
+
                 const r = canvas.getBoundingClientRect();
-                const node = getNode(e.clientX - r.left, e.clientY - r.top);
-                if (node) this.$router.push(node.path);
+                const mx = e.clientX - r.left;
+                const my = e.clientY - r.top;
+                const node = getNode(mx, my);
+                if (!node) return;
+
+                if (this.pathMode) {
+                    this.pathNodes.push(node.id);
+                    if (this.pathNodes.length === 2) {
+                        const path = this.findShortestPath(this.pathNodes[0], this.pathNodes[1]);
+                        this.pathEdges = path;
+                        this.renderGraph(this._ctx, this._W, this._H);
+                    }
+                } else {
+                    this.$router.push(node.path);
+                }
             };
 
             this._onMouseLeave = () => {
+                this.dragState = null;
                 this.hoveredNode = null;
                 this.tooltip.visible = false;
                 this.renderGraph(this._ctx, this._W, this._H);
             };
 
+            // Touch events for mobile
+            let lastTouchDist = 0;
+            this._onTouchStart = (e) => {
+                if (e.touches.length === 2) {
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    lastTouchDist = Math.sqrt(dx * dx + dy * dy);
+                } else if (e.touches.length === 1) {
+                    const r = canvas.getBoundingClientRect();
+                    const mx = e.touches[0].clientX - r.left;
+                    const my = e.touches[0].clientY - r.top;
+                    this.dragState = { pan: true, startX: this.transform.x, startY: this.transform.y, mouseStartX: mx, mouseStartY: my, moved: false };
+                }
+            };
+            this._onTouchMove = (e) => {
+                e.preventDefault();
+                if (e.touches.length === 2) {
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (lastTouchDist > 0) {
+                        const zoom = dist / lastTouchDist;
+                        const newScale = Math.max(0.3, Math.min(5, this.transform.scale * zoom));
+                        this.transform.scale = newScale;
+                        this.renderGraph(this._ctx, this._W, this._H);
+                    }
+                    lastTouchDist = dist;
+                } else if (e.touches.length === 1 && this.dragState?.pan) {
+                    const r = canvas.getBoundingClientRect();
+                    const mx = e.touches[0].clientX - r.left;
+                    const my = e.touches[0].clientY - r.top;
+                    this.transform.x = this.dragState.startX + (mx - this.dragState.mouseStartX);
+                    this.transform.y = this.dragState.startY + (my - this.dragState.mouseStartY);
+                    this.renderGraph(this._ctx, this._W, this._H);
+                }
+            };
+            this._onTouchEnd = () => { this.dragState = null; lastTouchDist = 0; };
+
+            canvas.addEventListener('wheel', this._onWheel, { passive: false });
+            canvas.addEventListener('mousedown', this._onMouseDown);
             canvas.addEventListener('mousemove', this._onMouseMove);
-            canvas.addEventListener('click', this._onClick);
+            canvas.addEventListener('mouseup', this._onMouseUp);
             canvas.addEventListener('mouseleave', this._onMouseLeave);
+            canvas.addEventListener('touchstart', this._onTouchStart, { passive: false });
+            canvas.addEventListener('touchmove', this._onTouchMove, { passive: false });
+            canvas.addEventListener('touchend', this._onTouchEnd);
         },
         renderGraph(ctx, W, H) {
             const nodes = this.graphNodes;
             const edges = this.graphEdges;
             const hovered = this.hoveredNode;
             const filter = this.filter;
+            const scale = this.transform.scale;
+            const tx = this.transform.x;
+            const ty = this.transform.y;
             const styles = getComputedStyle(document.documentElement);
             const textColor = styles.getPropertyValue('--text').trim() || '#000';
             const borderColor = styles.getPropertyValue('--border').trim() || '#000';
             const bgColor = styles.getPropertyValue('--bg').trim() || '#fff';
+            const subtleColor = styles.getPropertyValue('--gray-subtle').trim() || '#e5e5e5';
 
             ctx.clearRect(0, 0, W, H);
+            ctx.save();
+            ctx.translate(tx, ty);
+            ctx.scale(scale, scale);
+
+            // Path edge set
+            const pathSet = new Set();
+            const pathNodeSet = new Set();
+            if (this.pathEdges.length > 1) {
+                for (let i = 0; i < this.pathEdges.length; i++) {
+                    pathNodeSet.add(this.pathEdges[i]);
+                    if (i < this.pathEdges.length - 1) {
+                        pathSet.add([this.pathEdges[i], this.pathEdges[i+1]].sort().join('|'));
+                    }
+                }
+            }
 
             // Connected set for hover highlight
             const connectedIds = new Set();
@@ -2635,60 +3424,101 @@ const GardenMap = {
             // Draw edges
             for (const e of edges) {
                 const connected = hovered && (connectedIds.has(e.source.id) && connectedIds.has(e.target.id));
+                const isPath = pathSet.has([e.source.id, e.target.id].sort().join('|'));
                 ctx.beginPath();
                 ctx.moveTo(e.source.x, e.source.y);
                 ctx.lineTo(e.target.x, e.target.y);
-                ctx.strokeStyle = hovered ? (connected ? textColor : '#e5e5e5') : '#e5e5e5';
-                ctx.lineWidth = connected ? 1.5 : 0.5;
-                ctx.globalAlpha = hovered ? (connected ? 0.8 : 0.1) : 0.4;
+                if (isPath) {
+                    ctx.strokeStyle = textColor;
+                    ctx.lineWidth = 3 / scale;
+                    ctx.globalAlpha = 1;
+                } else {
+                    ctx.strokeStyle = hovered ? (connected ? textColor : subtleColor) : subtleColor;
+                    ctx.lineWidth = (connected ? 1.5 : 0.5) / scale;
+                    ctx.globalAlpha = hovered ? (connected ? 0.8 : 0.1) : 0.4;
+                }
                 ctx.stroke();
             }
             ctx.globalAlpha = 1;
+
+            // Community shapes
+            const communityShapes = ['fill-circle', 'stroke-circle', 'dash-circle', 'fill-square', 'stroke-square', 'diamond'];
 
             // Draw nodes
             for (const n of nodes) {
                 const isConnected = !hovered || connectedIds.has(n.id);
                 const matchFilter = filter === 'all' || n.stage === filter;
+                const isPathNode = pathNodeSet.has(n.id);
                 ctx.globalAlpha = hovered ? (isConnected ? 1 : 0.15) : (matchFilter ? 1 : 0.05);
+                if (isPathNode) ctx.globalAlpha = 1;
 
-                if (n.type === 'note') {
-                    // Square for notes
+                const shape = n.type === 'note' ? 'fill-square' : (communityShapes[n.community % communityShapes.length] || 'fill-circle');
+
+                if (shape === 'fill-square' || shape === 'stroke-square') {
                     const s = n.r;
+                    if (shape === 'fill-square') {
+                        ctx.fillStyle = textColor;
+                        ctx.fillRect(n.x - s, n.y - s, s * 2, s * 2);
+                    } else {
+                        ctx.fillStyle = bgColor;
+                        ctx.fillRect(n.x - s, n.y - s, s * 2, s * 2);
+                        ctx.strokeStyle = textColor;
+                        ctx.lineWidth = 2 / scale;
+                        ctx.strokeRect(n.x - s, n.y - s, s * 2, s * 2);
+                    }
+                } else if (shape === 'diamond') {
+                    ctx.beginPath();
+                    ctx.moveTo(n.x, n.y - n.r);
+                    ctx.lineTo(n.x + n.r, n.y);
+                    ctx.lineTo(n.x, n.y + n.r);
+                    ctx.lineTo(n.x - n.r, n.y);
+                    ctx.closePath();
                     ctx.fillStyle = textColor;
-                    ctx.fillRect(n.x - s, n.y - s, s * 2, s * 2);
+                    ctx.fill();
                 } else {
-                    // Circle for words
                     ctx.beginPath();
                     ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-                    if (n.stage === 'evergreen') {
+                    if (shape === 'fill-circle') {
                         ctx.fillStyle = textColor;
                         ctx.fill();
-                    } else if (n.stage === 'sprout') {
+                    } else if (shape === 'stroke-circle') {
                         ctx.fillStyle = bgColor;
                         ctx.fill();
                         ctx.strokeStyle = textColor;
-                        ctx.lineWidth = 2;
+                        ctx.lineWidth = 2 / scale;
                         ctx.stroke();
                     } else {
                         ctx.fillStyle = bgColor;
                         ctx.fill();
                         ctx.strokeStyle = textColor;
-                        ctx.lineWidth = 1;
+                        ctx.lineWidth = 1 / scale;
                         ctx.setLineDash([3, 3]);
                         ctx.stroke();
                         ctx.setLineDash([]);
                     }
                 }
 
-                // Label for larger/hovered nodes
-                if (isConnected && (n.r >= 6 || n === hovered)) {
+                // Path node: double ring
+                if (isPathNode) {
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.r + 4, 0, Math.PI * 2);
+                    ctx.strokeStyle = textColor;
+                    ctx.lineWidth = 2 / scale;
+                    ctx.stroke();
+                }
+
+                // Labels: show all when zoomed in, else only large/hovered
+                const showLabel = scale > 1.5 || (scale > 0.8 && n.r >= 6) || n === hovered || isPathNode;
+                if (isConnected && showLabel) {
                     ctx.fillStyle = textColor;
-                    ctx.font = n === hovered ? 'bold 11px -apple-system, sans-serif' : '9px -apple-system, sans-serif';
+                    const fontSize = Math.max(8, 10 / scale);
+                    ctx.font = (n === hovered ? 'bold ' : '') + fontSize + 'px -apple-system, sans-serif';
                     ctx.textAlign = 'center';
-                    ctx.fillText(n.label.length > 12 ? n.label.slice(0, 10) + '..' : n.label, n.x, n.y + n.r + 12);
+                    ctx.fillText(n.label.length > 12 ? n.label.slice(0, 10) + '..' : n.label, n.x, n.y + n.r + 12 / scale);
                 }
             }
             ctx.globalAlpha = 1;
+            ctx.restore();
         }
     },
     watch: {
@@ -2697,15 +3527,22 @@ const GardenMap = {
         }
     },
     mounted() {
+        this.analytics = computeGraphAnalytics();
+        this.communities = detectCommunities();
         this.$nextTick(() => this.initGraph());
     },
     beforeUnmount() {
         if (this._raf) cancelAnimationFrame(this._raf);
         const canvas = this.$refs.graphCanvas;
         if (canvas) {
+            canvas.removeEventListener('wheel', this._onWheel);
+            canvas.removeEventListener('mousedown', this._onMouseDown);
             canvas.removeEventListener('mousemove', this._onMouseMove);
-            canvas.removeEventListener('click', this._onClick);
+            canvas.removeEventListener('mouseup', this._onMouseUp);
             canvas.removeEventListener('mouseleave', this._onMouseLeave);
+            canvas.removeEventListener('touchstart', this._onTouchStart);
+            canvas.removeEventListener('touchmove', this._onTouchMove);
+            canvas.removeEventListener('touchend', this._onTouchEnd);
         }
     }
 };
@@ -2745,11 +3582,16 @@ const SearchPalette = {
     template: `
         <div class="search-overlay" v-if="isOpen" @click.self="close">
             <div class="search-modal">
-                <input ref="input" class="search-input" v-model="query" @keydown="onKey" placeholder="Search words and notes..." />
+                <input ref="input" class="search-input" v-model="query" @keydown="onKey" placeholder="Search words, notes, and content..." />
                 <div class="search-results" v-if="results.length > 0">
-                    <div v-for="(r, i) in results" :key="r.path" class="search-result" :class="{ active: i === activeIndex }" @click="go(r)" @mouseenter="activeIndex = i">
-                        <span>{{ r.label }}</span>
-                        <span class="search-result-type">{{ r.type }}</span>
+                    <div v-for="(r, i) in results" :key="r.path + (r.excerpt || '')" class="search-result" :class="{ active: i === activeIndex }" @click="go(r)" @mouseenter="activeIndex = i">
+                        <div style="flex:1;min-width:0;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <span>{{ r.label }}</span>
+                                <span class="search-result-type">{{ r.type }}</span>
+                            </div>
+                            <div v-if="r.excerpt" class="search-result-excerpt" v-html="r.excerpt"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="search-hint" v-else-if="query.length > 0">No results</div>
@@ -2758,25 +3600,45 @@ const SearchPalette = {
         </div>
     `,
     data() {
-        return { isOpen: false, query: '', activeIndex: 0, pool: [] };
+        return { isOpen: false, query: '', activeIndex: 0, pool: [], contentIndex: [] };
     },
     computed: {
         results() {
             if (!this.query) return [];
             const q = this.query.toLowerCase();
-            const scored = this.pool.map(item => {
+            const scored = [];
+            // Title matches
+            this.pool.forEach(item => {
                 const name = item.label.toLowerCase();
-                if (name === q) return { ...item, score: 100 };
-                if (name.startsWith(q)) return { ...item, score: 80 };
-                if (name.includes(q)) return { ...item, score: 60 };
-                // Subsequence match
-                let qi = 0;
-                for (let i = 0; i < name.length && qi < q.length; i++) {
-                    if (name[i] === q[qi]) qi++;
+                if (name === q) scored.push({ ...item, score: 100 });
+                else if (name.startsWith(q)) scored.push({ ...item, score: 80 });
+                else if (name.includes(q)) scored.push({ ...item, score: 60 });
+                else {
+                    let qi = 0;
+                    for (let i = 0; i < name.length && qi < q.length; i++) {
+                        if (name[i] === q[qi]) qi++;
+                    }
+                    if (qi === q.length) scored.push({ ...item, score: 30 });
                 }
-                if (qi === q.length) return { ...item, score: 30 };
-                return null;
-            }).filter(Boolean);
+            });
+            // Content matches
+            if (q.length >= 2) {
+                const addedPaths = new Set(scored.map(s => s.path));
+                this.contentIndex.forEach(item => {
+                    const idx = item.plaintext.indexOf(q);
+                    if (idx === -1) return;
+                    const start = Math.max(0, idx - 40);
+                    const end = Math.min(item.plaintext.length, idx + q.length + 40);
+                    let excerpt = (start > 0 ? '...' : '') + item.plaintext.slice(start, end) + (end < item.plaintext.length ? '...' : '');
+                    const escaped = excerpt.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    const highlighted = escaped.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), m => '<mark>' + m + '</mark>');
+                    const path = '/notes/' + item.id + '?q=' + encodeURIComponent(this.query);
+                    if (!addedPaths.has('/notes/' + item.id)) {
+                        scored.push({ label: item.title, path, type: 'content', excerpt: highlighted, score: 20 });
+                        addedPaths.add('/notes/' + item.id);
+                    }
+                });
+            }
             scored.sort((a, b) => b.score - a.score);
             return scored.slice(0, 12);
         }
@@ -2790,6 +3652,12 @@ const SearchPalette = {
             ...Object.keys(wordData).map(id => ({ label: id, path: '/words/' + id, type: 'word' })),
             ...Object.entries(notesData).map(([id, n]) => ({ label: n.title, path: '/notes/' + id, type: 'note' }))
         ];
+        // Build content index for full-text search
+        this.contentIndex = Object.entries(notesData).map(([id, n]) => ({
+            id,
+            title: n.title,
+            plaintext: n.content.replace(/<[^>]*>/g, '').toLowerCase()
+        }));
         window.__gardenSearch = {
             open: () => this.open(),
             close: () => this.close(),
@@ -2889,6 +3757,264 @@ const PreviewCard = {
     }
 };
 
+// Timeline component
+const TimelinePage = {
+    template: `
+        <div class="timeline-page">
+            <div class="word-header">
+                <router-link to="/" class="back">\u2190 back</router-link>
+                <span style="font-size: 0.875rem;">lulzx</span>
+            </div>
+            <div class="timeline-header">
+                <div class="timeline-title">Growth Timeline</div>
+                <div class="timeline-subtitle">{{ totalEvents }} events across {{ monthCount }} months, from the first commit to now.</div>
+            </div>
+            <div class="timeline-canvas-container" ref="timelineContainer" v-scroll-reveal="{ delay: 0.1 }">
+                <canvas ref="timelineCanvas"></canvas>
+                <div class="timeline-tooltip" v-if="tooltipData" :style="{ top: tooltipData.y + 'px', left: tooltipData.x + 'px' }">
+                    <div class="timeline-tooltip-title">{{ tooltipData.month }}</div>
+                    <div v-for="item in tooltipData.items" :key="item.label" class="timeline-tooltip-item" @click="goTo(item)">{{ item.type }}: {{ item.label }}</div>
+                </div>
+            </div>
+            <div class="garden-section">
+                <div class="garden-section-title">Legend</div>
+                <div style="display:flex;gap:2rem;flex-wrap:wrap;font-size:0.875rem;">
+                    <span><span style="display:inline-block;width:12px;height:12px;background:var(--text);margin-right:0.5rem;vertical-align:middle;"></span>Planted</span>
+                    <span><span style="display:inline-block;width:12px;height:12px;border:2px solid var(--text);margin-right:0.5rem;vertical-align:middle;"></span>Tended</span>
+                </div>
+            </div>
+            <div class="wander-section">
+                <router-link to="/garden" class="wander-btn">garden map</router-link>
+                <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
+                <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
+            </div>
+        </div>
+    `,
+    data() {
+        return {
+            tooltipData: null,
+            totalEvents: 0,
+            monthCount: 0,
+            _bars: []
+        };
+    },
+    methods: {
+        toggleDark() { toggleDarkMode(); },
+        wander() {
+            const words = ALL_WORDS();
+            this.$router.push('/words/' + words[Math.floor(Math.random() * words.length)]);
+        },
+        goTo(item) {
+            if (item.route) this.$router.push(item.route);
+        },
+        buildData() {
+            const months = new Map();
+            const addEvent = (monthKey, type, label, route) => {
+                if (!months.has(monthKey)) months.set(monthKey, { planted: [], tended: [] });
+                const bucket = months.get(monthKey);
+                if (type === 'planted') bucket.planted.push({ label, route, type: 'planted' });
+                else bucket.tended.push({ label, route, type: 'tended' });
+            };
+            Object.entries(wordData).forEach(([id, d]) => {
+                if (d.planted) addEvent(d.planted, 'planted', id, '/words/' + id);
+                if (d.tended && d.tended !== d.planted) addEvent(d.tended, 'tended', id, '/words/' + id);
+            });
+            Object.entries(notesData).forEach(([id, n]) => {
+                if (n.planted) addEvent(n.planted, 'planted', n.title, '/notes/' + id);
+                if (n.tended && n.tended !== n.planted) addEvent(n.tended, 'tended', n.title, '/notes/' + id);
+            });
+            // Sort by date
+            const sorted = [...months.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+            // Fill gaps
+            if (sorted.length > 0) {
+                const [startY, startM] = sorted[0][0].split('-').map(Number);
+                const [endY, endM] = sorted[sorted.length - 1][0].split('-').map(Number);
+                const all = new Map();
+                let y = startY, m = startM;
+                while (y < endY || (y === endY && m <= endM)) {
+                    const key = y + '-' + String(m).padStart(2, '0');
+                    all.set(key, months.get(key) || { planted: [], tended: [] });
+                    m++;
+                    if (m > 12) { m = 1; y++; }
+                }
+                return all;
+            }
+            return months;
+        },
+        initTimeline() {
+            const canvas = this.$refs.timelineCanvas;
+            const container = this.$refs.timelineContainer;
+            if (!canvas || !container) return;
+
+            const dpr = window.devicePixelRatio || 1;
+            const rect = container.getBoundingClientRect();
+            const W = rect.width;
+            const H = rect.height;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            canvas.style.width = W + 'px';
+            canvas.style.height = H + 'px';
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+
+            const data = this.buildData();
+            const entries = [...data.entries()];
+            this.monthCount = entries.length;
+
+            const isMobile = W < 500;
+            // Quarterly granularity on mobile
+            let displayEntries;
+            if (isMobile) {
+                const quarters = new Map();
+                entries.forEach(([key, val]) => {
+                    const [y, m] = key.split('-').map(Number);
+                    const q = y + '-Q' + Math.ceil(m / 3);
+                    if (!quarters.has(q)) quarters.set(q, { planted: [], tended: [] });
+                    const qd = quarters.get(q);
+                    qd.planted.push(...val.planted);
+                    qd.tended.push(...val.tended);
+                });
+                displayEntries = [...quarters.entries()];
+            } else {
+                displayEntries = entries;
+            }
+
+            let totalEvents = 0;
+            displayEntries.forEach(([, v]) => { totalEvents += v.planted.length + v.tended.length; });
+            this.totalEvents = totalEvents;
+
+            const maxHeight = Math.max(...displayEntries.map(([, v]) => v.planted.length + v.tended.length), 1);
+            const padding = { top: 20, bottom: 40, left: 10, right: 10 };
+            const chartW = W - padding.left - padding.right;
+            const chartH = H - padding.top - padding.bottom;
+            const barW = Math.max(4, chartW / displayEntries.length - 2);
+            const gap = (chartW - barW * displayEntries.length) / displayEntries.length;
+
+            const styles = getComputedStyle(document.documentElement);
+            const textColor = styles.getPropertyValue('--text').trim() || '#000';
+            const bgColor = styles.getPropertyValue('--bg').trim() || '#fff';
+            const subtleColor = styles.getPropertyValue('--gray-subtle').trim() || '#e5e5e5';
+
+            // Animation
+            const bars = [];
+            displayEntries.forEach(([key, val], i) => {
+                const plantedH = (val.planted.length / maxHeight) * chartH;
+                const tendedH = (val.tended.length / maxHeight) * chartH;
+                const x = padding.left + i * (barW + gap);
+                bars.push({
+                    key, x, plantedH, tendedH,
+                    currentPlantedH: 0, currentTendedH: 0,
+                    items: [...val.planted, ...val.tended]
+                });
+            });
+            this._bars = bars;
+
+            let frame = 0;
+            const totalFrames = 60;
+            const staggerMs = 8;
+
+            const easeOutQuad = t => t * (2 - t);
+
+            const animate = () => {
+                ctx.clearRect(0, 0, W, H);
+
+                // Year markers
+                let lastYear = '';
+                displayEntries.forEach(([key], i) => {
+                    const year = key.split('-')[0];
+                    if (year !== lastYear) {
+                        lastYear = year;
+                        const x = padding.left + i * (barW + gap);
+                        ctx.beginPath();
+                        ctx.setLineDash([4, 4]);
+                        ctx.moveTo(x, padding.top);
+                        ctx.lineTo(x, H - padding.bottom);
+                        ctx.strokeStyle = subtleColor;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        ctx.fillStyle = textColor;
+                        ctx.font = '10px -apple-system, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(year, x + barW / 2, H - padding.bottom + 16);
+                    }
+                });
+
+                // Draw bars
+                bars.forEach((bar, i) => {
+                    const barFrame = Math.max(0, frame - i * (staggerMs / 16));
+                    const progress = easeOutQuad(Math.min(1, barFrame / totalFrames));
+                    bar.currentPlantedH = bar.plantedH * progress;
+                    bar.currentTendedH = bar.tendedH * progress;
+
+                    const baseY = H - padding.bottom;
+                    // Planted bar (filled)
+                    if (bar.currentPlantedH > 0) {
+                        ctx.fillStyle = textColor;
+                        ctx.fillRect(bar.x, baseY - bar.currentPlantedH, barW, bar.currentPlantedH);
+                    }
+                    // Tended bar (outlined, stacked on top)
+                    if (bar.currentTendedH > 0) {
+                        ctx.strokeStyle = textColor;
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeRect(bar.x, baseY - bar.currentPlantedH - bar.currentTendedH, barW, bar.currentTendedH);
+                    }
+                });
+
+                frame++;
+                if (frame < totalFrames + bars.length * (staggerMs / 16) + 10) {
+                    this._animRaf = requestAnimationFrame(animate);
+                }
+            };
+
+            this._animRaf = requestAnimationFrame(animate);
+            this._ctx = ctx;
+            this._W = W;
+            this._H = H;
+
+            // Hover
+            canvas.addEventListener('mousemove', this._onMouseMove = (e) => {
+                const r = canvas.getBoundingClientRect();
+                const mx = e.clientX - r.left;
+                const my = e.clientY - r.top;
+                const hit = bars.find(b => mx >= b.x && mx <= b.x + barW && my >= padding.top && my <= H - padding.bottom);
+                if (hit && hit.items.length > 0) {
+                    this.tooltipData = {
+                        x: Math.min(hit.x + barW + 10, W - 260),
+                        y: Math.max(20, my - 30),
+                        month: hit.key,
+                        items: hit.items.slice(0, 6)
+                    };
+                    // Highlight column
+                    if (this._ctx) {
+                        animate(); // redraw
+                        this._ctx.fillStyle = textColor;
+                        this._ctx.globalAlpha = 0.05;
+                        this._ctx.fillRect(hit.x - 2, padding.top, barW + 4, chartH);
+                        this._ctx.globalAlpha = 1;
+                    }
+                } else {
+                    this.tooltipData = null;
+                }
+            });
+            canvas.addEventListener('mouseleave', this._onMouseLeave = () => {
+                this.tooltipData = null;
+            });
+        }
+    },
+    mounted() {
+        this.$nextTick(() => this.initTimeline());
+    },
+    beforeUnmount() {
+        if (this._animRaf) cancelAnimationFrame(this._animRaf);
+        const canvas = this.$refs.timelineCanvas;
+        if (canvas) {
+            canvas.removeEventListener('mousemove', this._onMouseMove);
+            canvas.removeEventListener('mouseleave', this._onMouseLeave);
+        }
+    }
+};
+
 // Router
 const router = createRouter({
     history: createWebHistory(),
@@ -2897,6 +4023,7 @@ const router = createRouter({
         { path: '/words/:word', component: WordPage },
         { path: '/notes/:noteId', component: NotePage },
         { path: '/garden', component: GardenMap },
+        { path: '/timeline', component: TimelinePage },
         { path: '/:pathMatch(.*)*', component: NotFound }
     ],
     scrollBehavior() {
@@ -2933,6 +4060,32 @@ const App = {
 const app = createApp(App);
 app.component('search-palette', SearchPalette);
 app.component('preview-card', PreviewCard);
+
+// Scroll reveal directive
+app.directive('scroll-reveal', {
+    mounted(el, binding) {
+        const delay = binding.value?.delay || 0;
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) {
+            el.classList.add('revealed');
+            return;
+        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => el.classList.add('revealed'), delay * 1000);
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(el);
+        el._scrollRevealObserver = observer;
+    },
+    unmounted(el) {
+        el._scrollRevealObserver?.disconnect();
+    }
+});
+
 app.use(router);
 const vm = app.mount('#app');
 
