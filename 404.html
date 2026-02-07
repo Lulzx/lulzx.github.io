@@ -2259,6 +2259,11 @@ const router = createRouter({
     }
 });
 
+// Scroll #app to top on route change
+router.afterEach(() => {
+    document.getElementById('app').scrollTop = 0;
+});
+
 // Expose router for inline links
 window.__gardenRouter = router;
 
