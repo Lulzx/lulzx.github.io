@@ -33,15 +33,22 @@ body {
     background: #fff;
     color: #000;
     line-height: 1.6;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#app {
+    height: 100%;
+    overflow: auto;
 }
 
 .container {
-    min-height: 100vh;
+    height: calc(100vh - 2rem);
     display: flex;
     flex-direction: column;
     border: 2px solid #000;
     margin: 1rem;
+    overflow: hidden;
 }
 
 .main {
@@ -117,11 +124,11 @@ body {
 
 /* Word Page Styles */
 .word-page {
-    flex: 1;
     border: 2px solid #000;
     margin: 1rem;
     display: flex;
     flex-direction: column;
+    min-height: calc(100vh - 2rem);
     animation: fadeIn 0.3s ease;
 }
 
@@ -450,11 +457,11 @@ code {
 
 /* Note Page Styles */
 .note-page {
-    flex: 1;
     border: 2px solid #000;
     margin: 1rem;
     display: flex;
     flex-direction: column;
+    min-height: calc(100vh - 2rem);
     animation: fadeIn 0.3s ease;
 }
 
@@ -562,11 +569,11 @@ code {
 
 /* Garden Map Styles */
 .garden-page {
-    flex: 1;
     border: 2px solid #000;
     margin: 1rem;
     display: flex;
     flex-direction: column;
+    min-height: calc(100vh - 2rem);
     animation: fadeIn 0.3s ease;
 }
 
@@ -740,10 +747,13 @@ code {
 /* Responsive */
 @media (max-width: 800px) {
     .main {
-        padding: 3rem;
+        padding: 2.5rem 2rem;
+    }
+    .statement {
+        font-size: clamp(1.3rem, 3.5vw, 2.5rem);
     }
     .word-title-section {
-        padding: 2rem 2.5rem;
+        padding: 2rem 2rem;
     }
     .word-content,
     .connections-section,
@@ -756,29 +766,47 @@ code {
     .garden-header,
     .garden-filters,
     .garden-section {
-        padding-left: 2.5rem;
-        padding-right: 2.5rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
     .word-meta {
-        padding-left: 2.5rem;
-        padding-right: 2.5rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    .word-content {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .note-body {
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
 }
 
 @media (max-width: 500px) {
     .container {
         margin: 0.5rem;
+        height: calc(100vh - 1rem);
     }
     .main {
         padding: 1.5rem;
+    }
+    .statement {
+        font-size: clamp(1.2rem, 5vw, 2rem);
     }
     .footer {
         flex-direction: column;
         gap: 0.75rem;
         text-align: center;
+        padding: 0.75rem 1rem;
     }
     .footer-links {
         justify-content: center;
+    }
+    .word-page,
+    .note-page,
+    .garden-page {
+        margin: 0.5rem;
+        min-height: calc(100vh - 1rem);
     }
     .word-title-section {
         padding: 1.5rem;
@@ -808,9 +836,15 @@ code {
     }
     .word-content {
         grid-template-columns: 1fr;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        gap: 1rem;
+    }
+    .block {
+        padding: 1.25rem;
     }
     .garden-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     }
     .garden-notes-grid {
         grid-template-columns: 1fr;
@@ -821,9 +855,35 @@ code {
     .word-header {
         padding: 1rem 1.5rem;
     }
+    .note-header {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    .note-title {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+    .note-body {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        font-size: 1rem;
+    }
     .note-meta {
         flex-wrap: wrap;
         gap: 0.5rem;
+    }
+    .garden-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+    .chips {
+        gap: 0.35rem;
+    }
+    .chip {
+        padding: 0.3rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    .wander-section {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
     }
 }
 </style>
@@ -881,20 +941,20 @@ const wordData = {
             {
                 title: "Current Projects",
                 items: [
-                    "copilot — CLI Copilot in Rust",
-                    "orbit — Spatial Terminal Dashboard",
-                    "speculative-decoding — Fast LLM on Apple Silicon",
-                    "paddleocr-vl.swift — OCR with MLX",
-                    "tanstack-bun — SSR with Bun"
+                    "copilot: CLI Copilot in Rust",
+                    "orbit: Spatial Terminal Dashboard",
+                    "speculative-decoding: Fast LLM on Apple Silicon",
+                    "paddleocr-vl.swift: OCR with MLX",
+                    "tanstack-bun: SSR with Bun"
                 ]
             },
             {
                 title: "Focus Areas",
                 items: [
-                    "ML Inference — MLX-Swift, Apple Silicon",
-                    "Developer Tools — Rust CLI, TUIs",
-                    "Web & Graphics — WebGL2/WebGPU",
-                    "Automation — Telegram bots"
+                    "ML Inference: MLX-Swift, Apple Silicon",
+                    "Developer Tools: Rust CLI, TUIs",
+                    "Web & Graphics: WebGL2/WebGPU",
+                    "Automation: Telegram bots"
                 ]
             },
             {
@@ -957,11 +1017,11 @@ const wordData = {
             { title: "ML Inference", text: "Making LLMs run fast on consumer hardware. Native Swift implementations using MLX for Apple Silicon." },
             {
                 title: "Projects",
-                items: ["speculative-decoding — MLX-Swift port", "nano-reasoning — FastRL on Apple Silicon", "paddleocr-vl.swift — 0.9B doc parsing VLM", "masked — Masked diffusion LM"]
+                items: ["speculative-decoding: MLX-Swift port", "nano-reasoning: FastRL on Apple Silicon", "paddleocr-vl.swift: 0.9B doc parsing VLM", "masked: Masked diffusion LM"]
             },
             {
                 title: "Hardware Targets",
-                items: ["Apple Silicon (MLX)", "GPU — WebGL2/WebGPU", "CPU — Rust simd optimization"]
+                items: ["Apple Silicon (MLX)", "GPU: WebGL2/WebGPU", "CPU: Rust simd optimization"]
             }
         ]
     },
@@ -978,7 +1038,7 @@ const wordData = {
             },
             {
                 title: "Projects",
-                items: ["sentence-similarity-search", "discover — search engine", "masked — diffusion LM"]
+                items: ["sentence-similarity-search", "discover: search engine", "masked: diffusion LM"]
             }
         ]
     },
@@ -1033,7 +1093,7 @@ const wordData = {
             },
             {
                 title: "Properties",
-                items: ["Fast — Performance first", "Minimal — Less code, better results", "Reliable — Production tested", "Auditable — Open source"]
+                items: ["Fast: Performance first", "Minimal: Less code, better results", "Reliable: Production tested", "Auditable: Open source"]
             }
         ]
     },
@@ -1054,11 +1114,11 @@ const wordData = {
         blocks: [
             {
                 title: "Timeline",
-                items: ["2024 — MLX-Swift & Apple Silicon", "2023 — Rust & Developer Tools", "2020 — Information Retrieval", "2017 — Telegram Bots"]
+                items: ["2024: MLX-Swift & Apple Silicon", "2023: Rust & Developer Tools", "2020: Information Retrieval", "2017: Telegram Bots"]
             },
             {
                 title: "Languages",
-                items: ["Rust — Systems & CLI", "Swift — Native & ML", "TypeScript — Web", "Python — Prototyping"]
+                items: ["Rust: Systems & CLI", "Swift: Native & ML", "TypeScript: Web", "Python: Prototyping"]
             },
             {
                 title: "Stack",
@@ -1075,7 +1135,7 @@ const wordData = {
             { title: "Evolution", text: "2017: Telegram bots. 2020: Information retrieval. 2023: Rust & systems. 2024: MLX & Apple Silicon. Always adapting." },
             {
                 title: "Services",
-                items: ["Product Development — MVPs to production", "Architecture — APIs, databases, infra", "Performance — Optimization & caching", "Emergencies — Crisis response"]
+                items: ["Product Development: MVPs to production", "Architecture: APIs, databases, infra", "Performance: Optimization & caching", "Emergencies: Crisis response"]
             },
             { title: "Hire", text: "Available for contract work at $1,000/day. Book a 30min call to discuss your project." }
         ]
@@ -1113,7 +1173,7 @@ const wordData = {
         planted: '2025-01',
         tended: '2025-01',
         blocks: [
-            { title: "Merely / Only", text: "Used to minimize or dismiss. 'Just execute' — the bare minimum. We aim higher than just execution." }
+            { title: "Merely / Only", text: "Used to minimize or dismiss. 'Just execute,' the bare minimum. We aim higher than just execution." }
         ]
     },
     execute: {
@@ -1271,9 +1331,9 @@ const wordData = {
             { zero: true, title: "Zero Dependencies", text: "Each library you add is code you don't control. It can break, have security issues, bloat your bundle." },
             {
                 title: "Projects",
-                items: ["tanstack-bun — Zero overhead SSR", "orbit — Pure Rust TUI", "copilot — Single binary"]
+                items: ["tanstack-bun: Zero overhead SSR", "orbit: Pure Rust TUI", "copilot: Single binary"]
             },
-            { title: "Exceptions", text: "Where possible — practical constraints sometimes require compromise." }
+            { title: "Exceptions", text: "Where possible. Practical constraints sometimes require compromise." }
         ]
     },
     dependencies: {
@@ -1324,7 +1384,7 @@ const wordData = {
             { title: "Code You Can Read", text: "Every system I build can be understood by reading the source. I write Rust, Swift, TypeScript, and Python with clarity first." },
             {
                 title: "Public Work",
-                items: ["github.com/lulzx — 30+ public repos", "CLI tools in Rust", "MLX-Swift inference ports", "Web libraries"]
+                items: ["github.com/lulzx: 30+ public repos", "CLI tools in Rust", "MLX-Swift inference ports", "Web libraries"]
             },
             { title: "Open Source", text: "Most of my work is open source. 7+ years of shipping code you can inspect." }
         ]
@@ -1349,10 +1409,10 @@ const wordData = {
         planted: '2017-01',
         tended: '2025-12',
         blocks: [
-            { title: "GitHub", text: "github.com/lulzx — 30+ public repositories. 9 languages. Open source work you can audit, modify, and learn from." },
+            { title: "GitHub", text: "github.com/lulzx: 30+ public repositories. 9 languages. Open source work you can audit, modify, and learn from." },
             {
                 title: "Featured Repos",
-                items: ["copilot — Rust CLI AI assistant", "orbit — Spatial TUI dashboard", "speculative-decoding — MLX-Swift", "tanstack-bun — SSR framework"]
+                items: ["copilot: Rust CLI AI assistant", "orbit: Spatial TUI dashboard", "speculative-decoding: MLX-Swift", "tanstack-bun: SSR framework"]
             },
             { title: "License", text: "Most projects are MIT licensed. Free to use, modify, and distribute." }
         ]
@@ -1391,7 +1451,7 @@ const notesData = {
 <p>I used to batch things up. "I'll ship all of this together when it's ready." It was never ready. And when I finally pushed, something always broke, and I couldn't tell which part did it.</p>
 <p>Now I ship constantly. Multiple times a day sometimes. Each change does one thing. If it breaks, I know exactly what and exactly why.</p>
 <h2>The counterintuitive part</h2>
-<p>Going faster means doing less per step. Not more. The urge is always to do more\u2014add the error handling, refactor that other thing while you're in there, fix that bug you noticed. Don't.</p>
+<p>Going faster means doing less per step. Not more. The urge is always to do more. Add the error handling, refactor that other thing while you're in there, fix that bug you noticed. Don't.</p>
 <p>One thing. Ship it. Next thing.</p>
 <p>Deploy should be boring. If it's exciting, you're doing it wrong.</p>`
     },
@@ -1428,7 +1488,7 @@ const notesData = {
 for (let M = 0; M &lt; 50; M++)
   for (let m = 0; m &lt; 50; m++)
     for (let p = 0; p &lt; 20; p++)
-      cache[M+'.'+m+'.'+p] = {major:M, minor:m, patch:p};</code></pre>
+      cache[M+'.'+m+'.'+p] = {major: M, minor:m, patch:p};</code></pre>
 <p>50,000 objects. Allocated once. Now parsing <code>1.0.0</code> is just a hash lookup. No regex. No nothing.</p>
 <h2>Then compile the ranges</h2>
 <p><code>^1.2.3</code> always means the same thing. So compile it once to a closure:</p>
@@ -1462,7 +1522,7 @@ for (let M = 0; M &lt; 50; M++)
         content: `<p>I used to <code>npm install</code> everything. Need to pad a string? Package. Parse a date? Package. Check if a number is even? Believe it or not, package.</p>
 <p>Then I'd open <code>node_modules</code> and find 800 folders for a project that sends emails.</p>
 <p>The turning point was a security audit. I had to explain every dependency. Why do we need this? What does it do? Can we trust the maintainer? I couldn't answer for half of them. I'd installed packages I'd never read a single line of.</p>
-<p>Now I default to writing it myself. Most things I need are 20-50 lines. The ones that aren't\u2014crypto, compression, database drivers\u2014I add thoughtfully and pin the version.</p>
+<p>Now I default to writing it myself. Most things I need are 20-50 lines. The ones that aren't (crypto, compression, database drivers) I add thoughtfully and pin the version.</p>
 <p>My <code>node_modules</code> went from 800 folders to about 30. My builds are faster. My deploys are smaller. And I actually know what my code does.</p>`
     },
     'rust-changed-my-brain': {
@@ -1527,7 +1587,7 @@ for (let M = 0; M &lt; 50; M++)
         relatedNotes: ['seven-years', 'telegram-bots'],
         content: `<p>I never finished a programming course. I've started dozens. Never finished one.</p>
 <p>What I did instead: I built things. A bot that tells you the weather. A search engine for my bookmarks. A CLI tool that does one thing I needed.</p>
-<p>Each one taught me exactly what I needed to know, exactly when I needed to know it. Not "here's how arrays work" in week 3 of a curriculum. But "I need to sort these results by relevance\u2014how do I do that?" at 1am on a Tuesday because I'm obsessed with my side project.</p>
+<p>Each one taught me exactly what I needed to know, exactly when I needed to know it. Not "here's how arrays work" in week 3 of a curriculum. But "I need to sort these results by relevance, how do I do that?" at 1am on a Tuesday because I'm obsessed with my side project.</p>
 <p>Courses teach you syntax. Projects teach you engineering. The difference is that projects have real constraints: this needs to actually work, for real users, on a real computer.</p>
 <p>Build something small. Make it work. Make it better. That's the whole curriculum.</p>`
     },
@@ -1538,11 +1598,11 @@ for (let M = 0; M &lt; 50; M++)
         tended: '2026-02',
         words: ['minimal', 'small', 'building', 'everything', 'source'],
         relatedNotes: ['minimal-software', 'the-100-line-rule'],
-        content: `<p>This website is one HTML file. The CSS, the JavaScript, the data, the components, the router\u2014all in one file.</p>
+        content: `<p>This website is one HTML file. The CSS, the JavaScript, the data, the components, the router. All in one file.</p>
 <p>People ask why. The answer: why not?</p>
 <p>One file means no build step. No bundler config. No module resolution. No "it works on my machine." Open the file, it works. Deploy the file, it's live.</p>
 <p>There's a weird pressure in web development to have a "proper" project structure. Fourteen config files before you write a line of code. A build pipeline that takes longer than the actual program.</p>
-<p>For a lot of projects\u2014especially personal ones\u2014none of that is necessary. You're not building Gmail. You're building a page that shows some text and links. One file handles that just fine.</p>
+<p>For a lot of projects, especially personal ones, none of that is necessary. You're not building Gmail. You're building a page that shows some text and links. One file handles that just fine.</p>
 <p>I'll add complexity when I need it. So far I haven't needed it.</p>`
     },
     'worse-is-better': {
@@ -1653,6 +1713,160 @@ for (let M = 0; M &lt; 50; M++)
 <p>The rewrite isn't starting over. It's starting informed.</p>
 <p>I rewrote my search engine three times. Version one: Python, slow, wrong data structures. Version two: Node.js, faster, better architecture, still wrong in subtle ways. Version three: Rust, correct, fast, half the code of version one.</p>
 <p>People say "don't rewrite." I think they mean "don't rewrite for fun." But rewriting because you now understand the problem deeply? That produces the best software I've ever written.</p>`
+    },
+    'boring-tech': {
+        title: 'Pick boring technology',
+        stage: 'evergreen',
+        planted: '2024-02',
+        tended: '2025-11',
+        words: ['systems', 'building', 'dependencies', 'principles'],
+        relatedNotes: ['shipping-fast', 'minimal-software'],
+        content: `<p>PostgreSQL. Redis. A Linux server. That's it. That's the stack for 90% of what you'll ever build.</p>
+<p>I spent years chasing new databases. Tried CockroachDB, FaunaDB, SurrealDB. Each one had a compelling pitch. Each one had weird edge cases nobody documented because nobody had hit them yet.</p>
+<p>PostgreSQL has been hit with everything. Every edge case is documented. Every weird behavior has a Stack Overflow answer from 2014. That's not boring. That's battle-tested.</p>
+<p>New technology is someone else's unfinished experiment. You're volunteering to be their QA team. Sometimes that's worth it. Usually it isn't.</p>
+<p>I save my innovation budget for the thing that actually matters. The product. Everything under it should be as boring as possible.</p>`
+    },
+    'fail-loudly': {
+        title: "Crash, don't hide",
+        stage: 'evergreen',
+        planted: '2023-09',
+        tended: '2025-08',
+        words: ['systems', 'execute', 'principles', 'building'],
+        relatedNotes: ['telegram-bots', 'debugging'],
+        content: `<p>The worst bugs are the ones that don't crash.</p>
+<p>A null pointer exception at 3am is annoying but simple. You get a stack trace. You find the line. You fix it. A function that silently returns wrong data? That can run for weeks before anyone notices. By then the damage is everywhere.</p>
+<p>I write code that crashes early. If something is wrong, I want to know immediately. Not in a log file nobody reads. Not as a subtle data inconsistency. A loud, obvious failure.</p>
+<p>Assert your assumptions. Validate at boundaries. If a function receives data it doesn't expect, panic. Don't try to "handle" it by guessing what the caller meant.</p>
+<p>A crash is a gift. It tells you exactly what went wrong, exactly where, exactly when. Silent failures tell you nothing until it's too late.</p>`
+    },
+    'no-meetings': {
+        title: 'Just write it down',
+        stage: 'sprout',
+        planted: '2024-06',
+        tended: '2025-09',
+        words: ['building', 'adapt', 'from', 'systems'],
+        relatedNotes: ['remote-from-india', 'shipping-fast'],
+        content: `<p>Most meetings should be a document.</p>
+<p>A meeting takes an hour from five people. That's five hours gone. A document takes 30 minutes to write and 10 minutes each to read. Same information, four hours saved.</p>
+<p>I've worked with teams that had no meetings at all. Just shared documents, pull requests, and short messages. We shipped faster than any team I'd been on before.</p>
+<p>Writing forces clarity. In a meeting you can wave your hands and say "you know what I mean." In a document you actually have to say what you mean.</p>
+<p>When I need a decision, I write a one-page proposal with my recommendation and two alternatives. People read it, comment, and we're done. No scheduling. No "can everyone do Tuesday at 3?"</p>`
+    },
+    'api-first': {
+        title: 'Start with the interface',
+        stage: 'sprout',
+        planted: '2025-01',
+        tended: '2025-12',
+        words: ['building', 'systems', 'foundations', 'principles'],
+        relatedNotes: ['naming', 'minimal-software'],
+        content: `<p>Before I write any implementation, I write the function signature. The API. The interface. Whatever you want to call the boundary between "what it does" and "how it does it."</p>
+<p>If the interface is clean, the implementation usually follows. If the interface is awkward, no amount of clever code inside will fix it.</p>
+<p>I've thrown away entire implementations and kept the interface unchanged. The callers never knew. That's the point. The interface is the contract. Everything else is negotiable.</p>
+<p>Most bad code isn't bad inside functions. It's bad at the boundaries. Functions that take seven parameters. Methods that do three things. APIs that require you to call things in a specific order. Fix the interface and the code fixes itself.</p>`
+    },
+    'delete-your-code': {
+        title: 'Delete it',
+        stage: 'evergreen',
+        planted: '2024-03',
+        tended: '2026-01',
+        words: ['minimal', 'dependencies', 'source', 'principles'],
+        relatedNotes: ['minimal-software', 'the-100-line-rule'],
+        content: `<p>The best commit I made last month was 400 lines of deletions.</p>
+<p>There was a feature nobody used. I checked the analytics. Zero hits in 90 days. I deleted it. The codebase got simpler. The tests got faster. One less thing to maintain.</p>
+<p>Developers are hoarders. "We might need this later." You won't. And if you do, it's in git. But you won't.</p>
+<p>I do a deletion pass every few months. Dead code. Unused imports. Config for features that shipped three versions ago. Comments that describe code that's been rewritten twice since.</p>
+<p>Every line you delete is a line that can't have bugs. A line that can't confuse the next person. A line that doesn't slow down your IDE. Deletion is the most underrated refactoring tool.</p>`
+    },
+    'types-are-docs': {
+        title: 'Types are the first draft',
+        stage: 'seed',
+        planted: '2025-06',
+        tended: '2025-12',
+        words: ['computation', 'verifiable', 'foundations', 'source'],
+        relatedNotes: ['rust-changed-my-brain', 'naming'],
+        content: `<p>I write the types before I write the logic.</p>
+<p>A type signature is a compressed specification. <code>fn parse(input: &str) -> Result&lt;Version, ParseError&gt;</code> tells you almost everything. It takes a string. It might fail. When it succeeds, you get a Version. When it fails, you know why.</p>
+<p>No comment could do that in fewer characters. And unlike comments, the compiler checks types. They can't drift out of date. They can't lie.</p>
+<p>TypeScript made me appreciate this. Coming from JavaScript, adding types felt like busywork. Then I stopped having an entire class of bugs. Functions getting called with wrong arguments. Properties accessed on undefined. Type narrowing catching impossible states.</p>
+<p>Types won't catch logic bugs. But they catch everything else. That frees my brain to focus on the hard problems.</p>`
+    },
+    'cache-everything': {
+        title: 'Cache it',
+        stage: 'sprout',
+        planted: '2024-09',
+        tended: '2025-10',
+        words: ['computation', 'systems', 'execute', 'runtimes'],
+        relatedNotes: ['speed-is-a-feature', 'semver-30x-faster'],
+        content: `<p>The fastest computation is the one you don't do.</p>
+<p>My semver library is fast because it precomputes. My bots are fast because they cache user data. This website is fast because there's nothing to compute at all.</p>
+<p>People reach for clever algorithms when a lookup table would do. I've replaced O(n log n) sorts with O(1) hash lookups more times than I can count. Not because I'm smart. Because the data didn't change often enough to justify recomputing.</p>
+<p>The trick is knowing when to invalidate. Cache without invalidation is just a bug waiting to happen. I keep caches small, TTLs short, and invalidation explicit. A stale cache is worse than no cache.</p>
+<p>When in doubt: compute once, store the result, serve it forever. Recompute only when the input changes.</p>`
+    },
+    'overnight': {
+        title: 'No overnight successes',
+        stage: 'sprout',
+        planted: '2025-02',
+        tended: '2025-12',
+        words: ['building', 'learn', 'adapt'],
+        relatedNotes: ['seven-years', 'side-projects'],
+        content: `<p>My most popular repo has 500 stars. It took four years to get there.</p>
+<p>Year one: 12 stars. All from friends. Year two: 40. A few strangers found it. Year three: 150. Someone mentioned it in a blog post. Year four: 500. It showed up on Hacker News for 20 minutes.</p>
+<p>From the outside it looks like it blew up overnight. From the inside it was four years of quiet commits, fixing issues nobody reported, and improving docs nobody read yet.</p>
+<p>Every "overnight success" I know has a story like this. Years of invisible work, then one day of visibility. The visibility isn't the success. The years are.</p>
+<p>Keep shipping. Even when nobody's watching. Especially when nobody's watching.</p>`
+    },
+    'india': {
+        title: 'Building from India',
+        stage: 'sprout',
+        planted: '2024-08',
+        tended: '2025-11',
+        words: ['building', 'from', 'adapt', 'learn'],
+        relatedNotes: ['remote-from-india', 'seven-years'],
+        content: `<p>The Indian tech scene has a reputation problem. Cheap outsourcing. Body shops. "Do the needful."</p>
+<p>I ignore all of it. I charge $1,000/day. I turn down work that isn't interesting. I open source everything I can.</p>
+<p>The best developers I know are in India. They just don't have the visibility. They're building real systems for real scale, not getting profiled in TechCrunch.</p>
+<p>My internet is fine. My hardware is fine. My timezone is an advantage. The only thing that used to be hard was payments, and that's solved now too.</p>
+<p>Where you build doesn't matter. What you build does. Ship good work. Let the code speak for itself.</p>`
+    },
+    'burnout': {
+        title: 'Take the break',
+        stage: 'seed',
+        planted: '2025-04',
+        tended: '2025-09',
+        words: ['learn', 'adapt', 'building'],
+        relatedNotes: ['seven-years', 'side-projects'],
+        content: `<p>In 2021 I stopped coding for three months. Didn't touch a keyboard. Didn't think about software. Just existed.</p>
+<p>When I came back everything was clearer. Problems that felt impossible before were obvious. Code I'd been stuck on for weeks wrote itself in an afternoon.</p>
+<p>The break wasn't wasted time. It was the most productive thing I did that year. My brain needed space to reorganize.</p>
+<p>Now I take breaks before I need them. A week off every few months. No guilt. No "just one quick fix." Off means off.</p>
+<p>You're not a machine. Machines don't need breaks. You do. Take them.</p>`
+    },
+    'simplicity-debt': {
+        title: 'Complexity is debt',
+        stage: 'evergreen',
+        planted: '2023-11',
+        tended: '2026-01',
+        words: ['minimal', 'principles', 'systems', 'dependencies'],
+        relatedNotes: ['minimal-software', 'boring-tech'],
+        content: `<p>Every abstraction is a loan. You're borrowing simplicity now and paying complexity later.</p>
+<p>Sometimes the loan is worth it. A well-placed abstraction saves hours. But most abstractions are premature. You add a factory because you think you'll need four implementations. You end up with one. Now you have a factory with one implementation and everyone has to understand the indirection.</p>
+<p>I count abstractions like I count dependencies. Each one needs to justify its existence. If I can't explain why this layer exists in one sentence, I flatten it.</p>
+<p>Three lines of duplicated code is better than one abstraction nobody understands. You can always abstract later. You can't easily un-abstract.</p>`
+    },
+    'git-small': {
+        title: 'Tiny commits',
+        stage: 'seed',
+        planted: '2025-09',
+        tended: '2026-01',
+        words: ['building', 'source', 'adapt', 'systems'],
+        relatedNotes: ['shipping-fast', 'delete-your-code'],
+        content: `<p>My average commit is 15 lines. Some are 3. Rarely more than 50.</p>
+<p>Each commit does one thing. Rename a variable. Fix a bug. Add a function. Not "refactor auth module." That's five commits pretending to be one.</p>
+<p>Small commits make git bisect useful. When a bug appears, you can binary search through commits and find it in minutes. If each commit is 500 lines, bisect tells you "the bug is somewhere in these 500 lines." Thanks for nothing.</p>
+<p>Small commits also make code review possible. I can review a 10-line diff in 30 seconds. I can review a 500-line diff in... actually I can't. Nobody can. They just skim and approve.</p>
+<p>Write the smallest commit that makes sense on its own. Then write the next one.</p>`
     }
 };
 
@@ -1888,7 +2102,7 @@ const NotePage = {
                 <div class="word-title">404</div>
             </div>
             <div class="word-content">
-                <div class="block"><h2>Not Found</h2><p>This note doesn't exist. <router-link to="/garden" style="color:#000;text-decoration:underline;">Browse the garden</router-link>.</p></div>
+                <div class="block"><h2>Not Found</h2><p>This note doesn't exist. <router-link to="/garden" style="color:#000;text-decoration: underline;">Browse the garden</router-link>.</p></div>
             </div>
         </div>
     `,
