@@ -1,1 +1,706 @@
-kek
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lulzx</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue-router@4/dist/vue-router.global.js"></script>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #fff;
+    color: #000;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    margin: 1rem;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 6rem;
+    border-bottom: 1px solid #000;
+}
+
+.statement {
+    font-size: clamp(1.5rem, 4vw, 3.5rem);
+    font-weight: 500;
+    max-width: 1200px;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+}
+
+.word {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 0.1em;
+    margin: 0 -0.1em;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.word:hover {
+    background: #000;
+    color: #fff;
+}
+
+.punctuation {
+    display: inline;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    font-size: 0.875rem;
+}
+
+.footer a {
+    color: #000;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.footer a:hover {
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+}
+
+@media (max-width: 800px) {
+    .main {
+        padding: 3rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        margin: 0.5rem;
+    }
+    .main {
+        padding: 2rem;
+    }
+    .footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+
+/* Word Page Styles */
+.word-page {
+    flex: 1;
+    border: 1px solid #000;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.word-header {
+    padding: 2rem;
+    border-bottom: 1px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back {
+    color: #000;
+    text-decoration: none;
+}
+
+.back:hover {
+    background: #000;
+    color: #fff;
+}
+
+.word-title {
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    padding: 4rem;
+    border-bottom: 1px solid #000;
+}
+
+.word-content {
+    flex: 1;
+    padding: 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.block {
+    border: 1px solid #000;
+    padding: 2rem;
+}
+
+.block h2 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #000;
+}
+
+.block p, .block li {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+}
+
+.block ul {
+    list-style: none;
+    padding: 0;
+}
+
+.block li::before {
+    content: "→ ";
+    font-weight: 700;
+}
+
+.block a {
+    color: #000;
+    text-decoration: underline;
+}
+
+.block a:hover {
+    background: #000;
+    color: #fff;
+}
+
+.stat {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.zero {
+    font-size: 8rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+code {
+    font-family: "Courier New", monospace;
+    background: #f5f5f5;
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const { createApp, computed } = Vue;
+const { createRouter, createWebHistory, useRoute } = VueRouter;
+
+// Word data store
+const wordData = {
+    building: {
+        blocks: [
+            {
+                title: "Current Projects",
+                items: [
+                    "copilot — CLI Copilot in Rust",
+                    "orbit — Spatial Terminal Dashboard", 
+                    "speculative-decoding — Fast LLM on Apple Silicon",
+                    "paddleocr-vl.swift — OCR with MLX",
+                    "tanstack-bun — SSR with Bun"
+                ]
+            },
+            {
+                title: "Focus Areas",
+                items: [
+                    "ML Inference — MLX-Swift, Apple Silicon",
+                    "Developer Tools — Rust CLI, TUIs",
+                    "Web & Graphics — WebGL2/WebGPU",
+                    "Automation — Telegram bots"
+                ]
+            },
+            {
+                title: "Stats",
+                items: [
+                    "30+ public repositories",
+                    "9 languages",
+                    "First commit: 2017",
+                    "7+ years shipping code"
+                ]
+            }
+        ]
+    },
+    at: {
+        blocks: [
+            { title: "Location", text: "Software engineer from India. Building developer tools, ML inference systems, and automation that works." }
+        ]
+    },
+    the: {
+        blocks: [
+            { title: "Definite Article", text: "The most common word in English. Used here to specify a particular intersection." }
+        ]
+    },
+    intersection: {
+        blocks: [
+            { title: "Where Fields Meet", text: "The space where computation, cognition, and first principles overlap. This intersection is where novel insights emerge." },
+            {
+                title: "Cross-Disciplinary Insights",
+                items: ["Neural computation theory", "Cognitive architectures", "Verified AI systems", "Principled machine learning"]
+            }
+        ]
+    },
+    of: {
+        blocks: [
+            { title: "Preposition", text: "Expressing the relationship between a part and a whole. The intersection is composed of these elements." }
+        ]
+    },
+    computation: {
+        blocks: [
+            { title: "ML Inference", text: "Making LLMs run fast on consumer hardware. Native Swift implementations using MLX for Apple Silicon." },
+            {
+                title: "Projects",
+                items: ["speculative-decoding — MLX-Swift port", "nano-reasoning — FastRL on Apple Silicon", "paddleocr-vl.swift — 0.9B doc parsing VLM", "masked — Masked diffusion LM"]
+            },
+            {
+                title: "Hardware Targets",
+                items: ["Apple Silicon (MLX)", "GPU — WebGL2/WebGPU", "CPU — Rust simd optimization"]
+            }
+        ]
+    },
+    cognition: {
+        blocks: [
+            { title: "neurodiverse", text: "Research and Development for AI powered Memory Prosthetics. Exploring how systems can learn and adapt." },
+            {
+                title: "Memory Systems",
+                items: ["Information retrieval", "Similarity search (HNSW)", "Semantic embeddings", "Long-term context"]
+            },
+            {
+                title: "Projects",
+                items: ["sentence-similarity-search", "discover — search engine", "masked — diffusion LM"]
+            }
+        ]
+    },
+    and: {
+        blocks: [
+            { title: "Conjunction", text: "Connects words, phrases, or clauses. Indicates addition or connection between concepts." }
+        ]
+    },
+    first: {
+        blocks: [
+            { title: "First Principles Thinking", text: "Break down problems to their fundamental truths. Build up from there. Don't reason by analogy." },
+            {
+                title: "Process",
+                items: ["Identify the problem", "Break into components", "Find fundamental truths", "Build from ground up", "Verify each step"]
+            },
+            {
+                title: "Applications",
+                items: ["Compiler design", "System architecture", "Algorithm invention", "Language creation"]
+            }
+        ]
+    },
+    principles: {
+        blocks: [
+            { number: "01", title: "Understand Before Building", text: "If you cannot explain it simply, you do not understand it well enough." },
+            { number: "02", title: "Dependencies Are Liabilities", text: "Prefer 100 lines of your own code over a dependency you don't fully understand." },
+            { number: "03", title: "Simplicity Is Requisite", text: "Complexity is the enemy of reliability." },
+            { number: "04", title: "Build for the Long Term", text: "Code should last decades, not quarters." }
+        ]
+    },
+    systems: {
+        blocks: [
+            { stat: "7+", label: "Years Shipping", text: "Software engineer from India. Building developer tools, ML inference systems, and automation that works." },
+            {
+                title: "Systems I Build",
+                items: ["ML inference on Apple Silicon", "Rust CLI tools", "WebGL2/WebGPU rendering", "Telegram automation", "Information retrieval"]
+            },
+            {
+                title: "Properties",
+                items: ["Fast — Performance first", "Minimal — Less code, better results", "Reliable — Production tested", "Auditable — Open source"]
+            }
+        ]
+    },
+    that: {
+        blocks: [
+            { title: "Subordinating Conjunction", text: "Introduces a subordinate clause expressing a statement. Connects the systems to their capabilities." }
+        ]
+    },
+    learn: {
+        blocks: [
+            {
+                title: "Timeline",
+                items: ["2024 — MLX-Swift & Apple Silicon", "2023 — Rust & Developer Tools", "2020 — Information Retrieval", "2017 — Telegram Bots"]
+            },
+            {
+                title: "Languages",
+                items: ["Rust — Systems & CLI", "Swift — Native & ML", "TypeScript — Web", "Python — Prototyping"]
+            },
+            {
+                title: "Stack",
+                items: ["Node.js / Bun", "React / Svelte / Vue", "PostgreSQL / Redis", "Docker / AWS / Cloudflare"]
+            }
+        ]
+    },
+    adapt: {
+        blocks: [
+            { title: "Evolution", text: "2017: Telegram bots. 2020: Information retrieval. 2023: Rust & systems. 2024: MLX & Apple Silicon. Always adapting." },
+            {
+                title: "Services",
+                items: ["Product Development — MVPs to production", "Architecture — APIs, databases, infra", "Performance — Optimization & caching", "Emergencies — Crisis response"]
+            },
+            { title: "Hire", text: "Available for contract work at $1,000/day. Book a 30min call to discuss your project." }
+        ]
+    },
+    reason: {
+        blocks: [
+            { title: "nano-reasoning", text: "High-performance port of FastRL to Apple Silicon using MLX-Swift. Reasoning models that run locally on consumer hardware." },
+            {
+                title: "Research",
+                items: ["FastRL inference optimization", "On-device reasoning", "Speculative decoding for reasoning"]
+            },
+            { title: "Goal", text: "Systems that understand what they're doing, not just pattern match. Local, private, fast reasoning." }
+        ]
+    },
+    not: {
+        blocks: [
+            { title: "Negation", text: "The most important word in logic. Systems that reason, not just execute." },
+            {
+                title: "What I Don't Do",
+                items: ["Enterprise consulting", "Blockchain/Web3", "Mobile app development", "Legacy system maintenance"]
+            }
+        ]
+    },
+    just: {
+        blocks: [
+            { title: "Merely / Only", text: "Used to minimize or dismiss. 'Just execute' — the bare minimum. We aim higher than just execution." }
+        ]
+    },
+    execute: {
+        blocks: [
+            { title: "Beyond Execution", text: "Current software merely executes. The goal is systems that understand what they are doing." },
+            {
+                title: "Execution Models",
+                items: ["Von Neumann: Sequential", "Dataflow: Demand-driven", "Interaction nets: Parallel rewriting", "GPU: SIMD execution"]
+            },
+            { title: "Performance", text: "Execution speed matters, but correctness matters more. Fast wrong answers are useless." }
+        ]
+    },
+    verifiable: {
+        blocks: [
+            { check: "✓", title: "Formal Verification", text: "Mathematical proofs of correctness. No testing can prove absence of bugs, but proofs can." },
+            {
+                title: "Techniques",
+                items: ["Type systems as proofs", "Model checking", "SMT solvers", "Interactive theorem proving"]
+            },
+            {
+                title: "Projects",
+                items: ["verified-zig: Proven allocator", "safe-ir: Verified intermediate rep", "types-rs: Rust type checker proof"]
+            }
+        ]
+    },
+    foundations: {
+        blocks: [
+            {
+                title: "Mathematical Base",
+                items: ["Type theory: The language of structure", "Category theory: Abstract patterns", "Topology: Continuous reasoning", "Logic: Truth and consequence"]
+            },
+            {
+                title: "Computing Base",
+                items: ["Lambda calculus: Universal computation", "Combinatory logic: Variable-free", "Interaction nets: Parallel models", "Assembly: The metal"]
+            },
+            { title: "Philosophy", text: "Build from bedrock. Understand the ground beneath your feet." }
+        ]
+    },
+    massively: {
+        blocks: [
+            { number: "10⁶", title: "Parallel Units", text: "Modern GPUs execute millions of threads simultaneously." },
+            {
+                title: "Scale Targets",
+                items: ["GPU: 10,000+ cores", "CPU: 64+ threads", "Cluster: 1000+ nodes", "Edge: 100+ devices"]
+            }
+        ]
+    },
+    parallel: {
+        blocks: [
+            { title: "MLX Parallelism", text: "Apple Silicon unified memory architecture allows efficient parallel computation." },
+            { title: "paragon", text: "Provably correct, high-performance model training using Bend's massively parallel capabilities." },
+            {
+                title: "Hardware",
+                items: ["Apple Neural Engine", "GPU compute shaders", "Multi-core CPU"]
+            }
+        ]
+    },
+    runtimes: {
+        blocks: [
+            { title: "Custom Runtimes", text: "Execution environments designed for specific computational models. Specialized for efficiency and correctness." },
+            {
+                title: "Implementations",
+                items: ["inets: Interaction net runtime", "tensor-rt: GPU compute runtime", "wasm-kernel: Browser runtime", "predictive-rt: Inference engine"]
+            },
+            {
+                title: "Design Goals",
+                items: ["Minimal overhead", "Predictable performance", "No garbage collection", "Static memory"]
+            }
+        ]
+    },
+    everything: {
+        blocks: [
+            { title: "Universal Application", text: "These principles apply to all systems. No exceptions." },
+            { title: "Scope", text: "Code, documentation, tests, processes. Everything is subject to the same standards." }
+        ]
+    },
+    minimal: {
+        blocks: [
+            { title: "Philosophy", text: "Every line of code is a liability. Fewer dependencies, simpler architectures, less to break." },
+            {
+                title: "Writing",
+                items: ["The case for minimal software", "Shipping fast without breaking things"]
+            },
+            {
+                title: "Principles",
+                items: ["Every feature earns its place", "Question every dependency", "Remove before you add", "Complexity is a last resort"]
+            }
+        ]
+    },
+    small: {
+        blocks: [
+            {
+                title: "Size Metrics",
+                items: ["Lines of code", "Binary size", "Memory footprint", "API surface", "Dependency count"]
+            },
+            { title: "Why Small Matters", text: "Small systems are comprehensible. They fit in a human mind." }
+        ]
+    },
+    footprint: {
+        blocks: [
+            { stat: "50KB", title: "Binary Size", text: "inets compiles to a 50KB static binary. No external dependencies." },
+            {
+                title: "Memory Footprint",
+                items: ["No garbage collector", "Static allocation where possible", "Predictable memory usage", "No memory leaks"]
+            },
+            { title: "Environmental Impact", text: "Small software uses less energy. It runs on older hardware. It reduces e-waste." }
+        ]
+    },
+    zero: {
+        blocks: [
+            { zero: true, title: "Zero Dependencies", text: "Each library you add is code you don't control. It can break, have security issues, bloat your bundle." },
+            {
+                title: "Projects",
+                items: ["tanstack-bun — Zero overhead SSR", "orbit — Pure Rust TUI", "copilot — Single binary"]
+            },
+            { title: "Exceptions", text: "Where possible — practical constraints sometimes require compromise." }
+        ]
+    },
+    dependencies: {
+        blocks: [
+            {
+                title: "The Dependency Problem",
+                items: ["Supply chain attacks (log4j, xz)", "Left-pad incidents", "Version hell", "Audit impossibility"]
+            },
+            {
+                title: "Solutions",
+                items: ["Vendor critical code", "Reimplement trivial functions", "Use standard libraries", "Static linking"]
+            },
+            { title: "Policy", text: "Zero runtime dependencies. Every dependency requires justification." }
+        ]
+    },
+    where: {
+        blocks: [
+            { title: "Adverb", text: "Indicates the condition under which something applies. Zero dependencies where possible acknowledges practical constraints." }
+        ]
+    },
+    possible: {
+        blocks: [
+            { title: "Practical Constraints", text: "Ideals are aspirational. Sometimes external constraints require compromises." },
+            {
+                title: "Acceptable Exceptions",
+                items: ["Hardware drivers", "Platform APIs", "Crypto libraries (audited)", "Build tools"]
+            }
+        ]
+    },
+    auditable: {
+        blocks: [
+            { title: "Code You Can Read", text: "Every system I build can be understood by reading the source. I write Rust, Swift, TypeScript, and Python with clarity first." },
+            {
+                title: "Public Work",
+                items: ["github.com/lulzx — 30+ public repos", "CLI tools in Rust", "MLX-Swift inference ports", "Web libraries"]
+            },
+            { title: "Open Source", text: "Most of my work is open source. 7+ years of shipping code you can inspect." }
+        ]
+    },
+    from: {
+        blocks: [
+            { title: "Origin", text: "Software engineer from India. Building developer tools, ML inference systems, and automation that works." },
+            { title: "Location", text: "Based in India, working remotely with teams worldwide. Available for contract work at $1,000/day." },
+            {
+                title: "History",
+                items: ["2017: Started with Telegram bots", "2020: Information retrieval systems", "2023: Rust & developer tools", "2024: MLX-Swift & Apple Silicon"]
+            }
+        ]
+    },
+    source: {
+        blocks: [
+            { title: "GitHub", text: "github.com/lulzx — 30+ public repositories. 9 languages. Open source work you can audit, modify, and learn from." },
+            {
+                title: "Featured Repos",
+                items: ["copilot — Rust CLI AI assistant", "orbit — Spatial TUI dashboard", "speculative-decoding — MLX-Swift", "tanstack-bun — SSR framework"]
+            },
+            { title: "License", text: "Most projects are MIT licensed. Free to use, modify, and distribute." }
+        ]
+    }
+};
+
+// Home component
+const Home = {
+    template: `
+        <div class="container">
+            <div class="main">
+                <p class="statement">
+                    <router-link to="/words/building" class="word">Building</router-link>&nbsp;
+                    <router-link to="/words/at" class="word">at</router-link>&nbsp;
+                    <router-link to="/words/the" class="word">the</router-link>&nbsp;
+                    <router-link to="/words/intersection" class="word">intersection</router-link>&nbsp;
+                    <router-link to="/words/of" class="word">of</router-link>&nbsp;
+                    <router-link to="/words/computation" class="word">computation</router-link><span class="punctuation">, </span>
+                    <router-link to="/words/cognition" class="word">cognition</router-link><span class="punctuation">, </span>
+                    <router-link to="/words/and" class="word">and</router-link>&nbsp;
+                    <router-link to="/words/first" class="word">first</router-link>&nbsp;
+                    <router-link to="/words/principles" class="word">principles</router-link><span class="punctuation">. </span>
+                    <router-link to="/words/systems" class="word">Systems</router-link>&nbsp;
+                    <router-link to="/words/that" class="word">that</router-link>&nbsp;
+                    <router-link to="/words/learn" class="word">learn</router-link><span class="punctuation">, </span>
+                    <router-link to="/words/adapt" class="word">adapt</router-link><span class="punctuation">, </span>
+                    <router-link to="/words/and" class="word">and</router-link>&nbsp;
+                    <router-link to="/words/reason" class="word">reason</router-link>&nbsp;
+                    <router-link to="/words/not" class="word">not</router-link>&nbsp;
+                    <router-link to="/words/just" class="word">just</router-link>&nbsp;
+                    <router-link to="/words/execute" class="word">execute</router-link><span class="punctuation">. </span>
+                    <router-link to="/words/verifiable" class="word">Verifiable</router-link>&nbsp;
+                    <router-link to="/words/foundations" class="word">foundations</router-link><span class="punctuation">. </span>
+                    <router-link to="/words/massively" class="word">Massively</router-link>&nbsp;
+                    <router-link to="/words/parallel" class="word">parallel</router-link>&nbsp;
+                    <router-link to="/words/runtimes" class="word">runtimes</router-link><span class="punctuation">. </span>
+                    <router-link to="/words/everything" class="word">Everything</router-link>&nbsp;
+                    <router-link to="/words/minimal" class="word">minimal</router-link><span class="punctuation">: </span>
+                    <router-link to="/words/small" class="word">small</router-link>&nbsp;
+                    <router-link to="/words/footprint" class="word">footprint</router-link><span class="punctuation">, </span>
+                    <router-link to="/words/zero" class="word">zero</router-link>&nbsp;
+                    <router-link to="/words/dependencies" class="word">dependencies</router-link>&nbsp;
+                    <router-link to="/words/where" class="word">where</router-link>&nbsp;
+                    <router-link to="/words/possible" class="word">possible</router-link><span class="punctuation">, </span>
+                    <router-link to="/words/auditable" class="word">auditable</router-link>&nbsp;
+                    <router-link to="/words/from" class="word">from</router-link>&nbsp;
+                    <router-link to="/words/source" class="word">source</router-link><span class="punctuation">.</span>
+                </p>
+            </div>
+            <div class="footer">
+                <span>lulzx</span>
+                <span><a href="https://github.com/lulzx">github</a> / <a href="mailto:hello@lulzx.dev">email</a></span>
+            </div>
+        </div>
+    `
+};
+
+// Word page component
+const WordPage = {
+    template: `
+        <div class="word-page">
+            <div class="word-header">
+                <router-link to="/" class="back">← back</router-link>
+                <span>lulzx</span>
+            </div>
+            <div class="word-title">{{ wordId }}</div>
+            <div class="word-content">
+                <div v-for="(block, index) in blocks" :key="index" class="block">
+                    <div v-if="block.stat" class="stat">{{ block.stat }}</div>
+                    <div v-if="block.zero" class="zero">0</div>
+                    <div v-if="block.check" style="font-size: 4rem; margin-bottom: 1rem;">{{ block.check }}</div>
+                    <h2 v-if="block.label">{{ block.label }}</h2>
+                    <h2 v-else>{{ block.title }}</h2>
+                    <p v-if="block.text">{{ block.text }}</p>
+                    <ul v-if="block.items">
+                        <li v-for="item in block.items" :key="item">{{ item }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    `,
+    computed: {
+        wordId() {
+            return this.$route.params.word;
+        },
+        blocks() {
+            return wordData[this.wordId]?.blocks || [{ title: "Not Found", text: "This word has no content yet." }];
+        }
+    }
+};
+
+// 404 component
+const NotFound = {
+    template: `
+        <div class="container">
+            <div class="main" style="text-align: center;">
+                <p style="font-size: 2rem; margin-bottom: 1rem;">404</p>
+                <p>Page not found. <router-link to="/" class="word">Go home</router-link></p>
+            </div>
+        </div>
+    `
+};
+
+// Router
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [
+        { path: '/', component: Home },
+        { path: '/words/:word', component: WordPage },
+        { path: '/:pathMatch(.*)*', component: NotFound }
+    ]
+});
+
+// Root App component
+const App = {
+    template: `<router-view></router-view>`
+};
+
+// App
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
+</script>
+</body>
+</html>
