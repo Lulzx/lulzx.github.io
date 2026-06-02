@@ -815,52 +815,95 @@ const notesData = {
         tended: '2026-06',
         words: ['systems', 'building', 'minimal', 'small', 'footprint'],
         relatedNotes: ['minimal-software', 'shipping-fast'],
-        content: `<p>One server runs almost everything I've built. A handful of projects, one box, under ten dollars a month.</p>
-<p>People assume this needs orchestration. Kubernetes, a CI platform, a container registry, a managed database. It doesn't. It needs a reverse proxy and a habit.</p>
+        content: `<p>One small ARM box runs almost everything I have built. A handful of projects on a single server that idles most of the time. It has been up for four months without a reboot, sitting at a third of its disk with most of its memory free.</p>
+<p>People assume this needs orchestration. Kubernetes, a CI platform, a container registry, a managed database. It does not. It needs a reverse proxy and a habit.</p>
 <h2>The front door</h2>
-<p>Every request hits Caddy first. One process, one config file, and it handles TLS certificates for me. No certbot, no renewal cron, no remembering to renew anything. I write down a domain, Caddy gets the cert.</p>
-<pre><code>app.example.com {
-    reverse_proxy localhost:4000
+<p>Every request hits Caddy first, and Caddy is the only thing on the box bound to a public port. It terminates TLS, fetches and renews certificates on its own, and routes each hostname to a process listening on localhost. No certbot, no renewal cron, no remembering to renew anything. I write down a domain, Caddy gets the cert.</p>
+<p>Caddy itself runs as a container in <code>network_mode: host</code>, so it binds <code>:80</code> and <code>:443</code> directly with no port mapping in the way. A named volume holds its ACME account and issued certs, so rebuilding the container never re-fetches a single certificate.</p>
+<pre><code>services:
+  caddy:
+    build: .
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - caddy_data:/data            # ACME account + certs survive rebuilds
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./www:/srv/www:ro
+
+volumes:
+  caddy_data:</code></pre>
+<p>One Caddyfile is the single source of truth. The host path is a symlink to it, so <code>caddy reload</code> through the admin API on <code>:2019</code> hot-swaps the config with no dropped connections, and the container loads the exact same file on restart. Two load paths, one file.</p>
+<p>The file itself stays small. A static site is a folder. An app is a port. A streaming endpoint just needs buffering turned off.</p>
+<pre><code>static.example.com {
+    root * /srv/www/site
+    file_server
     encode gzip
 }
 
-static.example.com {
-    root * /srv/www/site
-    file_server
+app.example.com {
+    # static shell + an API backend, both under one host
+    handle /api/*/stream {
+        reverse_proxy localhost:4000 {
+            flush_interval -1         # do not buffer server-sent events
+        }
+    }
+    handle /api/* {
+        reverse_proxy localhost:4000
+    }
+    handle {
+        root * /var/www/app
+        file_server
+    }
+    encode gzip
 }</code></pre>
-<p>That's the whole pattern. Each project listens on a private port. Caddy maps a subdomain to that port. Nothing else on the box is exposed to the internet.</p>
+<p>I keep the hostnames explicit and resist the urge to add a wildcard catch-all. I tried on-demand TLS for arbitrary subdomains once; bots probed random names and Caddy dutifully tried to issue a certificate for each one. A named list never has that problem.</p>
 <h2>Two ways to run a thing</h2>
 <p>Every project on the box is one of two shapes.</p>
-<p>If it's already containerized, it's a <code>docker-compose.yml</code> in its own folder.</p>
+<p>If it is already containerized, it is a <code>docker-compose.yml</code> in its own folder.</p>
 <pre><code>services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"       # localhost only, never 0.0.0.0
     env_file: [.env]
     volumes:
       - ./data:/app/data
     restart: unless-stopped</code></pre>
-<p>If it isn't, it's a systemd unit. Same idea, less Docker.</p>
-<pre><code>[Service]
-WorkingDirectory=/opt/myapp
-ExecStart=/opt/myapp/.venv/bin/uvicorn main:app --port 8000
+<p>If it is not, it is a systemd unit. Same idea, less Docker, with a little more care around startup order and shutdown.</p>
+<pre><code>[Unit]
+After=postgresql.service network.target
+Requires=postgresql.service          # do not start before the database
+
+[Service]
+WorkingDirectory=/opt/app
+Environment=DATABASE_URL=postgres://app:app@localhost/app
+ExecStart=/opt/app/.venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000 --timeout-keep-alive 300
 Restart=always
+RestartSec=5
+KillSignal=SIGINT                    # let it drain in-flight requests
+TimeoutStopSec=10
 
 [Install]
 WantedBy=multi-user.target</code></pre>
-<p>Both end the same way: a process bound to localhost, restarted on failure, fronted by Caddy. Docker or systemd is just a detail of how the process gets started. The shape of the system doesn't change.</p>
+<p>Both end the same way: a process bound to localhost, ordered after its dependencies, restarted on failure, fronted by Caddy. Docker or systemd is just a detail of how the process gets started. The shape of the system does not change.</p>
+<h2>Nothing else faces the internet</h2>
+<p>This is the part that makes the whole thing safe to leave alone. Caddy owns <code>:80</code> and <code>:443</code>. Everything else, every app, every worker, the database, binds <code>127.0.0.1</code>. Nothing is reachable from outside except through the reverse proxy, so the firewall is almost a formality. You cannot attack a port that was never published.</p>
 <h2>The database is just there</h2>
-<p>Postgres runs on the box. Not in a container, not managed, not a separate thing I pay for. Apps connect to localhost. Backups are a dump on a timer. For the traffic I have, this is plenty, and it will stay plenty for a long time.</p>
+<p>Postgres runs on the box. Not in a container, not managed, not a separate thing I pay for. It listens on <code>127.0.0.1</code> only, and apps reach it at <code>localhost</code> over a loopback connection. The systemd units declare <code>Requires=postgresql.service</code>, so nothing tries to talk to a database that has not started yet.</p>
+<p>The backup is a <code>pg_dump</code> on a timer. One command, one file, copied off the box. For the traffic I have this is plenty, and it will stay plenty for a long time.</p>
 <h2>Exposing my laptop</h2>
-<p>Sometimes I want a public URL pointing at something running on my own machine. A webhook target while developing, a quick demo, a service I don't want to deploy yet.</p>
-<p>So the box also runs a small self-hosted tunnel. A subdomain on the server forwards through an SSH reverse tunnel to a port on my laptop. Public HTTPS on one end, localhost on the other. It's ngrok, except I own both ends and it costs nothing.</p>
+<p>Sometimes I want a public URL pointing at something running on my own machine. A webhook target while developing, a quick demo, a service I do not want to deploy yet.</p>
+<p>So my laptop opens an SSH reverse tunnel to the box. <code>ssh -R 9000:localhost:3000 box</code> parks a listener on the server's localhost that forwards back to a port on the Mac. Then it is just another Caddy site.</p>
+<pre><code>dev.example.com {
+    reverse_proxy localhost:9000     # rides the tunnel to my laptop
+}</code></pre>
+<p>Public HTTPS on one end, localhost on the other. A webhook hits the public URL, Caddy terminates TLS, and the request rides the tunnel down to a process on my desk. It is ngrok, except I own both ends and it costs nothing.</p>
 <h2>Deploying is boring</h2>
-<p>Pull the code, rebuild, restart. <code>git pull && docker compose up -d --build</code>, or <code>git pull && systemctl restart app</code>. No pipeline, no registry, no waiting on a runner somewhere.</p>
+<p>Pull the code, rebuild, restart. <code>git pull && docker compose up -d --build</code>, or <code>git pull && systemctl restart app</code>. Config-only changes to the proxy are a <code>caddy reload</code>, no restart at all. No pipeline, no registry, no waiting on a runner somewhere.</p>
 <p>Boring is the point. The most exciting thing that should happen during a deploy is nothing.</p>
 <h2>What I don't run</h2>
 <p>No Kubernetes. No Terraform. No CI platform billing me by the minute. No service mesh, no load balancer, no autoscaler for traffic that fits in a corner of one CPU.</p>
-<p>The box has been up for months, sitting at a third of its disk and a fraction of its memory. When one box isn't enough, I'll get a bigger box. That day is further away than you'd think.</p>`
+<p>The box has been up for months, sitting at a third of its disk and a fraction of its memory. When one box is not enough, I will get a bigger box. That day is further away than you would think.</p>`
     },
     'minimal-software': {
         title: 'Less code',
