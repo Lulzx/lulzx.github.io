@@ -175,12 +175,12 @@ html.dark .ink-img { mix-blend-mode: screen; filter: invert(.93) contrast(1.02) 
 .proj-card .ptags { margin-top: 1.1rem; font-family: var(--mono); font-size: .71rem; color: var(--faint); letter-spacing: .02em; }
 
 /* ---------- footer ---------- */
-.site-footer { position: relative; margin-top: 5rem; border-top: 1px solid var(--line); overflow: hidden; }
-.footer-art { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; background: url("assets/ink/water.webp") center bottom / cover no-repeat; opacity: .7; mix-blend-mode: multiply; -webkit-mask-image: linear-gradient(transparent 0%, #000 55%); mask-image: linear-gradient(transparent 0%, #000 55%); pointer-events: none; }
-html.dark .footer-art { mix-blend-mode: screen; filter: invert(.93) brightness(1.05); opacity: .4; }
-.footer-plum { position: absolute; right: -10px; bottom: 0; width: 260px; max-width: 38vw; background: url("assets/ink/plum.webp") right bottom / contain no-repeat; mix-blend-mode: multiply; opacity: .9; pointer-events: none; aspect-ratio: 900 / 1200; }
-html.dark .footer-plum { mix-blend-mode: screen; filter: invert(.93) brightness(1.05); opacity: .55; }
-@media (max-width: 620px) { .footer-plum { display: none; } }
+.site-footer { position: relative; margin-top: 5rem; border-top: 1px solid var(--line); overflow: hidden; min-height: 390px; }
+.footer-art { position: absolute; left: 0; right: 0; bottom: 0; height: 80%; background: url("assets/ink/water.webp") center 58% / 118% auto no-repeat; opacity: 1; mix-blend-mode: multiply; filter: contrast(1.25) saturate(.45); -webkit-mask-image: linear-gradient(transparent 0%, #000 32%, #000 100%); mask-image: linear-gradient(transparent 0%, #000 32%, #000 100%); pointer-events: none; }
+html.dark .footer-art { mix-blend-mode: screen; filter: invert(.93) contrast(1.2) brightness(1.04); opacity: .5; }
+.footer-plum { position: absolute; right: 0; bottom: 0; width: 300px; max-width: 40vw; background: url("assets/ink/plum.webp") right bottom / contain no-repeat; mix-blend-mode: multiply; opacity: .95; pointer-events: none; aspect-ratio: 900 / 1200; }
+html.dark .footer-plum { mix-blend-mode: screen; filter: invert(.93) brightness(1.05); opacity: .5; }
+@media (max-width: 620px) { .footer-plum { width: 180px; opacity: .85; } }
 .footer-inner { position: relative; z-index: 1; padding: 3.2rem 0 0; display: grid; grid-template-columns: 2.1fr 1fr 1fr 1fr; gap: 2.4rem; }
 .footer-brand .brand { font-size: 1.18rem; }
 .footer-brand p { margin-top: 1rem; max-width: 30ch; color: var(--muted); font-size: .92rem; font-weight: 300; line-height: 1.65; }
