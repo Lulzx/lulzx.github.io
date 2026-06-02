@@ -3,1334 +3,281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>lulzx</title>
+<title>lulzx — quiet systems</title>
+<meta name="description" content="Software engineer building small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.">
+<meta name="theme-color" content="#f3efe6">
+<meta property="og:title" content="lulzx.com — quiet systems">
+<meta property="og:description" content="Software engineer. Building small, focused tools and systems. Minimal by default, auditable from source.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(30)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(60)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(120)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(150)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(210)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(240)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(300)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(330)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://unpkg.com/vue-router@4/dist/vue-router.global.js"></script>
 <style>
 :root {
-    --gray-subtle: #e5e5e5;
-    --gray-mid: #999;
-    --gray-light: #f5f5f5;
-    --bg: #fff;
-    --text: #000;
-    --border: #000;
-    --bg-inverted: #000;
-    --text-inverted: #fff;
-    --selection-bg: #000;
-    --selection-text: #fff;
+    --paper: #f3efe6;
+    --paper-2: #ece6d8;
+    --card: #faf7f0;
+    --ink: #2a2622;
+    --ink-soft: #4d473d;
+    --muted: #7d7666;
+    --faint: #a69e8d;
+    --line: #ddd6c6;
+    --line-strong: #c8bda7;
+    --seal: #a8432f;
+    --shadow: 0 14px 34px -22px rgba(42,38,34,0.4);
+    --serif: 'Spectral', Georgia, 'Times New Roman', serif;
+    --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+    --maxw: 1180px;
 }
-body.dark {
-    --gray-subtle: #333;
-    --gray-mid: #888;
-    --gray-light: #1a1a1a;
-    --bg: #111;
-    --text: #e5e5e5;
-    --border: #e5e5e5;
-    --bg-inverted: #e5e5e5;
-    --text-inverted: #111;
-    --selection-bg: #e5e5e5;
-    --selection-text: #111;
+html.dark {
+    --paper: #16140f;
+    --paper-2: #1d1a14;
+    --card: #1e1b15;
+    --ink: #ece5d6;
+    --ink-soft: #d2cab8;
+    --muted: #9a9283;
+    --faint: #6e6757;
+    --line: #312c23;
+    --line-strong: #423c30;
+    --seal: #cc6450;
+    --shadow: 0 16px 40px -22px rgba(0,0,0,0.7);
+    --theme-color: #16140f;
 }
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-::selection {
-    background: var(--selection-bg);
-    color: var(--selection-text);
-}
-
-html {
-    font-size: 16px;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    height: 100vh;
-    overflow: hidden;
-}
-
-#app {
-    height: 100%;
-    overflow: auto;
-}
-
-.container {
-    height: calc(100vh - 2rem);
-    display: flex;
-    flex-direction: column;
-    border: 2px solid var(--border);
-    margin: 1rem;
-    overflow: hidden;
-}
-
-.main {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem 6rem;
-    border-bottom: 2px solid var(--border);
-}
-
-.statement {
-    font-size: clamp(1.5rem, 4vw, 3.5rem);
-    font-weight: 500;
-    max-width: 1200px;
-    letter-spacing: -0.03em;
-    line-height: 1.45;
-    text-wrap: balance;
-}
-
-.word {
-    display: inline-block;
-    cursor: pointer;
-    padding: 0 0.1em;
-    margin: 0 -0.1em;
-    border-radius: 0;
-    transition: all 0.15s ease;
-    text-decoration: none;
-    color: inherit;
-    text-decoration-line: underline;
-    text-decoration-color: var(--gray-subtle);
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-}
-
-.word:hover {
-    background: var(--text);
-    color: var(--bg);
-    text-decoration: none;
-    transform: scale(1.02);
-}
-
-.punctuation {
-    display: inline;
-}
-
-.footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    font-size: 0.875rem;
-    border-top: 2px solid var(--border);
-}
-
-.footer a {
-    color: var(--text);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-}
-
-.footer a:hover {
-    background: var(--text);
-    color: var(--bg);
-    text-decoration: none;
-}
-
-.footer-links {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-/* Word Page Styles */
-.word-page {
-    border: 2px solid var(--border);
-    margin: 1rem;
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 2rem);
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes blockIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.word-header {
-    padding: 1.5rem 2rem;
-    border-bottom: 2px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.word-header-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--gray-mid);
-}
-
-.breadcrumbs a {
-    color: var(--gray-mid);
-    text-decoration: none;
-}
-
-.breadcrumbs a:hover {
-    color: var(--text);
-}
-
-.breadcrumbs .sep {
-    font-size: 0.7rem;
-}
-
-.back {
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.875rem;
-}
-
-.back:hover {
-    background: var(--text);
-    color: var(--bg);
-}
-
-.word-title-section {
-    padding: 3rem 4rem;
-    border-bottom: 2px solid var(--border);
-    display: flex;
-    align-items: baseline;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.word-title {
-    font-size: clamp(3rem, 10vw, 8rem);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 1;
-}
-
-.stage-badge {
-    display: inline-block;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 0.25rem 0.75rem;
-    vertical-align: middle;
-}
-
-.stage-seed {
-    border: 1px dashed var(--border);
-}
-
-.stage-sprout {
-    border: 2px solid var(--border);
-}
-
-.stage-evergreen {
-    border: 4px double var(--border);
-}
-
-.word-meta {
-    font-size: 0.8rem;
-    color: var(--gray-mid);
-    padding: 0.75rem 4rem;
-    border-bottom: 1px solid var(--gray-subtle);
-    display: flex;
-    gap: 2rem;
-}
-
-.word-content {
-    flex: 1;
-    padding: 3rem 4rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    align-content: start;
-}
-
-.block {
-    border: 2px solid var(--border);
-    padding: 2rem;
-    transition: transform 0.4s ease, box-shadow 0.2s ease, opacity 0.4s ease;
-    opacity: 0;
-    transform: translateY(24px);
-}
-
-.block.revealed {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.block:hover {
-    transform: translateY(-2px);
-    box-shadow: 4px 4px 0 var(--border);
-}
-
-.block h2 {
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
-}
-
-.block p, .block li {
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 0.75rem;
-}
-
-.block ul {
-    list-style: none;
-    padding: 0;
-}
-
-.block li::before {
-    content: "\2192  ";
-    font-weight: 700;
-}
-
-.block a {
-    color: var(--text);
-    text-decoration: underline;
-}
-
-.block a:hover {
-    background: var(--text);
-    color: var(--bg);
-}
-
-.block-inverted {
-    background: var(--bg-inverted);
-    color: var(--text-inverted);
-    border-color: var(--bg-inverted);
-}
-
-.block-inverted h2 {
-    border-bottom-color: var(--text-inverted);
-}
-
-.block-inverted a {
-    color: var(--text-inverted);
-}
-
-.block-inverted a:hover {
-    background: var(--text-inverted);
-    color: var(--bg-inverted);
-}
-
-.stat {
-    font-size: 4rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.stat-label {
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-.zero {
-    font-size: 8rem;
-    font-weight: 900;
-    line-height: 1;
-}
-
-.block-zero {
-    grid-column: 1 / -1;
-}
-
-code {
-    font-family: "Courier New", monospace;
-    background: var(--gray-light);
-    padding: 0.2em 0.4em;
-    font-size: 0.9em;
-}
-
-/* Connections Section */
-.connections-section,
-.notes-section {
-    padding: 2rem 4rem;
-    border-top: 2px solid var(--border);
-}
-
-.section-title {
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 1.25rem;
-}
-
-.chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.chip {
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    border: 2px solid var(--border);
-    text-decoration: none;
-    color: var(--text);
-    font-size: 0.875rem;
-    transition: all 0.15s ease;
-    letter-spacing: -0.01em;
-}
-
-.chip:hover {
-    background: var(--text);
-    color: var(--bg);
-    transform: translateY(-2px);
-    box-shadow: 2px 2px 0 var(--border);
-}
-
-.note-link {
-    display: block;
-    padding: 1rem 1.5rem;
-    border: 2px solid var(--border);
-    text-decoration: none;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-    transition: all 0.15s ease;
-    font-size: 0.95rem;
-}
-
-.note-link:hover {
-    transform: translateX(4px);
-    box-shadow: 2px 2px 0 var(--border);
-}
-
-.note-link .note-link-title {
-    font-weight: 600;
-}
-
-.note-link .note-link-stage {
-    font-size: 0.75rem;
-    color: var(--gray-mid);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-left: 0.75rem;
-}
-
-.wander-section {
-    padding: 1.5rem 4rem;
-    border-top: 2px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-}
-
-.wander-btn {
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.875rem;
-    text-decoration: underline;
-    text-decoration-style: dashed;
-    text-underline-offset: 3px;
-    padding: 0.25rem 0.5rem;
-    transition: all 0.15s ease;
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-family: inherit;
-}
-
-.wander-btn:hover {
-    background: var(--text);
-    color: var(--bg);
-    text-decoration: none;
-}
-
-/* Inline word link */
-.inline-word-link {
-    color: var(--text);
-    text-decoration: underline;
-    text-decoration-color: var(--gray-subtle);
-    text-underline-offset: 2px;
-    text-decoration-thickness: 1px;
-    transition: all 0.1s ease;
-}
-
-.inline-word-link:hover {
-    background: var(--text);
-    color: var(--bg);
-    text-decoration: none;
-}
-
-/* Note Page Styles */
-.note-page {
-    border: 2px solid var(--border);
-    margin: 1rem;
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 2rem);
-    animation: fadeIn 0.3s ease;
-}
-
-.note-header {
-    padding: 3rem 4rem;
-    border-bottom: 2px solid var(--border);
-}
-
-.note-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    margin-bottom: 1rem;
-}
-
-.note-meta {
-    font-size: 0.8rem;
-    color: var(--gray-mid);
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-}
-
-.note-body {
-    padding: 3rem 4rem;
-    max-width: 760px;
-    font-size: 1.05rem;
-    line-height: 1.8;
-    border-bottom: 2px solid var(--border);
-}
-
-.note-body p {
-    margin-bottom: 1.5rem;
-}
-
-.note-body h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-}
-
-.note-body ul, .note-body ol {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
-}
-
-.note-body li {
-    margin-bottom: 0.5rem;
-}
-
-.note-body blockquote {
-    border-left: 4px solid var(--border);
-    padding-left: 1.5rem;
-    margin: 2rem 0;
-    font-style: italic;
-    color: var(--gray-mid);
-    font-size: 1.1rem;
-}
-
-.note-body strong {
-    font-weight: 700;
-}
-
-.note-body pre {
-    background: var(--bg-inverted);
-    color: var(--text-inverted);
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-    overflow-x: auto;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    border: 2px solid var(--border);
-}
-
-.note-body pre code {
-    background: none;
-    color: var(--text-inverted);
-    padding: 0;
-    font-size: inherit;
-}
-
-.note-body code {
-    font-family: "Courier New", monospace;
-    background: var(--gray-light);
-    padding: 0.15em 0.4em;
-    font-size: 0.9em;
-    border: 1px solid var(--gray-subtle);
-}
-
-.note-connections {
-    padding: 2rem 4rem;
-    border-bottom: 2px solid var(--border);
-}
-
-.note-related {
-    padding: 2rem 4rem;
-    border-bottom: 2px solid var(--border);
-}
-
-/* Garden Map Styles */
-.garden-page {
-    border: 2px solid var(--border);
-    margin: 1rem;
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 2rem);
-    animation: fadeIn 0.3s ease;
-}
-
-.garden-header {
-    padding: 3rem 4rem;
-    border-bottom: 2px solid var(--border);
-}
-
-.garden-title {
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-bottom: 1rem;
-}
-
-.garden-subtitle {
-    font-size: 1rem;
-    color: var(--gray-mid);
-    max-width: 500px;
-}
-
-.garden-filters {
-    padding: 1.25rem 4rem;
-    border-bottom: 2px solid var(--border);
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    padding: 0.35rem 1rem;
-    border: 2px solid var(--border);
-    background: var(--bg);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-
-.filter-btn:hover,
-.filter-btn.active {
-    background: var(--text);
-    color: var(--bg);
-}
-
-.garden-section {
-    padding: 2rem 4rem;
-    border-bottom: 2px solid var(--border);
-}
-
-.garden-section-title {
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-}
-
-.garden-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 0.75rem;
-}
-
-.garden-card {
-    border: 2px solid var(--border);
-    padding: 1rem 1.25rem;
-    text-decoration: none;
-    color: var(--text);
-    transition: transform 0.4s ease, box-shadow 0.15s ease, opacity 0.4s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    opacity: 0;
-    transform: translateY(24px);
-}
-
-.garden-card.revealed {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.garden-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 4px 4px 0 var(--border);
-}
-
-.garden-card-name {
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
-}
-
-.garden-card-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.75rem;
-    color: var(--gray-mid);
-}
-
-.stage-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    vertical-align: middle;
-}
-
-.stage-dot-seed {
-    border: 1px dashed var(--border);
-    background: transparent;
-}
-
-.stage-dot-sprout {
-    border: 1.5px solid var(--border);
-    background: transparent;
-}
-
-.stage-dot-evergreen {
-    background: var(--text);
-}
-
-.garden-notes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 0.75rem;
-}
-
-.garden-note-card {
-    border: 2px solid var(--border);
-    padding: 1.25rem 1.5rem;
-    text-decoration: none;
-    color: var(--text);
-    transition: transform 0.4s ease, box-shadow 0.15s ease, opacity 0.4s ease;
-    opacity: 0;
-    transform: translateY(24px);
-}
-
-.garden-note-card.revealed {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.garden-note-card:hover {
-    transform: translateX(4px);
-    box-shadow: 2px 2px 0 var(--border);
-}
-
-.garden-note-title {
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.01em;
-}
-
-.garden-note-meta {
-    font-size: 0.75rem;
-    color: var(--gray-mid);
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-/* Search palette */
-.search-overlay {
+    font-family: var(--serif);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.65;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    transition: background .5s ease, color .5s ease;
+}
+/* paper grain */
+body::before {
+    content: "";
     position: fixed;
     inset: 0;
-    background: rgba(255,255,255,0.92);
-    z-index: 1000;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 20vh;
-}
-body.dark .search-overlay {
-    background: rgba(17,17,17,0.92);
-}
-.search-modal {
-    width: 100%;
-    max-width: 520px;
-    border: 2px solid var(--border);
-    background: var(--bg);
-    margin: 0 1rem;
-}
-.search-input {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    border: none;
-    border-bottom: 2px solid var(--border);
-    font-family: inherit;
-    font-size: 1.1rem;
-    outline: none;
-    background: transparent;
-    color: var(--text);
-}
-.search-input::placeholder {
-    color: var(--gray-mid);
-}
-.search-results {
-    max-height: 320px;
-    overflow-y: auto;
-}
-.search-result {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1.25rem;
-    cursor: pointer;
-    transition: all 0.1s ease;
-    text-decoration: none;
-    color: var(--text);
-    border-bottom: 1px solid var(--gray-subtle);
-}
-.search-result:last-child {
-    border-bottom: none;
-}
-.search-result:hover,
-.search-result.active {
-    background: var(--text);
-    color: var(--bg);
-}
-.search-result-type {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    opacity: 0.6;
-}
-.search-hint {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.8rem;
-    color: var(--gray-mid);
-    text-align: center;
-}
-
-/* Hover preview card */
-.preview-card {
-    position: fixed;
-    z-index: 900;
-    background: var(--bg);
-    border: 2px solid var(--border);
-    box-shadow: 4px 4px 0 var(--border);
-    padding: 1rem 1.25rem;
-    max-width: 280px;
+    z-index: 0;
     pointer-events: none;
-    font-size: 0.875rem;
-    line-height: 1.5;
+    opacity: .04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.preview-card-name {
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 0.35rem;
-}
-.preview-card-stage {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--gray-mid);
-    margin-bottom: 0.5rem;
-}
-.preview-card-excerpt {
-    color: var(--gray-mid);
-}
-@media (hover: none) {
-    .preview-card { display: none !important; }
-}
+html.dark body::before { opacity: .06; }
+#app { position: relative; z-index: 1; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--ink); color: var(--paper); }
+img { max-width: 100%; display: block; }
 
-/* Force graph */
-.graph-container {
-    position: relative;
-    height: 500px;
-    border-bottom: 2px solid var(--border);
-    cursor: default;
-}
-.graph-container canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-.graph-tooltip {
-    position: absolute;
-    background: var(--bg);
-    border: 2px solid var(--border);
-    padding: 0.4rem 0.75rem;
-    font-size: 0.8rem;
-    pointer-events: none;
-    white-space: nowrap;
-    z-index: 10;
-}
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 34px; }
+@media (max-width: 640px){ .container { padding: 0 20px; } }
 
-/* Page transitions */
-.page-enter-active,
-.page-leave-active {
-    transition: opacity 0.2s ease, transform 0.2s ease;
+/* ---------- header ---------- */
+.site-header {
+    position: sticky; top: 0; z-index: 50;
+    transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
+    border-bottom: 1px solid transparent;
 }
-.page-enter-from {
-    opacity: 0;
-    transform: translateY(8px);
+.site-header.scrolled {
+    background: color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter: saturate(1.2) blur(10px);
+    -webkit-backdrop-filter: saturate(1.2) blur(10px);
+    border-bottom-color: var(--line);
 }
-.page-leave-to {
-    opacity: 0;
-    transform: translateY(-4px);
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: 74px; }
+.brand { display: inline-flex; align-items: center; gap: .62rem; font-size: 1.28rem; font-weight: 500; letter-spacing: -.01em; }
+.brand .seal { width: 27px; height: 27px; color: var(--ink); flex: none; }
+.brand .seal .center { fill: var(--paper); }
+.nav { display: flex; align-items: center; gap: 1.85rem; }
+.nav a { font-size: .98rem; color: var(--muted); position: relative; padding: .2rem 0; transition: color .2s ease; }
+.nav a:hover { color: var(--ink); }
+.nav a.router-link-active, .nav a.active { color: var(--ink); }
+.nav a.router-link-active::after, .nav a.active::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: var(--ink);
 }
+.theme-toggle {
+    background: none; border: none; cursor: pointer; color: var(--muted);
+    width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%;
+    transition: color .2s ease, background .2s ease;
+}
+.theme-toggle:hover { color: var(--ink); background: var(--paper-2); }
+.theme-toggle svg { width: 19px; height: 19px; }
+.nav-wrap { display: flex; align-items: center; gap: 1.85rem; }
+.menu-btn { display: none; }
 
-/* Responsive */
-@media (max-width: 800px) {
-    .main {
-        padding: 2.5rem 2rem;
-    }
-    .statement {
-        font-size: clamp(1.3rem, 3.5vw, 2.5rem);
-    }
-    .word-title-section {
-        padding: 2rem 2rem;
-    }
-    .word-content,
-    .connections-section,
-    .notes-section,
-    .wander-section,
-    .note-header,
-    .note-body,
-    .note-connections,
-    .note-related,
-    .garden-header,
-    .garden-filters,
-    .garden-section {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
-    .word-meta {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
-    .word-content {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
-    .note-body {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
-}
+/* ---------- hero ---------- */
+.hero { display: grid; grid-template-columns: 1.04fr 1fr; gap: 3rem; align-items: center; padding: 4.2rem 0 3.5rem; }
+.hero h1 { font-weight: 400; font-size: clamp(2.3rem, 4.6vw, 3.45rem); line-height: 1.12; letter-spacing: -.018em; color: var(--ink); }
+.hero h1 .l2 { display: block; }
+.hero .lede { margin-top: 1.5rem; max-width: 40ch; color: var(--ink-soft); font-size: 1.08rem; line-height: 1.72; font-weight: 300; }
+.hero-links { display: flex; flex-wrap: wrap; gap: 1.7rem; margin-top: 2.1rem; }
+.hero-links a { display: inline-flex; align-items: center; gap: .55rem; font-size: .97rem; color: var(--ink); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: border-color .25s ease, gap .25s ease; }
+.hero-links a svg { width: 16px; height: 16px; color: var(--muted); }
+.hero-links a .arr { transition: transform .25s ease; color: var(--muted); }
+.hero-links a:hover { border-color: var(--line-strong); }
+.hero-links a:hover .arr { transform: translateX(4px); }
+.quote-box { position: relative; margin-top: 2.6rem; border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--card) 60%, transparent); padding: 1.35rem 1.6rem; max-width: 430px; font-family: var(--mono); font-size: .82rem; line-height: 2; color: var(--ink-soft); }
+.quote-box .ln { display: block; }
+.seal-stamp { position: absolute; right: 1rem; bottom: .95rem; width: 36px; height: 36px; border: 1.5px solid var(--seal); color: var(--seal); display: grid; place-items: center; font-family: var(--serif); font-size: 1.15rem; line-height: 1; border-radius: 3px; opacity: .9; }
 
-@media (max-width: 500px) {
-    .container {
-        margin: 0.5rem;
-        height: calc(100vh - 1rem);
-    }
-    .main {
-        padding: 1.5rem;
-    }
-    .statement {
-        font-size: clamp(1.2rem, 5vw, 2rem);
-    }
-    .footer {
-        flex-direction: column;
-        gap: 0.75rem;
-        text-align: center;
-        padding: 0.75rem 1rem;
-    }
-    .footer-links {
-        justify-content: center;
-    }
-    .word-page,
-    .note-page,
-    .garden-page {
-        margin: 0.5rem;
-        min-height: calc(100vh - 1rem);
-    }
-    .word-title-section {
-        padding: 1.5rem;
-    }
-    .word-title {
-        font-size: clamp(2.5rem, 15vw, 5rem);
-    }
-    .word-content,
-    .connections-section,
-    .notes-section,
-    .wander-section,
-    .note-header,
-    .note-body,
-    .note-connections,
-    .note-related,
-    .garden-header,
-    .garden-filters,
-    .garden-section {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
-    .word-meta {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-    .word-content {
-        grid-template-columns: 1fr;
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
-        gap: 1rem;
-    }
-    .block {
-        padding: 1.25rem;
-    }
-    .garden-grid {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    }
-    .garden-notes-grid {
-        grid-template-columns: 1fr;
-    }
-    .breadcrumbs {
-        display: none;
-    }
-    .word-header {
-        padding: 1rem 1.5rem;
-    }
-    .note-header {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-    .note-title {
-        font-size: clamp(1.5rem, 6vw, 2.5rem);
-    }
-    .note-body {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        font-size: 1rem;
-    }
-    .note-meta {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-    .garden-title {
-        font-size: clamp(2rem, 8vw, 3rem);
-    }
-    .chips {
-        gap: 0.35rem;
-    }
-    .chip {
-        padding: 0.3rem 0.75rem;
-        font-size: 0.8rem;
-    }
-    .wander-section {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
-    .graph-container {
-        height: 300px;
-    }
-}
+.hero-art { position: relative; }
+.ink-img { width: 100%; height: auto; mix-blend-mode: multiply; filter: contrast(1.03) saturate(.55); -webkit-mask-image: radial-gradient(ellipse 100% 100% at 52% 50%, #000 80%, transparent 100%); mask-image: radial-gradient(ellipse 100% 100% at 52% 50%, #000 80%, transparent 100%); }
+html.dark .ink-img { mix-blend-mode: screen; filter: invert(.93) contrast(1.02) saturate(.45) brightness(1.05); }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    .block, .garden-card, .garden-note-card {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-    }
-    .word-page, .note-page, .garden-page, .timeline-page {
-        animation: none !important;
-    }
-}
+/* ---------- section frame ---------- */
+.section { padding: 3.4rem 0; }
+.rule-head { display: flex; align-items: center; gap: 1.6rem; }
+.rule-head hr { flex: 1; border: none; border-top: 1px solid var(--line); }
+.rule-head h2 { font-weight: 400; font-size: 1.45rem; letter-spacing: -.01em; color: var(--ink); white-space: nowrap; }
+.head-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.6rem; }
+.head-row h2 { font-weight: 500; font-size: 1.42rem; letter-spacing: -.01em; }
+.more-link { font-size: .92rem; color: var(--muted); display: inline-flex; align-items: center; gap: .4rem; transition: color .2s ease; }
+.more-link:hover { color: var(--ink); }
+.more-link .arr { transition: transform .25s ease; }
+.more-link:hover .arr { transform: translateX(4px); }
 
-/* Reading progress */
-.progress-bar {
-    width: 100%;
-    height: 4px;
-    background: var(--gray-subtle);
-    margin-top: 1rem;
-}
-.progress-fill {
-    height: 100%;
-    background: var(--text);
-    transition: width 0.4s ease;
-}
-.discovery-score {
-    font-size: 4rem;
-    font-weight: 900;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-bottom: 0.5rem;
-}
-.discovery-detail {
-    font-size: 0.85rem;
-    color: var(--gray-mid);
-    margin-top: 0.5rem;
-}
-.next-section {
-    padding: 1.5rem 4rem;
-    border-top: 2px solid var(--border);
-}
-.chip-unvisited {
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    border: 2px dashed var(--border);
-    text-decoration: none;
-    color: var(--text);
-    font-size: 0.875rem;
-    transition: all 0.15s ease;
-    letter-spacing: -0.01em;
-}
-.chip-unvisited:hover {
-    background: var(--text);
-    color: var(--bg);
-    border-style: solid;
-    transform: translateY(-2px);
-    box-shadow: 2px 2px 0 var(--border);
-}
+/* ---------- principles ---------- */
+.principles { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 2.6rem; }
+.principle { text-align: center; padding: 0 1.4rem; }
+.principle + .principle { border-left: 1px solid var(--line); }
+.principle .ico { width: 34px; height: 34px; margin: 0 auto .95rem; color: var(--ink-soft); }
+.principle h3 { font-weight: 500; font-size: 1.08rem; margin-bottom: .55rem; }
+.principle p { font-size: .85rem; color: var(--muted); line-height: 1.62; font-weight: 300; }
 
-/* Full-text search */
-.search-result-excerpt {
-    font-size: 0.75rem;
-    color: var(--gray-mid);
-    margin-top: 0.25rem;
-    line-height: 1.4;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
-}
-.search-result:hover .search-result-excerpt,
-.search-result.active .search-result-excerpt {
-    color: var(--bg);
-    opacity: 0.8;
-}
-.search-result-excerpt mark,
-.search-highlight {
-    background: var(--text);
-    color: var(--bg);
-    padding: 0.1em 0.2em;
-}
-.search-result:hover .search-result-excerpt mark,
-.search-result.active .search-result-excerpt mark {
-    background: var(--bg);
-    color: var(--text);
-}
-.search-highlight {
-    animation: highlightPulse 1s ease 2;
-}
-@keyframes highlightPulse {
-    0%, 100% { background: var(--text); color: var(--bg); }
-    50% { background: var(--gray-subtle); color: var(--text); }
-}
+/* ---------- writing list ---------- */
+.write-list { border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+.write-row { display: grid; grid-template-columns: 132px 1fr auto; align-items: center; gap: 1.3rem; padding: 1.05rem 1.4rem; transition: background .2s ease; }
+.write-row + .write-row { border-top: 1px solid var(--line); }
+.write-row:hover { background: var(--paper-2); }
+.write-row .date { font-family: var(--mono); font-size: .76rem; color: var(--muted); letter-spacing: .01em; }
+.write-row .wt { display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap; }
+.write-row .wt .ttl { font-size: 1.07rem; color: var(--ink); }
+.write-row:hover .wt .ttl { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-strong); }
+.tags { font-family: var(--mono); font-size: .71rem; color: var(--faint); letter-spacing: .02em; }
+.write-row .arr { color: var(--faint); transition: transform .25s ease, color .2s ease; }
+.write-row:hover .arr { transform: translateX(4px); color: var(--muted); }
 
-/* Graph analytics */
-.analytics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-}
-.analytics-grid .block {
-    opacity: 1;
-    transform: none;
-}
+/* ---------- project cards ---------- */
+.proj-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.proj-card { display: block; border: 1px solid var(--line); border-radius: 3px; background: color-mix(in srgb, var(--card) 55%, transparent); padding: 1.55rem 1.5rem 1.7rem; transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease, background .28s ease; }
+.proj-card:hover { transform: translateY(-3px); border-color: var(--line-strong); box-shadow: var(--shadow); background: var(--card); }
+.proj-card .ico { width: 26px; height: 26px; color: var(--ink-soft); margin-bottom: 1.15rem; }
+.proj-card h3 { font-weight: 500; font-size: 1.16rem; margin-bottom: .55rem; letter-spacing: -.01em; }
+.proj-card p { font-size: .87rem; color: var(--muted); line-height: 1.6; font-weight: 300; min-height: 3.6em; }
+.proj-card .ptags { margin-top: 1.1rem; font-family: var(--mono); font-size: .71rem; color: var(--faint); letter-spacing: .02em; }
 
-/* Community / Topics */
-.view-toggle {
-    padding: 0.35rem 1rem;
-    border: 2px solid var(--border);
-    background: var(--bg);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    margin-left: auto;
-}
-.view-toggle:hover,
-.view-toggle.active {
-    background: var(--text);
-    color: var(--bg);
-}
-.topic-cluster {
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--gray-subtle);
-}
-.topic-cluster:last-child {
-    border-bottom: none;
-}
-.topic-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-.topic-name {
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-.topic-count {
-    font-size: 0.75rem;
-    color: var(--gray-mid);
-}
+/* ---------- footer ---------- */
+.site-footer { position: relative; margin-top: 5rem; border-top: 1px solid var(--line); overflow: hidden; }
+.footer-art { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; background: url("assets/ink/water.webp") center bottom / cover no-repeat; opacity: .7; mix-blend-mode: multiply; -webkit-mask-image: linear-gradient(transparent 0%, #000 55%); mask-image: linear-gradient(transparent 0%, #000 55%); pointer-events: none; }
+html.dark .footer-art { mix-blend-mode: screen; filter: invert(.93) brightness(1.05); opacity: .4; }
+.footer-plum { position: absolute; right: -10px; bottom: 0; width: 260px; max-width: 38vw; background: url("assets/ink/plum.webp") right bottom / contain no-repeat; mix-blend-mode: multiply; opacity: .9; pointer-events: none; aspect-ratio: 900 / 1200; }
+html.dark .footer-plum { mix-blend-mode: screen; filter: invert(.93) brightness(1.05); opacity: .55; }
+@media (max-width: 620px) { .footer-plum { display: none; } }
+.footer-inner { position: relative; z-index: 1; padding: 3.2rem 0 0; display: grid; grid-template-columns: 2.1fr 1fr 1fr 1fr; gap: 2.4rem; }
+.footer-brand .brand { font-size: 1.18rem; }
+.footer-brand p { margin-top: 1rem; max-width: 30ch; color: var(--muted); font-size: .92rem; font-weight: 300; line-height: 1.65; }
+.footer-loc { display: inline-flex; align-items: center; gap: .45rem; margin-top: 1.3rem; color: var(--muted); font-size: .86rem; }
+.footer-loc svg { width: 15px; height: 15px; }
+.fcol h4 { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--faint); margin-bottom: 1.05rem; font-weight: 500; }
+.fcol a { display: block; color: var(--muted); font-size: .95rem; padding: .28rem 0; transition: color .2s ease; }
+.fcol a:hover { color: var(--ink); }
+.fcol a.ext { display: inline-flex; align-items: center; gap: .5rem; }
+.fcol a.ext svg { width: 15px; height: 15px; }
+.footer-bottom { position: relative; z-index: 1; margin-top: 3rem; padding: 1.4rem 0 1.6rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.footer-bottom .copy { font-size: .82rem; color: var(--muted); }
+.footer-bottom .built { font-family: var(--mono); font-size: .76rem; color: var(--faint); font-style: italic; }
 
-/* Graph controls */
-.graph-controls {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    display: flex;
-    gap: 0.5rem;
-    z-index: 10;
-}
-.graph-controls button {
-    padding: 0.35rem 0.75rem;
-    border: 2px solid var(--border);
-    background: var(--bg);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-.graph-controls button:hover,
-.graph-controls button.active {
-    background: var(--text);
-    color: var(--bg);
-}
-.path-instruction {
-    position: absolute;
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg-inverted);
-    color: var(--text-inverted);
-    padding: 0.4rem 1rem;
-    font-size: 0.8rem;
-    z-index: 10;
-}
+/* ---------- generic pages ---------- */
+.page { min-height: 62vh; padding: 2.6rem 0 1rem; }
+.back-link { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted); font-size: .92rem; margin-bottom: 2rem; transition: color .2s ease, gap .2s ease; }
+.back-link:hover { color: var(--ink); gap: .7rem; }
+.page-title { font-weight: 400; font-size: clamp(2rem, 4vw, 2.9rem); letter-spacing: -.02em; line-height: 1.1; }
+.page-intro { margin-top: 1rem; max-width: 58ch; color: var(--ink-soft); font-size: 1.05rem; font-weight: 300; }
+.meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1.3rem; margin-top: 1.4rem; font-family: var(--mono); font-size: .74rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.badge { border: 1px solid var(--line-strong); padding: .32rem .8rem; border-radius: 2px; color: var(--ink-soft); letter-spacing: .12em; }
+.badge.seed { border-style: dashed; }
+.badge.evergreen { border-style: double; border-width: 3px; }
 
-/* Timeline */
-.timeline-page {
-    border: 2px solid var(--border);
-    margin: 1rem;
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 2rem);
-    animation: fadeIn 0.3s ease;
-}
-.timeline-header {
-    padding: 3rem 4rem;
-    border-bottom: 2px solid var(--border);
-}
-.timeline-title {
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-bottom: 1rem;
-}
-.timeline-subtitle {
-    font-size: 1rem;
-    color: var(--gray-mid);
-}
-.timeline-canvas-container {
-    position: relative;
-    height: 400px;
-    border-bottom: 2px solid var(--border);
-    padding: 1rem 2rem;
-}
-.timeline-canvas-container canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-.timeline-tooltip {
-    position: absolute;
-    background: var(--bg);
-    border: 2px solid var(--border);
-    box-shadow: 4px 4px 0 var(--border);
-    padding: 0.75rem 1rem;
-    font-size: 0.8rem;
-    max-width: 250px;
-    pointer-events: none;
-    z-index: 10;
-}
-.timeline-tooltip-title {
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-.timeline-tooltip-item {
-    cursor: pointer;
-    pointer-events: auto;
-    padding: 0.15rem 0;
-    text-decoration: underline;
-    text-decoration-style: dashed;
-    text-underline-offset: 2px;
-}
-.timeline-tooltip-item:hover {
-    background: var(--text);
-    color: var(--bg);
-    text-decoration: none;
-}
+/* prose */
+.prose { max-width: 68ch; margin-top: 2.4rem; }
+.prose p { margin-bottom: 1.2rem; color: var(--ink-soft); font-size: 1.06rem; line-height: 1.78; }
+.prose h2 { font-weight: 500; font-size: 1.28rem; margin: 2.4rem 0 1rem; letter-spacing: -.01em; color: var(--ink); }
+.prose a { color: var(--ink); border-bottom: 1px solid var(--line-strong); }
+.prose a:hover { border-color: var(--ink); }
+.prose em { font-style: italic; }
+.prose strong { font-weight: 600; }
+.prose code { font-family: var(--mono); font-size: .85em; background: var(--paper-2); padding: .12em .38em; border-radius: 3px; }
+.prose pre { background: #1a1712; color: #ece5d6; padding: 1.35rem 1.5rem; border-radius: 4px; overflow-x: auto; margin: 1.4rem 0 1.6rem; border: 1px solid var(--line); }
+html.dark .prose pre { background: #0e0c08; }
+.prose pre code { background: none; padding: 0; color: inherit; font-size: .82rem; line-height: 1.6; }
 
-@media (max-width: 800px) {
-    .next-section {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
-    .timeline-header {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
+/* word blocks */
+.blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 2.4rem; }
+.wblock { border: 1px solid var(--line); border-radius: 3px; padding: 1.5rem 1.6rem; background: color-mix(in srgb, var(--card) 55%, transparent); }
+.wblock h3 { font-family: var(--mono); font-size: .73rem; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin-bottom: 1rem; padding-bottom: .8rem; border-bottom: 1px solid var(--line); font-weight: 500; }
+.wblock p { color: var(--ink-soft); font-size: .98rem; line-height: 1.7; }
+.wblock ul { list-style: none; }
+.wblock li { font-size: .96rem; color: var(--ink-soft); line-height: 1.7; padding-left: 1.2rem; position: relative; margin-bottom: .35rem; }
+.wblock li::before { content: "—"; position: absolute; left: 0; color: var(--faint); }
+
+/* chips / related */
+.relate { margin-top: 2.8rem; }
+.relate h4 { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin-bottom: 1rem; font-weight: 500; }
+.chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+.chip { border: 1px solid var(--line-strong); border-radius: 999px; padding: .35rem .95rem; font-size: .88rem; color: var(--ink-soft); transition: background .2s ease, color .2s ease, border-color .2s ease; }
+.chip:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* words index groups */
+.word-group { margin-top: 2.6rem; }
+.word-group .gh { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.1rem; }
+.word-group .gh h3 { font-weight: 500; font-size: 1.2rem; }
+.word-group .gh span { font-family: var(--mono); font-size: .74rem; color: var(--faint); }
+.word-flow { display: flex; flex-wrap: wrap; gap: .55rem .7rem; }
+.word-flow a { font-size: 1rem; color: var(--ink-soft); border-bottom: 1px solid transparent; transition: color .2s ease, border-color .2s ease; }
+.word-flow a:hover { color: var(--ink); border-color: var(--line-strong); }
+
+/* about */
+.colophon { margin-top: 3.2rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+
+/* page transition */
+.page-enter-active, .page-leave-active { transition: opacity .35s ease, transform .35s ease; }
+.page-enter-from { opacity: 0; transform: translateY(10px); }
+.page-leave-to { opacity: 0; transform: translateY(-6px); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 920px) {
+    .hero { grid-template-columns: 1fr; gap: 2.2rem; padding-top: 2.6rem; }
+    .hero-art { order: -1; max-width: 460px; }
+    .principles { grid-template-columns: repeat(3, 1fr); gap: 2rem 0; }
+    .principle:nth-child(1), .principle:nth-child(2), .principle:nth-child(3) { border-left: none; }
+    .principle:nth-child(4) { border-left: none; }
+    .proj-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer-brand { grid-column: 1 / -1; }
 }
-@media (max-width: 500px) {
-    .next-section {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
-    .timeline-header {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
-    .timeline-canvas-container {
-        height: 250px;
-        padding: 0.5rem 1rem;
-    }
-    .analytics-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-    .timeline-page {
-        margin: 0.5rem;
-        min-height: calc(100vh - 1rem);
-    }
-    .graph-controls {
-        bottom: 0.5rem;
-        right: 0.5rem;
-    }
+@media (max-width: 620px) {
+    body { font-size: 16px; }
+    .nav { display: none; }
+    .nav.open { display: flex; position: absolute; top: 74px; left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: 0; background: var(--paper); border-bottom: 1px solid var(--line); padding: .5rem 20px 1rem; }
+    .nav.open a { padding: .7rem 0; width: 100%; }
+    .menu-btn { display: grid; place-items: center; background: none; border: none; color: var(--ink); cursor: pointer; width: 34px; height: 34px; }
+    .menu-btn svg { width: 22px; height: 22px; }
+    .principles { grid-template-columns: repeat(2, 1fr); gap: 2.2rem 0; }
+    .principle { border-left: none !important; }
+    .proj-grid { grid-template-columns: 1fr; }
+    .write-row { grid-template-columns: 1fr auto; }
+    .write-row .date { grid-column: 1 / -1; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: .5rem; }
+    .rule-head h2 { font-size: 1.2rem; white-space: normal; }
 }
 </style>
 </head>
@@ -1338,81 +285,31 @@ body.dark .search-overlay {
 <div id="app"></div>
 
 <script>
-const { createApp, computed, ref, watch, onMounted } = Vue;
+const { createApp, computed, ref, watch, onMounted, onUnmounted } = Vue;
 const { createRouter, createWebHistory, useRoute, useRouter } = VueRouter;
 
-// Grammar words to skip for inline linking
-const SKIP_WORDS = new Set(['the', 'of', 'at', 'and', 'that', 'not', 'just', 'where']);
-
-// All word keys for wander
-const ALL_WORDS = () => Object.keys(wordData);
-
-// Reading time helper
+// ---- helpers ----
 function readingTime(html) {
-    if (!html) return 0;
-    const words = html.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length;
-    return Math.max(1, Math.round(words / 200));
+    if (!html) return 1;
+    const n = html.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.round(n / 200));
 }
-
-// Time ago helper
-function timeAgo(dateStr) {
-    if (!dateStr) return '';
-    const [y, m] = dateStr.split('-').map(Number);
-    const planted = new Date(y, m - 1);
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDate(s) {
+    if (!s) return '';
+    const [y, m] = s.split('-').map(Number);
+    return (MONTHS[(m || 1) - 1]) + ' ' + y;
+}
+function timeAgo(s) {
+    if (!s) return '';
+    const [y, m] = s.split('-').map(Number);
+    const then = new Date(y, (m || 1) - 1);
     const now = new Date();
-    const months = (now.getFullYear() - planted.getFullYear()) * 12 + (now.getMonth() - planted.getMonth());
+    const months = (now.getFullYear() - then.getFullYear()) * 12 + (now.getMonth() - then.getMonth());
     if (months < 1) return 'this month';
-    if (months === 1) return '1 month ago';
-    if (months < 12) return months + ' months ago';
-    const years = Math.floor(months / 12);
-    if (years === 1) return '1 year ago';
-    return years + ' years ago';
-}
-
-// Breadcrumb trail
-function getTrail() {
-    try {
-        return JSON.parse(sessionStorage.getItem('garden-trail') || '[]');
-    } catch { return []; }
-}
-function addToTrail(word) {
-    let trail = getTrail();
-    trail = trail.filter(w => w !== word);
-    trail.push(word);
-    if (trail.length > 5) trail = trail.slice(-5);
-    sessionStorage.setItem('garden-trail', JSON.stringify(trail));
-}
-
-// Reading progress helpers
-function getVisited() {
-    try { return JSON.parse(localStorage.getItem('garden-visited') || '{"words":[],"notes":[]}'); }
-    catch { return { words: [], notes: [] }; }
-}
-function markVisited(type, id) {
-    const v = getVisited();
-    const arr = type === 'word' ? v.words : v.notes;
-    if (!arr.includes(id)) { arr.push(id); localStorage.setItem('garden-visited', JSON.stringify(v)); }
-}
-function isVisited(type, id) {
-    const v = getVisited();
-    return (type === 'word' ? v.words : v.notes).includes(id);
-}
-function getDiscoveryScore() {
-    const v = getVisited();
-    const totalWords = Object.keys(wordData).length;
-    const totalNotes = Object.keys(notesData).length;
-    const total = totalWords + totalNotes;
-    if (total === 0) return 0;
-    return Math.round(((v.words.length + v.notes.length) / total) * 100);
-}
-function getUnvisitedConnections(wordId) {
-    const data = wordData[wordId];
-    if (!data) return [];
-    const related = data.related || [];
-    const backlinks = getBacklinks(wordId);
-    const notes = getNotesForWord(wordId).map(n => ({ type: 'note', id: n.id, label: n.title }));
-    const wordConns = [...new Set([...related, ...backlinks])].map(w => ({ type: 'word', id: w, label: w }));
-    return [...wordConns, ...notes].filter(c => !isVisited(c.type, c.id)).slice(0, 3);
+    if (months < 12) return months + ' month' + (months === 1 ? '' : 's') + ' ago';
+    const yr = Math.floor(months / 12);
+    return yr + ' year' + (yr === 1 ? '' : 's') + ' ago';
 }
 
 // Word data store
@@ -2409,1771 +1306,421 @@ for (let M = 0; M &lt; 50; M++)
     }
 };
 
-// Get notes that reference a word
-function getNotesForWord(word) {
-    const results = [];
-    for (const [id, note] of Object.entries(notesData)) {
-        if (note.words.includes(word)) {
-            results.push({ id, ...note });
-        }
-    }
-    return results;
+// ---- derived data helpers ----
+function notesForWord(word) {
+    return Object.entries(notesData)
+        .filter(([id, n]) => (n.words || []).includes(word))
+        .map(([id, n]) => ({ id, ...n }));
+}
+function allNotes() {
+    return Object.entries(notesData)
+        .map(([id, n]) => ({ id, ...n }))
+        .sort((a, b) => (b.tended || b.planted || '').localeCompare(a.tended || a.planted || ''));
+}
+function relatedWords(word) {
+    const d = wordData[word];
+    if (!d) return [];
+    const set = new Set(d.related || []);
+    Object.entries(wordData).forEach(([id, w]) => { if ((w.related || []).includes(word)) set.add(id); });
+    return [...set].filter(w => wordData[w] && w !== word).slice(0, 10);
 }
 
-// Get backlinks: words that mention this word in their blocks but aren't in its related array
-function getBacklinks(wordId) {
-    const data = wordData[wordId];
-    const relatedSet = new Set(data?.related || []);
-    const results = [];
-    const pattern = new RegExp('\\b' + wordId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
-    for (const [id, w] of Object.entries(wordData)) {
-        if (id === wordId || relatedSet.has(id) || SKIP_WORDS.has(id)) continue;
-        // Check if this word's related array includes wordId
-        if (w.related && w.related.includes(wordId)) {
-            results.push(id);
-            continue;
-        }
-        // Check block text/items for mentions
-        for (const block of (w.blocks || [])) {
-            const texts = [block.text || '', ...(block.items || [])].join(' ');
-            if (pattern.test(texts)) {
-                results.push(id);
-                break;
-            }
-        }
-    }
-    return results;
-}
+// ---- icons ----
+const ICO = {
+    logo: '<svg class="seal" viewBox="-50 -50 100 100"><g fill="currentColor"><ellipse cx="0" cy="-30" rx="6.5" ry="15"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(30)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(60)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(90)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(120)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(150)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(180)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(210)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(240)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(270)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(300)"/><ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(330)"/></g><circle r="13" fill="currentColor"/><circle class="center" r="6.5"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4 6.4 17.6M17.6 6.4 19.4 4.6"/></svg>',
+    moon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>',
+    menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+    github: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>',
+    telegram: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.6 19.9c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1L18 6.1c.4-.4-.1-.6-.6-.2L6.8 13l-4.9-1.5c-1.1-.3-1.1-1 .2-1.5L20.5 3c.9-.3 1.7.2 1.4 1.3z"/></svg>',
+    rss: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6.2" cy="17.8" r="2"/><path d="M4 4.5a15.5 15.5 0 0 1 15.5 15.5h-3A12.5 12.5 0 0 0 4 7.5z"/><path d="M4 10.5a9.5 9.5 0 0 1 9.5 9.5h-3A6.5 6.5 0 0 0 4 13.5z"/></svg>',
+    pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+    projects: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/></svg>',
+    notes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M6 3.5h8l4 4V20a.5.5 0 0 1-.5.5h-11A.5.5 0 0 1 6 20z"/><path d="M13.5 3.5V8h4.5"/><path d="M8.5 12h7M8.5 15.5h5"/></svg>',
+    about: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>',
+    minimal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M16.8 5.4a8 8 0 1 0 3.1 4.9"/></svg>',
+    auditable: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M6 3.5h8l4 4V20.5H6z"/><path d="M13.5 3.5V8h4.5"/><path d="M9 13.7l2 2 4-4.4"/></svg>',
+    practical: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>',
+    independent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M3 19l5.5-9 3.5 5.3"/><path d="M10.5 19 15 11.5 21 19z"/></svg>',
+    iterative: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5c-.5-7 4-12 14.5-13C19 14 14.5 19 6 18.5"/><path d="M8 16.5c2-3.2 4.5-5.4 8-6.8"/></svg>',
+    term: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7l4.5 3.8L5 14.6"/><path d="M11.5 16h7.5"/></svg>',
+    cube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M12 2.8l8.2 4.6v9.2L12 21.2l-8.2-4.6V7.4z"/><path d="M3.8 7.4 12 12l8.2-4.6M12 12v9.2"/></svg>',
+    delta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M12 3.5 21 20.5H3z"/></svg>',
+    dots: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="6" r="1.7"/><circle cx="12" cy="6" r="1.7"/><circle cx="18" cy="6" r="1.7"/><circle cx="6" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="18" cy="12" r="1.7"/><circle cx="6" cy="18" r="1.7"/><circle cx="12" cy="18" r="1.7"/><circle cx="18" cy="18" r="1.7"/></svg>'
+};
 
-// Graph analytics
-function computeGraphAnalytics() {
-    const words = Object.keys(wordData);
-    const n = words.length;
-    if (n === 0) return {};
+// ---- static content ----
+const NAV = [
+    { to: '/', label: 'home' },
+    { to: '/words', label: 'words' },
+    { to: '/projects', label: 'projects' },
+    { to: '/learn', label: 'learn' },
+    { to: '/about', label: 'about' }
+];
+const PRINCIPLES = [
+    { icon: 'minimal', title: 'Minimal', body: 'Small footprint.<br>Zero dependencies<br>where possible.' },
+    { icon: 'auditable', title: 'Auditable', body: 'Readable source.<br>Every line should<br>justify its existence.' },
+    { icon: 'practical', title: 'Practical', body: 'Solve real problems.<br>Useful over clever.<br>Results over rhetoric.' },
+    { icon: 'independent', title: 'Independent', body: 'Own the stack.<br>Own the data.<br>Own the decisions.' },
+    { icon: 'iterative', title: 'Iterative', body: 'Ship, observe,<br>refine. Repeat<br>forever.' }
+];
+const GH = 'https://github.com/Lulzx';
+const PROJECTS = [
+    { icon: 'term', name: 'zpdf', desc: 'Extract text from PDF files in your browser. Powered by WebAssembly.', tags: 'Web · WASM · Rust', href: GH },
+    { icon: 'cube', name: 'tgx', desc: 'Telegram automation framework with a focus on simplicity and control.', tags: 'Rust · Telegram · CLI', href: GH },
+    { icon: 'delta', name: 'r-embed', desc: 'Fast, local-first embedding and retrieval toolkit. No magic, just vectors.', tags: 'Rust · Search · Embeddings', href: GH },
+    { icon: 'dots', name: 'pixi', desc: 'Tiny image toolkit for everyday CLI workflows. Built for speed.', tags: 'Rust · Images · CLI', href: GH },
+    { icon: 'term', name: 'pico-semver', desc: 'A semver parser doing the same work 35x faster. Precompute, then look up.', tags: 'JS · Zero-dep · 6.4kB', href: GH + '/pico-semver' },
+    { icon: 'cube', name: 'copilot', desc: 'A small CLI copilot in Rust. Local first, fast, and out of your way.', tags: 'Rust · CLI · LLM', href: GH }
+];
 
-    // Build adjacency list (undirected)
-    const adj = {};
-    words.forEach(w => { adj[w] = new Set(); });
-    words.forEach(w => {
-        (wordData[w].related || []).forEach(r => {
-            if (wordData[r]) { adj[w].add(r); adj[r].add(w); }
-        });
-    });
-
-    // Degree centrality
-    const degrees = words.map(w => ({ id: w, degree: adj[w].size }));
-    degrees.sort((a, b) => b.degree - a.degree);
-    const avgDegree = (degrees.reduce((s, d) => s + d.degree, 0) / n).toFixed(1);
-    const topDegree = degrees.slice(0, 5);
-
-    // Clustering coefficient
-    let totalCC = 0;
-    words.forEach(w => {
-        const neighbors = [...adj[w]];
-        const k = neighbors.length;
-        if (k < 2) return;
-        let edges = 0;
-        for (let i = 0; i < k; i++)
-            for (let j = i + 1; j < k; j++)
-                if (adj[neighbors[i]].has(neighbors[j])) edges++;
-        totalCC += (2 * edges) / (k * (k - 1));
-    });
-    const avgClustering = (totalCC / n).toFixed(3);
-
-    // Betweenness centrality (Brandes)
-    const betweenness = {};
-    words.forEach(w => { betweenness[w] = 0; });
-    words.forEach(s => {
-        const S = [];
-        const P = {};
-        const sigma = {};
-        const d = {};
-        words.forEach(w => { P[w] = []; sigma[w] = 0; d[w] = -1; });
-        sigma[s] = 1; d[s] = 0;
-        const Q = [s];
-        while (Q.length) {
-            const v = Q.shift();
-            S.push(v);
-            adj[v].forEach(w => {
-                if (d[w] < 0) { Q.push(w); d[w] = d[v] + 1; }
-                if (d[w] === d[v] + 1) { sigma[w] += sigma[v]; P[w].push(v); }
-            });
-        }
-        const delta = {};
-        words.forEach(w => { delta[w] = 0; });
-        while (S.length) {
-            const w = S.pop();
-            P[w].forEach(v => { delta[v] += (sigma[v] / sigma[w]) * (1 + delta[w]); });
-            if (w !== s) betweenness[w] += delta[w];
-        }
-    });
-    // Normalize
-    const maxBetween = Math.max(...Object.values(betweenness)) || 1;
-    const topBetweenness = Object.entries(betweenness)
-        .map(([id, val]) => ({ id, value: (val / maxBetween).toFixed(3) }))
-        .sort((a, b) => b.value - a.value)
-        .slice(0, 5);
-
-    // Bridge nodes (articulation points via DFS)
-    const bridges = [];
-    const visited = new Set();
-    const disc = {};
-    const low = {};
-    const parent = {};
-    let timer = 0;
-    function dfsBridge(u) {
-        visited.add(u);
-        disc[u] = low[u] = timer++;
-        let children = 0;
-        adj[u].forEach(v => {
-            if (!visited.has(v)) {
-                children++;
-                parent[v] = u;
-                dfsBridge(v);
-                low[u] = Math.min(low[u], low[v]);
-                if (!parent[u] && children > 1) { if (!bridges.includes(u)) bridges.push(u); }
-                if (parent[u] && low[v] >= disc[u]) { if (!bridges.includes(u)) bridges.push(u); }
-            } else if (v !== parent[u]) {
-                low[u] = Math.min(low[u], disc[v]);
-            }
-        });
-    }
-    words.forEach(w => { parent[w] = undefined; });
-    words.forEach(w => { if (!visited.has(w)) dfsBridge(w); });
-
-    return { avgDegree, topDegree, avgClustering, topBetweenness, bridges, totalEdges: degrees.reduce((s, d) => s + d.degree, 0) / 2 };
-}
-
-// Community detection (Label Propagation)
-function detectCommunities() {
-    const words = Object.keys(wordData);
-    const labels = {};
-    words.forEach((w, i) => { labels[w] = i; });
-
-    const adj = {};
-    words.forEach(w => { adj[w] = []; });
-    words.forEach(w => {
-        (wordData[w].related || []).forEach(r => {
-            if (wordData[r]) {
-                if (!adj[w].includes(r)) adj[w].push(r);
-                if (!adj[r].includes(w)) adj[r].push(w);
-            }
-        });
-    });
-
-    for (let iter = 0; iter < 50; iter++) {
-        let changed = false;
-        const shuffled = [...words].sort(() => Math.random() - 0.5);
-        for (const w of shuffled) {
-            const neighbors = adj[w];
-            if (neighbors.length === 0) continue;
-            const freq = {};
-            neighbors.forEach(n => { freq[labels[n]] = (freq[labels[n]] || 0) + 1; });
-            let maxFreq = 0, maxLabel = labels[w];
-            for (const [l, f] of Object.entries(freq)) {
-                if (f > maxFreq) { maxFreq = f; maxLabel = Number(l); }
-            }
-            if (labels[w] !== maxLabel) { labels[w] = maxLabel; changed = true; }
-        }
-        if (!changed) break;
-    }
-
-    // Group by label
-    const communities = {};
-    words.forEach(w => {
-        const l = labels[w];
-        if (!communities[l]) communities[l] = [];
-        communities[l].push(w);
-    });
-
-    // Name each community by most-connected member
-    return Object.values(communities).map(members => {
-        members.sort((a, b) => (wordData[b].related?.length || 0) - (wordData[a].related?.length || 0));
-        return { name: members[0], members };
-    }).sort((a, b) => b.members.length - a.members.length);
-}
-
-// Home component
+// ---- components ----
 const Home = {
-    template: `
-        <div class="container">
-            <div class="main">
-                <p class="statement">
-                    <router-link to="/words/building" class="word">Building</router-link>&nbsp;
-                    <router-link to="/words/at" class="word">at</router-link>&nbsp;
-                    <router-link to="/words/the" class="word">the</router-link>&nbsp;
-                    <router-link to="/words/intersection" class="word">intersection</router-link>&nbsp;
-                    <router-link to="/words/of" class="word">of</router-link>&nbsp;
-                    <router-link to="/words/computation" class="word">computation</router-link><span class="punctuation">, </span>
-                    <router-link to="/words/cognition" class="word">cognition</router-link><span class="punctuation">, </span>
-                    <router-link to="/words/and" class="word">and</router-link>&nbsp;
-                    <router-link to="/words/first" class="word">first</router-link>&nbsp;
-                    <router-link to="/words/principles" class="word">principles</router-link><span class="punctuation">. </span>
-                    <router-link to="/words/systems" class="word">Systems</router-link>&nbsp;
-                    <router-link to="/words/that" class="word">that</router-link>&nbsp;
-                    <router-link to="/words/learn" class="word">learn</router-link><span class="punctuation">, </span>
-                    <router-link to="/words/adapt" class="word">adapt</router-link><span class="punctuation">, </span>
-                    <router-link to="/words/and" class="word">and</router-link>&nbsp;
-                    <router-link to="/words/reason" class="word">reason</router-link>&nbsp;
-                    <router-link to="/words/not" class="word">not</router-link>&nbsp;
-                    <router-link to="/words/just" class="word">just</router-link>&nbsp;
-                    <router-link to="/words/execute" class="word">execute</router-link><span class="punctuation">. </span>
-                    <router-link to="/words/verifiable" class="word">Verifiable</router-link>&nbsp;
-                    <router-link to="/words/foundations" class="word">foundations</router-link><span class="punctuation">. </span>
-                    <router-link to="/words/massively" class="word">Massively</router-link>&nbsp;
-                    <router-link to="/words/parallel" class="word">parallel</router-link>&nbsp;
-                    <router-link to="/words/runtimes" class="word">runtimes</router-link><span class="punctuation">. </span>
-                    <router-link to="/words/everything" class="word">Everything</router-link>&nbsp;
-                    <router-link to="/words/minimal" class="word">minimal</router-link><span class="punctuation">: </span>
-                    <router-link to="/words/small" class="word">small</router-link>&nbsp;
-                    <router-link to="/words/footprint" class="word">footprint</router-link><span class="punctuation">, </span>
-                    <router-link to="/words/zero" class="word">zero</router-link>&nbsp;
-                    <router-link to="/words/dependencies" class="word">dependencies</router-link>&nbsp;
-                    <router-link to="/words/where" class="word">where</router-link>&nbsp;
-                    <router-link to="/words/possible" class="word">possible</router-link><span class="punctuation">, </span>
-                    <router-link to="/words/auditable" class="word">auditable</router-link>&nbsp;
-                    <router-link to="/words/from" class="word">from</router-link>&nbsp;
-                    <router-link to="/words/source" class="word">source</router-link><span class="punctuation">.</span>
-                </p>
-            </div>
-            <div class="footer">
-                <span>lulzx</span>
-                <div class="footer-links">
-                    <a href="https://github.com/lulzx">github</a>
-                    <a href="mailto:hello@lulzx.dev">email</a>
-                    <router-link to="/garden">garden map</router-link>
-                    <router-link to="/timeline">timeline</router-link>
-                    <a href="#" @click.prevent="wander">wander</a>
-                    <a href="#" @click.prevent="toggleDark">dark/light</a>
-                </div>
-            </div>
-        </div>
-    `,
-    methods: {
-        wander() {
-            const words = ALL_WORDS();
-            const word = words[Math.floor(Math.random() * words.length)];
-            this.$router.push('/words/' + word);
-        },
-        toggleDark() { toggleDarkMode(); }
-    }
-};
-
-// Word page component
-const WordPage = {
-    template: `
-        <div class="word-page">
-            <div class="word-header">
-                <div class="word-header-left">
-                    <router-link to="/" class="back">\u2190 back</router-link>
-                    <div class="breadcrumbs" v-if="trail.length > 0">
-                        <span class="sep">/</span>
-                        <template v-for="(crumb, i) in trail" :key="crumb">
-                            <router-link :to="'/words/' + crumb">{{ crumb }}</router-link>
-                            <span class="sep" v-if="i < trail.length - 1">/</span>
-                        </template>
-                    </div>
-                </div>
-                <span style="font-size: 0.875rem;">lulzx</span>
-            </div>
-            <div class="word-title-section">
-                <div class="word-title">{{ wordId }}</div>
-                <span v-if="data" class="stage-badge" :class="'stage-' + data.stage">{{ data.stage }}</span>
-            </div>
-            <div class="word-meta" v-if="data && data.planted">
-                <span>planted {{ timeAgo(data.planted) }}</span>
-                <span>tended {{ timeAgo(data.tended) }}</span>
-            </div>
-            <div class="word-content" :key="wordId">
-                <div v-for="(block, index) in blocks" :key="index"
-                     class="block"
-                     :class="{ 'block-inverted': block.stat || block.check, 'block-zero': block.zero }"
-                     v-scroll-reveal="{ delay: index * 0.05 }">
-                    <div v-if="block.stat" class="stat">{{ block.stat }}</div>
-                    <div v-if="block.zero" class="zero">0</div>
-                    <div v-if="block.check" style="font-size: 4rem; margin-bottom: 1rem;">{{ block.check }}</div>
-                    <h2 v-if="block.label">{{ block.label }}</h2>
-                    <h2 v-else>{{ block.title }}</h2>
-                    <p v-if="block.text" v-html="linkifyText(block.text)"></p>
-                    <ul v-if="block.items">
-                        <li v-for="item in block.items" :key="item" v-html="linkifyText(item)"></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="connections-section" v-if="related.length > 0">
-                <div class="section-title">Connections</div>
-                <div class="chips">
-                    <router-link v-for="r in related" :key="r" :to="'/words/' + r" class="chip">{{ r }}</router-link>
-                </div>
-            </div>
-            <div class="notes-section" v-if="notes.length > 0">
-                <div class="section-title">Notes</div>
-                <router-link v-for="note in notes" :key="note.id" :to="'/notes/' + note.id" class="note-link">
-                    <span class="note-link-title">{{ note.title }}</span>
-                    <span class="note-link-stage">{{ note.stage }}</span>
-                </router-link>
-            </div>
-            <div class="connections-section" v-if="backlinks.length > 0">
-                <div class="section-title">Backlinks</div>
-                <div class="chips">
-                    <router-link v-for="b in backlinks" :key="b" :to="'/words/' + b" class="chip">{{ b }}</router-link>
-                </div>
-            </div>
-            <div class="next-section" v-if="unvisited.length > 0">
-                <div class="section-title">Up Next</div>
-                <div class="chips">
-                    <router-link v-for="u in unvisited" :key="u.type + u.id" :to="u.type === 'word' ? '/words/' + u.id : '/notes/' + u.id" class="chip-unvisited">{{ u.label }}</router-link>
-                </div>
-            </div>
-            <div class="wander-section">
-                <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
-                <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
-            </div>
-        </div>
-    `,
     computed: {
-        wordId() {
-            return this.$route.params.word;
-        },
-        data() {
-            return wordData[this.wordId];
-        },
-        blocks() {
-            return this.data?.blocks || [{ title: "Not Found", text: "This word has no content yet." }];
-        },
-        related() {
-            return this.data?.related || [];
-        },
-        backlinks() {
-            return getBacklinks(this.wordId);
-        },
-        notes() {
-            return getNotesForWord(this.wordId);
-        },
-        trail() {
-            const t = getTrail().filter(w => w !== this.wordId);
-            return t.slice(-3);
-        },
-        unvisited() {
-            return getUnvisitedConnections(this.wordId);
-        }
+        principles() { return PRINCIPLES; },
+        projects() { return PROJECTS.slice(0, 4); },
+        recent() { return allNotes().slice(0, 5); }
     },
-    methods: {
-        timeAgo,
-        linkifyText(text) {
-            if (!text) return '';
-            const wordKeys = ALL_WORDS().filter(w => !SKIP_WORDS.has(w));
-            // Sort by length descending so longer words match first
-            wordKeys.sort((a, b) => b.length - a.length);
-            // Build regex that matches whole words only
-            const pattern = new RegExp('\\b(' + wordKeys.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b', 'gi');
-            return text.replace(pattern, (match) => {
-                const lower = match.toLowerCase();
-                if (lower === this.wordId) return match; // Don't link to self
-                if (wordData[lower]) {
-                    return '<a href="/words/' + lower + '" class="inline-word-link" onclick="event.preventDefault(); window.__gardenRouter.push(\'/words/' + lower + '\')">' + match + '</a>';
-                }
-                return match;
-            });
-        },
-        wander() {
-            const words = ALL_WORDS().filter(w => w !== this.wordId);
-            const word = words[Math.floor(Math.random() * words.length)];
-            this.$router.push('/words/' + word);
-        },
-        toggleDark() { toggleDarkMode(); }
-    },
-    watch: {
-        wordId: {
-            handler(val) {
-                if (val && wordData[val]) {
-                    addToTrail(val);
-                    markVisited('word', val);
-                }
-            },
-            immediate: true
-        }
-    }
-};
-
-// Note page component
-const NotePage = {
     template: `
-        <div class="note-page" v-if="note">
-            <div class="word-header">
-                <router-link to="/" class="back">\u2190 back</router-link>
-                <span style="font-size: 0.875rem;">lulzx</span>
-            </div>
-            <div class="note-header">
-                <div class="note-title">{{ note.title }}</div>
-                <div class="note-meta">
-                    <span class="stage-badge" :class="'stage-' + note.stage">{{ note.stage }}</span>
-                    <span>planted {{ timeAgo(note.planted) }}</span>
-                    <span>tended {{ timeAgo(note.tended) }}</span>
-                    <span>{{ readingTime(note.content) }} min read</span>
-                </div>
-            </div>
-            <div class="note-body" v-html="note.content"></div>
-            <div class="note-connections" v-if="note.words && note.words.length">
-                <div class="section-title">Connected Words</div>
-                <div class="chips">
-                    <router-link v-for="w in note.words" :key="w" :to="'/words/' + w" class="chip">{{ w }}</router-link>
-                </div>
-            </div>
-            <div class="note-related" v-if="note.relatedNotes && note.relatedNotes.length">
-                <div class="section-title">Related Notes</div>
-                <router-link v-for="rn in note.relatedNotes" :key="rn" :to="'/notes/' + rn" class="note-link">
-                    <span class="note-link-title">{{ getNoteTitle(rn) }}</span>
-                </router-link>
-            </div>
-            <div class="next-section" v-if="unvisitedConns.length > 0">
-                <div class="section-title">Up Next</div>
-                <div class="chips">
-                    <router-link v-for="u in unvisitedConns" :key="u.type + u.id" :to="u.type === 'word' ? '/words/' + u.id : '/notes/' + u.id" class="chip-unvisited">{{ u.label }}</router-link>
-                </div>
-            </div>
-            <div class="wander-section">
-                <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
-                <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
-            </div>
-        </div>
-        <div class="word-page" v-else>
-            <div class="word-header">
-                <router-link to="/" class="back">\u2190 back</router-link>
-                <span style="font-size: 0.875rem;">lulzx</span>
-            </div>
-            <div class="word-title-section">
-                <div class="word-title">404</div>
-            </div>
-            <div class="word-content">
-                <div class="block"><h2>Not Found</h2><p>This note doesn't exist. <router-link to="/garden" style="color:var(--text);text-decoration: underline;">Browse the garden</router-link>.</p></div>
-            </div>
-        </div>
-    `,
-    computed: {
-        noteId() {
-            return this.$route.params.noteId;
-        },
-        note() {
-            return notesData[this.noteId];
-        },
-        unvisitedConns() {
-            if (!this.note) return [];
-            const conns = [];
-            (this.note.words || []).forEach(w => {
-                if (!isVisited('word', w)) conns.push({ type: 'word', id: w, label: w });
-            });
-            (this.note.relatedNotes || []).forEach(rn => {
-                if (!isVisited('note', rn)) conns.push({ type: 'note', id: rn, label: notesData[rn]?.title || rn });
-            });
-            return conns.slice(0, 3);
-        }
-    },
-    methods: {
-        timeAgo,
-        readingTime,
-        getNoteTitle(id) {
-            return notesData[id]?.title || id;
-        },
-        wander() {
-            const words = ALL_WORDS();
-            const word = words[Math.floor(Math.random() * words.length)];
-            this.$router.push('/words/' + word);
-        },
-        toggleDark() { toggleDarkMode(); },
-        highlightSearchQuery() {
-            const q = this.$route.query.q;
-            const el = this.$el?.querySelector('.note-body');
-            if (!el) return;
-            // Remove old highlights
-            el.querySelectorAll('.search-highlight').forEach(mark => {
-                const parent = mark.parentNode;
-                parent.replaceChild(document.createTextNode(mark.textContent), mark);
-                parent.normalize();
-            });
-            if (!q) return;
-            const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-            const nodes = [];
-            while (walker.nextNode()) nodes.push(walker.currentNode);
-            const lower = q.toLowerCase();
-            let firstMatch = null;
-            nodes.forEach(node => {
-                const text = node.textContent;
-                const idx = text.toLowerCase().indexOf(lower);
-                if (idx === -1) return;
-                const before = text.slice(0, idx);
-                const match = text.slice(idx, idx + q.length);
-                const after = text.slice(idx + q.length);
-                const mark = document.createElement('mark');
-                mark.className = 'search-highlight';
-                mark.textContent = match;
-                const parent = node.parentNode;
-                if (before) parent.insertBefore(document.createTextNode(before), node);
-                parent.insertBefore(mark, node);
-                if (after) parent.insertBefore(document.createTextNode(after), node);
-                parent.removeChild(node);
-                if (!firstMatch) firstMatch = mark;
-            });
-            if (firstMatch) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    },
-    mounted() {
-        if (this.noteId && notesData[this.noteId]) markVisited('note', this.noteId);
-        this.$nextTick(() => this.highlightSearchQuery());
-    },
-    watch: {
-        noteId(val) {
-            if (val && notesData[val]) markVisited('note', val);
-        },
-        '$route.query.q'() {
-            this.$nextTick(() => this.highlightSearchQuery());
-        }
-    },
-    updated() {
-        this.$nextTick(() => this.highlightSearchQuery());
-    },
-    _highlightApplied: false
+<div>
+  <section class="hero container">
+    <div class="hero-text">
+      <h1>Software engineer.<span class="l2">Building quiet systems.</span></h1>
+      <p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p>
+      <div class="hero-links">
+        <router-link to="/projects"><span class="hi" v-html="ICO.projects"></span>View projects <span class="arr">&rarr;</span></router-link>
+        <router-link to="/learn"><span class="hi" v-html="ICO.notes"></span>Read my notes <span class="arr">&rarr;</span></router-link>
+        <router-link to="/about"><span class="hi" v-html="ICO.about"></span>About me <span class="arr">&rarr;</span></router-link>
+      </div>
+      <div class="quote-box">
+        <span class="ln">Build with intent.</span>
+        <span class="ln">Ship small.</span>
+        <span class="ln">Leave room to think.</span>
+        <span class="seal-stamp">&#38745;</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img class="ink-img" src="assets/ink/fuji.webp" width="1100" height="825" alt="Ink-wash painting of Mount Fuji with a pine on the shore">
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="rule-head"><hr><h2>What guides the work</h2><hr></div>
+    <div class="principles">
+      <div class="principle" v-for="p in principles" :key="p.title">
+        <span class="ico" v-html="ICO[p.icon]"></span>
+        <h3>{{ p.title }}</h3>
+        <p v-html="p.body"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="head-row">
+      <h2>Recent writing</h2>
+      <router-link to="/learn" class="more-link">All notes <span class="arr">&rarr;</span></router-link>
+    </div>
+    <div class="write-list">
+      <router-link class="write-row" v-for="p in recent" :key="p.id" :to="'/notes/' + p.id">
+        <span class="date">{{ fmtDate(p.tended || p.planted) }}</span>
+        <span class="wt"><span class="ttl">{{ p.title }}</span><span class="tags">{{ (p.words || []).slice(0,3).join(' · ') }}</span></span>
+        <span class="arr">&rarr;</span>
+      </router-link>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="head-row">
+      <h2>Selected projects</h2>
+      <router-link to="/projects" class="more-link">Browse all <span class="arr">&rarr;</span></router-link>
+    </div>
+    <div class="proj-grid">
+      <a class="proj-card" v-for="pr in projects" :key="pr.name" :href="pr.href" target="_blank" rel="noopener">
+        <span class="ico" v-html="ICO[pr.icon]"></span>
+        <h3>{{ pr.name }}</h3>
+        <p>{{ pr.desc }}</p>
+        <div class="ptags">{{ pr.tags }}</div>
+      </a>
+    </div>
+  </section>
+</div>`
 };
 
-// Garden map component
-const GardenMap = {
+const WordsIndex = {
+    computed: {
+        groups() {
+            const order = [['evergreen', 'Evergreen'], ['sprout', 'Sprout'], ['seed', 'Seed']];
+            return order.map(([stage, label]) => ({
+                stage, label,
+                items: Object.keys(wordData).filter(w => wordData[w].stage === stage).sort()
+            })).filter(g => g.items.length);
+        }
+    },
     template: `
-        <div class="garden-page">
-            <div class="word-header">
-                <router-link to="/" class="back">\u2190 back</router-link>
-                <span style="font-size: 0.875rem;">lulzx</span>
-            </div>
-            <div class="garden-header">
-                <div class="garden-title">Garden Map</div>
-                <div class="garden-subtitle">{{ totalWords }} words, {{ totalNotes }} notes. An interconnected web of ideas at various stages of growth.</div>
-                <div style="margin-top: 1.5rem;">
-                    <div class="discovery-score">{{ discoveryScore }}%</div>
-                    <div class="stat-label">discovered</div>
-                    <div class="progress-bar"><div class="progress-fill" :style="{ width: discoveryScore + '%' }"></div></div>
-                    <div class="discovery-detail">{{ visitedCount.words }} of {{ totalWords }} words, {{ visitedCount.notes }} of {{ totalNotes }} notes explored</div>
-                </div>
-            </div>
-            <div class="garden-filters">
-                <button class="filter-btn" :class="{ active: filter === 'all' }" @click="filter = 'all'">All</button>
-                <button class="filter-btn" :class="{ active: filter === 'evergreen' }" @click="filter = 'evergreen'">Evergreen</button>
-                <button class="filter-btn" :class="{ active: filter === 'sprout' }" @click="filter = 'sprout'">Sprout</button>
-                <button class="filter-btn" :class="{ active: filter === 'seed' }" @click="filter = 'seed'">Seed</button>
-                <button class="view-toggle" :class="{ active: viewMode === 'topics' }" @click="viewMode = viewMode === 'grid' ? 'topics' : 'grid'">{{ viewMode === 'grid' ? 'Topics' : 'Grid' }}</button>
-            </div>
-            <div class="graph-container" ref="graphContainer">
-                <canvas ref="graphCanvas"></canvas>
-                <div class="graph-tooltip" v-if="tooltip.visible" :style="{ top: tooltip.y + 'px', left: tooltip.x + 'px' }">
-                    <strong>{{ tooltip.name }}</strong> <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;opacity:0.6;margin-left:0.5rem;">{{ tooltip.stage }}</span>
-                </div>
-                <div class="graph-controls">
-                    <button @click="resetZoom">Reset Zoom</button>
-                    <button :class="{ active: pathMode }" @click="togglePathMode">{{ pathMode ? 'Cancel Path' : 'Find Path' }}</button>
-                </div>
-                <div class="path-instruction" v-if="pathMode && pathNodes.length < 2">Click {{ pathNodes.length === 0 ? 'start' : 'end' }} node</div>
-            </div>
-            <div class="garden-section" v-if="analytics">
-                <div class="garden-section-title">Graph Analytics</div>
-                <div class="analytics-grid">
-                    <div class="block block-inverted">
-                        <div class="stat">{{ analytics.avgDegree }}</div>
-                        <div class="stat-label">Avg Connections</div>
-                    </div>
-                    <div class="block block-inverted">
-                        <div class="stat">{{ analytics.totalEdges }}</div>
-                        <div class="stat-label">Total Edges</div>
-                    </div>
-                    <div class="block block-inverted">
-                        <div class="stat">{{ analytics.avgClustering }}</div>
-                        <div class="stat-label">Clustering Coeff</div>
-                    </div>
-                    <div class="block">
-                        <h2>Most Connected</h2>
-                        <ul>
-                            <li v-for="d in analytics.topDegree" :key="d.id">{{ d.id }} ({{ d.degree }})</li>
-                        </ul>
-                    </div>
-                    <div class="block">
-                        <h2>Highest Betweenness</h2>
-                        <ul>
-                            <li v-for="b in analytics.topBetweenness" :key="b.id">{{ b.id }} ({{ b.value }})</li>
-                        </ul>
-                    </div>
-                    <div class="block" v-if="analytics.bridges.length > 0">
-                        <h2>Bridge Nodes</h2>
-                        <ul>
-                            <li v-for="b in analytics.bridges" :key="b">{{ b }}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="garden-section" v-if="viewMode === 'topics'">
-                <div class="garden-section-title">Topics ({{ communities.length }} clusters)</div>
-                <div v-for="c in communities" :key="c.name" class="topic-cluster">
-                    <div class="topic-header">
-                        <span class="topic-name">{{ c.name }}</span>
-                        <span class="topic-count">{{ c.members.length }} words</span>
-                    </div>
-                    <div class="chips">
-                        <router-link v-for="m in c.members" :key="m" :to="'/words/' + m" class="chip">{{ m }}</router-link>
-                    </div>
-                </div>
-            </div>
-            <div class="garden-section" v-if="viewMode === 'grid'">
-                <div class="garden-section-title">Words ({{ filteredWords.length }})</div>
-                <div class="garden-grid">
-                    <router-link v-for="(w, i) in filteredWords" :key="w.id" :to="'/words/' + w.id" class="garden-card" v-scroll-reveal="{ delay: i * 0.02 }">
-                        <div class="garden-card-name">{{ w.id }}</div>
-                        <div class="garden-card-meta">
-                            <span><span class="stage-dot" :class="'stage-dot-' + w.stage"></span> {{ w.stage }}</span>
-                            <span>{{ w.connections }} links</span>
-                        </div>
-                    </router-link>
-                </div>
-            </div>
-            <div class="garden-section">
-                <div class="garden-section-title">Notes ({{ filteredNotes.length }})</div>
-                <div class="garden-notes-grid">
-                    <router-link v-for="(n, ni) in filteredNotes" :key="n.id" :to="'/notes/' + n.id" class="garden-note-card" v-scroll-reveal="{ delay: ni * 0.03 }">
-                        <div class="garden-note-title">{{ n.title }}</div>
-                        <div class="garden-note-meta">
-                            <span><span class="stage-dot" :class="'stage-dot-' + n.stage"></span> {{ n.stage }}</span>
-                            <span>{{ n.wordCount }} words</span>
-                        </div>
-                    </router-link>
-                </div>
-            </div>
-            <div class="wander-section">
-                <router-link to="/timeline" class="wander-btn">timeline</router-link>
-                <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
-                <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
-            </div>
-        </div>
-    `,
-    data() {
-        return {
-            filter: 'all',
-            viewMode: 'grid',
-            tooltip: { visible: false, x: 0, y: 0, name: '', stage: '' },
-            graphNodes: [],
-            graphEdges: [],
-            hoveredNode: null,
-            _raf: null,
-            communities: [],
-            analytics: null,
-            transform: { x: 0, y: 0, scale: 1 },
-            dragState: null,
-            pathMode: false,
-            pathNodes: [],
-            pathEdges: []
-        };
-    },
-    computed: {
-        totalWords() { return Object.keys(wordData).length; },
-        totalNotes() { return Object.keys(notesData).length; },
-        discoveryScore() { return getDiscoveryScore(); },
-        visitedCount() { const v = getVisited(); return { words: v.words.length, notes: v.notes.length }; },
-        allWords() {
-            return Object.entries(wordData).map(([id, d]) => ({
-                id,
-                stage: d.stage,
-                connections: (d.related || []).length
-            })).sort((a, b) => {
-                const order = { evergreen: 0, sprout: 1, seed: 2 };
-                return (order[a.stage] - order[b.stage]) || a.id.localeCompare(b.id);
-            });
-        },
-        filteredWords() {
-            if (this.filter === 'all') return this.allWords;
-            return this.allWords.filter(w => w.stage === this.filter);
-        },
-        allNotes() {
-            return Object.entries(notesData).map(([id, n]) => ({
-                id,
-                title: n.title,
-                stage: n.stage,
-                wordCount: n.content.replace(/<[^>]*>/g, '').split(/\s+/).length
-            }));
-        },
-        filteredNotes() {
-            if (this.filter === 'all') return this.allNotes;
-            return this.allNotes.filter(n => n.stage === this.filter);
-        }
-    },
-    methods: {
-        wander() {
-            const words = ALL_WORDS();
-            const word = words[Math.floor(Math.random() * words.length)];
-            this.$router.push('/words/' + word);
-        },
-        toggleDark() { toggleDarkMode(); },
-        resetZoom() {
-            this.transform = { x: 0, y: 0, scale: 1 };
-            if (this._ctx) this.renderGraph(this._ctx, this._W, this._H);
-        },
-        togglePathMode() {
-            this.pathMode = !this.pathMode;
-            this.pathNodes = [];
-            this.pathEdges = [];
-            if (this._ctx) this.renderGraph(this._ctx, this._W, this._H);
-        },
-        findShortestPath(startId, endId) {
-            const nodes = this.graphNodes;
-            const edges = this.graphEdges;
-            const adj = {};
-            nodes.forEach(n => { adj[n.id] = []; });
-            edges.forEach(e => {
-                adj[e.source.id].push(e.target.id);
-                adj[e.target.id].push(e.source.id);
-            });
-            const visited = new Set([startId]);
-            const parent = {};
-            const queue = [startId];
-            while (queue.length) {
-                const v = queue.shift();
-                if (v === endId) break;
-                for (const w of (adj[v] || [])) {
-                    if (!visited.has(w)) { visited.add(w); parent[w] = v; queue.push(w); }
-                }
-            }
-            if (!parent[endId] && startId !== endId) return [];
-            const path = [endId];
-            let cur = endId;
-            while (cur !== startId) { cur = parent[cur]; if (!cur) return []; path.unshift(cur); }
-            return path;
-        },
-        screenToWorld(e) {
-            const canvas = this.$refs.graphCanvas;
-            const rect = canvas.getBoundingClientRect();
-            const sx = e.clientX - rect.left;
-            const sy = e.clientY - rect.top;
-            return {
-                x: (sx - this.transform.x) / this.transform.scale,
-                y: (sy - this.transform.y) / this.transform.scale
-            };
-        },
-        initGraph() {
-            const canvas = this.$refs.graphCanvas;
-            const container = this.$refs.graphContainer;
-            if (!canvas || !container) return;
-
-            const dpr = window.devicePixelRatio || 1;
-            const rect = container.getBoundingClientRect();
-            const W = rect.width;
-            const H = rect.height;
-            canvas.width = W * dpr;
-            canvas.height = H * dpr;
-            canvas.style.width = W + 'px';
-            canvas.style.height = H + 'px';
-            const ctx = canvas.getContext('2d');
-            ctx.scale(dpr, dpr);
-
-            // Build nodes
-            const nodeMap = {};
-            const nodes = [];
-            const edges = [];
-
-            Object.entries(wordData).forEach(([id, d]) => {
-                const connCount = (d.related || []).length;
-                const node = {
-                    id, type: 'word', stage: d.stage,
-                    x: W/2 + (Math.random() - 0.5) * W * 0.6,
-                    y: H/2 + (Math.random() - 0.5) * H * 0.6,
-                    vx: 0, vy: 0,
-                    r: Math.max(4, Math.min(12, 3 + connCount * 1.2)),
-                    label: id, path: '/words/' + id
-                };
-                nodes.push(node);
-                nodeMap[id] = node;
-            });
-
-            Object.entries(notesData).forEach(([id, n]) => {
-                const node = {
-                    id: 'note:' + id, type: 'note', stage: n.stage,
-                    x: W/2 + (Math.random() - 0.5) * W * 0.6,
-                    y: H/2 + (Math.random() - 0.5) * H * 0.6,
-                    vx: 0, vy: 0,
-                    r: 4, label: n.title, path: '/notes/' + id
-                };
-                nodes.push(node);
-                nodeMap['note:' + id] = node;
-            });
-
-            // Build edges (deduplicated)
-            const edgeSet = new Set();
-            Object.entries(wordData).forEach(([id, d]) => {
-                (d.related || []).forEach(r => {
-                    if (wordData[r]) {
-                        const key = [id, r].sort().join('|');
-                        if (!edgeSet.has(key)) { edgeSet.add(key); edges.push({ source: nodeMap[id], target: nodeMap[r] }); }
-                    }
-                });
-            });
-            Object.entries(notesData).forEach(([id, n]) => {
-                (n.words || []).forEach(w => {
-                    if (nodeMap[w]) {
-                        edges.push({ source: nodeMap['note:' + id], target: nodeMap[w] });
-                    }
-                });
-            });
-
-            this.graphNodes = nodes;
-            this.graphEdges = edges;
-
-            // Fruchterman-Reingold
-            const area = W * H;
-            const k = Math.sqrt(area / nodes.length) * 0.85;
-            let temp = W / 10;
-            const cooling = 0.95;
-            let iteration = 0;
-            const maxIter = 300;
-
-            const simulate = () => {
-                if (iteration >= maxIter) {
-                    this.renderGraph(ctx, W, H);
-                    return;
-                }
-                // Repulsive forces
-                for (let i = 0; i < nodes.length; i++) {
-                    nodes[i].vx = 0;
-                    nodes[i].vy = 0;
-                    for (let j = 0; j < nodes.length; j++) {
-                        if (i === j) continue;
-                        let dx = nodes[i].x - nodes[j].x;
-                        let dy = nodes[i].y - nodes[j].y;
-                        let dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-                        let force = (k * k) / dist;
-                        nodes[i].vx += (dx / dist) * force;
-                        nodes[i].vy += (dy / dist) * force;
-                    }
-                }
-                // Attractive forces
-                for (const e of edges) {
-                    let dx = e.source.x - e.target.x;
-                    let dy = e.source.y - e.target.y;
-                    let dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-                    let force = (dist * dist) / k;
-                    let fx = (dx / dist) * force;
-                    let fy = (dy / dist) * force;
-                    e.source.vx -= fx;
-                    e.source.vy -= fy;
-                    e.target.vx += fx;
-                    e.target.vy += fy;
-                }
-                // Apply with temperature
-                for (const n of nodes) {
-                    let dist = Math.sqrt(n.vx * n.vx + n.vy * n.vy) || 0.01;
-                    n.x += (n.vx / dist) * Math.min(dist, temp);
-                    n.y += (n.vy / dist) * Math.min(dist, temp);
-                    // Keep in bounds
-                    const pad = 20;
-                    n.x = Math.max(pad, Math.min(W - pad, n.x));
-                    n.y = Math.max(pad, Math.min(H - pad, n.y));
-                }
-                temp *= cooling;
-                iteration++;
-                this.renderGraph(ctx, W, H);
-                this._raf = requestAnimationFrame(simulate);
-            };
-
-            this._raf = requestAnimationFrame(simulate);
-            this._ctx = ctx;
-            this._W = W;
-            this._H = H;
-
-            // Assign community IDs for rendering
-            const communityMap = {};
-            this.communities.forEach((c, ci) => {
-                c.members.forEach(m => { communityMap[m] = ci; });
-            });
-            nodes.forEach(n => { n.community = communityMap[n.id] ?? -1; });
-
-            // Mouse events with zoom/pan/drag
-            const getNode = (mx, my) => {
-                const wx = (mx - this.transform.x) / this.transform.scale;
-                const wy = (my - this.transform.y) / this.transform.scale;
-                for (let i = nodes.length - 1; i >= 0; i--) {
-                    const n = nodes[i];
-                    const dx = wx - n.x, dy = wy - n.y;
-                    const hitR = n.r + 3;
-                    if (dx * dx + dy * dy <= hitR * hitR) return n;
-                }
-                return null;
-            };
-
-            this._onWheel = (e) => {
-                e.preventDefault();
-                const r = canvas.getBoundingClientRect();
-                const mx = e.clientX - r.left;
-                const my = e.clientY - r.top;
-                const zoom = e.deltaY < 0 ? 1.1 : 0.9;
-                const newScale = Math.max(0.3, Math.min(5, this.transform.scale * zoom));
-                const ratio = newScale / this.transform.scale;
-                this.transform.x = mx - (mx - this.transform.x) * ratio;
-                this.transform.y = my - (my - this.transform.y) * ratio;
-                this.transform.scale = newScale;
-                this.renderGraph(this._ctx, this._W, this._H);
-            };
-
-            this._onMouseDown = (e) => {
-                const r = canvas.getBoundingClientRect();
-                const mx = e.clientX - r.left;
-                const my = e.clientY - r.top;
-                const node = getNode(mx, my);
-                if (node) {
-                    this.dragState = { node, startX: node.x, startY: node.y, mouseStartX: mx, mouseStartY: my, moved: false };
-                } else {
-                    this.dragState = { pan: true, startX: this.transform.x, startY: this.transform.y, mouseStartX: mx, mouseStartY: my, moved: false };
-                }
-            };
-
-            this._onMouseMove = (e) => {
-                const r = canvas.getBoundingClientRect();
-                const mx = e.clientX - r.left;
-                const my = e.clientY - r.top;
-
-                if (this.dragState) {
-                    const dx = mx - this.dragState.mouseStartX;
-                    const dy = my - this.dragState.mouseStartY;
-                    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) this.dragState.moved = true;
-                    if (this.dragState.pan) {
-                        this.transform.x = this.dragState.startX + dx;
-                        this.transform.y = this.dragState.startY + dy;
-                    } else if (this.dragState.node) {
-                        this.dragState.node.x = this.dragState.startX + dx / this.transform.scale;
-                        this.dragState.node.y = this.dragState.startY + dy / this.transform.scale;
-                    }
-                    this.renderGraph(this._ctx, this._W, this._H);
-                    return;
-                }
-
-                const node = getNode(mx, my);
-                this.hoveredNode = node;
-                canvas.style.cursor = node ? 'pointer' : (this.pathMode ? 'crosshair' : 'grab');
-                if (node) {
-                    this.tooltip = { visible: true, x: mx + 12, y: my - 10, name: node.label, stage: node.stage };
-                } else {
-                    this.tooltip.visible = false;
-                }
-                this.renderGraph(this._ctx, this._W, this._H);
-            };
-
-            this._onMouseUp = (e) => {
-                const wasDrag = this.dragState?.moved;
-                this.dragState = null;
-                if (wasDrag) return;
-
-                const r = canvas.getBoundingClientRect();
-                const mx = e.clientX - r.left;
-                const my = e.clientY - r.top;
-                const node = getNode(mx, my);
-                if (!node) return;
-
-                if (this.pathMode) {
-                    this.pathNodes.push(node.id);
-                    if (this.pathNodes.length === 2) {
-                        const path = this.findShortestPath(this.pathNodes[0], this.pathNodes[1]);
-                        this.pathEdges = path;
-                        this.renderGraph(this._ctx, this._W, this._H);
-                    }
-                } else {
-                    this.$router.push(node.path);
-                }
-            };
-
-            this._onMouseLeave = () => {
-                this.dragState = null;
-                this.hoveredNode = null;
-                this.tooltip.visible = false;
-                this.renderGraph(this._ctx, this._W, this._H);
-            };
-
-            // Touch events for mobile
-            let lastTouchDist = 0;
-            this._onTouchStart = (e) => {
-                if (e.touches.length === 2) {
-                    const dx = e.touches[0].clientX - e.touches[1].clientX;
-                    const dy = e.touches[0].clientY - e.touches[1].clientY;
-                    lastTouchDist = Math.sqrt(dx * dx + dy * dy);
-                } else if (e.touches.length === 1) {
-                    const r = canvas.getBoundingClientRect();
-                    const mx = e.touches[0].clientX - r.left;
-                    const my = e.touches[0].clientY - r.top;
-                    this.dragState = { pan: true, startX: this.transform.x, startY: this.transform.y, mouseStartX: mx, mouseStartY: my, moved: false };
-                }
-            };
-            this._onTouchMove = (e) => {
-                e.preventDefault();
-                if (e.touches.length === 2) {
-                    const dx = e.touches[0].clientX - e.touches[1].clientX;
-                    const dy = e.touches[0].clientY - e.touches[1].clientY;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (lastTouchDist > 0) {
-                        const zoom = dist / lastTouchDist;
-                        const newScale = Math.max(0.3, Math.min(5, this.transform.scale * zoom));
-                        this.transform.scale = newScale;
-                        this.renderGraph(this._ctx, this._W, this._H);
-                    }
-                    lastTouchDist = dist;
-                } else if (e.touches.length === 1 && this.dragState?.pan) {
-                    const r = canvas.getBoundingClientRect();
-                    const mx = e.touches[0].clientX - r.left;
-                    const my = e.touches[0].clientY - r.top;
-                    this.transform.x = this.dragState.startX + (mx - this.dragState.mouseStartX);
-                    this.transform.y = this.dragState.startY + (my - this.dragState.mouseStartY);
-                    this.renderGraph(this._ctx, this._W, this._H);
-                }
-            };
-            this._onTouchEnd = () => { this.dragState = null; lastTouchDist = 0; };
-
-            canvas.addEventListener('wheel', this._onWheel, { passive: false });
-            canvas.addEventListener('mousedown', this._onMouseDown);
-            canvas.addEventListener('mousemove', this._onMouseMove);
-            canvas.addEventListener('mouseup', this._onMouseUp);
-            canvas.addEventListener('mouseleave', this._onMouseLeave);
-            canvas.addEventListener('touchstart', this._onTouchStart, { passive: false });
-            canvas.addEventListener('touchmove', this._onTouchMove, { passive: false });
-            canvas.addEventListener('touchend', this._onTouchEnd);
-        },
-        renderGraph(ctx, W, H) {
-            const nodes = this.graphNodes;
-            const edges = this.graphEdges;
-            const hovered = this.hoveredNode;
-            const filter = this.filter;
-            const scale = this.transform.scale;
-            const tx = this.transform.x;
-            const ty = this.transform.y;
-            const styles = getComputedStyle(document.documentElement);
-            const textColor = styles.getPropertyValue('--text').trim() || '#000';
-            const borderColor = styles.getPropertyValue('--border').trim() || '#000';
-            const bgColor = styles.getPropertyValue('--bg').trim() || '#fff';
-            const subtleColor = styles.getPropertyValue('--gray-subtle').trim() || '#e5e5e5';
-
-            ctx.clearRect(0, 0, W, H);
-            ctx.save();
-            ctx.translate(tx, ty);
-            ctx.scale(scale, scale);
-
-            // Path edge set
-            const pathSet = new Set();
-            const pathNodeSet = new Set();
-            if (this.pathEdges.length > 1) {
-                for (let i = 0; i < this.pathEdges.length; i++) {
-                    pathNodeSet.add(this.pathEdges[i]);
-                    if (i < this.pathEdges.length - 1) {
-                        pathSet.add([this.pathEdges[i], this.pathEdges[i+1]].sort().join('|'));
-                    }
-                }
-            }
-
-            // Connected set for hover highlight
-            const connectedIds = new Set();
-            if (hovered) {
-                connectedIds.add(hovered.id);
-                for (const e of edges) {
-                    if (e.source === hovered) connectedIds.add(e.target.id);
-                    if (e.target === hovered) connectedIds.add(e.source.id);
-                }
-            }
-
-            // Draw edges
-            for (const e of edges) {
-                const connected = hovered && (connectedIds.has(e.source.id) && connectedIds.has(e.target.id));
-                const isPath = pathSet.has([e.source.id, e.target.id].sort().join('|'));
-                ctx.beginPath();
-                ctx.moveTo(e.source.x, e.source.y);
-                ctx.lineTo(e.target.x, e.target.y);
-                if (isPath) {
-                    ctx.strokeStyle = textColor;
-                    ctx.lineWidth = 3 / scale;
-                    ctx.globalAlpha = 1;
-                } else {
-                    ctx.strokeStyle = hovered ? (connected ? textColor : subtleColor) : subtleColor;
-                    ctx.lineWidth = (connected ? 1.5 : 0.5) / scale;
-                    ctx.globalAlpha = hovered ? (connected ? 0.8 : 0.1) : 0.4;
-                }
-                ctx.stroke();
-            }
-            ctx.globalAlpha = 1;
-
-            // Community shapes
-            const communityShapes = ['fill-circle', 'stroke-circle', 'dash-circle', 'fill-square', 'stroke-square', 'diamond'];
-
-            // Draw nodes
-            for (const n of nodes) {
-                const isConnected = !hovered || connectedIds.has(n.id);
-                const matchFilter = filter === 'all' || n.stage === filter;
-                const isPathNode = pathNodeSet.has(n.id);
-                ctx.globalAlpha = hovered ? (isConnected ? 1 : 0.15) : (matchFilter ? 1 : 0.05);
-                if (isPathNode) ctx.globalAlpha = 1;
-
-                const shape = n.type === 'note' ? 'fill-square' : (communityShapes[n.community % communityShapes.length] || 'fill-circle');
-
-                if (shape === 'fill-square' || shape === 'stroke-square') {
-                    const s = n.r;
-                    if (shape === 'fill-square') {
-                        ctx.fillStyle = textColor;
-                        ctx.fillRect(n.x - s, n.y - s, s * 2, s * 2);
-                    } else {
-                        ctx.fillStyle = bgColor;
-                        ctx.fillRect(n.x - s, n.y - s, s * 2, s * 2);
-                        ctx.strokeStyle = textColor;
-                        ctx.lineWidth = 2 / scale;
-                        ctx.strokeRect(n.x - s, n.y - s, s * 2, s * 2);
-                    }
-                } else if (shape === 'diamond') {
-                    ctx.beginPath();
-                    ctx.moveTo(n.x, n.y - n.r);
-                    ctx.lineTo(n.x + n.r, n.y);
-                    ctx.lineTo(n.x, n.y + n.r);
-                    ctx.lineTo(n.x - n.r, n.y);
-                    ctx.closePath();
-                    ctx.fillStyle = textColor;
-                    ctx.fill();
-                } else {
-                    ctx.beginPath();
-                    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-                    if (shape === 'fill-circle') {
-                        ctx.fillStyle = textColor;
-                        ctx.fill();
-                    } else if (shape === 'stroke-circle') {
-                        ctx.fillStyle = bgColor;
-                        ctx.fill();
-                        ctx.strokeStyle = textColor;
-                        ctx.lineWidth = 2 / scale;
-                        ctx.stroke();
-                    } else {
-                        ctx.fillStyle = bgColor;
-                        ctx.fill();
-                        ctx.strokeStyle = textColor;
-                        ctx.lineWidth = 1 / scale;
-                        ctx.setLineDash([3, 3]);
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-                    }
-                }
-
-                // Path node: double ring
-                if (isPathNode) {
-                    ctx.beginPath();
-                    ctx.arc(n.x, n.y, n.r + 4, 0, Math.PI * 2);
-                    ctx.strokeStyle = textColor;
-                    ctx.lineWidth = 2 / scale;
-                    ctx.stroke();
-                }
-
-                // Labels: show all when zoomed in, else only large/hovered
-                const showLabel = scale > 1.5 || (scale > 0.8 && n.r >= 6) || n === hovered || isPathNode;
-                if (isConnected && showLabel) {
-                    ctx.fillStyle = textColor;
-                    const fontSize = Math.max(8, 10 / scale);
-                    ctx.font = (n === hovered ? 'bold ' : '') + fontSize + 'px -apple-system, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(n.label.length > 12 ? n.label.slice(0, 10) + '..' : n.label, n.x, n.y + n.r + 12 / scale);
-                }
-            }
-            ctx.globalAlpha = 1;
-            ctx.restore();
-        }
-    },
-    watch: {
-        filter() {
-            if (this._ctx) this.renderGraph(this._ctx, this._W, this._H);
-        }
-    },
-    mounted() {
-        this.analytics = computeGraphAnalytics();
-        this.communities = detectCommunities();
-        this.$nextTick(() => this.initGraph());
-    },
-    beforeUnmount() {
-        if (this._raf) cancelAnimationFrame(this._raf);
-        const canvas = this.$refs.graphCanvas;
-        if (canvas) {
-            canvas.removeEventListener('wheel', this._onWheel);
-            canvas.removeEventListener('mousedown', this._onMouseDown);
-            canvas.removeEventListener('mousemove', this._onMouseMove);
-            canvas.removeEventListener('mouseup', this._onMouseUp);
-            canvas.removeEventListener('mouseleave', this._onMouseLeave);
-            canvas.removeEventListener('touchstart', this._onTouchStart);
-            canvas.removeEventListener('touchmove', this._onTouchMove);
-            canvas.removeEventListener('touchend', this._onTouchEnd);
-        }
-    }
+<div class="page container">
+  <h1 class="page-title">Words</h1>
+  <p class="page-intro">A small garden of concepts I keep returning to. Each one grows from a seed into something evergreen as I tend it.</p>
+  <div class="word-group" v-for="g in groups" :key="g.stage">
+    <div class="gh"><h3>{{ g.label }}</h3><span>{{ g.items.length }}</span></div>
+    <div class="word-flow">
+      <router-link v-for="w in g.items" :key="w" :to="'/words/' + w">{{ w }}</router-link>
+    </div>
+  </div>
+</div>`
 };
 
-// 404 component
+const WordDetail = {
+    computed: {
+        wordId() { return this.$route.params.word; },
+        data() { return wordData[this.wordId] || null; },
+        related() { return relatedWords(this.wordId); },
+        notes() { return notesForWord(this.wordId); }
+    },
+    template: `
+<div class="page container">
+  <router-link to="/words" class="back-link"><span class="arr">&larr;</span> words</router-link>
+  <template v-if="data">
+    <h1 class="page-title">{{ wordId }}</h1>
+    <div class="meta-row">
+      <span class="badge" :class="data.stage">{{ data.stage }}</span>
+      <span>planted {{ fmtDate(data.planted) }}</span>
+      <span>tended {{ fmtDate(data.tended) }}</span>
+    </div>
+    <div class="blocks">
+      <div class="wblock" v-for="(b, i) in data.blocks" :key="i">
+        <h3>{{ b.title }}</h3>
+        <p v-if="b.text">{{ b.text }}</p>
+        <ul v-if="b.items"><li v-for="(it, j) in b.items" :key="j">{{ it }}</li></ul>
+      </div>
+    </div>
+    <div class="relate" v-if="related.length">
+      <h4>Related words</h4>
+      <div class="chips"><router-link class="chip" v-for="r in related" :key="r" :to="'/words/' + r">{{ r }}</router-link></div>
+    </div>
+    <div class="relate" v-if="notes.length">
+      <h4>Mentioned in</h4>
+      <div class="chips"><router-link class="chip" v-for="n in notes" :key="n.id" :to="'/notes/' + n.id">{{ n.title }}</router-link></div>
+    </div>
+  </template>
+  <template v-else>
+    <h1 class="page-title">Not found</h1>
+    <p class="page-intro">No word called &ldquo;{{ wordId }}&rdquo; grows here yet.</p>
+  </template>
+</div>`
+};
+
+const LearnIndex = {
+    computed: { notes() { return allNotes(); } },
+    template: `
+<div class="page container">
+  <h1 class="page-title">Writing</h1>
+  <p class="page-intro">Notes on building software: what I've learned shipping small tools, systems, and the occasional strong opinion.</p>
+  <div class="write-list" style="margin-top:2.4rem">
+    <router-link class="write-row" v-for="p in notes" :key="p.id" :to="'/notes/' + p.id">
+      <span class="date">{{ fmtDate(p.tended || p.planted) }}</span>
+      <span class="wt"><span class="ttl">{{ p.title }}</span><span class="tags">{{ (p.words || []).slice(0,3).join(' · ') }}</span></span>
+      <span class="arr">&rarr;</span>
+    </router-link>
+  </div>
+</div>`
+};
+
+const NoteDetail = {
+    computed: {
+        noteId() { return this.$route.params.noteId; },
+        note() { return notesData[this.noteId] || null; },
+        rt() { return this.note ? readingTime(this.note.content) : 0; },
+        related() { return (this.note && this.note.relatedNotes || []).filter(id => notesData[id]); }
+    },
+    template: `
+<div class="page container">
+  <router-link to="/learn" class="back-link"><span class="arr">&larr;</span> writing</router-link>
+  <template v-if="note">
+    <h1 class="page-title">{{ note.title }}</h1>
+    <div class="meta-row">
+      <span class="badge" :class="note.stage">{{ note.stage }}</span>
+      <span>{{ fmtDate(note.planted) }}</span>
+      <span>{{ rt }} min read</span>
+    </div>
+    <article class="prose" v-html="note.content"></article>
+    <div class="relate" v-if="related.length">
+      <h4>Related notes</h4>
+      <div class="chips"><router-link class="chip" v-for="id in related" :key="id" :to="'/notes/' + id">{{ notesData[id].title }}</router-link></div>
+    </div>
+  </template>
+  <template v-else>
+    <h1 class="page-title">Not found</h1>
+    <p class="page-intro">There's no note at this address.</p>
+  </template>
+</div>`,
+    data() { return { notesData }; }
+};
+
+const ProjectsIndex = {
+    computed: { projects() { return PROJECTS; } },
+    template: `
+<div class="page container">
+  <h1 class="page-title">Projects</h1>
+  <p class="page-intro">Small, focused tools. Most are open source. All are built to do one thing well and stay out of your way.</p>
+  <div class="proj-grid" style="margin-top:2.4rem">
+    <a class="proj-card" v-for="pr in projects" :key="pr.name" :href="pr.href" target="_blank" rel="noopener">
+      <span class="ico" v-html="ICO[pr.icon]"></span>
+      <h3>{{ pr.name }}</h3>
+      <p>{{ pr.desc }}</p>
+      <div class="ptags">{{ pr.tags }}</div>
+    </a>
+  </div>
+</div>`
+};
+
+const About = {
+    template: `
+<div class="page container">
+  <h1 class="page-title">About</h1>
+  <article class="prose">
+    <p>I'm a software engineer who likes building small things that work. Developer tools, ML inference on Apple Silicon, information retrieval, and automation that quietly does its job.</p>
+    <p>My bias is towards <em>clarity, performance and control</em>. I'd rather understand a hundred lines completely than depend on a thousand I don't. Most of what I ship is minimal by default and auditable from source.</p>
+    <p>Most of what I know about reliable systems I learned the slow way: shipping Telegram bots that had to survive timeouts, garbage input, and 3am out-of-memory crashes. Build for failure and the happy path takes care of itself.</p>
+    <h2>How I work</h2>
+    <p>Start simple. Ship small. Leave room to think. A single VPS, a reverse proxy, and a bash script can take you surprisingly far before you need anything fancier.</p>
+    <h2>Elsewhere</h2>
+    <p>Code lives on <a href="https://github.com/Lulzx" target="_blank" rel="noopener">GitHub</a>. Notes live in the <router-link to="/learn">writing</router-link> section. Concepts I keep returning to are tended in the <router-link to="/words">words</router-link> garden.</p>
+    <div class="colophon">
+      <p style="color:var(--muted);font-size:.92rem">Colophon: one hand-written HTML file, Vue, and no build step. Ink-wash illustrations rendered in the sumi-e tradition. Built with plain text and good intentions.</p>
+    </div>
+  </article>
+</div>`
+};
+
 const NotFound = {
     template: `
-        <div class="container">
-            <div class="main" style="text-align: center;">
-                <div>
-                    <p style="font-size: 6rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin-bottom: 1rem;">404</p>
-                    <p>Page not found. <router-link to="/" class="word" style="text-decoration-color: var(--border);">Go home</router-link></p>
-                </div>
-            </div>
-            <div class="footer">
-                <span>lulzx</span>
-                <div class="footer-links">
-                    <router-link to="/garden">garden map</router-link>
-                    <a href="#" @click.prevent="wander">wander</a>
-                    <a href="#" @click.prevent="toggleDark">dark/light</a>
-                </div>
-            </div>
-        </div>
-    `,
+<div class="page container">
+  <h1 class="page-title">Lost the path</h1>
+  <p class="page-intro">This page drifted off like mist over the water. <router-link to="/" style="border-bottom:1px solid var(--line-strong)">Return home</router-link>.</p>
+</div>`
+};
+
+// ---- root layout ----
+const App = {
+    data() { return { scrolled: false, menuOpen: false, dark: false, NAV }; },
     methods: {
-        wander() {
-            const words = ALL_WORDS();
-            const word = words[Math.floor(Math.random() * words.length)];
-            this.$router.push('/words/' + word);
+        onScroll() { this.scrolled = window.scrollY > 8; },
+        toggleTheme() {
+            this.dark = !this.dark;
+            document.documentElement.classList.toggle('dark', this.dark);
+            try { localStorage.setItem('theme', this.dark ? 'dark' : 'light'); } catch (e) {}
+            const m = document.querySelector('meta[name=theme-color]');
+            if (m) m.setAttribute('content', this.dark ? '#16140f' : '#f3efe6');
         },
-        toggleDark() { toggleDarkMode(); }
-    }
-};
-
-// Search palette component
-const SearchPalette = {
-    template: `
-        <div class="search-overlay" v-if="isOpen" @click.self="close">
-            <div class="search-modal">
-                <input ref="input" class="search-input" v-model="query" @keydown="onKey" placeholder="Search words, notes, and content..." />
-                <div class="search-results" v-if="results.length > 0">
-                    <div v-for="(r, i) in results" :key="r.path + (r.excerpt || '')" class="search-result" :class="{ active: i === activeIndex }" @click="go(r)" @mouseenter="activeIndex = i">
-                        <div style="flex:1;min-width:0;">
-                            <div style="display:flex;justify-content:space-between;align-items:center;">
-                                <span>{{ r.label }}</span>
-                                <span class="search-result-type">{{ r.type }}</span>
-                            </div>
-                            <div v-if="r.excerpt" class="search-result-excerpt" v-html="r.excerpt"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="search-hint" v-else-if="query.length > 0">No results</div>
-                <div class="search-hint" v-else>Type to search. Esc to close.</div>
-            </div>
-        </div>
-    `,
-    data() {
-        return { isOpen: false, query: '', activeIndex: 0, pool: [], contentIndex: [] };
-    },
-    computed: {
-        results() {
-            if (!this.query) return [];
-            const q = this.query.toLowerCase();
-            const scored = [];
-            // Title matches
-            this.pool.forEach(item => {
-                const name = item.label.toLowerCase();
-                if (name === q) scored.push({ ...item, score: 100 });
-                else if (name.startsWith(q)) scored.push({ ...item, score: 80 });
-                else if (name.includes(q)) scored.push({ ...item, score: 60 });
-                else {
-                    let qi = 0;
-                    for (let i = 0; i < name.length && qi < q.length; i++) {
-                        if (name[i] === q[qi]) qi++;
-                    }
-                    if (qi === q.length) scored.push({ ...item, score: 30 });
-                }
-            });
-            // Content matches
-            if (q.length >= 2) {
-                const addedPaths = new Set(scored.map(s => s.path));
-                this.contentIndex.forEach(item => {
-                    const idx = item.plaintext.indexOf(q);
-                    if (idx === -1) return;
-                    const start = Math.max(0, idx - 40);
-                    const end = Math.min(item.plaintext.length, idx + q.length + 40);
-                    let excerpt = (start > 0 ? '...' : '') + item.plaintext.slice(start, end) + (end < item.plaintext.length ? '...' : '');
-                    const escaped = excerpt.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    const highlighted = escaped.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), m => '<mark>' + m + '</mark>');
-                    const path = '/notes/' + item.id + '?q=' + encodeURIComponent(this.query);
-                    if (!addedPaths.has('/notes/' + item.id)) {
-                        scored.push({ label: item.title, path, type: 'content', excerpt: highlighted, score: 20 });
-                        addedPaths.add('/notes/' + item.id);
-                    }
-                });
-            }
-            scored.sort((a, b) => b.score - a.score);
-            return scored.slice(0, 12);
+        isActive(n) {
+            const p = this.$route.path;
+            return n.to === '/' ? p === '/' : p.startsWith(n.to);
         }
     },
-    watch: {
-        query() { this.activeIndex = 0; },
-        '$route'() { this.close(); }
-    },
+    watch: { '$route'() { this.menuOpen = false; } },
     mounted() {
-        this.pool = [
-            ...Object.keys(wordData).map(id => ({ label: id, path: '/words/' + id, type: 'word' })),
-            ...Object.entries(notesData).map(([id, n]) => ({ label: n.title, path: '/notes/' + id, type: 'note' }))
-        ];
-        // Build content index for full-text search
-        this.contentIndex = Object.entries(notesData).map(([id, n]) => ({
-            id,
-            title: n.title,
-            plaintext: n.content.replace(/<[^>]*>/g, '').toLowerCase()
-        }));
-        window.__gardenSearch = {
-            open: () => this.open(),
-            close: () => this.close(),
-            get isOpen() { return false; }
-        };
-        Object.defineProperty(window.__gardenSearch, 'isOpen', {
-            get: () => this.isOpen
-        });
+        this.onScroll();
+        window.addEventListener('scroll', this.onScroll, { passive: true });
     },
-    methods: {
-        open() {
-            this.isOpen = true;
-            this.query = '';
-            this.activeIndex = 0;
-            this.$nextTick(() => this.$refs.input?.focus());
-        },
-        close() {
-            this.isOpen = false;
-            this.query = '';
-        },
-        go(r) {
-            this.$router.push(r.path);
-            this.close();
-        },
-        onKey(e) {
-            if (e.key === 'Escape') { this.close(); return; }
-            if (e.key === 'ArrowDown') { e.preventDefault(); this.activeIndex = Math.min(this.activeIndex + 1, this.results.length - 1); return; }
-            if (e.key === 'ArrowUp') { e.preventDefault(); this.activeIndex = Math.max(this.activeIndex - 1, 0); return; }
-            if (e.key === 'Enter' && this.results[this.activeIndex]) { this.go(this.results[this.activeIndex]); return; }
-        }
-    }
-};
-
-// Preview card component
-const PreviewCard = {
+    beforeUnmount() { window.removeEventListener('scroll', this.onScroll); },
     template: `
-        <div class="preview-card" v-if="visible" :style="{ top: y + 'px', left: x + 'px' }">
-            <div class="preview-card-name">{{ data.name }}</div>
-            <div class="preview-card-stage">{{ data.stage }}</div>
-            <div class="preview-card-excerpt">{{ data.excerpt }}</div>
+<div>
+  <header class="site-header" :class="{ scrolled }">
+    <div class="container header-inner">
+      <router-link to="/" class="brand"><span v-html="ICO.logo"></span> lulzx.com</router-link>
+      <div class="nav-wrap">
+        <nav class="nav" :class="{ open: menuOpen }">
+          <router-link v-for="n in NAV" :key="n.to" :to="n.to" :class="{ active: isActive(n) }">{{ n.label }}</router-link>
+        </nav>
+        <button class="theme-toggle" @click="toggleTheme" :aria-label="dark ? 'Switch to light' : 'Switch to dark'"><span v-html="dark ? ICO.sun : ICO.moon"></span></button>
+        <button class="menu-btn" @click="menuOpen = !menuOpen" aria-label="Menu" v-html="ICO.menu"></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <router-view v-slot="{ Component }">
+      <transition name="page" mode="out-in"><component :is="Component" /></transition>
+    </router-view>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-art"></div>
+    <div class="footer-plum"></div>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <router-link to="/" class="brand"><span v-html="ICO.logo"></span> lulzx.com</router-link>
+          <p>Exploring systems, tools, and ideas. Building things that make me &mdash; and maybe someone else &mdash; think.</p>
+          <span class="footer-loc"><span v-html="ICO.pin"></span> Somewhere in Japan</span>
         </div>
-    `,
-    data() {
-        return { visible: false, x: 0, y: 0, data: { name: '', stage: '', excerpt: '' } };
-    },
-    mounted() {
-        this._timer = null;
-        this._onMouseOver = (e) => {
-            const el = e.target.closest('.chip, .inline-word-link, .word');
-            if (!el) return;
-            clearTimeout(this._timer);
-            this._timer = setTimeout(() => {
-                const href = el.getAttribute('href') || el.closest('a')?.getAttribute('href') || '';
-                let info = null;
-                const wordMatch = href.match(/\/words\/(.+)/);
-                const noteMatch = href.match(/\/notes\/(.+)/);
-                if (wordMatch && wordData[wordMatch[1]]) {
-                    const w = wordData[wordMatch[1]];
-                    const firstBlock = w.blocks?.[0];
-                    const excerpt = firstBlock?.text || (firstBlock?.items ? firstBlock.items[0] : '') || '';
-                    info = { name: wordMatch[1], stage: w.stage, excerpt: excerpt.replace(/<[^>]*>/g, '').slice(0, 100) + (excerpt.length > 100 ? '...' : '') };
-                } else if (noteMatch && notesData[noteMatch[1]]) {
-                    const n = notesData[noteMatch[1]];
-                    const text = n.content.replace(/<[^>]*>/g, '');
-                    const firstSentence = text.match(/^[^.!?]+[.!?]/)?.[0] || text.slice(0, 100);
-                    info = { name: n.title, stage: n.stage, excerpt: firstSentence.slice(0, 120) };
-                }
-                if (!info) return;
-                const rect = el.getBoundingClientRect();
-                let left = rect.left;
-                let top = rect.bottom + 8;
-                if (left + 280 > window.innerWidth) left = window.innerWidth - 290;
-                if (top + 150 > window.innerHeight) top = rect.top - 150;
-                this.x = Math.max(10, left);
-                this.y = top;
-                this.data = info;
-                this.visible = true;
-            }, 200);
-        };
-        this._onMouseOut = (e) => {
-            const el = e.target.closest('.chip, .inline-word-link, .word');
-            if (el) { clearTimeout(this._timer); this.visible = false; }
-        };
-        this._onScroll = () => { this.visible = false; };
-        document.getElementById('app').addEventListener('mouseover', this._onMouseOver);
-        document.getElementById('app').addEventListener('mouseout', this._onMouseOut);
-        document.getElementById('app').addEventListener('scroll', this._onScroll);
-    },
-    beforeUnmount() {
-        const el = document.getElementById('app');
-        el?.removeEventListener('mouseover', this._onMouseOver);
-        el?.removeEventListener('mouseout', this._onMouseOut);
-        el?.removeEventListener('scroll', this._onScroll);
-    },
-    watch: {
-        '$route'() { this.visible = false; }
-    }
+        <div class="fcol">
+          <h4>Explore</h4>
+          <router-link to="/words">words</router-link>
+          <router-link to="/projects">projects</router-link>
+          <router-link to="/learn">learn</router-link>
+          <router-link to="/about">about</router-link>
+        </div>
+        <div class="fcol">
+          <h4>Topics</h4>
+          <router-link to="/words">systems</router-link>
+          <router-link to="/words">tools</router-link>
+          <router-link to="/words">ml</router-link>
+          <router-link to="/words">automation</router-link>
+          <router-link to="/words">graphics</router-link>
+          <router-link to="/words">search</router-link>
+        </div>
+        <div class="fcol">
+          <h4>Elsewhere</h4>
+          <a class="ext" href="https://github.com/Lulzx" target="_blank" rel="noopener"><span v-html="ICO.github"></span> GitHub</a>
+          <a class="ext" href="https://t.me/lulzx" target="_blank" rel="noopener"><span v-html="ICO.telegram"></span> Telegram</a>
+          <a class="ext" href="https://github.com/Lulzx" target="_blank" rel="noopener"><span v-html="ICO.rss"></span> RSS</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="copy">&copy; 2026 lulzx.com &mdash; All rights reserved.</span>
+        <span class="built">Built with plain text and good intentions.</span>
+      </div>
+    </div>
+  </footer>
+</div>`
 };
 
-// Timeline component
-const TimelinePage = {
-    template: `
-        <div class="timeline-page">
-            <div class="word-header">
-                <router-link to="/" class="back">\u2190 back</router-link>
-                <span style="font-size: 0.875rem;">lulzx</span>
-            </div>
-            <div class="timeline-header">
-                <div class="timeline-title">Growth Timeline</div>
-                <div class="timeline-subtitle">{{ totalEvents }} events across {{ monthCount }} months, from the first commit to now.</div>
-            </div>
-            <div class="timeline-canvas-container" ref="timelineContainer" v-scroll-reveal="{ delay: 0.1 }">
-                <canvas ref="timelineCanvas"></canvas>
-                <div class="timeline-tooltip" v-if="tooltipData" :style="{ top: tooltipData.y + 'px', left: tooltipData.x + 'px' }">
-                    <div class="timeline-tooltip-title">{{ tooltipData.month }}</div>
-                    <div v-for="item in tooltipData.items" :key="item.label" class="timeline-tooltip-item" @click="goTo(item)">{{ item.type }}: {{ item.label }}</div>
-                </div>
-            </div>
-            <div class="garden-section">
-                <div class="garden-section-title">Legend</div>
-                <div style="display:flex;gap:2rem;flex-wrap:wrap;font-size:0.875rem;">
-                    <span><span style="display:inline-block;width:12px;height:12px;background:var(--text);margin-right:0.5rem;vertical-align:middle;"></span>Planted</span>
-                    <span><span style="display:inline-block;width:12px;height:12px;border:2px solid var(--text);margin-right:0.5rem;vertical-align:middle;"></span>Tended</span>
-                </div>
-            </div>
-            <div class="wander-section">
-                <router-link to="/garden" class="wander-btn">garden map</router-link>
-                <a href="#" class="wander-btn" @click.prevent="toggleDark">dark/light</a>
-                <button class="wander-btn" @click="wander">\u2192 wander to a random word</button>
-            </div>
-        </div>
-    `,
-    data() {
-        return {
-            tooltipData: null,
-            totalEvents: 0,
-            monthCount: 0,
-            _bars: []
-        };
-    },
-    methods: {
-        toggleDark() { toggleDarkMode(); },
-        wander() {
-            const words = ALL_WORDS();
-            this.$router.push('/words/' + words[Math.floor(Math.random() * words.length)]);
-        },
-        goTo(item) {
-            if (item.route) this.$router.push(item.route);
-        },
-        buildData() {
-            const months = new Map();
-            const addEvent = (monthKey, type, label, route) => {
-                if (!months.has(monthKey)) months.set(monthKey, { planted: [], tended: [] });
-                const bucket = months.get(monthKey);
-                if (type === 'planted') bucket.planted.push({ label, route, type: 'planted' });
-                else bucket.tended.push({ label, route, type: 'tended' });
-            };
-            Object.entries(wordData).forEach(([id, d]) => {
-                if (d.planted) addEvent(d.planted, 'planted', id, '/words/' + id);
-                if (d.tended && d.tended !== d.planted) addEvent(d.tended, 'tended', id, '/words/' + id);
-            });
-            Object.entries(notesData).forEach(([id, n]) => {
-                if (n.planted) addEvent(n.planted, 'planted', n.title, '/notes/' + id);
-                if (n.tended && n.tended !== n.planted) addEvent(n.tended, 'tended', n.title, '/notes/' + id);
-            });
-            // Sort by date
-            const sorted = [...months.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-            // Fill gaps
-            if (sorted.length > 0) {
-                const [startY, startM] = sorted[0][0].split('-').map(Number);
-                const [endY, endM] = sorted[sorted.length - 1][0].split('-').map(Number);
-                const all = new Map();
-                let y = startY, m = startM;
-                while (y < endY || (y === endY && m <= endM)) {
-                    const key = y + '-' + String(m).padStart(2, '0');
-                    all.set(key, months.get(key) || { planted: [], tended: [] });
-                    m++;
-                    if (m > 12) { m = 1; y++; }
-                }
-                return all;
-            }
-            return months;
-        },
-        initTimeline() {
-            const canvas = this.$refs.timelineCanvas;
-            const container = this.$refs.timelineContainer;
-            if (!canvas || !container) return;
-
-            const dpr = window.devicePixelRatio || 1;
-            const rect = container.getBoundingClientRect();
-            const W = rect.width;
-            const H = rect.height;
-            canvas.width = W * dpr;
-            canvas.height = H * dpr;
-            canvas.style.width = W + 'px';
-            canvas.style.height = H + 'px';
-            const ctx = canvas.getContext('2d');
-            ctx.scale(dpr, dpr);
-
-            const data = this.buildData();
-            const entries = [...data.entries()];
-            this.monthCount = entries.length;
-
-            const isMobile = W < 500;
-            // Quarterly granularity on mobile
-            let displayEntries;
-            if (isMobile) {
-                const quarters = new Map();
-                entries.forEach(([key, val]) => {
-                    const [y, m] = key.split('-').map(Number);
-                    const q = y + '-Q' + Math.ceil(m / 3);
-                    if (!quarters.has(q)) quarters.set(q, { planted: [], tended: [] });
-                    const qd = quarters.get(q);
-                    qd.planted.push(...val.planted);
-                    qd.tended.push(...val.tended);
-                });
-                displayEntries = [...quarters.entries()];
-            } else {
-                displayEntries = entries;
-            }
-
-            let totalEvents = 0;
-            displayEntries.forEach(([, v]) => { totalEvents += v.planted.length + v.tended.length; });
-            this.totalEvents = totalEvents;
-
-            const maxHeight = Math.max(...displayEntries.map(([, v]) => v.planted.length + v.tended.length), 1);
-            const padding = { top: 20, bottom: 40, left: 10, right: 10 };
-            const chartW = W - padding.left - padding.right;
-            const chartH = H - padding.top - padding.bottom;
-            const barW = Math.max(4, chartW / displayEntries.length - 2);
-            const gap = (chartW - barW * displayEntries.length) / displayEntries.length;
-
-            const styles = getComputedStyle(document.documentElement);
-            const textColor = styles.getPropertyValue('--text').trim() || '#000';
-            const bgColor = styles.getPropertyValue('--bg').trim() || '#fff';
-            const subtleColor = styles.getPropertyValue('--gray-subtle').trim() || '#e5e5e5';
-
-            // Animation
-            const bars = [];
-            displayEntries.forEach(([key, val], i) => {
-                const plantedH = (val.planted.length / maxHeight) * chartH;
-                const tendedH = (val.tended.length / maxHeight) * chartH;
-                const x = padding.left + i * (barW + gap);
-                bars.push({
-                    key, x, plantedH, tendedH,
-                    currentPlantedH: 0, currentTendedH: 0,
-                    items: [...val.planted, ...val.tended]
-                });
-            });
-            this._bars = bars;
-
-            let frame = 0;
-            const totalFrames = 60;
-            const staggerMs = 8;
-
-            const easeOutQuad = t => t * (2 - t);
-
-            const animate = () => {
-                ctx.clearRect(0, 0, W, H);
-
-                // Year markers
-                let lastYear = '';
-                displayEntries.forEach(([key], i) => {
-                    const year = key.split('-')[0];
-                    if (year !== lastYear) {
-                        lastYear = year;
-                        const x = padding.left + i * (barW + gap);
-                        ctx.beginPath();
-                        ctx.setLineDash([4, 4]);
-                        ctx.moveTo(x, padding.top);
-                        ctx.lineTo(x, H - padding.bottom);
-                        ctx.strokeStyle = subtleColor;
-                        ctx.lineWidth = 1;
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-                        ctx.fillStyle = textColor;
-                        ctx.font = '10px -apple-system, sans-serif';
-                        ctx.textAlign = 'center';
-                        ctx.fillText(year, x + barW / 2, H - padding.bottom + 16);
-                    }
-                });
-
-                // Draw bars
-                bars.forEach((bar, i) => {
-                    const barFrame = Math.max(0, frame - i * (staggerMs / 16));
-                    const progress = easeOutQuad(Math.min(1, barFrame / totalFrames));
-                    bar.currentPlantedH = bar.plantedH * progress;
-                    bar.currentTendedH = bar.tendedH * progress;
-
-                    const baseY = H - padding.bottom;
-                    // Planted bar (filled)
-                    if (bar.currentPlantedH > 0) {
-                        ctx.fillStyle = textColor;
-                        ctx.fillRect(bar.x, baseY - bar.currentPlantedH, barW, bar.currentPlantedH);
-                    }
-                    // Tended bar (outlined, stacked on top)
-                    if (bar.currentTendedH > 0) {
-                        ctx.strokeStyle = textColor;
-                        ctx.lineWidth = 1.5;
-                        ctx.strokeRect(bar.x, baseY - bar.currentPlantedH - bar.currentTendedH, barW, bar.currentTendedH);
-                    }
-                });
-
-                frame++;
-                if (frame < totalFrames + bars.length * (staggerMs / 16) + 10) {
-                    this._animRaf = requestAnimationFrame(animate);
-                }
-            };
-
-            this._animRaf = requestAnimationFrame(animate);
-            this._ctx = ctx;
-            this._W = W;
-            this._H = H;
-
-            // Hover
-            canvas.addEventListener('mousemove', this._onMouseMove = (e) => {
-                const r = canvas.getBoundingClientRect();
-                const mx = e.clientX - r.left;
-                const my = e.clientY - r.top;
-                const hit = bars.find(b => mx >= b.x && mx <= b.x + barW && my >= padding.top && my <= H - padding.bottom);
-                if (hit && hit.items.length > 0) {
-                    this.tooltipData = {
-                        x: Math.min(hit.x + barW + 10, W - 260),
-                        y: Math.max(20, my - 30),
-                        month: hit.key,
-                        items: hit.items.slice(0, 6)
-                    };
-                    // Highlight column
-                    if (this._ctx) {
-                        animate(); // redraw
-                        this._ctx.fillStyle = textColor;
-                        this._ctx.globalAlpha = 0.05;
-                        this._ctx.fillRect(hit.x - 2, padding.top, barW + 4, chartH);
-                        this._ctx.globalAlpha = 1;
-                    }
-                } else {
-                    this.tooltipData = null;
-                }
-            });
-            canvas.addEventListener('mouseleave', this._onMouseLeave = () => {
-                this.tooltipData = null;
-            });
-        }
-    },
-    mounted() {
-        this.$nextTick(() => this.initTimeline());
-    },
-    beforeUnmount() {
-        if (this._animRaf) cancelAnimationFrame(this._animRaf);
-        const canvas = this.$refs.timelineCanvas;
-        if (canvas) {
-            canvas.removeEventListener('mousemove', this._onMouseMove);
-            canvas.removeEventListener('mouseleave', this._onMouseLeave);
-        }
-    }
-};
-
-// Router
+// ---- router ----
+const routes = [
+    { path: '/', component: Home },
+    { path: '/words', component: WordsIndex },
+    { path: '/words/:word', component: WordDetail },
+    { path: '/projects', component: ProjectsIndex },
+    { path: '/learn', component: LearnIndex },
+    { path: '/notes/:noteId', component: NoteDetail },
+    { path: '/about', component: About },
+    { path: '/:pathMatch(.*)*', component: NotFound }
+];
 const router = createRouter({
     history: createWebHistory(),
-    routes: [
-        { path: '/', component: Home },
-        { path: '/words/:word', component: WordPage },
-        { path: '/notes/:noteId', component: NotePage },
-        { path: '/garden', component: GardenMap },
-        { path: '/timeline', component: TimelinePage },
-        { path: '/:pathMatch(.*)*', component: NotFound }
-    ],
-    scrollBehavior() {
-        return { top: 0 };
-    }
+    routes,
+    linkActiveClass: 'rl-active',
+    scrollBehavior() { return { top: 0 }; }
 });
 
-// Scroll #app to top on route change (delayed to sync with transition)
-router.afterEach(() => {
-    setTimeout(() => { document.getElementById('app').scrollTop = 0; }, 210);
-});
-
-// Expose router for inline links
-window.__gardenRouter = router;
-
-// Dark mode
-function initDarkMode() {
-    if (localStorage.getItem('dark-mode') === 'true') {
-        document.body.classList.add('dark');
-    }
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark');
-    localStorage.setItem('dark-mode', document.body.classList.contains('dark'));
-}
-initDarkMode();
-
-// Root App component
-const App = {
-    template: `<div><search-palette ref="search"></search-palette><preview-card></preview-card><router-view v-slot="{ Component }"><transition name="page" mode="out-in"><component :is="Component" :key="$route.fullPath" /></transition></router-view></div>`
-};
-
-// App
 const app = createApp(App);
-app.component('search-palette', SearchPalette);
-app.component('preview-card', PreviewCard);
-
-// Scroll reveal directive
-app.directive('scroll-reveal', {
-    mounted(el, binding) {
-        const delay = binding.value?.delay || 0;
-        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReduced) {
-            el.classList.add('revealed');
-            return;
-        }
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => el.classList.add('revealed'), delay * 1000);
-                    observer.unobserve(el);
-                }
-            });
-        }, { threshold: 0.1 });
-        observer.observe(el);
-        el._scrollRevealObserver = observer;
-    },
-    unmounted(el) {
-        el._scrollRevealObserver?.disconnect();
-    }
-});
-
+app.config.globalProperties.ICO = ICO;
+app.config.globalProperties.fmtDate = fmtDate;
 app.use(router);
-const vm = app.mount('#app');
 
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    if (e.key === '/' || (e.key === 'k' && (e.metaKey || e.ctrlKey))) {
-        e.preventDefault();
-        window.__gardenSearch?.open();
-        return;
+// theme init before mount
+try {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
     }
-    if (e.key === 'Escape') {
-        if (window.__gardenSearch?.isOpen) { window.__gardenSearch.close(); return; }
-        router.push('/');
-        return;
-    }
-    if (e.key === 'w') {
-        const words = ALL_WORDS();
-        router.push('/words/' + words[Math.floor(Math.random() * words.length)]);
-        return;
-    }
-    if (e.key === '[' || e.key === ']') {
-        const route = router.currentRoute.value;
-        if (!route.params.word) return;
-        const chips = document.querySelectorAll('.connections-section .chip');
-        if (chips.length === 0) return;
-        const currentActive = document.querySelector('.connections-section .chip:focus');
-        let idx = currentActive ? Array.from(chips).indexOf(currentActive) : -1;
-        if (e.key === ']') idx = (idx + 1) % chips.length;
-        else idx = (idx - 1 + chips.length) % chips.length;
-        chips[idx]?.focus();
-        return;
-    }
-});
+} catch (e) {}
+
+const vm = app.mount('#app');
+// sync toggle state with whatever theme init applied
+vm.dark = document.documentElement.classList.contains('dark');
 </script>
 </body>
 </html>
