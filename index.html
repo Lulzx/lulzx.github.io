@@ -176,9 +176,9 @@ html.dark .ink-img { mix-blend-mode: screen; filter: invert(.93) contrast(1.02) 
 
 /* ---------- footer ---------- */
 .site-footer { position: relative; margin-top: 5rem; border-top: 1px solid var(--line); overflow: hidden; min-height: 390px; }
-.footer-art { position: absolute; left: 0; right: 0; bottom: 0; height: 80%; background: url("assets/ink/water.webp") center 58% / 118% auto no-repeat; opacity: 1; mix-blend-mode: multiply; filter: contrast(1.25) saturate(.45); -webkit-mask-image: linear-gradient(transparent 0%, #000 32%, #000 100%); mask-image: linear-gradient(transparent 0%, #000 32%, #000 100%); pointer-events: none; }
+.footer-art { position: absolute; left: 0; right: 0; bottom: 0; height: 80%; background: url("/assets/ink/water.webp") center 58% / 118% auto no-repeat; opacity: 1; mix-blend-mode: multiply; filter: contrast(1.25) saturate(.45); -webkit-mask-image: linear-gradient(transparent 0%, #000 32%, #000 100%); mask-image: linear-gradient(transparent 0%, #000 32%, #000 100%); pointer-events: none; }
 html.dark .footer-art { mix-blend-mode: screen; filter: invert(.93) contrast(1.2) brightness(1.04); opacity: .5; }
-.footer-plum { position: absolute; right: 0; bottom: 0; width: 300px; max-width: 40vw; background: url("assets/ink/plum.webp") right bottom / contain no-repeat; mix-blend-mode: multiply; opacity: .95; pointer-events: none; aspect-ratio: 900 / 1200; }
+.footer-plum { position: absolute; right: 0; bottom: 0; width: 300px; max-width: 40vw; background: url("/assets/ink/plum.webp") right bottom / contain no-repeat; mix-blend-mode: multiply; opacity: .95; pointer-events: none; aspect-ratio: 900 / 1200; }
 html.dark .footer-plum { mix-blend-mode: screen; filter: invert(.93) brightness(1.05); opacity: .5; }
 @media (max-width: 620px) { .footer-plum { width: 180px; opacity: .85; } }
 .footer-inner { position: relative; z-index: 1; padding: 3.2rem 0 0; display: grid; grid-template-columns: 2.1fr 1fr 1fr 1fr; gap: 2.4rem; }
@@ -1400,7 +1400,7 @@ const Home = {
       </div>
     </div>
     <div class="hero-art">
-      <img class="ink-img" src="assets/ink/fuji.webp" width="1100" height="825" alt="Ink-wash painting of Mount Fuji with a pine on the shore">
+      <img class="ink-img" src="/assets/ink/fuji.webp" width="1100" height="825" alt="Ink-wash painting of Mount Fuji with a pine on the shore">
     </div>
   </section>
 
@@ -1692,7 +1692,7 @@ const routes = [
     { path: '/words', component: WordsIndex },
     { path: '/words/:word', component: WordDetail },
     { path: '/projects', component: ProjectsIndex },
-    { path: '/learn', component: LearnIndex },
+    { path: '/learn', component: LearnIndex, alias: '/learn/' },
     { path: '/learn/:noteId', component: NoteDetail },
     { path: '/notes/:noteId', redirect: to => '/learn/' + to.params.noteId },
     { path: '/about', component: About },
