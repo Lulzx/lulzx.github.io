@@ -247,31 +247,25 @@
       margin: 0 0 2.2rem;
     }
 
-    /* ---------- grid ---------- */
+    /* ---------- grid (full-bleed masonry) ---------- */
     .grid {
       position: relative;
       z-index: 1;
       column-count: 4;
       column-gap: 0;
       line-height: 0;
-      padding-bottom: 4rem;
+      padding-bottom: 3rem;
+    }
+
+    @media (min-width: 1600px) {
+      .grid {
+        column-count: 5;
+      }
     }
 
     @media (max-width: 1100px) {
       .grid {
         column-count: 3;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .grid {
-        column-count: 2;
-      }
-    }
-
-    @media (max-width: 440px) {
-      .grid {
-        column-count: 1;
       }
     }
 
@@ -282,6 +276,7 @@
       cursor: pointer;
       line-height: 0;
       background: var(--paper-2);
+      aspect-ratio: var(--ar);
     }
 
     .grid-item img {
@@ -290,7 +285,31 @@
       object-fit: cover;
       display: block;
       filter: brightness(.6) saturate(.9);
-      transition: filter .5s ease;
+      transition: filter .5s ease, transform .6s ease;
+    }
+
+    .grid-item:hover img {
+      filter: brightness(1) saturate(1);
+    }
+
+    /* phones: Instagram-style uniform 3-up square grid, full brightness (no hover) */
+    @media (max-width: 760px) {
+      .grid {
+        column-count: unset;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+        line-height: normal;
+        padding-bottom: 2rem;
+      }
+
+      .grid-item {
+        aspect-ratio: 1 / 1;
+      }
+
+      .grid-item img {
+        filter: none;
+      }
     }
 
     .grid-item:hover img {
@@ -416,6 +435,21 @@
     }
 
     @media (max-width: 640px) {
+      .header-inner {
+        height: 60px;
+      }
+
+      .page-head {
+        padding: 2.4rem 0 1.4rem;
+      }
+
+      .page-head p {
+        font-size: 1rem;
+      }
+
+      .rule {
+        margin-bottom: 1.4rem;
+      }
 
       .lb-close,
       .lb-arrow {
@@ -478,12 +512,13 @@
     <div class="page-head">
       <div class="eyebrow">gallery</div>
       <h1>Things caught by the eye</h1>
-      <p>A quiet collection. Click any frame to look closer; arrow keys to drift through.</p>
+      <p>A quiet collection. Tap any frame to look closer; swipe or arrow keys to drift through.</p>
     </div>
     <div class="rule"></div>
     <div class="loading" id="loading">gathering images&hellip;</div>
-    <div class="grid" id="grid"></div>
   </div>
+
+  <div class="grid" id="grid"></div>
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox">
@@ -550,7 +585,7 @@
       images.forEach((img, i) => {
         const item = document.createElement('div');
         item.className = 'grid-item';
-        if (img.w && img.h) item.style.aspectRatio = img.w + ' / ' + img.h;
+        if (img.w && img.h) item.style.setProperty('--ar', img.w + ' / ' + img.h);
         item.innerHTML = `<img src="${url(img.thumb)}" alt="" loading="lazy" decoding="async">`;
         item.addEventListener('click', () => openLightbox(i));
         frag.appendChild(item);
@@ -624,6 +659,21 @@
       if (e.key === 'ArrowLeft') navigate(-1);
       if (e.key === 'ArrowRight') navigate(1);
     });
+
+    // touch: swipe horizontally to navigate, swipe down to close
+    let touchX = 0, touchY = 0;
+    lightbox.addEventListener('touchstart', (e) => {
+      if (isZoomed) return;
+      touchX = e.changedTouches[0].clientX;
+      touchY = e.changedTouches[0].clientY;
+    }, { passive: true });
+    lightbox.addEventListener('touchend', (e) => {
+      if (isZoomed) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      const dy = e.changedTouches[0].clientY - touchY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) navigate(dx < 0 ? 1 : -1);
+      else if (dy > 80 && Math.abs(dy) > Math.abs(dx)) closeLightbox();
+    }, { passive: true });
 
     init();
   </script>
