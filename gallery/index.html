@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gallery &middot; lulzx.com</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(30)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(60)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(120)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(150)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(210)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(240)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(300)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(330)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0a0a;
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 32px;
+      pointer-events: none;
+      mix-blend-mode: difference;
+    }
+
+    .logo,
+    .home-link {
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: lowercase;
+      color: #fff;
+      pointer-events: auto;
+      text-decoration: none;
+    }
+
+    .home-link {
+      font-size: 15px;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .home-link:hover {
+      opacity: 1;
+    }
+
+    /* Grid */
+    .grid {
+      column-count: 4;
+      column-gap: 0;
+      line-height: 0;
+    }
+
+    .grid-item {
+      break-inside: avoid;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      line-height: 0;
+    }
+
+    .grid-item img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: filter 0.5s ease;
+      filter: brightness(0.6) saturate(0.9);
+    }
+
+    .grid-item:hover img {
+      filter: brightness(1) saturate(1);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.95);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      animation: lbFadeIn 0.3s ease;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+
+    .lightbox.zoomed img {
+      max-width: none;
+      max-height: none;
+      width: 180%;
+      cursor: grab;
+      transition: none;
+    }
+
+    @keyframes lbFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-size: 32px;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: color 0.3s;
+      background: none;
+      border: none;
+      font-family: inherit;
+      line-height: 1;
+    }
+
+    .lb-close:hover {
+      color: #fff;
+    }
+
+    .lb-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 36px;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: color 0.3s;
+      background: none;
+      border: none;
+      padding: 20px;
+      font-family: inherit;
+    }
+
+    .lb-arrow:hover {
+      color: #fff;
+    }
+
+    .lb-prev {
+      left: 16px;
+    }
+
+    .lb-next {
+      right: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .grid {
+        column-count: 3;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        column-count: 2;
+      }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a class="home-link" href="/">&larr; lulzx.com</a>
+    <div class="logo">gallery</div>
+  </header>
+
+  <div class="grid" id="grid"></div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lbClose">&times;</button>
+    <button class="lb-arrow lb-prev" id="lbPrev">&#8592;</button>
+    <button class="lb-arrow lb-next" id="lbNext">&#8594;</button>
+    <img id="lbImg" src="" alt="">
+  </div>
+
+  <script>
+    // Images are hosted on the original Cloudflare Pages origin and referenced remotely.
+    const ORIGIN = 'https://kek3141.pages.dev';
+    const url = (p) => ORIGIN + p;
+
+    let images = [];
+    let currentIndex = 0;
+    let isZoomed = false;
+
+    const grid = document.getElementById('grid');
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+
+    async function init() {
+      const res = await fetch(url('/images.json'));
+      images = await res.json();
+      grid.innerHTML = '';
+      images.forEach((img, i) => {
+        const item = document.createElement('div');
+        item.className = 'grid-item';
+        item.innerHTML = `<img src="${url(img.thumb)}" alt="" loading="lazy" decoding="async">`;
+        item.addEventListener('click', () => openLightbox(i));
+        grid.appendChild(item);
+      });
+    }
+
+    function openLightbox(index) {
+      currentIndex = index;
+      lbImg.src = url(images[index].medium);
+      lightbox.classList.add('active');
+      lightbox.classList.remove('zoomed');
+      isZoomed = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active', 'zoomed');
+      isZoomed = false;
+      lbImg.style.transform = '';
+      document.body.style.overflow = '';
+    }
+
+    function navigate(dir) {
+      lightbox.classList.remove('zoomed');
+      isZoomed = false;
+      lbImg.style.transform = '';
+      currentIndex = (currentIndex + dir + images.length) % images.length;
+      lbImg.src = url(images[currentIndex].medium);
+    }
+
+    function toggleZoom(e) {
+      isZoomed = !isZoomed;
+      if (isZoomed) {
+        lightbox.classList.add('zoomed');
+        panImage(e);
+      } else {
+        lightbox.classList.remove('zoomed');
+        lbImg.style.transform = '';
+      }
+    }
+
+    function panImage(e) {
+      if (!isZoomed) return;
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      lbImg.style.transform = `translate(${(0.5 - x) * 80}%, ${(0.5 - y) * 80}%)`;
+    }
+
+    lbImg.addEventListener('click', (e) => { e.stopPropagation(); toggleZoom(e); });
+    lightbox.addEventListener('mousemove', panImage);
+    document.getElementById('lbClose').addEventListener('click', closeLightbox);
+    document.getElementById('lbPrev').addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
+    document.getElementById('lbNext').addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        if (isZoomed) { isZoomed = false; lightbox.classList.remove('zoomed'); lbImg.style.transform = ''; }
+        else closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') { if (isZoomed) { isZoomed = false; lightbox.classList.remove('zoomed'); lbImg.style.transform = ''; } else closeLightbox(); }
+      if (e.key === 'ArrowLeft') navigate(-1);
+      if (e.key === 'ArrowRight') navigate(1);
+    });
+
+    init();
+  </script>
+</body>
+
+</html>

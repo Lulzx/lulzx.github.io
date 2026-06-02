@@ -1680,6 +1680,7 @@ const App = {
       <div class="nav-wrap">
         <nav class="nav" :class="{ open: menuOpen }">
           <router-link v-for="n in NAV" :key="n.to" :to="n.to" :class="{ active: isActive(n) }">{{ n.label }}</router-link>
+          <a href="/gallery/">gallery</a>
         </nav>
         <button class="theme-toggle" @click="toggleTheme" :aria-label="dark ? 'Switch to light' : 'Switch to dark'"><span v-html="dark ? ICO.sun : ICO.moon"></span></button>
         <button class="menu-btn" @click="menuOpen = !menuOpen" aria-label="Menu" v-html="ICO.menu"></button>
@@ -1709,6 +1710,7 @@ const App = {
           <router-link to="/projects">projects</router-link>
           <router-link to="/learn">learn</router-link>
           <router-link to="/about">about</router-link>
+          <a href="/gallery/">gallery</a>
         </div>
         <div class="fcol">
           <h4>Topics</h4>
