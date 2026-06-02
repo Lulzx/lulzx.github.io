@@ -5,9 +5,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>gallery &middot; lulzx.com</title>
+  <meta name="description" content="A quiet gallery of images. Minimal by default.">
+  <meta name="theme-color" content="#f3efe6">
   <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(30)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(60)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(120)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(150)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(210)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(240)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(300)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(330)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap');
+    :root {
+      --paper: #f3efe6;
+      --paper-2: #ece6d8;
+      --card: #faf7f0;
+      --ink: #2a2622;
+      --ink-soft: #4d473d;
+      --muted: #7d7666;
+      --faint: #a69e8d;
+      --line: #ddd6c6;
+      --line-strong: #c8bda7;
+      --seal: #a8432f;
+      --shadow: 0 14px 34px -22px rgba(42, 38, 34, 0.4);
+      --serif: 'Spectral', Georgia, 'Times New Roman', serif;
+      --maxw: 1180px;
+    }
+
+    html.dark {
+      --paper: #16140f;
+      --paper-2: #1d1a14;
+      --card: #1e1b15;
+      --ink: #ece5d6;
+      --ink-soft: #d2cab8;
+      --muted: #9a9283;
+      --faint: #6e6757;
+      --line: #312c23;
+      --line-strong: #423c30;
+      --seal: #cc6450;
+      --shadow: 0 16px 40px -22px rgba(0, 0, 0, 0.7);
+    }
 
     * {
       margin: 0;
@@ -15,82 +48,280 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background: #0a0a0a;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--serif);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
       overflow-x: hidden;
+      transition: background .5s ease, color .5s ease;
     }
 
-    /* Header */
-    header {
+    /* paper grain */
+    body::before {
+      content: "";
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 32px;
+      inset: 0;
+      z-index: 0;
       pointer-events: none;
-      mix-blend-mode: difference;
+      opacity: .04;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    .logo,
-    .home-link {
-      font-size: 20px;
-      font-weight: 300;
-      letter-spacing: 0.18em;
-      text-transform: lowercase;
-      color: #fff;
-      pointer-events: auto;
+    html.dark body::before {
+      opacity: .06;
+    }
+
+    a {
+      color: inherit;
       text-decoration: none;
     }
 
-    .home-link {
-      font-size: 15px;
-      opacity: 0.7;
-      transition: opacity 0.3s;
+    ::selection {
+      background: var(--ink);
+      color: var(--paper);
     }
 
-    .home-link:hover {
-      opacity: 1;
+    img {
+      max-width: 100%;
+      display: block;
     }
 
-    /* Grid */
+    .container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 34px;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 20px;
+      }
+    }
+
+    /* ---------- header ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: color-mix(in srgb, var(--paper) 86%, transparent);
+      backdrop-filter: saturate(1.2) blur(10px);
+      -webkit-backdrop-filter: saturate(1.2) blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 74px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .62rem;
+      font-size: 1.28rem;
+      font-weight: 500;
+      letter-spacing: -.01em;
+    }
+
+    .brand .seal {
+      width: 27px;
+      height: 27px;
+      color: var(--ink);
+      flex: none;
+    }
+
+    .brand .seal .center {
+      fill: var(--paper);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+    }
+
+    .nav a {
+      font-size: .98rem;
+      color: var(--muted);
+      position: relative;
+      padding: .2rem 0;
+      transition: color .2s ease;
+    }
+
+    .nav a:hover {
+      color: var(--ink);
+    }
+
+    .nav a.here {
+      color: var(--ink);
+    }
+
+    .nav a.here::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -3px;
+      height: 1px;
+      background: var(--ink);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      transition: color .2s ease, background .2s ease;
+    }
+
+    .theme-toggle:hover {
+      color: var(--ink);
+      background: var(--paper-2);
+    }
+
+    .theme-toggle svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    /* ---------- page intro ---------- */
+    .page-head {
+      position: relative;
+      z-index: 1;
+      padding: 4.4rem 0 2.4rem;
+    }
+
+    .page-head .eyebrow {
+      font-size: .82rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--seal);
+      margin-bottom: .9rem;
+    }
+
+    .page-head h1 {
+      font-size: clamp(2.3rem, 5vw, 3.2rem);
+      font-weight: 500;
+      letter-spacing: -.015em;
+      line-height: 1.08;
+    }
+
+    .page-head p {
+      margin-top: 1rem;
+      max-width: 48ch;
+      color: var(--muted);
+      font-size: 1.06rem;
+      font-style: italic;
+    }
+
+    .rule {
+      height: 1px;
+      background: var(--line);
+      margin: 0 0 2.2rem;
+    }
+
+    /* ---------- grid ---------- */
     .grid {
+      position: relative;
+      z-index: 1;
       column-count: 4;
-      column-gap: 0;
-      line-height: 0;
+      column-gap: 16px;
+      padding-bottom: 4rem;
+    }
+
+    @media (max-width: 1100px) {
+      .grid {
+        column-count: 3;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .grid {
+        column-count: 2;
+        column-gap: 12px;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .grid {
+        column-count: 1;
+      }
     }
 
     .grid-item {
       break-inside: avoid;
+      margin: 0 0 16px;
       position: relative;
       overflow: hidden;
       cursor: pointer;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      box-shadow: var(--shadow);
       line-height: 0;
     }
 
     .grid-item img {
-      display: block;
       width: 100%;
       height: auto;
-      transition: filter 0.5s ease;
-      filter: brightness(0.6) saturate(0.9);
+      filter: grayscale(.22) contrast(.97) brightness(.99);
+      transition: filter .5s ease, transform .6s cubic-bezier(.2, .7, .2, 1);
     }
 
     .grid-item:hover img {
-      filter: brightness(1) saturate(1);
+      filter: none;
+      transform: scale(1.035);
     }
 
-    /* Lightbox */
+    /* warm ink veil that lifts on hover */
+    .grid-item::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--ink);
+      opacity: .06;
+      pointer-events: none;
+      transition: opacity .5s ease;
+    }
+
+    .grid-item:hover::after {
+      opacity: 0;
+    }
+
+    .loading {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+      padding: 3rem 0 5rem;
+    }
+
+    /* ---------- lightbox ---------- */
     .lightbox {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 1000;
-      background: rgba(0, 0, 0, 0.95);
+      background: color-mix(in srgb, var(--paper) 12%, rgba(8, 6, 4, 0.92));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       justify-content: center;
       align-items: center;
     }
@@ -100,12 +331,14 @@
     }
 
     .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
+      max-width: 88vw;
+      max-height: 86vh;
       object-fit: contain;
-      animation: lbFadeIn 0.3s ease;
+      border-radius: 3px;
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .8);
+      animation: lbFadeIn .35s ease;
       cursor: zoom-in;
-      transition: transform 0.3s ease;
+      transition: transform .3s ease;
     }
 
     .lightbox.zoomed img {
@@ -119,7 +352,7 @@
     @keyframes lbFadeIn {
       from {
         opacity: 0;
-        transform: scale(0.97);
+        transform: scale(.97);
       }
 
       to {
@@ -128,64 +361,84 @@
       }
     }
 
-    .lb-close {
+    .lb-btn {
       position: absolute;
-      top: 24px;
-      right: 32px;
-      font-size: 32px;
-      color: rgba(255, 255, 255, 0.7);
+      background: color-mix(in srgb, var(--paper) 90%, transparent);
+      border: 1px solid var(--line-strong);
+      color: var(--ink-soft);
       cursor: pointer;
-      transition: color 0.3s;
-      background: none;
-      border: none;
-      font-family: inherit;
+      font-family: var(--serif);
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      transition: color .25s ease, background .25s ease, border-color .25s ease;
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+
+    .lb-btn:hover {
+      color: var(--seal);
+      border-color: var(--seal);
+    }
+
+    .lb-close {
+      top: 24px;
+      right: 28px;
+      width: 44px;
+      height: 44px;
+      font-size: 24px;
       line-height: 1;
     }
 
-    .lb-close:hover {
-      color: #fff;
-    }
-
     .lb-arrow {
-      position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 36px;
-      color: rgba(255, 255, 255, 0.5);
-      cursor: pointer;
-      transition: color 0.3s;
-      background: none;
-      border: none;
-      padding: 20px;
-      font-family: inherit;
-    }
-
-    .lb-arrow:hover {
-      color: #fff;
+      width: 52px;
+      height: 52px;
+      font-size: 26px;
     }
 
     .lb-prev {
-      left: 16px;
+      left: 24px;
     }
 
     .lb-next {
-      right: 16px;
+      right: 24px;
     }
 
-    /* Responsive */
-    @media (max-width: 1200px) {
-      .grid {
-        column-count: 3;
+    .lb-count {
+      position: absolute;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--ink-soft);
+      font-size: .95rem;
+      letter-spacing: .16em;
+      background: color-mix(in srgb, var(--paper) 90%, transparent);
+      border: 1px solid var(--line-strong);
+      padding: .35rem 1rem;
+      border-radius: 999px;
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 640px) {
+
+      .lb-close,
+      .lb-arrow {
+        width: 40px;
+        height: 40px;
+      }
+
+      .lb-prev {
+        left: 12px;
+      }
+
+      .lb-next {
+        right: 12px;
       }
     }
 
-    @media (max-width: 800px) {
-      .grid {
-        column-count: 2;
-      }
-    }
-
-    /* Scrollbar */
     ::-webkit-scrollbar {
       width: 0;
     }
@@ -194,23 +447,88 @@
 
 <body>
 
-  <header>
-    <a class="home-link" href="/">&larr; lulzx.com</a>
-    <div class="logo">gallery</div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <svg class="seal" viewBox="-50 -50 100 100">
+          <g fill="currentColor">
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(30)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(60)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(90)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(120)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(150)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(180)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(210)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(240)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(270)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(300)" />
+            <ellipse cx="0" cy="-30" rx="6.5" ry="15" transform="rotate(330)" />
+          </g>
+          <circle r="13" fill="currentColor" />
+          <circle class="center" r="6.5" />
+        </svg>
+        lulzx.com
+      </a>
+      <nav class="nav">
+        <a href="/words">words</a>
+        <a href="/projects">projects</a>
+        <a href="/learn">learn</a>
+        <a href="/about">about</a>
+        <a href="/gallery/" class="here">gallery</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+      </nav>
+    </div>
   </header>
 
-  <div class="grid" id="grid"></div>
+  <div class="container">
+    <div class="page-head">
+      <div class="eyebrow">gallery</div>
+      <h1>Things caught by the eye</h1>
+      <p>A quiet collection. Click any frame to look closer; arrow keys to drift through.</p>
+    </div>
+    <div class="rule"></div>
+    <div class="loading" id="loading">gathering images&hellip;</div>
+    <div class="grid" id="grid"></div>
+  </div>
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox">
-    <button class="lb-close" id="lbClose">&times;</button>
-    <button class="lb-arrow lb-prev" id="lbPrev">&#8592;</button>
-    <button class="lb-arrow lb-next" id="lbNext">&#8594;</button>
+    <button class="lb-btn lb-close" id="lbClose">&times;</button>
+    <button class="lb-btn lb-arrow lb-prev" id="lbPrev">&#8592;</button>
+    <button class="lb-btn lb-arrow lb-next" id="lbNext">&#8594;</button>
     <img id="lbImg" src="" alt="">
+    <div class="lb-count" id="lbCount"></div>
   </div>
 
   <script>
-    // Images are hosted on the original Cloudflare Pages origin and referenced remotely.
+    // ----- theme (shares the main site's persisted preference) -----
+    const SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4 6.4 17.6M17.6 6.4 19.4 4.6"/></svg>';
+    const MOON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>';
+    const toggleBtn = document.getElementById('themeToggle');
+
+    function applyTheme(dark) {
+      document.documentElement.classList.toggle('dark', dark);
+      toggleBtn.innerHTML = dark ? SUN : MOON;
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', dark ? '#16140f' : '#f3efe6');
+    }
+
+    let dark = false;
+    try {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      dark = saved === 'dark' || (!saved && prefersDark);
+    } catch (e) { }
+    applyTheme(dark);
+
+    toggleBtn.addEventListener('click', () => {
+      dark = !dark;
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) { }
+    });
+
+    // ----- gallery (images served from the original Cloudflare Pages origin) -----
     const ORIGIN = 'https://kek3141.pages.dev';
     const url = (p) => ORIGIN + p;
 
@@ -219,25 +537,39 @@
     let isZoomed = false;
 
     const grid = document.getElementById('grid');
+    const loading = document.getElementById('loading');
     const lightbox = document.getElementById('lightbox');
     const lbImg = document.getElementById('lbImg');
+    const lbCount = document.getElementById('lbCount');
 
     async function init() {
-      const res = await fetch(url('/images.json'));
-      images = await res.json();
-      grid.innerHTML = '';
+      try {
+        const res = await fetch(url('/images.json'));
+        images = await res.json();
+      } catch (e) {
+        loading.textContent = 'could not load images.';
+        return;
+      }
+      loading.style.display = 'none';
+      const frag = document.createDocumentFragment();
       images.forEach((img, i) => {
         const item = document.createElement('div');
         item.className = 'grid-item';
         item.innerHTML = `<img src="${url(img.thumb)}" alt="" loading="lazy" decoding="async">`;
         item.addEventListener('click', () => openLightbox(i));
-        grid.appendChild(item);
+        frag.appendChild(item);
       });
+      grid.appendChild(frag);
+    }
+
+    function setImg() {
+      lbImg.src = url(images[currentIndex].medium);
+      lbCount.textContent = `${currentIndex + 1} / ${images.length}`;
     }
 
     function openLightbox(index) {
       currentIndex = index;
-      lbImg.src = url(images[index].medium);
+      setImg();
       lightbox.classList.add('active');
       lightbox.classList.remove('zoomed');
       isZoomed = false;
@@ -256,7 +588,7 @@
       isZoomed = false;
       lbImg.style.transform = '';
       currentIndex = (currentIndex + dir + images.length) % images.length;
-      lbImg.src = url(images[currentIndex].medium);
+      setImg();
     }
 
     function toggleZoom(e) {
