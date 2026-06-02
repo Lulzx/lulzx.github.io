@@ -241,7 +241,8 @@
       position: relative;
       z-index: 1;
       column-count: 4;
-      column-gap: 16px;
+      column-gap: 0;
+      line-height: 0;
       padding-bottom: 4rem;
     }
 
@@ -254,7 +255,6 @@
     @media (max-width: 760px) {
       .grid {
         column-count: 2;
-        column-gap: 12px;
       }
     }
 
@@ -266,42 +266,21 @@
 
     .grid-item {
       break-inside: avoid;
-      margin: 0 0 16px;
       position: relative;
       overflow: hidden;
       cursor: pointer;
-      border-radius: 4px;
-      border: 1px solid var(--line);
-      background: var(--card);
-      box-shadow: var(--shadow);
       line-height: 0;
     }
 
     .grid-item img {
       width: 100%;
       height: auto;
-      filter: grayscale(.22) contrast(.97) brightness(.99);
-      transition: filter .5s ease, transform .6s cubic-bezier(.2, .7, .2, 1);
+      filter: brightness(.6) saturate(.9);
+      transition: filter .5s ease;
     }
 
     .grid-item:hover img {
-      filter: none;
-      transform: scale(1.035);
-    }
-
-    /* warm ink veil that lifts on hover */
-    .grid-item::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: var(--ink);
-      opacity: .06;
-      pointer-events: none;
-      transition: opacity .5s ease;
-    }
-
-    .grid-item:hover::after {
-      opacity: 0;
+      filter: brightness(1) saturate(1);
     }
 
     .loading {
