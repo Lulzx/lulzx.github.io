@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>semver, but 30x faster — lulzx</title>
+<meta name="description" content="Every npm install parses version strings. Thousands of them. Installing preact alone calls semver 21,000 times. One package. The semver package has 150 mil">
+<meta property="og:title" content="semver, but 30x faster">
+<meta property="og:description" content="Every npm install parses version strings. Thousands of them. Installing preact alone calls semver 21,000 times. One package. The semver package has 150 mil">
+<meta property="og:type" content="article">
+<link rel="canonical" href="https://lulzx.com/learn/semver-30x-faster">
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f3efe6;--paper2:#ece6d8;--ink:#2a2622;--ink-soft:#4d473d;--muted:#7d7666;--faint:#a69e8d;--line:#ddd6c6;--line-strong:#c8bda7;--serif:'Spectral',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace}
+html.dark{--paper:#16140f;--paper2:#1d1a14;--ink:#ece5d6;--ink-soft:#d2cab8;--muted:#9a9283;--faint:#6e6757;--line:#312c23;--line-strong:#423c30}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--serif);background:var(--paper);color:var(--ink);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line)}
+.hin{max-width:1180px;margin:0 auto;padding:0 24px;height:74px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:inline-flex;align-items:center;gap:.6rem;font-size:1.25rem;font-weight:500;color:var(--ink);text-decoration:none}
+.brand img{width:26px;height:26px}
+.hin a.learn{color:var(--muted);text-decoration:none;font-size:.95rem}
+.hin a.learn:hover{color:var(--ink)}
+main{padding:2.6rem 0 1rem;min-height:60vh}
+.back{display:inline-flex;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.92rem;margin-bottom:2rem}
+.back:hover{color:var(--ink)}
+h1.t{font-weight:400;font-size:clamp(2rem,5vw,2.9rem);letter-spacing:-.02em;line-height:1.1}
+.meta{display:flex;flex-wrap:wrap;gap:1.3rem;align-items:center;margin-top:1.3rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.badge{border:1px solid var(--line-strong);padding:.3rem .8rem;border-radius:2px;color:var(--ink-soft);letter-spacing:.12em}
+.badge.seed{border-style:dashed}.badge.evergreen{border-style:double;border-width:3px}
+article{margin-top:2.4rem}
+article p{margin-bottom:1.2rem;color:var(--ink-soft);font-size:1.06rem;line-height:1.78}
+article h2{font-weight:500;font-size:1.28rem;margin:2.4rem 0 1rem;letter-spacing:-.01em}
+article a{color:var(--ink);border-bottom:1px solid var(--line-strong)}
+article em{font-style:italic}article strong{font-weight:600}
+article code{font-family:var(--mono);font-size:.85em;background:var(--paper2);padding:.12em .38em;border-radius:3px}
+article pre{background:#1a1712;color:#ece5d6;padding:1.35rem 1.5rem;border-radius:4px;overflow-x:auto;margin:1.4rem 0 1.6rem;border:1px solid var(--line)}
+html.dark article pre{background:#0e0c08}
+article pre code{background:none;padding:0;color:inherit;font-size:.82rem;line-height:1.6}
+footer{margin-top:4rem;border-top:1px solid var(--line)}
+.fin{max-width:1180px;margin:0 auto;padding:1.5rem 24px;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.fin .built{font-family:var(--mono);font-style:italic;font-size:.75rem;color:var(--faint)}
+::selection{background:var(--ink);color:var(--paper)}
+</style>
+<script>try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark');}catch(e){}</script>
+</head>
+<body>
+<header><div class="hin"><a class="brand" href="/"><img src="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E" alt=""> lulzx.com</a><a class="learn" href="/learn">writing →</a></div></header>
+<main><div class="wrap">
+<a class="back" href="/learn">← writing</a>
+<h1 class="t">semver, but 30x faster</h1>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Dec 2025</span><span>1 min read</span></div>
+<article><p>Every <code>npm install</code> parses version strings. Thousands of them. Installing preact alone calls <code>semver</code> 21,000 times. One package.</p>
+<p>The <code>semver</code> package has 150 million weekly downloads. And it's doing way more work than it needs to.</p>
+<h2>The dumb idea</h2>
+<p>Version numbers aren't random. React is at 18. Node is at 22. Most packages never pass major version 50. So I precomputed all of them.</p>
+<pre><code>const cache = Object.create(null);
+for (let M = 0; M &lt; 50; M++)
+  for (let m = 0; m &lt; 50; m++)
+    for (let p = 0; p &lt; 20; p++)
+      cache[M+'.'+m+'.'+p] = {major: M, minor:m, patch:p};</code></pre>
+<p>50,000 objects. Allocated once. Now parsing <code>1.0.0</code> is just a hash lookup. No regex. No nothing.</p>
+<h2>Then compile the ranges</h2>
+<p><code>^1.2.3</code> always means the same thing. So compile it once to a closure:</p>
+<pre><code>(M, m, p, pr) =&gt; !pr && M === 1 && ((m-2)||(p-3)) >= 0</code></pre>
+<p>Next time you check any version against <code>^1.2.3</code>, it's four integers and some arithmetic. Done.</p>
+<h2>Result</h2>
+<p><strong>208 million</strong> parses per second. 35x faster. 6.4 kB gzipped. Zero dependencies.</p>
+<p>Half my ideas didn't work. Hash arrays were slower than V8's internals. Fast-path parsing added overhead because the cache was already fast enough. Benchmark everything. Your gut is wrong.</p>
+<p><a href="https://github.com/Lulzx/pico-semver">github.com/Lulzx/pico-semver</a></p></article>
+</div></main>
+<footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
+</body>
+</html>

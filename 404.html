@@ -1421,7 +1421,7 @@ const Home = {
       <router-link to="/learn" class="more-link">All notes <span class="arr">&rarr;</span></router-link>
     </div>
     <div class="write-list">
-      <router-link class="write-row" v-for="p in recent" :key="p.id" :to="'/notes/' + p.id">
+      <router-link class="write-row" v-for="p in recent" :key="p.id" :to="'/learn/' + p.id">
         <span class="date">{{ fmtDate(p.tended || p.planted) }}</span>
         <span class="wt"><span class="ttl">{{ p.title }}</span><span class="tags">{{ (p.words || []).slice(0,3).join(' · ') }}</span></span>
         <span class="arr">&rarr;</span>
@@ -1499,7 +1499,7 @@ const WordDetail = {
     </div>
     <div class="relate" v-if="notes.length">
       <h4>Mentioned in</h4>
-      <div class="chips"><router-link class="chip" v-for="n in notes" :key="n.id" :to="'/notes/' + n.id">{{ n.title }}</router-link></div>
+      <div class="chips"><router-link class="chip" v-for="n in notes" :key="n.id" :to="'/learn/' + n.id">{{ n.title }}</router-link></div>
     </div>
   </template>
   <template v-else>
@@ -1516,7 +1516,7 @@ const LearnIndex = {
   <h1 class="page-title">Writing</h1>
   <p class="page-intro">Notes on building software: what I've learned shipping small tools, systems, and the occasional strong opinion.</p>
   <div class="write-list" style="margin-top:2.4rem">
-    <router-link class="write-row" v-for="p in notes" :key="p.id" :to="'/notes/' + p.id">
+    <router-link class="write-row" v-for="p in notes" :key="p.id" :to="'/learn/' + p.id">
       <span class="date">{{ fmtDate(p.tended || p.planted) }}</span>
       <span class="wt"><span class="ttl">{{ p.title }}</span><span class="tags">{{ (p.words || []).slice(0,3).join(' · ') }}</span></span>
       <span class="arr">&rarr;</span>
@@ -1545,7 +1545,7 @@ const NoteDetail = {
     <article class="prose" v-html="note.content"></article>
     <div class="relate" v-if="related.length">
       <h4>Related notes</h4>
-      <div class="chips"><router-link class="chip" v-for="id in related" :key="id" :to="'/notes/' + id">{{ notesData[id].title }}</router-link></div>
+      <div class="chips"><router-link class="chip" v-for="id in related" :key="id" :to="'/learn/' + id">{{ notesData[id].title }}</router-link></div>
     </div>
   </template>
   <template v-else>
@@ -1693,7 +1693,8 @@ const routes = [
     { path: '/words/:word', component: WordDetail },
     { path: '/projects', component: ProjectsIndex },
     { path: '/learn', component: LearnIndex },
-    { path: '/notes/:noteId', component: NoteDetail },
+    { path: '/learn/:noteId', component: NoteDetail },
+    { path: '/notes/:noteId', redirect: to => '/learn/' + to.params.noteId },
     { path: '/about', component: About },
     { path: '/:pathMatch(.*)*', component: NotFound }
 ];
