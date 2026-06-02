@@ -270,11 +270,14 @@
       overflow: hidden;
       cursor: pointer;
       line-height: 0;
+      background: var(--paper-2);
     }
 
     .grid-item img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      display: block;
       filter: brightness(.6) saturate(.9);
       transition: filter .5s ease;
     }
@@ -523,7 +526,9 @@
 
     async function init() {
       try {
-        const res = await fetch(url('/images.json'));
+        // local manifest carries each image's dimensions so tiles reserve
+        // their exact height up front (no reflow / sliding as images load).
+        const res = await fetch('images.json');
         images = await res.json();
       } catch (e) {
         loading.textContent = 'could not load images.';
@@ -534,6 +539,7 @@
       images.forEach((img, i) => {
         const item = document.createElement('div');
         item.className = 'grid-item';
+        if (img.w && img.h) item.style.aspectRatio = img.w + ' / ' + img.h;
         item.innerHTML = `<img src="${url(img.thumb)}" alt="" loading="lazy" decoding="async">`;
         item.addEventListener('click', () => openLightbox(i));
         frag.appendChild(item);
