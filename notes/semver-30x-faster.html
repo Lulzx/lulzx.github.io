@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Everything on one box — lulzx</title>
-<meta name="description" content="One server runs almost everything I've built. A handful of projects, one box, under ten dollars a month. People assume this needs orchestration. Kubernetes">
-<meta property="og:title" content="Everything on one box">
-<meta property="og:description" content="One server runs almost everything I've built. A handful of projects, one box, under ten dollars a month. People assume this needs orchestration. Kubernetes">
+<title>semver, but 30x faster — lulzx</title>
+<meta name="description" content="Every npm install parses version strings. Thousands of them. Installing preact alone calls semver 21,000 times. One package. The semver package has 150 mil">
+<meta property="og:title" content="semver, but 30x faster">
+<meta property="og:description" content="Every npm install parses version strings. Thousands of them. Installing preact alone calls semver 21,000 times. One package. The semver package has 150 mil">
 <meta property="og:type" content="article">
-<link rel="canonical" href="https://lulzx.com/notes/one-vps">
+<link rel="canonical" href="https://lulzx.com/notes/semver-30x-faster">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,54 +52,26 @@ footer{margin-top:4rem;border-top:1px solid var(--line)}
 <header><div class="hin"><a class="brand" href="/"><img src="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E" alt=""> lulzx.com</a><a class="learn" href="/learn">writing →</a></div></header>
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
-<h1 class="t">Everything on one box</h1>
-<div class="meta"><span class="badge sprout">sprout</span><span>Jun 2026</span><span>2 min read</span></div>
-<article><p>One server runs almost everything I've built. A handful of projects, one box, under ten dollars a month.</p>
-<p>People assume this needs orchestration. Kubernetes, a CI platform, a container registry, a managed database. It doesn't. It needs a reverse proxy and a habit.</p>
-<h2>The front door</h2>
-<p>Every request hits Caddy first. One process, one config file, and it handles TLS certificates for me. No certbot, no renewal cron, no remembering to renew anything. I write down a domain, Caddy gets the cert.</p>
-<pre><code>app.example.com {
-    reverse_proxy localhost:4000
-    encode gzip
-}
-
-static.example.com {
-    root * /srv/www/site
-    file_server
-}</code></pre>
-<p>That's the whole pattern. Each project listens on a private port. Caddy maps a subdomain to that port. Nothing else on the box is exposed to the internet.</p>
-<h2>Two ways to run a thing</h2>
-<p>Every project on the box is one of two shapes.</p>
-<p>If it's already containerized, it's a <code>docker-compose.yml</code> in its own folder.</p>
-<pre><code>services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    env_file: [.env]
-    volumes:
-      - ./data:/app/data
-    restart: unless-stopped</code></pre>
-<p>If it isn't, it's a systemd unit. Same idea, less Docker.</p>
-<pre><code>[Service]
-WorkingDirectory=/opt/myapp
-ExecStart=/opt/myapp/.venv/bin/uvicorn main:app --port 8000
-Restart=always
-
-[Install]
-WantedBy=multi-user.target</code></pre>
-<p>Both end the same way: a process bound to localhost, restarted on failure, fronted by Caddy. Docker or systemd is just a detail of how the process gets started. The shape of the system doesn't change.</p>
-<h2>The database is just there</h2>
-<p>Postgres runs on the box. Not in a container, not managed, not a separate thing I pay for. Apps connect to localhost. Backups are a dump on a timer. For the traffic I have, this is plenty, and it will stay plenty for a long time.</p>
-<h2>Exposing my laptop</h2>
-<p>Sometimes I want a public URL pointing at something running on my own machine. A webhook target while developing, a quick demo, a service I don't want to deploy yet.</p>
-<p>So the box also runs a small self-hosted tunnel. A subdomain on the server forwards through an SSH reverse tunnel to a port on my laptop. Public HTTPS on one end, localhost on the other. It's ngrok, except I own both ends and it costs nothing.</p>
-<h2>Deploying is boring</h2>
-<p>Pull the code, rebuild, restart. <code>git pull && docker compose up -d --build</code>, or <code>git pull && systemctl restart app</code>. No pipeline, no registry, no waiting on a runner somewhere.</p>
-<p>Boring is the point. The most exciting thing that should happen during a deploy is nothing.</p>
-<h2>What I don't run</h2>
-<p>No Kubernetes. No Terraform. No CI platform billing me by the minute. No service mesh, no load balancer, no autoscaler for traffic that fits in a corner of one CPU.</p>
-<p>The box has been up for months, sitting at a third of its disk and a fraction of its memory. When one box isn't enough, I'll get a bigger box. That day is further away than you'd think.</p></article>
+<h1 class="t">semver, but 30x faster</h1>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Dec 2025</span><span>1 min read</span></div>
+<article><p>Every <code>npm install</code> parses version strings. Thousands of them. Installing preact alone calls <code>semver</code> 21,000 times. One package.</p>
+<p>The <code>semver</code> package has 150 million weekly downloads. And it's doing way more work than it needs to.</p>
+<h2>The dumb idea</h2>
+<p>Version numbers aren't random. React is at 18. Node is at 22. Most packages never pass major version 50. So I precomputed all of them.</p>
+<pre><code>const cache = Object.create(null);
+for (let M = 0; M &lt; 50; M++)
+  for (let m = 0; m &lt; 50; m++)
+    for (let p = 0; p &lt; 20; p++)
+      cache[M+'.'+m+'.'+p] = {major: M, minor:m, patch:p};</code></pre>
+<p>50,000 objects. Allocated once. Now parsing <code>1.0.0</code> is just a hash lookup. No regex. No nothing.</p>
+<h2>Then compile the ranges</h2>
+<p><code>^1.2.3</code> always means the same thing. So compile it once to a closure:</p>
+<pre><code>(M, m, p, pr) =&gt; !pr && M === 1 && ((m-2)||(p-3)) >= 0</code></pre>
+<p>Next time you check any version against <code>^1.2.3</code>, it's four integers and some arithmetic. Done.</p>
+<h2>Result</h2>
+<p><strong>208 million</strong> parses per second. 35x faster. 6.4 kB gzipped. Zero dependencies.</p>
+<p>Half my ideas didn't work. Hash arrays were slower than V8's internals. Fast-path parsing added overhead because the cache was already fast enough. Benchmark everything. Your gut is wrong.</p>
+<p><a href="https://github.com/Lulzx/pico-semver">github.com/Lulzx/pico-semver</a></p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

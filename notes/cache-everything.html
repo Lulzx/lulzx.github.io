@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Everything on one box — lulzx</title>
-<meta name="description" content="One server runs almost everything I've built. A handful of projects, one box, under ten dollars a month. People assume this needs orchestration. Kubernetes">
-<meta property="og:title" content="Everything on one box">
-<meta property="og:description" content="One server runs almost everything I've built. A handful of projects, one box, under ten dollars a month. People assume this needs orchestration. Kubernetes">
+<title>Cache it — lulzx</title>
+<meta name="description" content="The fastest computation is the one you don't do. My semver library is fast because it precomputes. My bots are fast because they cache user data. This webs">
+<meta property="og:title" content="Cache it">
+<meta property="og:description" content="The fastest computation is the one you don't do. My semver library is fast because it precomputes. My bots are fast because they cache user data. This webs">
 <meta property="og:type" content="article">
-<link rel="canonical" href="https://lulzx.com/notes/one-vps">
+<link rel="canonical" href="https://lulzx.com/notes/cache-everything">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,54 +52,13 @@ footer{margin-top:4rem;border-top:1px solid var(--line)}
 <header><div class="hin"><a class="brand" href="/"><img src="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E" alt=""> lulzx.com</a><a class="learn" href="/learn">writing →</a></div></header>
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
-<h1 class="t">Everything on one box</h1>
-<div class="meta"><span class="badge sprout">sprout</span><span>Jun 2026</span><span>2 min read</span></div>
-<article><p>One server runs almost everything I've built. A handful of projects, one box, under ten dollars a month.</p>
-<p>People assume this needs orchestration. Kubernetes, a CI platform, a container registry, a managed database. It doesn't. It needs a reverse proxy and a habit.</p>
-<h2>The front door</h2>
-<p>Every request hits Caddy first. One process, one config file, and it handles TLS certificates for me. No certbot, no renewal cron, no remembering to renew anything. I write down a domain, Caddy gets the cert.</p>
-<pre><code>app.example.com {
-    reverse_proxy localhost:4000
-    encode gzip
-}
-
-static.example.com {
-    root * /srv/www/site
-    file_server
-}</code></pre>
-<p>That's the whole pattern. Each project listens on a private port. Caddy maps a subdomain to that port. Nothing else on the box is exposed to the internet.</p>
-<h2>Two ways to run a thing</h2>
-<p>Every project on the box is one of two shapes.</p>
-<p>If it's already containerized, it's a <code>docker-compose.yml</code> in its own folder.</p>
-<pre><code>services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    env_file: [.env]
-    volumes:
-      - ./data:/app/data
-    restart: unless-stopped</code></pre>
-<p>If it isn't, it's a systemd unit. Same idea, less Docker.</p>
-<pre><code>[Service]
-WorkingDirectory=/opt/myapp
-ExecStart=/opt/myapp/.venv/bin/uvicorn main:app --port 8000
-Restart=always
-
-[Install]
-WantedBy=multi-user.target</code></pre>
-<p>Both end the same way: a process bound to localhost, restarted on failure, fronted by Caddy. Docker or systemd is just a detail of how the process gets started. The shape of the system doesn't change.</p>
-<h2>The database is just there</h2>
-<p>Postgres runs on the box. Not in a container, not managed, not a separate thing I pay for. Apps connect to localhost. Backups are a dump on a timer. For the traffic I have, this is plenty, and it will stay plenty for a long time.</p>
-<h2>Exposing my laptop</h2>
-<p>Sometimes I want a public URL pointing at something running on my own machine. A webhook target while developing, a quick demo, a service I don't want to deploy yet.</p>
-<p>So the box also runs a small self-hosted tunnel. A subdomain on the server forwards through an SSH reverse tunnel to a port on my laptop. Public HTTPS on one end, localhost on the other. It's ngrok, except I own both ends and it costs nothing.</p>
-<h2>Deploying is boring</h2>
-<p>Pull the code, rebuild, restart. <code>git pull && docker compose up -d --build</code>, or <code>git pull && systemctl restart app</code>. No pipeline, no registry, no waiting on a runner somewhere.</p>
-<p>Boring is the point. The most exciting thing that should happen during a deploy is nothing.</p>
-<h2>What I don't run</h2>
-<p>No Kubernetes. No Terraform. No CI platform billing me by the minute. No service mesh, no load balancer, no autoscaler for traffic that fits in a corner of one CPU.</p>
-<p>The box has been up for months, sitting at a third of its disk and a fraction of its memory. When one box isn't enough, I'll get a bigger box. That day is further away than you'd think.</p></article>
+<h1 class="t">Cache it</h1>
+<div class="meta"><span class="badge sprout">sprout</span><span>Sep 2024</span><span>1 min read</span></div>
+<article><p>The fastest computation is the one you don't do.</p>
+<p>My semver library is fast because it precomputes. My bots are fast because they cache user data. This website is fast because there's nothing to compute at all.</p>
+<p>People reach for clever algorithms when a lookup table would do. I've replaced O(n log n) sorts with O(1) hash lookups more times than I can count. Not because I'm smart. Because the data didn't change often enough to justify recomputing.</p>
+<p>The trick is knowing when to invalidate. Cache without invalidation is just a bug waiting to happen. I keep caches small, TTLs short, and invalidation explicit. A stale cache is worse than no cache.</p>
+<p>When in doubt: compute once, store the result, serve it forever. Recompute only when the input changes.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>
