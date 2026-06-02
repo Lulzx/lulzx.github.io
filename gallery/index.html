@@ -200,6 +200,17 @@
       height: 19px;
     }
 
+    /* phones: brand links home + theme toggle only, no crowded inline links */
+    @media (max-width: 720px) {
+      .nav {
+        gap: 0;
+      }
+
+      .nav a {
+        display: none;
+      }
+    }
+
     /* ---------- page intro ---------- */
     .page-head {
       position: relative;
