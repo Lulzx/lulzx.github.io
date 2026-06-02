@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Everything on one box — lulzx</title>
-<meta name="description" content="One small ARM box, a handful of projects, one reverse proxy and a habit. How everything I build runs on a single server without Kubernetes or a CI platform.">
+<meta name="description" content="One cheap ARM box runs everything I ship. No Kubernetes, no managed database, no CI platform. A reverse proxy and a little discipline. That is the whole stack.">
 <meta property="og:title" content="Everything on one box">
-<meta property="og:description" content="One small ARM box, a handful of projects, one reverse proxy and a habit. How everything I build runs on a single server without Kubernetes or a CI platform.">
+<meta property="og:description" content="One cheap ARM box runs everything I ship. No Kubernetes, no managed database, no CI platform. A reverse proxy and a little discipline. That is the whole stack.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/one-vps">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E">
@@ -53,12 +53,12 @@ footer{margin-top:4rem;border-top:1px solid var(--line)}
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Everything on one box</h1>
-<div class="meta"><span class="badge sprout">sprout</span><span>Jun 2026</span><span>5 min read</span></div>
-<article><p>One small ARM box runs almost everything I have built. A handful of projects on a single server that idles most of the time. It has been up for four months without a reboot, sitting at a third of its disk with most of its memory free.</p>
-<p>People assume this needs orchestration. Kubernetes, a CI platform, a container registry, a managed database. It does not. It needs a reverse proxy and a habit.</p>
-<h2>The front door</h2>
-<p>Every request hits Caddy first, and Caddy is the only thing on the box bound to a public port. It terminates TLS, fetches and renews certificates on its own, and routes each hostname to a process listening on localhost. No certbot, no renewal cron, no remembering to renew anything. I write down a domain, Caddy gets the cert.</p>
-<p>Caddy itself runs as a container in <code>network_mode: host</code>, so it binds <code>:80</code> and <code>:443</code> directly with no port mapping in the way. A named volume holds its ACME account and issued certs, so rebuilding the container never re-fetches a single certificate.</p>
+<div class="meta"><span class="badge sprout">sprout</span><span>Jun 2026</span><span>4 min read</span></div>
+<article><p>One box. A cheap 4-core ARM machine. It runs everything I have ever shipped and it is bored. Four months of uptime, a third of the disk used, memory basically empty.</p>
+<p>People will tell you you need Kubernetes. A CI pipeline. A container registry. A managed Postgres that bills you by the hour. For a handful of side projects. This is insane. You need a reverse proxy and a little discipline. That is the whole stack.</p>
+<h2>caddy is the entire front end</h2>
+<p>One process is on the internet. Caddy. It does TLS for you, gets the certs, renews them, forwards each domain to something on localhost. No certbot. No renewal cron. No 3am page because a cert expired. You write down a domain, you get HTTPS. Done.</p>
+<p>It runs as a container in <code>network_mode: host</code> so it grabs <code>:80</code> and <code>:443</code> directly, no port-mapping in the way. The certs live in a volume, so rebuilding the container does not throw them away and re-fetch.</p>
 <pre><code>services:
   caddy:
     build: .
@@ -71,8 +71,8 @@ footer{margin-top:4rem;border-top:1px solid var(--line)}
 
 volumes:
   caddy_data:</code></pre>
-<p>One Caddyfile is the single source of truth. The host path is a symlink to it, so <code>caddy reload</code> through the admin API on <code>:2019</code> hot-swaps the config with no dropped connections, and the container loads the exact same file on restart. Two load paths, one file.</p>
-<p>The file itself stays small. A static site is a folder. An app is a port. A streaming endpoint just needs buffering turned off.</p>
+<p>The config is one file. The host symlinks to it, so <code>caddy reload</code> over the admin API on <code>:2019</code> hot-swaps it live with zero dropped connections, and the container reads the same file on boot. One file, two ways in.</p>
+<p>And the file is tiny. Static site, point at a folder. App, point at a port. Streaming, turn off buffering.</p>
 <pre><code>static.example.com {
     root * /srv/www/site
     file_server
@@ -80,7 +80,7 @@ volumes:
 }
 
 app.example.com {
-    # static shell + an API backend, both under one host
+    # static shell + an API backend, one host
     handle /api/*/stream {
         reverse_proxy localhost:4000 {
             flush_interval -1         # do not buffer server-sent events
@@ -95,10 +95,10 @@ app.example.com {
     }
     encode gzip
 }</code></pre>
-<p>I keep the hostnames explicit and resist the urge to add a wildcard catch-all. I tried on-demand TLS for arbitrary subdomains once; bots probed random names and Caddy dutifully tried to issue a certificate for each one. A named list never has that problem.</p>
-<h2>Two ways to run a thing</h2>
-<p>Every project on the box is one of two shapes.</p>
-<p>If it is already containerized, it is a <code>docker-compose.yml</code> in its own folder.</p>
+<p>One rule: name your hosts. I turned on on-demand TLS once so any subdomain would just work. Then bots started hammering random names and Caddy went and tried to get a real cert for every one of them. Dumb. List the domains you actually own and move on.</p>
+<h2>two shapes, that is it</h2>
+<p>Everything on the box is one of two things.</p>
+<p>Already in Docker? It is a compose file in a folder.</p>
 <pre><code>services:
   app:
     build: .
@@ -108,7 +108,7 @@ app.example.com {
     volumes:
       - ./data:/app/data
     restart: unless-stopped</code></pre>
-<p>If it is not, it is a systemd unit. Same idea, less Docker, with a little more care around startup order and shutdown.</p>
+<p>Not in Docker? It is a systemd unit. Same deal. Start after the database, shut down without dropping requests.</p>
 <pre><code>[Unit]
 After=postgresql.service network.target
 Requires=postgresql.service          # do not start before the database
@@ -124,25 +124,25 @@ TimeoutStopSec=10
 
 [Install]
 WantedBy=multi-user.target</code></pre>
-<p>Both end the same way: a process bound to localhost, ordered after its dependencies, restarted on failure, fronted by Caddy. Docker or systemd is just a detail of how the process gets started. The shape of the system does not change.</p>
-<h2>Nothing else faces the internet</h2>
-<p>This is the part that makes the whole thing safe to leave alone. Caddy owns <code>:80</code> and <code>:443</code>. Everything else, every app, every worker, the database, binds <code>127.0.0.1</code>. Nothing is reachable from outside except through the reverse proxy, so the firewall is almost a formality. You cannot attack a port that was never published.</p>
-<h2>The database is just there</h2>
-<p>Postgres runs on the box. Not in a container, not managed, not a separate thing I pay for. It listens on <code>127.0.0.1</code> only, and apps reach it at <code>localhost</code> over a loopback connection. The systemd units declare <code>Requires=postgresql.service</code>, so nothing tries to talk to a database that has not started yet.</p>
-<p>The backup is a <code>pg_dump</code> on a timer. One command, one file, copied off the box. For the traffic I have this is plenty, and it will stay plenty for a long time.</p>
-<h2>Exposing my laptop</h2>
-<p>Sometimes I want a public URL pointing at something running on my own machine. A webhook target while developing, a quick demo, a service I do not want to deploy yet.</p>
-<p>So my laptop opens an SSH reverse tunnel to the box. <code>ssh -R 9000:localhost:3000 box</code> parks a listener on the server's localhost that forwards back to a port on the Mac. Then it is just another Caddy site.</p>
+<p>Both end up identical. A process on localhost, started after what it needs, restarted when it dies, sitting behind Caddy. Docker versus systemd is a detail. Nobody cares which one. The system is the same shape either way.</p>
+<h2>the firewall is decoration</h2>
+<p>This is the part that lets me not think about it. Caddy is on <code>:80</code> and <code>:443</code>. Everything else, every app, every worker, the database, binds <code>127.0.0.1</code>. Nothing else is reachable from the outside, period. You cannot hack a port that was never opened. The firewall is there for show.</p>
+<h2>postgres is just running</h2>
+<p>Postgres is on the box. Not a container, not managed, not a line item on a bill. It listens on <code>127.0.0.1</code>, apps connect to <code>localhost</code>, and the units wait for it before they start. That is the entire database strategy.</p>
+<p>Backup is <code>pg_dump</code> on a timer. One command, one file, copy it off the box. You do not need a managed cluster for an app doing ten requests a minute. You need a cron job.</p>
+<h2>my laptop, but public</h2>
+<p>Sometimes I want a real URL pointing at code running on my Mac. A webhook while I am still building it, a quick demo, something I have not deployed and might never.</p>
+<p>So the laptop opens a reverse tunnel. <code>ssh -R 9000:localhost:3000 box</code> parks a port on the server that forwards back to my desk. Then it is just another Caddy line.</p>
 <pre><code>dev.example.com {
     reverse_proxy localhost:9000     # rides the tunnel to my laptop
 }</code></pre>
-<p>Public HTTPS on one end, localhost on the other. A webhook hits the public URL, Caddy terminates TLS, and the request rides the tunnel down to a process on my desk. It is ngrok, except I own both ends and it costs nothing.</p>
-<h2>Deploying is boring</h2>
-<p>Pull the code, rebuild, restart. <code>git pull && docker compose up -d --build</code>, or <code>git pull && systemctl restart app</code>. Config-only changes to the proxy are a <code>caddy reload</code>, no restart at all. No pipeline, no registry, no waiting on a runner somewhere.</p>
-<p>Boring is the point. The most exciting thing that should happen during a deploy is nothing.</p>
-<h2>What I don't run</h2>
-<p>No Kubernetes. No Terraform. No CI platform billing me by the minute. No service mesh, no load balancer, no autoscaler for traffic that fits in a corner of one CPU.</p>
-<p>The box has been up for months, sitting at a third of its disk and a fraction of its memory. When one box is not enough, I will get a bigger box. That day is further away than you would think.</p></article>
+<p>Public HTTPS on one end, my laptop on the other. The webhook hits the URL, Caddy does TLS, the request rides the tunnel home. It is ngrok, except I own both ends and it is free.</p>
+<h2>deploys are boring on purpose</h2>
+<p>Pull, rebuild, restart. <code>git pull && docker compose up -d --build</code>, or <code>git pull && systemctl restart app</code>. A config-only change to the proxy is <code>caddy reload</code> and nothing even goes down. No pipeline, no registry, no waiting on a runner in someone else's datacenter.</p>
+<p>A deploy should be the most boring thing that happens all day.</p>
+<h2>what I don't run</h2>
+<p>No Kubernetes. No Terraform. No CI platform charging me by the minute. No service mesh, no load balancer, no autoscaler for traffic that fits in the corner of one CPU.</p>
+<p>The box has been up for months and it is barely awake. When it actually is not enough, I will buy a bigger box. That day is much further away than the internet wants you to believe.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>
