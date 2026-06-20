@@ -153,8 +153,8 @@ html.dark .ink-img { mix-blend-mode: screen; filter: invert(.93) contrast(1.02) 
 .principle p { font-size: .85rem; color: var(--muted); line-height: 1.62; font-weight: 300; }
 
 /* ---------- writing list ---------- */
-.write-list { border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
-.write-row { display: grid; grid-template-columns: 132px 1fr auto; align-items: center; gap: 1.3rem; padding: 1.05rem 1.4rem; transition: background .2s ease; }
+.write-list { border: 1px solid var(--line); border-radius: 3px; overflow: hidden; max-width: 720px; margin: 0 auto; }
+.write-row { display: grid; grid-template-columns: 100px 1fr auto; align-items: center; gap: 1.1rem; padding: 1.05rem 1.4rem; transition: background .2s ease; }
 .write-row + .write-row { border-top: 1px solid var(--line); }
 .write-row:hover { background: var(--paper-2); }
 .write-row .date { font-family: var(--mono); font-size: .76rem; color: var(--muted); letter-spacing: .01em; }
@@ -166,7 +166,7 @@ html.dark .ink-img { mix-blend-mode: screen; filter: invert(.93) contrast(1.02) 
 .write-row:hover .arr { transform: translateX(4px); color: var(--muted); }
 
 /* ---------- project cards ---------- */
-.proj-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; max-width: 1100px; margin: 0 auto; }
 .proj-card { display: block; border: 1px solid var(--line); border-radius: 3px; background: color-mix(in srgb, var(--card) 55%, transparent); padding: 1.55rem 1.5rem 1.7rem; transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease, background .28s ease; }
 .proj-card:hover { transform: translateY(-3px); border-color: var(--line-strong); box-shadow: var(--shadow); background: var(--card); }
 .proj-card .ico { width: 26px; height: 26px; color: var(--ink-soft); margin-bottom: 1.15rem; }
@@ -264,7 +264,7 @@ html.dark .prose pre { background: #0e0c08; }
     .principles { grid-template-columns: repeat(3, 1fr); gap: 2rem 0; }
     .principle:nth-child(1), .principle:nth-child(2), .principle:nth-child(3) { border-left: none; }
     .principle:nth-child(4) { border-left: none; }
-    .proj-grid { grid-template-columns: repeat(2, 1fr); }
+    .proj-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
     .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
     .footer-brand { grid-column: 1 / -1; }
 }
@@ -350,11 +350,11 @@ const wordData = {
             {
                 title: "Current Projects",
                 items: [
-                    "copilot: CLI Copilot in Rust",
-                    "orbit: Spatial Terminal Dashboard",
-                    "speculative-decoding: Fast LLM on Apple Silicon",
-                    "paddleocr-vl.swift: OCR with MLX",
-                    "tanstack-bun: SSR with Bun"
+                    "tinypdf: Minimal PDF lib (TS)",
+                    "zpdf: Zig PDF text extract",
+                    "zs3: S3 in Zig",
+                    "hvm: Zig Higher-Order VM",
+                    "tinybarcode: <1kB SVG barcodes"
                 ]
             },
             {
@@ -426,7 +426,7 @@ const wordData = {
             { title: "ML Inference", text: "Making LLMs run fast on consumer hardware. Native Swift implementations using MLX for Apple Silicon." },
             {
                 title: "Projects",
-                items: ["speculative-decoding: MLX-Swift port", "nano-reasoning: FastRL on Apple Silicon", "paddleocr-vl.swift: 0.9B doc parsing VLM", "masked: Masked diffusion LM"]
+                items: ["tinypdf: 1840★ PDF lib", "zpdf: 900★ Zig PDF", "zs3: Zig S3 storage", "hvm: Zig HVM impl"]
             },
             {
                 title: "Hardware Targets",
@@ -740,7 +740,7 @@ const wordData = {
             { zero: true, title: "Zero Dependencies", text: "Each library you add is code you don't control. It can break, have security issues, bloat your bundle." },
             {
                 title: "Projects",
-                items: ["tanstack-bun: Zero overhead SSR", "orbit: Pure Rust TUI", "copilot: Single binary"]
+                items: ["tinypdf: TS PDF lib", "zpdf: Zig PDF extract", "zs3: Pure Zig S3"]
             },
             { title: "Exceptions", text: "Where possible. Practical constraints sometimes require compromise." }
         ]
@@ -821,7 +821,7 @@ const wordData = {
             { title: "GitHub", text: "github.com/lulzx: 30+ public repositories. 9 languages. Open source work you can audit, modify, and learn from." },
             {
                 title: "Featured Repos",
-                items: ["copilot: Rust CLI AI assistant", "orbit: Spatial TUI dashboard", "speculative-decoding: MLX-Swift", "tanstack-bun: SSR framework"]
+                items: ["tinypdf: Minimal PDF creation (1840★)", "zpdf: Zig PDF text extract (909★)", "zs3: S3 in Zig (179★)", "hvm: Higher-Order VM in Zig (36★)"]
             },
             { title: "License", text: "Most projects are MIT licensed. Free to use, modify, and distribute." }
         ]
@@ -1481,21 +1481,48 @@ const PRINCIPLES = [
     { icon: 'independent', title: 'Independent', body: 'Own the stack.<br>Own the data.<br>Own the decisions.' },
     { icon: 'iterative', title: 'Iterative', body: 'Ship, observe,<br>refine. Repeat<br>forever.' }
 ];
-const GH = 'https://github.com/Lulzx';
-const PROJECTS = [
-    { icon: 'term', name: 'zpdf', desc: 'Extract text from PDF files in your browser. Powered by WebAssembly.', tags: 'Web · WASM · Rust', href: GH },
-    { icon: 'cube', name: 'tgx', desc: 'Telegram automation framework with a focus on simplicity and control.', tags: 'Rust · Telegram · CLI', href: GH },
-    { icon: 'delta', name: 'r-embed', desc: 'Fast, local-first embedding and retrieval toolkit. No magic, just vectors.', tags: 'Rust · Search · Embeddings', href: GH },
-    { icon: 'dots', name: 'pixi', desc: 'Tiny image toolkit for everyday CLI workflows. Built for speed.', tags: 'Rust · Images · CLI', href: GH },
-    { icon: 'term', name: 'pico-semver', desc: 'A semver parser doing the same work 35x faster. Precompute, then look up.', tags: 'JS · Zero-dep · 6.4kB', href: GH + '/pico-semver' },
-    { icon: 'cube', name: 'copilot', desc: 'A small CLI copilot in Rust. Local first, fast, and out of your way.', tags: 'Rust · CLI · LLM', href: GH }
-];
+const projectsStore = ref([
+  { icon: 'term', name: 'tinypdf', desc: 'Minimal PDF creation library. <400 LOC, zero dependencies, multi-format.', tags: 'TypeScript · 1840★', href: 'https://github.com/Lulzx/tinypdf' },
+  { icon: 'cube', name: 'zpdf', desc: 'Zero-copy PDF text extraction in Zig. High performance, minimal.', tags: 'Zig · 909★', href: 'https://github.com/Lulzx/zpdf' },
+  { icon: 'cube', name: 'zs3', desc: 'S3-compatible storage in Zig. Zero dependencies. Small and fast.', tags: 'Zig · 179★', href: 'https://github.com/Lulzx/zs3' },
+  { icon: 'delta', name: 'hvm', desc: 'Zig port of the Higher-Order Virtual Machine. Experimental but real.', tags: 'Zig · 36★', href: 'https://github.com/Lulzx/hvm' },
+  { icon: 'dots', name: 'tinybarcode', desc: 'Minimal SVG barcode generation. Under 1KB gzipped, zero deps.', tags: 'HTML · 3★', href: 'https://github.com/Lulzx/tinybarcode' },
+  { icon: 'term', name: 'warpx-metal', desc: 'WarpX PIC simulations on Apple Silicon via Metal. Real physics.', tags: 'Shell · 8★', href: 'https://github.com/Lulzx/warpx-metal' }
+]);
+
+// Fetch live GitHub projects (sorted by stars). Falls back to the list above if offline/rate-limited.
+fetch('https://api.github.com/users/Lulzx/repos?per_page=100&sort=stars')
+  .then(r => (r.ok ? r.json() : []))
+  .then(data => {
+    if (!Array.isArray(data) || data.length === 0) return;
+    const picked = data
+      .filter(r => !r.fork && !r.private && r.name !== 'lulzx.github.io')
+      .sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0))
+      .slice(0, 6)
+      .map(r => {
+        const n = (r.name || '').toLowerCase();
+        let icon = 'delta';
+        if (n.includes('pdf')) icon = 'term';
+        else if (n.includes('z') || r.language === 'Zig') icon = 'cube';
+        else if (r.language === 'Rust' || n.includes('cli') || n.includes('mimo')) icon = 'term';
+        else if (r.language === 'TypeScript' || r.language === 'HTML' || n.includes('bar')) icon = 'dots';
+        return {
+          icon,
+          name: r.name,
+          desc: (r.description || 'Small, focused tool.').slice(0, 85),
+          tags: `${r.language || 'Misc'} · ${r.stargazers_count || 0}★`,
+          href: r.html_url
+        };
+      });
+    if (picked.length) projectsStore.value = picked;
+  })
+  .catch(() => {});
 
 // ---- components ----
 const Home = {
     computed: {
         principles() { return PRINCIPLES; },
-        projects() { return PROJECTS.slice(0, 4); },
+        projects() { return projectsStore.value.slice(0, 4); },
         recent() { return allNotes().slice(0, 5); }
     },
     template: `
@@ -1674,7 +1701,7 @@ const NoteDetail = {
 };
 
 const ProjectsIndex = {
-    computed: { projects() { return PROJECTS; } },
+    computed: { projects() { return projectsStore.value; } },
     template: `
 <div class="page container">
   <h1 class="page-title">Projects</h1>
@@ -1794,7 +1821,7 @@ const App = {
           <h4>Elsewhere</h4>
           <a class="ext" href="https://github.com/Lulzx" target="_blank" rel="noopener"><span v-html="ICO.github"></span> GitHub</a>
           <a class="ext" href="https://t.me/lulzx" target="_blank" rel="noopener"><span v-html="ICO.telegram"></span> Telegram</a>
-          <a class="ext" href="https://github.com/Lulzx" target="_blank" rel="noopener"><span v-html="ICO.rss"></span> RSS</a>
+          <a class="ext" href="https://github.com/Lulzx/lulzx.github.io/commits/master.atom" target="_blank" rel="noopener"><span v-html="ICO.rss"></span> RSS</a>
         </div>
       </div>
       <div class="footer-bottom">
