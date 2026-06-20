@@ -1373,6 +1373,53 @@ for (let M = 0; M &lt; 50; M++)
 <p>Small commits make git bisect useful. When a bug appears, you can binary search through commits and find it in minutes. If each commit is 500 lines, bisect tells you "the bug is somewhere in these 500 lines." Thanks for nothing.</p>
 <p>Small commits also make code review possible. I can review a 10-line diff in 30 seconds. I can review a 500-line diff in... actually I can't. Nobody can. They just skim and approve.</p>
 <p>Write the smallest commit that makes sense on its own. Then write the next one.</p>`
+    },
+    'loops': {
+        title: 'Loops',
+        stage: 'sprout',
+        planted: '2026-06',
+        tended: '2026-06',
+        words: ['systems', 'building', 'learn', 'automation', 'execute', 'foundations'],
+        relatedNotes: ['shipping-fast', 'tools-shape-thinking', 'learn-by-building', 'telegram-bots'],
+        content: `<p>Here's your monthly reminder that you shouldn't be prompting coding agents anymore. You should be designing loops that prompt your agents.</p>
+<p>I don't know about you, but that memo took a while to reach me.</p>
+<p>I had seen loops before. The Ralph loop in particular made me think agents could do real work over time instead of one shot. You put a goal and a while loop around the agent and let it iterate. It was exciting. It was also a mess. Error rate went up fast because the loop had no memory of what mattered, no real verifier, and no isolation. Cool demo. Not much shipping.</p>
+<p>So I went back to what I knew. Ask for a plan. Read it. Say go do part one. Part two. Spin up another agent for review. Copy the feedback back by hand. I was the loop. I was carrying context, deciding order, making sure nothing fell through. It worked, but it did not scale with me.</p>
+<p>Then Pete's post landed. He has been ahead on this for a long time. I used to think of him as the guy running weird experiments so the rest of us could see what the future might look like in duct-tape form. I still do in some ways. But I started paying attention when he talked about getting agents to prompt themselves, setting up watchers that review code and trigger their own re-reviews, worktrees that monitor specific PRs or issues, and letting the system run while he slept.</p>
+<p>Boris Cherny, who built Claude Code at Anthropic, said something almost identical around the same time: he does not prompt Claude anymore. He has loops running that prompt Claude. His job is to write loops.</p>
+<p>Addy Osmani named the practice "loop engineering" and laid out the shape that keeps showing up across tools. That is when it clicked for me.</p>
+<h2>What changed</h2>
+<p>Before, the agent was a very fast junior I had to supervise turn by turn. Now I can give it a goal, a place to work that will not collide with anything else, some written rules it reads every time, and a way to check its own work. Then I walk away.</p>
+<p>The loop does the discovery, the execution, the observation, the verification, and the decision to continue or stop. I design the loop and I decide what "good" means.</p>
+<h2>The pieces that actually matter</h2>
+<p>A loop is not just "run the agent again." It needs six things that live outside any single model call.</p>
+<p><strong>A heartbeat.</strong> Something that wakes up on a schedule or a trigger. Cron, a /loop command, a GitHub webhook, a simple timer in whatever tool you use. Without this it is just one manual run.</p>
+<p><strong>Isolation.</strong> Git worktrees or per-thread checkouts. The transcript that changed how I thought about this put it plainly: once the code for this PR lives in its own directory, you stop caring if the agent makes a mess there. Other work is not blocked. Two agents can run at once without stepping on the same files.</p>
+<p><strong>Memory that survives the call.</strong> The model forgets between runs. The filesystem does not. Write plans as HTML files so you can read them on your phone at 3am. Keep a progress log. Use something like AGENTS.md or SKILL.md at the root so every fresh agent starts with the real conventions instead of guessing. The repo remembers. The context window does not.</p>
+<p><strong>Skills and rules written down once.</strong> The conventions. The "we never do X because of that one incident." The checklist for a good PR here. Put it in a file the agent is told to read. You stop paying the "explain the whole project" tax on every iteration.</p>
+<p><strong>A verifier that is not the writer.</strong> The model that just edited the code is the worst possible judge of whether the edit is correct. Split them. Use a second sub-agent, a different model, or at minimum a /goal step where a fresh pass checks explicit conditions (tests pass, lint clean, matches the spec in the plan file). Maker and checker.</p>
+<p><strong>Connectors to the real world.</strong> The loop is only useful if it can open the PR, leave a comment, update the issue, run the deploy command, or send the message when it is done. Tools that only talk to the filesystem are toys. The ones that can act in your actual environment are the ones that compound.</p>
+<h2>A small loop</h2>
+<p>Every night a heartbeat runs on this repo. It calls a small triage skill that looks at open issues and recent commits, writes a short markdown summary, and for anything small and safe it opens an isolated worktree, lets an agent make the change, runs the trivial checks that exist, and opens a draft PR with the plan file attached. I get a notification. Most nights nothing happens. When something does, the diff is small and I can review it in a minute.</p>
+<p>I did not write a prompt for "go look at issues." I wrote the heartbeat, the skill file, the rule that changes must be tiny, and the stop condition. The loop does the rest.</p>
+<h2>A larger one</h2>
+<p>The one that really landed for me was bigger than one PR. I had a chunk of work that was clearly three or four stacked changes. I asked the agent to break it into plans as HTML files. Then I sent one message: spin up a thread to implement the first plan and file the PR, spin a review thread when the PR appears, put that review thread into a loop that watches for comments and addresses them until it gets approvals, merge when green, pull main, and start the next chunk.</p>
+<p>It made a diagram. It used a heartbeat attached to the monitoring thread. It did the work. I went to sleep. I woke up with four stacked, heavily reviewed PRs ready. It was not fully autonomous and I am not claiming it was. I still set the goal and the definition of done. But the handoff between the pieces and the comment chasing happened without me copy-pasting.</p>
+<p>That was the taste. Now I look for other places where the same shape applies.</p>
+<h2>Ralph was the prototype</h2>
+<p>Geoff Huntley's Ralph loop was the simple ancestor: fresh context every iteration, external files for the goal and progress, a dumb while loop around the agent. It proved you could get an agent to keep working on something bigger than one prompt. It also proved that without isolation, without a real checker, and without good memory, the error rate makes the thing expensive and fragile. Every serious loop since has kept the "fresh context + external state" idea and added the missing guardrails.</p>
+<h2>What is still on you</h2>
+<p>The loop does not remove the engineer. It removes the part of the job that was mostly drudgery.</p>
+<p>You still choose the goal. You still write the stop condition that actually matters for this project. You still read enough of the output to keep your understanding current. You still apply taste. "Good ideas still need human ingenuity," as Pete put it. If you treat the loop as a way to stop thinking, you will get code you do not understand and a system you cannot steer.</p>
+<p>Verification is the price of walking away. If the checker is weak, the loop just produces more confident mistakes.</p>
+<h2>How to start</h2>
+<p>Pick one repetitive thing you already do by hand. Triage failures. Keep a dependency up to date. Apply a standard refactor. Write the success criteria first and put them in a file next to the code. Give the agent a worktree or a branch that cannot collide with anything live. Add one explicit review or test gate. Run the loop while you are still watching the output. Only then let the heartbeat own the night.</p>
+<p>Write the rules down before you are tired of explaining them. The first version of the SKILL.md or AGENTS.md will be wrong. That is fine. You edit the rules the same way you edit any other code.</p>
+<p>Start small. One loop. Make it boring. Make it reliable. Then notice what else is now obvious to automate the same way.</p>
+<h2>Same principles as everything else</h2>
+<p>This is not a new religion. It is the same ideas that make the rest of the work on this site work. External state over in-memory magic. Isolation so things can fail safely. Written rules instead of tribal knowledge. A verifier that is not the implementor. Boring tools that stay out of the way. Delete what you can. Keep the leverage and the ownership.</p>
+<p>The agents are not going to design the loops for you yet in a way you would trust for real work. You still have to do that. But once the loop exists, a lot of the prompting disappears. You stop being the pager. You become the person who writes the system that pages the agents.</p>
+<p>That feels like the right direction.</p>`
     }
 };
 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loops — lulzx</title>
+<meta name="description" content="I used to be the one running the loop for agents. Now I design loops that run themselves. The primitives, the lived experiments, and how to start without losing ownership.">
+<meta property="og:title" content="Loops">
+<meta property="og:description" content="I used to be the one running the loop for agents. Now I design loops that run themselves. The primitives, the lived experiments, and how to start without losing ownership.">
+<meta property="og:type" content="article">
+<link rel="canonical" href="https://lulzx.com/learn/loops">
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f3efe6;--paper2:#ece6d8;--ink:#2a2622;--ink-soft:#4d473d;--muted:#7d7666;--faint:#a69e8d;--line:#ddd6c6;--line-strong:#c8bda7;--serif:'Spectral',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace}
+html.dark{--paper:#16140f;--paper2:#1d1a14;--ink:#ece5d6;--ink-soft:#d2cab8;--muted:#9a9283;--faint:#6e6757;--line:#312c23;--line-strong:#423c30}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--serif);background:var(--paper);color:var(--ink);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line)}
+.hin{max-width:1180px;margin:0 auto;padding:0 24px;height:74px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:inline-flex;align-items:center;gap:.6rem;font-size:1.25rem;font-weight:500;color:var(--ink);text-decoration:none}
+.brand img{width:26px;height:26px}
+.hin a.learn{color:var(--muted);text-decoration:none;font-size:.95rem}
+.hin a.learn:hover{color:var(--ink)}
+main{padding:2.6rem 0 1rem;min-height:60vh}
+.back{display:inline-flex;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.92rem;margin-bottom:2rem}
+.back:hover{color:var(--ink)}
+h1.t{font-weight:400;font-size:clamp(2rem,5vw,2.9rem);letter-spacing:-.02em;line-height:1.1}
+.meta{display:flex;flex-wrap:wrap;gap:1.3rem;align-items:center;margin-top:1.3rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.badge{border:1px solid var(--line-strong);padding:.3rem .8rem;border-radius:2px;color:var(--ink-soft);letter-spacing:.12em}
+.badge.seed{border-style:dashed}.badge.evergreen{border-style:double;border-width:3px}
+article{margin-top:2.4rem}
+article p{margin-bottom:1.2rem;color:var(--ink-soft);font-size:1.06rem;line-height:1.78}
+article h2{font-weight:500;font-size:1.28rem;margin:2.4rem 0 1rem;letter-spacing:-.01em}
+article a{color:var(--ink);border-bottom:1px solid var(--line-strong)}
+article em{font-style:italic}article strong{font-weight:600}
+article code{font-family:var(--mono);font-size:.85em;background:var(--paper2);padding:.12em .38em;border-radius:3px}
+article pre{background:#1a1712;color:#ece5d6;padding:1.35rem 1.5rem;border-radius:4px;overflow-x:auto;margin:1.4rem 0 1.6rem;border:1px solid var(--line)}
+html.dark article pre{background:#0e0c08}
+article pre code{background:none;padding:0;color:inherit;font-size:.82rem;line-height:1.6}
+footer{margin-top:4rem;border-top:1px solid var(--line)}
+.fin{max-width:1180px;margin:0 auto;padding:1.5rem 24px;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.fin .built{font-family:var(--mono);font-style:italic;font-size:.75rem;color:var(--faint)}
+::selection{background:var(--ink);color:var(--paper)}
+</style>
+<script>try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark');}catch(e){}</script>
+</head>
+<body>
+<header><div class="hin"><a class="brand" href="/"><img src="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E" alt=""> lulzx.com</a><a class="learn" href="/learn">writing →</a></div></header>
+<main><div class="wrap">
+<a class="back" href="/learn">← writing</a>
+<h1 class="t">Loops</h1>
+<div class="meta"><span class="badge sprout">sprout</span><span>Jun 2026</span><span>6 min read</span></div>
+<article><p>Here's your monthly reminder that you shouldn't be prompting coding agents anymore. You should be designing loops that prompt your agents.</p>
+<p>I don't know about you, but that memo took a while to reach me.</p>
+<p>I had seen loops before. The Ralph loop in particular made me think agents could do real work over time instead of one shot. You put a goal and a while loop around the agent and let it iterate. It was exciting. It was also a mess. Error rate went up fast because the loop had no memory of what mattered, no real verifier, and no isolation. Cool demo. Not much shipping.</p>
+<p>So I went back to what I knew. Ask for a plan. Read it. Say go do part one. Part two. Spin up another agent for review. Copy the feedback back by hand. I was the loop. I was carrying context, deciding order, making sure nothing fell through. It worked, but it did not scale with me.</p>
+<p>Then Pete's post landed. He has been ahead on this for a long time. I used to think of him as the guy running weird experiments so the rest of us could see what the future might look like in duct-tape form. I still do in some ways. But I started paying attention when he talked about getting agents to prompt themselves, setting up watchers that review code and trigger their own re-reviews, worktrees that monitor specific PRs or issues, and letting the system run while he slept.</p>
+<p>Boris Cherny, who built Claude Code at Anthropic, said something almost identical around the same time: he does not prompt Claude anymore. He has loops running that prompt Claude. His job is to write loops.</p>
+<p>Addy Osmani named the practice "loop engineering" and laid out the shape that keeps showing up across tools. That is when it clicked for me.</p>
+<h2>What changed</h2>
+<p>Before, the agent was a very fast junior I had to supervise turn by turn. Now I can give it a goal, a place to work that will not collide with anything else, some written rules it reads every time, and a way to check its own work. Then I walk away.</p>
+<p>The loop does the discovery, the execution, the observation, the verification, and the decision to continue or stop. I design the loop and I decide what "good" means.</p>
+<h2>The pieces that actually matter</h2>
+<p>A loop is not just "run the agent again." It needs six things that live outside any single model call.</p>
+<p><strong>A heartbeat.</strong> Something that wakes up on a schedule or a trigger. Cron, a /loop command, a GitHub webhook, a simple timer in whatever tool you use. Without this it is just one manual run.</p>
+<p><strong>Isolation.</strong> Git worktrees or per-thread checkouts. The transcript that changed how I thought about this put it plainly: once the code for this PR lives in its own directory, you stop caring if the agent makes a mess there. Other work is not blocked. Two agents can run at once without stepping on the same files.</p>
+<p><strong>Memory that survives the call.</strong> The model forgets between runs. The filesystem does not. Write plans as HTML files so you can read them on your phone at 3am. Keep a progress log. Use something like AGENTS.md or SKILL.md at the root so every fresh agent starts with the real conventions instead of guessing. The repo remembers. The context window does not.</p>
+<p><strong>Skills and rules written down once.</strong> The conventions. The "we never do X because of that one incident." The checklist for a good PR here. Put it in a file the agent is told to read. You stop paying the "explain the whole project" tax on every iteration.</p>
+<p><strong>A verifier that is not the writer.</strong> The model that just edited the code is the worst possible judge of whether the edit is correct. Split them. Use a second sub-agent, a different model, or at minimum a /goal step where a fresh pass checks explicit conditions (tests pass, lint clean, matches the spec in the plan file). Maker and checker.</p>
+<p><strong>Connectors to the real world.</strong> The loop is only useful if it can open the PR, leave a comment, update the issue, run the deploy command, or send the message when it is done. Tools that only talk to the filesystem are toys. The ones that can act in your actual environment are the ones that compound.</p>
+<h2>A small loop</h2>
+<p>Every night a heartbeat runs on this repo. It calls a small triage skill that looks at open issues and recent commits, writes a short markdown summary, and for anything small and safe it opens an isolated worktree, lets an agent make the change, runs the trivial checks that exist, and opens a draft PR with the plan file attached. I get a notification. Most nights nothing happens. When something does, the diff is small and I can review it in a minute.</p>
+<p>I did not write a prompt for "go look at issues." I wrote the heartbeat, the skill file, the rule that changes must be tiny, and the stop condition. The loop does the rest.</p>
+<h2>A larger one</h2>
+<p>The one that really landed for me was bigger than one PR. I had a chunk of work that was clearly three or four stacked changes. I asked the agent to break it into plans as HTML files. Then I sent one message: spin up a thread to implement the first plan and file the PR, spin a review thread when the PR appears, put that review thread into a loop that watches for comments and addresses them until it gets approvals, merge when green, pull main, and start the next chunk.</p>
+<p>It made a diagram. It used a heartbeat attached to the monitoring thread. It did the work. I went to sleep. I woke up with four stacked, heavily reviewed PRs ready. It was not fully autonomous and I am not claiming it was. I still set the goal and the definition of done. But the handoff between the pieces and the comment chasing happened without me copy-pasting.</p>
+<p>That was the taste. Now I look for other places where the same shape applies.</p>
+<h2>Ralph was the prototype</h2>
+<p>Geoff Huntley's Ralph loop was the simple ancestor: fresh context every iteration, external files for the goal and progress, a dumb while loop around the agent. It proved you could get an agent to keep working on something bigger than one prompt. It also proved that without isolation, without a real checker, and without good memory, the error rate makes the thing expensive and fragile. Every serious loop since has kept the "fresh context + external state" idea and added the missing guardrails.</p>
+<h2>What is still on you</h2>
+<p>The loop does not remove the engineer. It removes the part of the job that was mostly drudgery.</p>
+<p>You still choose the goal. You still write the stop condition that actually matters for this project. You still read enough of the output to keep your understanding current. You still apply taste. "Good ideas still need human ingenuity," as Pete put it. If you treat the loop as a way to stop thinking, you will get code you do not understand and a system you cannot steer.</p>
+<p>Verification is the price of walking away. If the checker is weak, the loop just produces more confident mistakes.</p>
+<h2>How to start</h2>
+<p>Pick one repetitive thing you already do by hand. Triage failures. Keep a dependency up to date. Apply a standard refactor. Write the success criteria first and put them in a file next to the code. Give the agent a worktree or a branch that cannot collide with anything live. Add one explicit review or test gate. Run the loop while you are still watching the output. Only then let the heartbeat own the night.</p>
+<p>Write the rules down before you are tired of explaining them. The first version of the SKILL.md or AGENTS.md will be wrong. That is fine. You edit the rules the same way you edit any other code.</p>
+<p>Start small. One loop. Make it boring. Make it reliable. Then notice what else is now obvious to automate the same way.</p>
+<h2>Same principles as everything else</h2>
+<p>This is not a new religion. It is the same ideas that make the rest of the work on this site work. External state over in-memory magic. Isolation so things can fail safely. Written rules instead of tribal knowledge. A verifier that is not the implementor. Boring tools that stay out of the way. Delete what you can. Keep the leverage and the ownership.</p>
+<p>The agents are not going to design the loops for you yet in a way you would trust for real work. You still have to do that. But once the loop exists, a lot of the prompting disappears. You stop being the pager. You become the person who writes the system that pages the agents.</p>
+<p>That feels like the right direction.</p></article>
+</div></main>
+<footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
+</body>
+</html>
