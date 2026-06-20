@@ -154,6 +154,8 @@ html.dark .ink-img { mix-blend-mode: screen; filter: invert(.93) contrast(1.02) 
 
 /* ---------- writing list ---------- */
 .write-list { border: 1px solid var(--line); border-radius: 3px; overflow: hidden; max-width: 720px; margin: 0 auto; }
+.filter-input { width: 100%; max-width: 320px; display: block; margin: 0 auto 1rem; font-family: var(--mono); font-size: .9rem; padding: .4rem .6rem; border: 1px solid var(--line); border-radius: 2px; background: var(--paper); color: var(--ink-soft); }
+.filter-input:focus { outline: none; border-color: var(--line-strong); color: var(--ink); }
 .write-row { display: grid; grid-template-columns: 100px 1fr auto; align-items: center; gap: 1.1rem; padding: 1.05rem 1.4rem; transition: background .2s ease; }
 .write-row + .write-row { border-top: 1px solid var(--line); }
 .write-row:hover { background: var(--paper-2); }
@@ -204,8 +206,8 @@ html.dark .about-plum { mix-blend-mode: screen; filter: invert(.93) brightness(1
 .page { min-height: 62vh; padding: 2.6rem 0 1rem; }
 .back-link { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted); font-size: .92rem; margin-bottom: 2rem; transition: color .2s ease, gap .2s ease; }
 .back-link:hover { color: var(--ink); gap: .7rem; }
-.page-title { font-weight: 400; font-size: clamp(2rem, 4vw, 2.9rem); letter-spacing: -.02em; line-height: 1.1; }
-.page-intro { margin-top: 1rem; max-width: 58ch; color: var(--ink-soft); font-size: 1.05rem; font-weight: 300; }
+.page-title { font-weight: 400; font-size: clamp(2rem, 4vw, 2.9rem); letter-spacing: -.02em; line-height: 1.1; text-align: center; }
+.page-intro { margin-top: 1rem; max-width: 58ch; color: var(--ink-soft); font-size: 1.05rem; font-weight: 300; margin-left: auto; margin-right: auto; text-align: center; }
 .meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1.3rem; margin-top: 1.4rem; font-family: var(--mono); font-size: .74rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
 .badge { border: 1px solid var(--line-strong); padding: .32rem .8rem; border-radius: 2px; color: var(--ink-soft); letter-spacing: .12em; }
 .badge.seed { border-style: dashed; }
@@ -1490,8 +1492,20 @@ const projectsStore = ref([
   { icon: 'term', name: 'warpx-metal', desc: 'WarpX PIC simulations on Apple Silicon via Metal. Real physics.', tags: 'Shell · 8★', href: 'https://github.com/Lulzx/warpx-metal' }
 ]);
 
-// Fetch live GitHub projects (sorted by stars). Falls back to the list above if offline/rate-limited.
-fetch('https://api.github.com/users/Lulzx/repos?per_page=100&sort=stars')
+// Genius cache: localStorage for 30min to avoid GitHub rate limits + instant loads. Falls back gracefully.
+const PROJECTS_CACHE_KEY = 'lulzx_projects_v1';
+const PROJECTS_CACHE_TTL = 30 * 60 * 1000;
+try {
+  const cached = localStorage.getItem(PROJECTS_CACHE_KEY);
+  if (cached) {
+    const { ts, val } = JSON.parse(cached);
+    if (Date.now() - ts < PROJECTS_CACHE_TTL && Array.isArray(val) && val.length) {
+      projectsStore.value = val;
+    }
+  }
+} catch (e) {}
+// Live fetch from GitHub (stars sorted, real links + data). Background refresh if cached.
+const fetchProjects = () => fetch('https://api.github.com/users/Lulzx/repos?per_page=100&sort=stars')
   .then(r => (r.ok ? r.json() : []))
   .then(data => {
     if (!Array.isArray(data) || data.length === 0) return;
@@ -1514,9 +1528,14 @@ fetch('https://api.github.com/users/Lulzx/repos?per_page=100&sort=stars')
           href: r.html_url
         };
       });
-    if (picked.length) projectsStore.value = picked;
+    if (picked.length) {
+      projectsStore.value = picked;
+      try { localStorage.setItem(PROJECTS_CACHE_KEY, JSON.stringify({ ts: Date.now(), val: picked })); } catch (e) {}
+    }
   })
   .catch(() => {});
+if (!localStorage.getItem(PROJECTS_CACHE_KEY)) fetchProjects();
+else setTimeout(fetchProjects, 800); // gentle background refresh
 
 // ---- components ----
 const Home = {
@@ -1654,11 +1673,20 @@ const WordDetail = {
 };
 
 const LearnIndex = {
-    computed: { notes() { return allNotes(); } },
+    data() { return { q: '' }; },
+    computed: { 
+      notes() { 
+        let all = allNotes();
+        if (!this.q) return all;
+        const qq = this.q.toLowerCase().trim();
+        return all.filter(p => (p.title + ' ' + (p.words || []).join(' ')).toLowerCase().includes(qq));
+      } 
+    },
     template: `
 <div class="page container">
   <h1 class="page-title">Writing</h1>
   <p class="page-intro">Notes on building software: what I've learned shipping small tools, systems, and the occasional strong opinion.</p>
+  <input class="filter-input" type="text" placeholder="Filter notes (title or tags)..." v-model="q" />
   <div class="write-list" style="margin-top:2.4rem">
     <router-link class="write-row" v-for="p in notes" :key="p.id" :to="'/learn/' + p.id">
       <span class="date">{{ fmtDate(p.tended || p.planted) }}</span>
@@ -1701,11 +1729,20 @@ const NoteDetail = {
 };
 
 const ProjectsIndex = {
-    computed: { projects() { return projectsStore.value; } },
+    data() { return { q: '' }; },
+    computed: { 
+      projects() { 
+        let all = projectsStore.value;
+        if (!this.q) return all;
+        const qq = this.q.toLowerCase().trim();
+        return all.filter(p => (p.name + ' ' + p.desc + ' ' + p.tags).toLowerCase().includes(qq));
+      } 
+    },
     template: `
 <div class="page container">
   <h1 class="page-title">Projects</h1>
   <p class="page-intro">Small, focused tools. Most are open source. All are built to do one thing well and stay out of your way.</p>
+  <input class="filter-input" type="text" placeholder="Filter projects..." v-model="q" />
   <div class="proj-grid" style="margin-top:2.4rem">
     <a class="proj-card" v-for="pr in projects" :key="pr.name" :href="pr.href" target="_blank" rel="noopener">
       <span class="ico" v-html="ICO[pr.icon]"></span>
