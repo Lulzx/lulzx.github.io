@@ -1709,7 +1709,8 @@ const LearnIndex = {
         if (!this.q.trim()) return all;
         const qq = this.q.toLowerCase().trim();
         return all.filter(p => (p.title + ' ' + (p.words || []).join(' ') + ' ' + (p.content || '').replace(/<[^>]*>/g, ' ')).toLowerCase().includes(qq));
-      }
+      },
+      total() { return allNotes().length; }
     },
     watch: {
       q(v) { this.$router.replace({ query: v.trim() ? { q: v } : {} }); }
@@ -1729,7 +1730,7 @@ const LearnIndex = {
   <h1 class="page-title">Writing</h1>
   <p class="page-intro">Notes on building software: what I've learned shipping small tools, systems, and the occasional strong opinion.</p>
   <input class="filter-input" ref="filter" type="search" placeholder="Filter notes... press /" v-model="q" @keydown.esc="q = ''; $refs.filter.blur()" aria-label="Filter notes" />
-  <div style="text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--faint);margin:-.3rem 0 .8rem;">{{ notes.length }} / {{ allNotes().length }}</div>
+  <div style="text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--faint);margin:-.3rem 0 .8rem;">{{ notes.length }} / {{ total }}</div>
   <div class="write-list" style="margin-top:2.4rem">
     <router-link class="write-row" v-for="p in notes" :key="p.id" :to="'/learn/' + p.id">
       <span class="date">{{ fmtDate(p.tended || p.planted) }}</span>
@@ -1834,7 +1835,8 @@ const ProjectsIndex = {
         if (!this.q.trim()) return all;
         const qq = this.q.toLowerCase().trim();
         return all.filter(p => (p.name + ' ' + p.desc + ' ' + p.tags).toLowerCase().includes(qq));
-      }
+      },
+      total() { return projectsStore.value.length; }
     },
     watch: {
       q(v) { this.$router.replace({ query: v.trim() ? { q: v } : {} }); }
@@ -1854,7 +1856,7 @@ const ProjectsIndex = {
   <h1 class="page-title">Projects</h1>
   <p class="page-intro">Small, focused tools. Most are open source. All are built to do one thing well and stay out of your way.</p>
   <input class="filter-input" ref="filter" type="search" placeholder="Filter projects... press /" v-model="q" @keydown.esc="q = ''; $refs.filter.blur()" aria-label="Filter projects" />
-  <div style="text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--faint);margin:-.3rem 0 .8rem;">{{ projects.length }} / {{ projectsStore.value.length }}</div>
+  <div style="text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--faint);margin:-.3rem 0 .8rem;">{{ projects.length }} / {{ total }}</div>
   <div class="proj-grid" style="margin-top:2.4rem">
     <a class="proj-card" v-for="pr in projects" :key="pr.name" :href="pr.href" target="_blank" rel="noopener">
       <span class="ico" v-html="ICO[pr.icon]"></span>
