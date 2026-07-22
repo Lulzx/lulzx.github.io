@@ -9,47 +9,54 @@
 <meta property="og:description" content="One cheap ARM box runs everything I ship. No Kubernetes, no managed database, no CI platform. A reverse proxy and a little discipline. That is the whole stack.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/one-vps">
-<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Yuji+Syuku&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#f3efe6;--paper2:#ece6d8;--ink:#2a2622;--ink-soft:#4d473d;--muted:#7d7666;--faint:#a69e8d;--line:#ddd6c6;--line-strong:#c8bda7;--serif:'Spectral',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace}
-html.dark{--paper:#16140f;--paper2:#1d1a14;--ink:#ece5d6;--ink-soft:#d2cab8;--muted:#9a9283;--faint:#6e6757;--line:#312c23;--line-strong:#423c30}
+:root{--paper:#EFEEEA;--paper2:#E7E6E1;--panel:#F6F5F2;--black:#1B1B1D;--ink:#1B1B1D;--ink-soft:#3B3B3D;--muted:#6F7072;--faint:#7E7E79;--line:#D2D1CD;--line-strong:#ABABA6;--red:#C9252B;--red-text:#A81C22;--stripe:repeating-linear-gradient(-45deg,var(--red) 0 9px,transparent 9px 18px);--disp:'Oswald','Arial Narrow',sans-serif;--body:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN',-apple-system,sans-serif;--jp:'Yuji Syuku','Hiragino Mincho ProN',serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+html.dark{--paper:#131314;--paper2:#1A1A1C;--panel:#19191B;--black:#0C0C0D;--ink:#ECECEA;--ink-soft:#C9C9C6;--muted:#929290;--faint:#85858A;--line:#2A2A2C;--line-strong:#434346;--red:#E23636;--red-text:#E5484D}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--serif);background:var(--paper);color:var(--ink);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+::selection{background:var(--red);color:#fff}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
 .wrap{max-width:760px;margin:0 auto;padding:0 24px}
-header{border-bottom:1px solid var(--line)}
-.hin{max-width:1180px;margin:0 auto;padding:0 24px;height:74px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:inline-flex;align-items:center;gap:.6rem;font-size:1.25rem;font-weight:500;color:var(--ink);text-decoration:none}
-.brand img{width:26px;height:26px}
-.hin a.learn{color:var(--muted);text-decoration:none;font-size:.95rem}
-.hin a.learn:hover{color:var(--ink)}
+header{background:var(--black);color:#ECECEA}
+header::before{content:"";display:block;height:7px;background-image:var(--stripe);background-color:var(--paper)}
+.hin{max-width:1180px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--disp);font-weight:500;font-size:1rem;letter-spacing:.14em;text-transform:uppercase;color:#ECECEA;text-decoration:none}
+.brand img{width:24px;height:24px}
+.hin a.learn{color:#A5A5A2;text-decoration:none;font-family:var(--disp);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase}
+.hin a.learn:hover{color:#ECECEA}
 main{padding:2.6rem 0 1rem;min-height:60vh}
-.back{display:inline-flex;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.92rem;margin-bottom:2rem}
-.back:hover{color:var(--ink)}
-h1.t{font-weight:400;font-size:clamp(2rem,5vw,2.9rem);letter-spacing:-.02em;line-height:1.1}
-.meta{display:flex;flex-wrap:wrap;gap:1.3rem;align-items:center;margin-top:1.3rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
-.badge{border:1px solid var(--line-strong);padding:.3rem .8rem;border-radius:2px;color:var(--ink-soft);letter-spacing:.12em}
-.badge.seed{border-style:dashed}.badge.evergreen{border-style:double;border-width:3px}
+.back{display:inline-flex;gap:.5rem;color:var(--muted);text-decoration:none;font-family:var(--disp);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:2rem}
+.back:hover{color:var(--red-text)}
+h1.t{font-family:var(--disp);font-weight:600;font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.03em;text-transform:uppercase;line-height:1.12}
+.meta{display:flex;flex-wrap:wrap;gap:.8rem 1.3rem;align-items:center;margin-top:1.3rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.badge{font-family:var(--disp);font-size:.66rem;letter-spacing:.2em;padding:.34rem .75rem;display:inline-flex;align-items:center;gap:.5rem;border:1.5px solid var(--ink);color:var(--ink)}
+.badge::before{font-family:var(--jp);font-size:.92rem;letter-spacing:0;line-height:1}
+.badge.seed{border-style:dashed;border-color:var(--line-strong);color:var(--muted)}.badge.seed::before{content:"種"}
+.badge.sprout{background:var(--ink);color:var(--paper)}.badge.sprout::before{content:"芽"}
+.badge.evergreen{background:var(--red);border-color:var(--red);color:#fff}.badge.evergreen::before{content:"常"}
 article{margin-top:2.4rem}
-article p{margin-bottom:1.2rem;color:var(--ink-soft);font-size:1.06rem;line-height:1.78}
-article h2{font-weight:500;font-size:1.28rem;margin:2.4rem 0 1rem;letter-spacing:-.01em}
-article a{color:var(--ink);border-bottom:1px solid var(--line-strong)}
-article em{font-style:italic}article strong{font-weight:600}
-article code{font-family:var(--mono);font-size:.85em;background:var(--paper2);padding:.12em .38em;border-radius:3px}
-article pre{background:#1a1712;color:#ece5d6;padding:1.35rem 1.5rem;border-radius:4px;overflow-x:auto;margin:1.4rem 0 1.6rem;border:1px solid var(--line)}
-html.dark article pre{background:#0e0c08}
+article p{margin-bottom:1.2rem;color:var(--ink-soft);font-size:1.01rem;line-height:1.9}
+article h2{font-family:var(--disp);font-weight:600;font-size:1.04rem;letter-spacing:.14em;text-transform:uppercase;margin:2.6rem 0 1rem;padding-top:.8rem;border-top:1px solid var(--line-strong);position:relative}
+article h2::before{content:"";position:absolute;top:-1px;left:0;width:34px;height:3px;background:var(--red)}
+article a{color:var(--ink);border-bottom:2px solid var(--red);text-decoration:none}
+article a:hover{background:var(--red);color:#fff}
+article em{font-style:normal;font-weight:700}article strong{font-weight:700}
+article code{font-family:var(--mono);font-size:.85em;background:var(--paper2);padding:.12em .38em}
+article pre{background:#0C0C0D;color:#ECECEA;padding:1.35rem 1.5rem;overflow-x:auto;margin:1.4rem 0 1.6rem;border:2px solid var(--ink)}
 article pre code{background:none;padding:0;color:inherit;font-size:.82rem;line-height:1.6}
-footer{margin-top:4rem;border-top:1px solid var(--line)}
-.fin{max-width:1180px;margin:0 auto;padding:1.5rem 24px;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
-.fin .built{font-family:var(--mono);font-style:italic;font-size:.75rem;color:var(--faint)}
-::selection{background:var(--ink);color:var(--paper)}
+footer{margin-top:4rem;background:var(--black);color:#A5A5A2}
+footer::before{content:"";display:block;height:7px;background-image:var(--stripe);background-color:var(--paper)}
+.fin{max-width:1180px;margin:0 auto;padding:1.5rem 24px;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.8rem}
+.fin .built{font-family:var(--mono);font-size:.72rem;color:#737370}
 </style>
 <script>try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark');}catch(e){}</script>
 </head>
 <body>
-<header><div class="hin"><a class="brand" href="/"><img src="data:image/svg+xml,%3Csvg viewBox='-50 -50 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2622'%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(45)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(90)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(135)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(180)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(225)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(270)'/%3E%3Cellipse cx='0' cy='-30' rx='6.5' ry='15' transform='rotate(315)'/%3E%3C/g%3E%3Ccircle r='13' fill='%232a2622'/%3E%3Ccircle r='6.5' fill='%23f3efe6'/%3E%3C/svg%3E" alt=""> lulzx.com</a><a class="learn" href="/learn">writing →</a></div></header>
+<header><div class="hin"><a class="brand" href="/"><img src="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E" alt=""> lulzx.com</a><a class="learn" href="/learn">writing →</a></div></header>
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Everything on one box</h1>
