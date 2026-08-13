@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loops — lulzx</title>
-<meta name="description" content="I used to be the one running the loop for agents. Now I design loops that run themselves. The primitives, the lived experiments, and how to start without losing ownership.">
+<meta name="description" content="Stop prompting agents turn by turn. Design a small system that finds the work, checks it, and decides the next thing. The pieces, two loops I actually run, and what is still on you.">
 <meta property="og:title" content="Loops">
-<meta property="og:description" content="I used to be the one running the loop for agents. Now I design loops that run themselves. The primitives, the lived experiments, and how to start without losing ownership.">
+<meta property="og:description" content="Stop prompting agents turn by turn. Design a small system that finds the work, checks it, and decides the next thing. The pieces, two loops I actually run, and what is still on you.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/loops">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,25 +60,27 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Loops</h1>
-<div class="meta"><span class="badge sprout">sprout</span><span>Jun 2026</span><span>6 min read</span></div>
-<article><p>Here's your monthly reminder that you shouldn't be prompting coding agents anymore. You should be designing loops that prompt your agents.</p>
-<p>I don't know about you, but that memo took a while to reach me.</p>
-<p>I had seen loops before. The Ralph loop in particular made me think agents could do real work over time instead of one shot. You put a goal and a while loop around the agent and let it iterate. It was exciting. It was also a mess. Error rate went up fast because the loop had no memory of what mattered, no real verifier, and no isolation. Cool demo. Not much shipping.</p>
-<p>So I went back to what I knew. Ask for a plan. Read it. Say go do part one. Part two. Spin up another agent for review. Copy the feedback back by hand. I was the loop. I was carrying context, deciding order, making sure nothing fell through. It worked, but it did not scale with me.</p>
-<p>Then Pete's post landed. He has been ahead on this for a long time. I used to think of him as the guy running weird experiments so the rest of us could see what the future might look like in duct-tape form. I still do in some ways. But I started paying attention when he talked about getting agents to prompt themselves, setting up watchers that review code and trigger their own re-reviews, worktrees that monitor specific PRs or issues, and letting the system run while he slept.</p>
-<p>Boris Cherny, who built Claude Code at Anthropic, said something almost identical around the same time: he does not prompt Claude anymore. He has loops running that prompt Claude. His job is to write loops.</p>
-<p>Addy Osmani named the practice "loop engineering" and laid out the shape that keeps showing up across tools. That is when it clicked for me.</p>
-<h2>What changed</h2>
-<p>Before, the agent was a very fast junior I had to supervise turn by turn. Now I can give it a goal, a place to work that will not collide with anything else, some written rules it reads every time, and a way to check its own work. Then I walk away.</p>
-<p>The loop does the discovery, the execution, the observation, the verification, and the decision to continue or stop. I design the loop and I decide what "good" means.</p>
+<div class="meta"><span class="badge sprout">sprout</span><span>Jun 2026</span><span>7 min read</span></div>
+<article><p>You should not be prompting coding agents anymore. You should be designing loops that prompt them.</p>
+<p>I was late to that. For a long time I treated the agent like a very fast junior. I asked for a plan. I read it. I said do part one. Then part two. I spun up another agent for review and copied the feedback back by hand. I was the loop. I carried the context, decided the order, made sure nothing fell through. It worked. It did not scale with me.</p>
+<p>The first version I tried was almost a joke. A goal file, a progress file, and a while loop that started a fresh agent every time the last one exited. Same prompt. Clean context. The only memory was on disk: the code, the git log, a short note about what already failed. That is the whole trick. The model forgets. The repo does not.</p>
+<p>It was exciting. It was also a mess. Error rate went up fast. There was no isolation, no checker that was not also the writer, and no real record of what mattered. Cool demo. Not much shipping.</p>
+<h2>What a loop is</h2>
+<p>A loop is a small system that finds the work, hands it out, checks it, writes down what is done, and decides the next thing. The model is a function that system calls. You design the system once. After that you are not sitting in the chair for every turn.</p>
+<p>Inside each beat the shape is always the same. The agent acts. It looks at what came back. It measures that against the goal. It either continues or it stops. I design the loop. I decide what good means.</p>
+<p>Not every task wants this. The ones that do are the ones you already repeat often enough to pay the design cost, the ones where done can be a check you can actually run, and the ones whose output is worth the tokens. If you cannot write the stop condition, you do not have a loop. You have a machine that will keep spending.</p>
+<h2>How it wakes up</h2>
+<p>A one-off run is not a loop. Something that is not you has to start the next beat.</p>
+<p>Sometimes that is a short timer: watch the logs, check a health signal, scan for drift. Sometimes it is a clock: every morning, look at yesterday's failures. Sometimes it is an event: a push, a red CI job, a comment on a PR. Sometimes it is a goal that keeps going until a condition is true, then halts.</p>
+<p>Interval, schedule, hook, until-done. Pick the one that matches the work. Do not run a forever loop on a job that should fire once when something changes.</p>
 <h2>The pieces that actually matter</h2>
-<p>A loop is not just "run the agent again." It needs six things that live outside any single model call.</p>
-<p><strong>A heartbeat.</strong> Something that wakes up on a schedule or a trigger. Cron, a /loop command, a GitHub webhook, a simple timer in whatever tool you use. Without this it is just one manual run.</p>
-<p><strong>Isolation.</strong> Git worktrees or per-thread checkouts. The transcript that changed how I thought about this put it plainly: once the code for this PR lives in its own directory, you stop caring if the agent makes a mess there. Other work is not blocked. Two agents can run at once without stepping on the same files.</p>
-<p><strong>Memory that survives the call.</strong> The model forgets between runs. The filesystem does not. Write plans as HTML files so you can read them on your phone at 3am. Keep a progress log. Use something like AGENTS.md or SKILL.md at the root so every fresh agent starts with the real conventions instead of guessing. The repo remembers. The context window does not.</p>
-<p><strong>Skills and rules written down once.</strong> The conventions. The "we never do X because of that one incident." The checklist for a good PR here. Put it in a file the agent is told to read. You stop paying the "explain the whole project" tax on every iteration.</p>
-<p><strong>A verifier that is not the writer.</strong> The model that just edited the code is the worst possible judge of whether the edit is correct. Split them. Use a second sub-agent, a different model, or at minimum a /goal step where a fresh pass checks explicit conditions (tests pass, lint clean, matches the spec in the plan file). Maker and checker.</p>
-<p><strong>Connectors to the real world.</strong> The loop is only useful if it can open the PR, leave a comment, update the issue, run the deploy command, or send the message when it is done. Tools that only talk to the filesystem are toys. The ones that can act in your actual environment are the ones that compound.</p>
+<p>Running the agent again is the cheap part. The rest lives outside any single model call.</p>
+<p><strong>A heartbeat.</strong> Cron, a webhook, a hook on commit, a timer in whatever tool you use. Without this it is just one manual run.</p>
+<p><strong>Isolation.</strong> A git worktree or a per-thread checkout. Once this change lives in its own directory, you stop caring if the agent makes a mess there. Other work is not blocked. Two agents writing the same files at the same time will either overwrite each other or spend the night fighting a merge.</p>
+<p><strong>Memory that survives the call.</strong> Write the plan to a file you can read on your phone at 3am. Keep a progress log. Commit. The next iteration reads the repo, not a bloated transcript. If you keep appending the same conversation, quality drops and the bill grows with every turn. Fresh context is the point. A new instance does not talk itself into the last mistake.</p>
+<p><strong>Skills and rules written down once.</strong> The conventions. The "we never do X because of that one incident." The checklist for a good PR here. Put it in a file the agent is told to read. An agent that starts cold will fill any hole in your intent with a confident guess. You stop paying the explain-the-whole-project tax on every iteration.</p>
+<p><strong>A verifier that is not the writer.</strong> The model that just edited the code is the worst possible judge of whether the edit is correct. Split them. A second agent, a different model, or a fresh pass that only checks explicit conditions: tests pass, lint clean, matches the spec in the plan file. The thing that decides we are done should not be the thing that did the work. Maker and checker.</p>
+<p><strong>Connectors to the real world.</strong> The loop is only useful if it can open the PR, leave a comment, update the issue, run the deploy command, or send the message when it is done. A loop that only talks to the filesystem can describe the next step. A loop that can act in your actual environment can take it.</p>
 <h2>A small loop</h2>
 <p>Every night a heartbeat runs on this repo. It calls a small triage skill that looks at open issues and recent commits, writes a short markdown summary, and for anything small and safe it opens an isolated worktree, lets an agent make the change, runs the trivial checks that exist, and opens a draft PR with the plan file attached. I get a notification. Most nights nothing happens. When something does, the diff is small and I can review it in a minute.</p>
 <p>I did not write a prompt for "go look at issues." I wrote the heartbeat, the skill file, the rule that changes must be tiny, and the stop condition. The loop does the rest.</p>
@@ -86,20 +88,21 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <p>The one that really landed for me was bigger than one PR. I had a chunk of work that was clearly three or four stacked changes. I asked the agent to break it into plans as HTML files. Then I sent one message: spin up a thread to implement the first plan and file the PR, spin a review thread when the PR appears, put that review thread into a loop that watches for comments and addresses them until it gets approvals, merge when green, pull main, and start the next chunk.</p>
 <p>It made a diagram. It used a heartbeat attached to the monitoring thread. It did the work. I went to sleep. I woke up with four stacked, heavily reviewed PRs ready. It was not fully autonomous and I am not claiming it was. I still set the goal and the definition of done. But the handoff between the pieces and the comment chasing happened without me copy-pasting.</p>
 <p>That was the taste. Now I look for other places where the same shape applies.</p>
-<h2>Ralph was the prototype</h2>
-<p>Geoff Huntley's Ralph loop was the simple ancestor: fresh context every iteration, external files for the goal and progress, a dumb while loop around the agent. It proved you could get an agent to keep working on something bigger than one prompt. It also proved that without isolation, without a real checker, and without good memory, the error rate makes the thing expensive and fragile. Every serious loop since has kept the "fresh context + external state" idea and added the missing guardrails.</p>
 <h2>What is still on you</h2>
 <p>The loop does not remove the engineer. It removes the part of the job that was mostly drudgery.</p>
-<p>You still choose the goal. You still write the stop condition that actually matters for this project. You still read enough of the output to keep your understanding current. You still apply taste. "Good ideas still need human ingenuity," as Pete put it. If you treat the loop as a way to stop thinking, you will get code you do not understand and a system you cannot steer.</p>
-<p>Verification is the price of walking away. If the checker is weak, the loop just produces more confident mistakes.</p>
+<p>You still choose the goal. You still write the stop condition that actually matters for this project. You still read enough of the output to keep your understanding current. You still apply taste. A loop multiplies whatever judgment you put in the rubric. If that judgment is thin, you ship thin work faster.</p>
+<p>Three things get worse if you treat the loop as a way to stop thinking.</p>
+<p>The first is the gap between the code that exists and the code you understand. The loop can fill a repo overnight. Your picture of the system does not update unless you read. When something breaks at 2am, that gap is the whole problem.</p>
+<p>The second is unwritten intent. Why this approach, why not that one, what good means here. If that lives only in your head, the loop will invent a version of it and then optimize for the invention.</p>
+<p>The third is a loop that does not halt. Set a ceiling on iterations. Kill the run when the last few passes stop changing anything. Cap the spend. Without those the run can keep spending after the work has stopped moving.</p>
+<p>Verification is the price of walking away. If the checker is weak, the loop just produces more confident mistakes. Two people can build the same loop and get opposite results. One uses it to move faster on work they already understand. The other uses it to avoid understanding the work at all. The loop does not know the difference. You do.</p>
 <h2>How to start</h2>
 <p>Pick one repetitive thing you already do by hand. Triage failures. Keep a dependency up to date. Apply a standard refactor. Write the success criteria first and put them in a file next to the code. Give the agent a worktree or a branch that cannot collide with anything live. Add one explicit review or test gate. Run the loop while you are still watching the output. Only then let the heartbeat own the night.</p>
 <p>Write the rules down before you are tired of explaining them. The first version of the SKILL.md or AGENTS.md will be wrong. That is fine. You edit the rules the same way you edit any other code.</p>
 <p>Start small. One loop. Make it boring. Make it reliable. Then notice what else is now obvious to automate the same way.</p>
 <h2>Same principles as everything else</h2>
 <p>This is not a new religion. It is the same ideas that make the rest of the work on this site work. External state over in-memory magic. Isolation so things can fail safely. Written rules instead of tribal knowledge. A verifier that is not the implementor. Boring tools that stay out of the way. Delete what you can. Keep the leverage and the ownership.</p>
-<p>The agents are not going to design the loops for you yet in a way you would trust for real work. You still have to do that. But once the loop exists, a lot of the prompting disappears. You stop being the pager. You become the person who writes the system that pages the agents.</p>
-<p>That feels like the right direction.</p></article>
+<p>The agents are not going to design the loops for you yet in a way you would trust for real work. You still have to do that. But once the loop exists, a lot of the prompting disappears. You stop being the pager. You become the person who writes the system that pages the agents.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>
