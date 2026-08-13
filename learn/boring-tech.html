@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pick boring technology — lulzx</title>
-<meta name="description" content="PostgreSQL. Redis. A Linux server. That's it. That's the stack for 90% of what you'll ever build. I spent years chasing new databases. Tried CockroachDB, F">
+<meta name="description" content="PostgreSQL, Redis, a Linux server. I spent years chasing new databases. I keep the scarce attention for the product and let the stack stay dull.">
 <meta property="og:title" content="Pick boring technology">
-<meta property="og:description" content="PostgreSQL. Redis. A Linux server. That's it. That's the stack for 90% of what you'll ever build. I spent years chasing new databases. Tried CockroachDB, F">
+<meta property="og:description" content="PostgreSQL, Redis, a Linux server. I spent years chasing new databases. I keep the scarce attention for the product and let the stack stay dull.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/boring-tech">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,20 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Pick boring technology</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Feb 2024</span><span>1 min read</span></div>
-<article><p>PostgreSQL. Redis. A Linux server. That's it. That's the stack for 90% of what you'll ever build.</p>
-<p>I spent years chasing new databases. Tried CockroachDB, FaunaDB, SurrealDB. Each one had a compelling pitch. Each one had weird edge cases nobody documented because nobody had hit them yet.</p>
-<p>PostgreSQL has been hit with everything. Every edge case is documented. Every weird behavior has a Stack Overflow answer from 2014. That's not boring. That's battle-tested.</p>
-<p>New technology is someone else's unfinished experiment. You're volunteering to be their QA team. Sometimes that's worth it. Usually it isn't.</p>
-<p>I save my innovation budget for the thing that actually matters. The product. Everything under it should be as boring as possible.</p></article>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Feb 2024</span><span>3 min read</span></div>
+<article><p>PostgreSQL. Redis. A Linux server. That is the stack for most of what I will ever ship. I keep saying it like a joke. I mean it as a budget.</p>
+<p>I spent years chasing new databases. Tried CockroachDB, FaunaDB, SurrealDB. Each one had a compelling pitch. Multi-region this, no-ops that, a query language that would finally feel like the app. Each one had weird edge cases nobody documented because nobody had hit them yet. I hit them, with no page to steal.</p>
+<h2>What boring actually buys</h2>
+<p>PostgreSQL has been hit with everything. Every edge case is written down. Every weird behavior has a thread from 2014. I used to hear that as dull. I hear it now as a list of ways the thing has already failed, in public, with a workaround. I can list the main ways it will let me down before I put data in it. That is the whole prize.</p>
+<p>New software always has two piles of ignorance. Things I know I do not know, like what happens at 100% CPU. Things I do not even know to look for, like a stats file that pauses the world. Both piles exist in old software too. The new pile is just larger, and I will find it on a Saturday, with users waiting, with no thread to steal an answer from.</p>
+<p>New technology is someone else's unfinished experiment. I am volunteering to be their QA team. Sometimes that is the work. A database company should live on that edge. I am usually trying to ship a product. The product already spends the attention I have.</p>
+<h2>The check before I add a thing</h2>
+<p>Attention is scarce. I get a small budget for things that are weird, new, or hard. If I spend it on the store, I do not have it for the thing customers can see. I try to keep the budget for the product and let everything under it stay dull.</p>
+<p>Before I add a piece of stack, I try to solve the job with what I already run. The honest answer is almost never "we cannot." It is "we can, and it will be uglier for a while." Uglier for a while is cheaper than a second database I have to monitor, back up, and explain to the next person. If the real itch is that I want to use the new thing, I stop. Wanting a tool is not a problem the product has.</p>
+<p>The mix matters as much as any one choice. Adding a language that does the same job as the one I already have is an easy no. Adding another place that stores data feels different in the body, so I have talked myself into it more than once. It is still another thing that can fall over at 3am. The long cost of keeping a system up is larger than the inconvenience of building on a slightly worse fit.</p>
+<h2>When I still pick the new one</h2>
+<p>I do add new things. I add them when the current stack makes the job expensive in a way I can write down, and when I am willing to move the old path over or accept two systems for a named stretch of time. I do not add a cache because a talk made caching look clean. I add it because I can point at the query and the clock.</p>
+<p>I still reach for PostgreSQL first. I still put Redis in front when I actually need a fast shared scratchpad. I still put it on a Linux box I can ssh into. The dullness is the point. I want the failure to be a kind I have already seen.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

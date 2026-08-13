@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>semver, but 30x faster — lulzx</title>
-<meta name="description" content="Every npm install parses version strings. Thousands of them. Installing preact alone calls semver 21,000 times. One package. The semver package has 150 mil">
+<meta name="description" content="Installing preact calls semver 21,000 times. I precomputed the common versions and compiled the ranges. 208 million parses a second. Half my ideas were slower.">
 <meta property="og:title" content="semver, but 30x faster">
-<meta property="og:description" content="Every npm install parses version strings. Thousands of them. Installing preact alone calls semver 21,000 times. One package. The semver package has 150 mil">
+<meta property="og:description" content="Installing preact calls semver 21,000 times. I precomputed the common versions and compiled the ranges. 208 million parses a second. Half my ideas were slower.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/semver-30x-faster">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,24 +60,29 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">semver, but 30x faster</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Dec 2025</span><span>1 min read</span></div>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Dec 2025</span><span>4 min read</span></div>
 <article><p>Every <code>npm install</code> parses version strings. Thousands of them. Installing preact alone calls <code>semver</code> 21,000 times. One package.</p>
-<p>The <code>semver</code> package has 150 million weekly downloads. And it's doing way more work than it needs to.</p>
+<p>The <code>semver</code> package has 150 million weekly downloads. And it is doing way more work than it needs to. A parse walks a regex, allocates an object, splits prerelease tags, and throws if the string is ugly. That is the right work for a string you have never seen. It is the wrong work for <code>1.0.0</code> the twenty thousandth time in the same install.</p>
 <h2>The dumb idea</h2>
-<p>Version numbers aren't random. React is at 18. Node is at 22. Most packages never pass major version 50. So I precomputed all of them.</p>
+<p>Version numbers aren't random. React is at 18. Node is at 22. Most packages never pass major version 50. The input space is small and almost still. So I precomputed all of them.</p>
 <pre><code>const cache = Object.create(null);
 for (let M = 0; M &lt; 50; M++)
   for (let m = 0; m &lt; 50; m++)
     for (let p = 0; p &lt; 20; p++)
       cache[M+'.'+m+'.'+p] = {major: M, minor:m, patch:p};</code></pre>
-<p>50,000 objects. Allocated once. Now parsing <code>1.0.0</code> is just a hash lookup. No regex. No nothing.</p>
+<p>50,000 objects. Allocated once, at load. Now parsing <code>1.0.0</code> is a hash lookup on a string the engine already interned. No regex. No split. No new object on the hot path. The miss still goes through a real parser for the weird ones, the build numbers, the <code>1.0.0-beta.8</code>. Those are rare. The install is made of the common ones.</p>
+<p><code>Object.create(null)</code> matters. A normal object has a prototype chain. A lookup for a name that happens to exist on that chain is a surprise. A null-prototype map is just the keys I put there.</p>
 <h2>Then compile the ranges</h2>
-<p><code>^1.2.3</code> always means the same thing. So compile it once to a closure:</p>
+<p><code>^1.2.3</code> always means the same thing. The caret does not depend on the version you will test later. So compile it once to a closure:</p>
 <pre><code>(M, m, p, pr) =&gt; !pr && M === 1 && ((m-2)||(p-3)) >= 0</code></pre>
-<p>Next time you check any version against <code>^1.2.3</code>, it's four integers and some arithmetic. Done.</p>
+<p>Next time you check any version against <code>^1.2.3</code>, it is four integers and some arithmetic. No range string. No walk of comparators. The predicate is the range. A satisfy call in an install is this function against a cache hit. That is why 21,000 calls stop being a tax.</p>
+<h2>What I tried that lost</h2>
+<p>Hash arrays were slower than V8's internals. I packed majors and minors into integer slots and indexed them myself. The engine already turns a hot string key on a stable object into something close to a field access. My extra hash paid a constant the runtime had already deleted. I threw the arrays out.</p>
+<p>A fast-path parser for short numeric versions added a branch and a walk before the cache lookup. The cache was already the fast path. The extra work ran on every call, including the ones the table already knew. I deleted it.</p>
+<p>Gut said both of those should win. The clock said no. I keep the bench next to the code. If a change does not move the number, it does not ship.</p>
 <h2>Result</h2>
 <p><strong>208 million</strong> parses per second. 35x faster. 6.4 kB gzipped. Zero dependencies.</p>
-<p>Half my ideas didn't work. Hash arrays were slower than V8's internals. Fast-path parsing added overhead because the cache was already fast enough. Benchmark everything. Your gut is wrong.</p>
+<p>The 35x comes from refusing the regex on the strings that show up. The 6.4 kB is the table plus the compiler plus the fallback. No tree of helpers. The 150 million weekly downloads are 150 million chances to do this work the slow way. I wanted the common case to be a lookup and a few integer compares.</p>
 <p><a href="https://github.com/Lulzx/pico-semver">github.com/Lulzx/pico-semver</a></p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>

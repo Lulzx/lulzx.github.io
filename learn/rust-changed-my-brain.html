@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rust rewired my brain — lulzx</title>
-<meta name="description" content="I picked up Rust in 2023 expecting a language. I got a way of thinking. The borrow checker isn't a restriction. It's a question: who owns this data? I'd ne">
+<meta name="description" content="I picked up Rust in 2023 expecting a language. The borrow checker taught me to ask who owns this. I still write TypeScript and Python. I write them differently.">
 <meta property="og:title" content="Rust rewired my brain">
-<meta property="og:description" content="I picked up Rust in 2023 expecting a language. I got a way of thinking. The borrow checker isn't a restriction. It's a question: who owns this data? I'd ne">
+<meta property="og:description" content="I picked up Rust in 2023 expecting a language. The borrow checker taught me to ask who owns this. I still write TypeScript and Python. I write them differently.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/rust-changed-my-brain">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,20 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Rust rewired my brain</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Jan 2023</span><span>1 min read</span></div>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Jan 2023</span><span>3 min read</span></div>
 <article><p>I picked up Rust in 2023 expecting a language. I got a way of thinking.</p>
-<p>The borrow checker isn't a restriction. It's a question: <em>who owns this data?</em> I'd never asked that before. In Python and JavaScript, the answer was "who cares, the garbage collector will figure it out." In Rust, you have to know.</p>
-<p>Now I think about ownership in every language. When I write TypeScript, I notice when I'm passing references carelessly. When I design an API, I think about who's responsible for cleanup. Rust didn't teach me Rust. It taught me to think about data.</p>
-<p>The other thing: Rust made me comfortable with the compiler saying no. In dynamic languages, you discover mistakes at runtime. In Rust, the compiler catches them. At first this felt slow. Now every other language feels reckless.</p>
-<p>I still write TypeScript and Python when they're the right tool. But I write them differently than I used to.</p></article>
+<p>The borrow checker keeps asking one question: <em>who owns this data?</em> I had never asked that before. In Python and JavaScript the answer was easy. Who cares. The garbage collector will figure it out. In Rust I have to know. Each value has one owner. There is only one at a time. When the owner leaves scope, the value is dropped. I can lend it, mutably to one place or shared to many, and I cannot do both at once.</p>
+<h2>What the no is pointing at</h2>
+<p>At first the compiler felt like a hall monitor. I would write the shape I was used to, a graph of objects that all point at each other and mutate when they feel like it, and the compiler would refuse. I cloned things to make it shut up. I wrapped things so two owners could pretend to share. The code compiled and I had learned nothing.</p>
+<p>The useful fight is the one that makes me redraw the data. If two functions both need to change the same buffer, the design never decided who is in charge of the buffer. Once I pick an owner, the rest of the function gets shorter. The compiler was naming a blur I had been living with.</p>
+<p>I still reach for an explicit copy when I actually need two values. I still share when the lifetime is honestly shared. Those are decisions now. They used to be the default, hidden behind a runtime that cleaned up after me.</p>
+<h2>The question travels</h2>
+<p>Now I think about ownership in every language. When I write TypeScript I notice when I pass an object into two places and both of them write to it. When I design an API I ask who closes the file, who frees the connection, who is allowed to mutate the record after the call returns. The type system over there will not stop me. The question still saves me a week of "who touched this."</p>
+<p>Cleanup is the same question with a clock on it. If I open a handle, someone has to shut it. If that someone is "whoever goes out of scope last," I want that written down, even in Python, even if the language will not check me. I used to leave that to luck and a finalizer I never read.</p>
+<h2>Getting used to no</h2>
+<p>Rust also made me comfortable with the compiler saying no. In dynamic languages I discover the mistake when a request hits the bad path. In Rust the compiler catches the path I did not run. At first this felt slow. I would spend an afternoon on a program that would have "worked" in Python, meaning it would have run until the aliasing showed up in production.</p>
+<p>The slowness moved. I pay it at the keyboard. I do not pay it later, on a path I never ran, when two writers both thought they owned the value. After enough of those nos, I start writing in the shape the checker wants. I stop fighting. The program gets a spine before it gets a body.</p>
+<p>I still write TypeScript and Python when they are the right tool. I write them differently than I used to. I name the owner out loud. I get suspicious when two writers share a value. I treat a type error as a cheap no, and I miss it when the language cannot say it.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

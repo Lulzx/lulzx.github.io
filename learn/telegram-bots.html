@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Seven years of Telegram bots — lulzx</title>
-<meta name="description" content="I started building Telegram bots in 2017 because I was bored. Wrote one that replied to messages with random quotes. Took maybe an hour. That was the gatew">
+<meta name="description" content="I started building Telegram bots in 2017 because I was bored. A quote bot took an hour. Some of them now handle millions of messages a day. The lessons sat outside the process.">
 <meta property="og:title" content="Seven years of Telegram bots">
-<meta property="og:description" content="I started building Telegram bots in 2017 because I was bored. Wrote one that replied to messages with random quotes. Took maybe an hour. That was the gatew">
+<meta property="og:description" content="I started building Telegram bots in 2017 because I was bored. A quote bot took an hour. Some of them now handle millions of messages a day. The lessons sat outside the process.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/telegram-bots">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,17 +60,20 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Seven years of Telegram bots</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Jun 2024</span><span>1 min read</span></div>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Jun 2024</span><span>3 min read</span></div>
 <article><p>I started building Telegram bots in 2017 because I was bored. Wrote one that replied to messages with random quotes. Took maybe an hour.</p>
-<p>That was the gateway drug.</p>
-<p>Seven years later, some of my bots handle millions of messages a day. I've learned more about building reliable systems from bots than from any job or course.</p>
-<h2>The one thing that matters</h2>
-<p>Webhooks, not polling. That's it. That's the entire scaling secret. Polling is you calling Telegram every second asking "anything new?" Webhooks are Telegram calling <em>you</em> when something happens.</p>
-<p>After that, it's the same stuff that makes any system work: queue your messages, process them async, cache aggressively, and log everything.</p>
-<h2>What bots taught me</h2>
-<p>Bots fail constantly. The API times out. Users send garbage. Your server runs out of memory at 3am. You learn to build for failure because you have no choice.</p>
-<p>A bot that crashes and recovers gracefully is infinitely better than one that never crashes but silently drops messages. I apply this to everything I build now.</p>
-<p>Most of what I know about distributed systems, I learned from a chat bot.</p></article>
+<p>That was the first one that stayed running.</p>
+<p>Seven years later, some of my bots handle millions of messages a day. I have learned more about building reliable systems from those bots than from any job or course. The hard parts never lived in the reply handler. They lived in everything that had to keep working after the process died.</p>
+<h2>Push, not ask</h2>
+<p>Webhooks, not polling. Polling is you calling Telegram on a loop asking if anything new showed up. Fine on a laptop. Fine for a quote bot. One process, outbound only, no public URL. Also one process forever. A second poller on the same token gets a conflict and the first one is a single point of failure. While you wait for the next loop, the user is already gone.</p>
+<p>Webhooks flip the direction. You give Telegram an HTTPS URL. A message arrives, they POST it to you. Idle traffic is nothing. You can put more than one box behind the URL. The work starts the moment the user hits send.</p>
+<p>The trade is that you now have a public endpoint, a certificate, and a promise to answer quickly. If you do not return OK in time, they try again. The same update can land twice. Sending the reply twice is a new message, not a no-op. You have to remember which updates you already answered. At-least-once is the contract. Exactly-once is a story you tell yourself.</p>
+<h2>The work sits outside the request</h2>
+<p>After the push, the rest is the same stuff that makes any system stay up. Queue the update. Ack the webhook. Process async. Cache anything you would otherwise ask for on every message. Log the raw payload, the decision, and the send. Rate limits are real. One chat will 429 you if you talk too fast. A group has a tighter ceiling. A broadcast will sit in the queue and drip out, or it will eat the process.</p>
+<p>The queue, the cache, and the log have to live outside a single run. Restart the box and the in-memory version of all three is gone. The bot that survives is the one that can pick the queue back up and know which updates it already answered.</p>
+<h2>Failure is the job</h2>
+<p>Bots fail constantly. The API times out. Users send garbage. Your server runs out of memory at 3am. You learn to build for failure because you have no choice. A crash that recovers and replays the queue is better than a process that never dies and quietly drops a night of messages. I apply this to everything I build now.</p>
+<p>Most of what I know about distributed systems, I learned from a chat bot. Who is allowed to call whom. What you ack. What you retry. What you refuse to do twice. What you write down so the next process is not guessing.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

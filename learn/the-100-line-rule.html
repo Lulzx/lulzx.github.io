@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The 100-line rule — lulzx</title>
-<meta name="description" content="If a dependency is less than 100 lines of code, I write it myself. Not because I think I'm smarter than the library author. Because I think 100 lines I und">
+<meta name="description" content="If a dependency is less than 100 lines, I write it myself. An 11-line pad helper someone unpublished once broke millions of builds. My utils file is about 80 lines.">
 <meta property="og:title" content="The 100-line rule">
-<meta property="og:description" content="If a dependency is less than 100 lines of code, I write it myself. Not because I think I'm smarter than the library author. Because I think 100 lines I und">
+<meta property="og:description" content="If a dependency is less than 100 lines, I write it myself. An 11-line pad helper someone unpublished once broke millions of builds. My utils file is about 80 lines.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/the-100-line-rule">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,21 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">The 100-line rule</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Jun 2023</span><span>1 min read</span></div>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Jun 2023</span><span>3 min read</span></div>
 <article><p>If a dependency is less than 100 lines of code, I write it myself.</p>
-<p>Not because I think I'm smarter than the library author. Because I think 100 lines I understand completely is better than 100 lines I don't.</p>
-<p>Left-pad was 11 lines. It broke the internet. I could have written it in 30 seconds. So could you. So could anyone. But 2.5 million projects depended on one person not deleting their npm package.</p>
-<p>I have a utils file in most of my projects. It has debounce, throttle, deep clone, a couple of string helpers. Maybe 80 lines total. I've never had a supply chain attack on my utils file.</p>
-<p>The threshold isn't really 100 lines. It's: <em>can I understand every line of this?</em> If yes, I own it. If no, I think very hard about whether I need it.</p></article>
+<p>I want 100 lines I understand completely more than 100 lines I don't. A package is those lines plus a name on a registry, a version range, a lockfile entry, a person who can unpublish, a publish token that can leak, and every package <em>that</em> package pulls in. I take the whole chain when I type the install command. I rarely want the chain.</p>
+<p>Someone unpublished an 11-line pad helper. It prepended characters to a string in a loop. Builds failed across millions of projects. I could have written those 11 lines in 30 seconds. So could you. So could anyone. But 2.5 million projects depended on one person not deleting their npm package. The helper was never the hard part. The hard part was letting a registry own a loop.</p>
+<h2>What I keep in the repo</h2>
+<p>I have a utils file in most of my projects. It has debounce, throttle, deep clone, a couple of string helpers. Maybe 80 lines total. I've never had a supply chain attack on my utils file. It does not update itself at 2am. It does not grow a transitive tree I have never opened. When it is wrong, the stack points at a function I can read without leaving the editor.</p>
+<p>I copy the 20 lines I need, or I write them. I do not vendor a "utils kit" that also formats dates and parses query strings I will never touch. Extra helpers become extra surface. Someone will call the date formatter from a path I did not review, and then I own a calendar.</p>
+<p>100 is a fence, not a religion. Some 40-line packages wrap a native module I cannot see. Some 90-line packages are a thin file on top of a tree of twenty others. I count what actually lands in <code>node_modules</code>, or I do not count. A pretty README is not the size of the risk.</p>
+<h2>What I still install</h2>
+<p>I still take a dependency when the hard part is years of cases I have not lived. A TLS stack. A parser for a format with a graveyard of edge cases. Crypto I would get slightly wrong. Those lines are not 100. They are a career. Installing them is cheaper than pretending I can reproduce the scars.</p>
+<p>I also install what the runtime already is. I do not rewrite <code>git</code>. I do not rewrite a database. The rule is for the glue I reach for out of habit, the one function that feels too small to type.</p>
+<p>Even then I pin the version. I read the install tree. I ask whether I need the library or one function from it. One function is a candidate for the utils file. The whole library is a candidate for staying a library.</p>
+<h2>The real test</h2>
+<p>The threshold isn't really 100 lines. It's: <em>can I understand every line of this?</em> If yes, I own it. If no, I think very hard about whether I need it. If I cannot explain what happens when the maintainer vanishes, I do not have a helper. I have a bet.</p>
+<p>Owning the lines has a cost. I fix my own bugs. I do not get patches for free. That is the trade I want for debounce. It is a trade I refuse for a cipher. The rule is how I tell those two apart before the lockfile grows a life of its own.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

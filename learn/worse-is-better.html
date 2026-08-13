@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ship it ugly — lulzx</title>
-<meta name="description" content="The first version of everything I've shipped was embarrassing. My first Telegram bot was 200 lines of spaghetti Python with hardcoded strings. It worked. P">
+<meta name="description" content="The first version of everything I've shipped was embarrassing. A 200-line Telegram bot. A single main.rs. A week of HTML with no CSS. Then I saw if anyone cared.">
 <meta property="og:title" content="Ship it ugly">
-<meta property="og:description" content="The first version of everything I've shipped was embarrassing. My first Telegram bot was 200 lines of spaghetti Python with hardcoded strings. It worked. P">
+<meta property="og:description" content="The first version of everything I've shipped was embarrassing. A 200-line Telegram bot. A single main.rs. A week of HTML with no CSS. Then I saw if anyone cared.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/worse-is-better">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,13 +60,24 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Ship it ugly</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Aug 2024</span><span>1 min read</span></div>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Aug 2024</span><span>3 min read</span></div>
 <article><p>The first version of everything I've shipped was embarrassing.</p>
 <p>My first Telegram bot was 200 lines of spaghetti Python with hardcoded strings. It worked. People used it. I cleaned it up later.</p>
-<p>My first Rust CLI was a single main.rs with no error handling. It worked. I used it daily. I refactored it later.</p>
+<p>My first Rust CLI was a single <code>main.rs</code> with no error handling. It worked. I used it daily. I refactored it later.</p>
 <p>This website was a plain HTML page with no CSS for a week. It worked. You're reading the better version. But the ugly version came first.</p>
-<p>I've watched people spend months "getting it right" before showing anyone. They burn out or lose interest. The project dies in a private repo, perfect and unseen.</p>
-<p>Ship the ugly version. See if anyone cares. If they do, make it less ugly. If they don't, you just saved yourself months of polishing something nobody wanted.</p></article>
+<h2>What ugly is allowed to be</h2>
+<p>Ugly can be incomplete. One command. One chat. One page. The happy path in a straight line. Missing flags. Hardcoded strings I will hate in a month. A function that does too much because I do not yet know the joints.</p>
+<p>Ugly cannot be a lie. The bot has to answer. The CLI has to do the job I open a terminal for. The page has to be readable. If the core path is wrong, I am not shipping early. I am shipping broken, and then I learn the wrong lesson when people bounce. Incomplete teaches me what they needed next. Broken teaches me they cannot trust me.</p>
+<p>I pick the simplicity I can actually type. A single file. A loop. Errors printed and ignored, for a week, on a tool only I run. I do not pick a framework that makes the first day look like a finished product. That kind of polish is a costume. It hides that I still do not know which feature matters.</p>
+<p>The implementation has to stay small enough to throw away. If the first version needs a schema migration plan, I have already decided it is permanent. Permanent is how ugly becomes a prison. I want ugly that I can delete in an afternoon once I know the real shape.</p>
+<h2>What I wait for</h2>
+<p>I wait for contact. A person uses the bot. I use the CLI the next morning without groaning. Someone reads the page. Contact is the only signal that tells me which part of the mess is load-bearing. Until then I am decorating a guess.</p>
+<p>I've watched people spend months "getting it right" before showing anyone. They burn out or lose interest. The project dies in a private repo, perfect and unseen. The types were right. The folders were right. Nobody ever filed the one complaint that would have named the product.</p>
+<p>I know that delay. The longer I wait, the more the first look has to justify the wait. That is a terrible deal to offer a stranger, and a worse one to offer myself at 1am.</p>
+<h2>When I stop polishing</h2>
+<p>If nobody cares, I stop. I just saved myself months of polishing something nobody wanted. The 200-line bot earned a cleanup because people kept talking to it. The CLI earned error handling because I kept running it. The site earned CSS because I kept opening it. Effort follows use. Use does not follow a mood board.</p>
+<p>If they care, I make it less ugly in the order of pain. The string that broke. The crash I hit twice. The layout I could not read on my phone. I do not start with a rewrite of the parts that never came up. Completeness can wait. Consistency can wait. The next cut is the one I can feel.</p>
+<p>I still have a floor. I will not ship a secret. I will not ship a tool that destroys data with no warning. Ugly is a sloppy kitchen I can cook in. The rest of the embarrassment is a draft. Drafts get users. Users tell me which sentence to write next.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

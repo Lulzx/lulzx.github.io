@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Speed is respect — lulzx</title>
-<meta name="description" content="Every millisecond you waste is a millisecond of someone's life. That sounds dramatic. But multiply it. A page that takes 2 seconds instead of 200ms, loaded">
+<meta name="description" content="A page that takes 2 seconds instead of 200ms, loaded 10,000 times a day, wastes 5 hours of human life. Speed is how you treat the person on the other side of the click.">
 <meta property="og:title" content="Speed is respect">
-<meta property="og:description" content="Every millisecond you waste is a millisecond of someone's life. That sounds dramatic. But multiply it. A page that takes 2 seconds instead of 200ms, loaded">
+<meta property="og:description" content="A page that takes 2 seconds instead of 200ms, loaded 10,000 times a day, wastes 5 hours of human life. Speed is how you treat the person on the other side of the click.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/speed-is-a-feature">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,21 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Speed is respect</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Mar 2024</span><span>1 min read</span></div>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Mar 2024</span><span>3 min read</span></div>
 <article><p>Every millisecond you waste is a millisecond of someone's life.</p>
-<p>That sounds dramatic. But multiply it. A page that takes 2 seconds instead of 200ms, loaded 10,000 times a day. That's 5 hours of human life wasted. Every day. On one page.</p>
-<p>Performance isn't a technical concern. It's a moral one. When your software is slow, you're saying: my time was more valuable than yours. I couldn't be bothered to optimize this.</p>
-<p>I don't mean premature optimization. I mean: choose the right data structure. Don't load what you don't need. Don't make the user wait for something you could have precomputed.</p>
-<p>The fastest software I use is the software I forget is there. It just does the thing instantly and gets out of the way. That's what respect looks like in code.</p></article>
+<p>That sounds dramatic. Multiply it. A page that takes 2 seconds instead of 200ms, loaded 10,000 times a day. That is 5 hours of human life. Every day. On one page. You will never meet those people. They still paid.</p>
+<h2>What a wait does</h2>
+<p>A click that comes back before you lift your finger feels like your hand did the thing. Past a second your mind leaves the sentence you were reading. You check another tab. You forget why you opened this one. The work is still in flight. The person is not. Ten seconds and they have left the page for good.</p>
+<p>The wait also grows in memory. A slow page feels longer than the clock says, and later it feels longer still. You remember the stall, not the content.</p>
+<p>Average time lies. The request that takes two seconds while the rest take eighty milliseconds is the one that trains people to flinch. I watch the slow end of the distribution. That is the one they will tell a friend about.</p>
+<h2>Where the time actually goes</h2>
+<p>Most of the five hours is work nobody asked for. A payload that includes three screens the person will never open. A sort of data that has not changed since Tuesday. A round trip for a value you could have written into the page. A script that runs before the first paint to decide something the HTML already knew.</p>
+<p>I pick the structure that matches the question. I do not load what this screen does not use. I do not make someone wait for a result I could have computed before they arrived. This site is files. There is no query to hide behind. If a page is slow here, I shipped the wait on purpose.</p>
+<p>I do not mean polishing a path that runs once at deploy. I mean the path a stranger hits with their thumb, ten thousand times, while I am doing something else. The 5 hours is that path, multiplied, and ignored because each wait looked small in isolation.</p>
+<h2>Getting out of the way</h2>
+<p>When the software is slow I am saying my afternoon was worth more than theirs. I had the files open. They had a bus to catch. I left the extra query in because the box was quiet on my desk.</p>
+<p>The fastest software I use is the software I forget is there. It does the thing and steps aside. No spinner that apologizes. No skeleton that advertises the wait. Just the next state, already true.</p>
+<p>You take the time once, on your side of the click, so they do not take it ten thousand times on theirs.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

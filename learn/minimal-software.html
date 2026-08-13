@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Less code — lulzx</title>
-<meta name="description" content="I keep coming back to this: the best code is the code I didn't write. Not in a lazy way. In a if this line doesn't need to exist, it shouldn't way. Every l">
+<meta name="description" content="The best code is the code I didn't write. Every line I add is a line I have to maintain. Before I add a feature I try to remove one.">
 <meta property="og:title" content="Less code">
-<meta property="og:description" content="I keep coming back to this: the best code is the code I didn't write. Not in a lazy way. In a if this line doesn't need to exist, it shouldn't way. Every l">
+<meta property="og:description" content="The best code is the code I didn't write. Every line I add is a line I have to maintain. Before I add a feature I try to remove one.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/minimal-software">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,17 +60,22 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Less code</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Oct 2024</span><span>1 min read</span></div>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Oct 2024</span><span>3 min read</span></div>
 <article><p>I keep coming back to this: the best code is the code I didn't write.</p>
-<p>Not in a lazy way. In a <em>if this line doesn't need to exist, it shouldn't</em> way.</p>
-<p>Every line I add is a line I have to maintain. A line that can break. A line someone else has to read and understand. Including future me, who will have forgotten why it's there.</p>
+<p>If this line doesn't need to exist, it shouldn't.</p>
+<p>Every line I add is a line I have to maintain. A line that can break. A line someone else has to read and understand. Including future me, who will have forgotten why it's there. The line is doing work today. It is also a bill that arrives every time I touch the file, run the tests, or explain the system.</p>
 <h2>What I actually do</h2>
-<p>Before I add a feature, I try to remove one. Before I add a file, I check if an existing one can hold it. Before I add a dependency, I look at how many lines it would take to write myself.</p>
-<p>Usually fewer than I think.</p>
-<p>My site is one HTML file. My CLI tools compile to single binaries. My libraries have zero runtime dependencies. Not because I'm trying to prove something. Because every time I've done it the other way, I've regretted it.</p>
+<p>Before I add a feature, I try to remove one. Before I add a file, I check if an existing one can hold it. Before I add a dependency, I look at how many lines it would take to write myself. Usually fewer than I think.</p>
+<p>The order matters. If I add first, the new thing justifies itself by existing. I start protecting it. I write tests for a path nobody asked for. I name a module after a guess. Removal after that is a fight with my own last week.</p>
+<p>My site is one HTML file. My CLI tools compile to single binaries. My libraries have zero runtime dependencies. Not because I'm trying to prove something. Because every time I've done it the other way, I've regretted it. The extra package had a release I did not want. The extra service had a failure I did not need. The extra file had a loop of imports I then had to undo.</p>
+<p>I ask the same three questions on every PR I open, including my own. Does this line need to exist for the behavior I want. Can an old line already do it. If I delete this in six months, what else comes with it. If the last answer is "half the package," I have built a trap.</p>
+<h2>Easy to take off</h2>
+<p>The code I keep has a door. A feature behind one route. A helper that does not reach into three crates. A config key that only one binary reads. When the bet is wrong I can pull the door off and the house still stands. Code that is cleverly reused across everything is code I will never delete. I will only decorate it.</p>
+<p>I used to chase reuse. One function, many callers, a proud little graph. Then I needed to change one caller and the others came with it. Now I let two short copies live until the third one appears and the shape is obvious. Duplication is cheap. A wrong shared core is a root I cannot pull.</p>
+<p>Layers help when they hide a mess I do not want to see. They hurt when they hide a mess I need to see. I flatten anything I cannot explain in one sentence. The sentence has to name a job, not a pattern.</p>
 <h2>The hard part</h2>
-<p>Removing is harder than adding. Always. Your brain wants to solve problems by creating things. It takes real discipline to solve them by destroying things instead.</p>
-<p>But the projects I'm most proud of are the ones where I looked at the code and thought "there's nothing left to take away."</p></article>
+<p>Removing is harder than adding. Always. Your brain wants to solve problems by creating things. A new file feels like progress. A red diff feels like loss. I have to sit with that feeling long enough to remember the last time a fat module slowed me down.</p>
+<p>The stop condition is not zero features. It is a file I can hold in my head. I know what every function is for. I know which ones I would keep if the product shrank tomorrow. The projects I'm most proud of are the ones where I looked at the code and thought there's nothing left to take away. That look does not last. The next feature will try to stay. The habit is the look, done again.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

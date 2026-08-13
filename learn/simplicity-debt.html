@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Complexity is debt — lulzx</title>
-<meta name="description" content="Every abstraction is a loan. You're borrowing simplicity now and paying complexity later. Sometimes the loan is worth it. A well-placed abstraction saves h">
+<meta name="description" content="Every abstraction is a loan. I flatten any layer I cannot explain in one sentence. Three lines of duplication beat a factory that has one implementation.">
 <meta property="og:title" content="Complexity is debt">
-<meta property="og:description" content="Every abstraction is a loan. You're borrowing simplicity now and paying complexity later. Sometimes the loan is worth it. A well-placed abstraction saves h">
+<meta property="og:description" content="Every abstraction is a loan. I flatten any layer I cannot explain in one sentence. Three lines of duplication beat a factory that has one implementation.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/simplicity-debt">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,11 +60,23 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Complexity is debt</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Nov 2023</span><span>1 min read</span></div>
-<article><p>Every abstraction is a loan. You're borrowing simplicity now and paying complexity later.</p>
-<p>Sometimes the loan is worth it. A well-placed abstraction saves hours. But most abstractions are premature. You add a factory because you think you'll need four implementations. You end up with one. Now you have a factory with one implementation and everyone has to understand the indirection.</p>
-<p>I count abstractions like I count dependencies. Each one needs to justify its existence. If I can't explain why this layer exists in one sentence, I flatten it.</p>
-<p>Three lines of duplicated code is better than one abstraction nobody understands. You can always abstract later. You can't easily un-abstract.</p></article>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Nov 2023</span><span>3 min read</span></div>
+<article><p>Every abstraction is a loan. I borrow a little simplicity now and pay complexity later. The payment is the extra name, the extra file, the extra hop through a function that only exists to hide the hop. I pay it every time I come back to the code, and every time someone else has to learn the map before they can change a line.</p>
+<p>Sometimes the loan is worth it. A well-placed layer saves hours of copy-paste and keeps one rule in one place. Most of the ones I have added were early. I could already see four implementations. I built the factory first. I ended up with one. Now everyone has to understand the factory to reach the one thing that actually runs.</p>
+<h2>What I count</h2>
+<p>I count abstractions the way I count dependencies. Each one has to justify staying. A dependency can sit unused in a lockfile and I will still feel it on upgrade day. An extra type, an extra interface, an extra manager class does the same thing to my head. If I cannot explain why this layer exists in one sentence, I flatten it.</p>
+<p>The sentence has to name a job, not a hope. "This wraps the HTTP client so retries live in one place" is a job. "This will make it easy when we add more providers" is a hope. Hopes do not get a file.</p>
+<h2>How a layer goes bad</h2>
+<p>The usual path is quiet. I see two similar blocks. I extract them and give the extract a name. The code looks cleaner. Time passes. A new case is almost the same. I feel I should keep the shared thing, so I add a flag. Then a second flag. Then a branch that only one caller takes. What used to be one idea is now a procedure that does slightly different things depending on who called it.</p>
+<p>The existing code argues that it is necessary. It took time to write. It has tests. It has a name. The pressure is to add one more parameter and get on with the day. That is how I have grown functions I can no longer hold in my head. The callers still look tidy. The mess moved inside, where it compounds.</p>
+<p>A useful check: if I am threading booleans through a shared function so each caller can get a slightly different path, the shared function is already the wrong shape. The sameness was visual. The jobs were different.</p>
+<h2>Duplication I will live with</h2>
+<p>Three lines of duplicated code is better than one abstraction nobody understands. I can read three lines. I can change one copy without breaking the other. I can always abstract later, once I have seen the third copy and know which parts actually move together.</p>
+<p>Two similar blocks are not always the same idea. One wants a display string. The other wants a filename. They can look alike for a week and still be different jobs. Leaving them duplicated is cheaper than teaching a helper to be both.</p>
+<p>I wait. The first time I just write it. The second time I wince and leave it. The third time I look at all three and only then decide if they share a name. If I cannot find a name that does not include "and", I leave the copies. A name I cannot say is a layer I should not add.</p>
+<h2>Walking it back</h2>
+<p>Un-abstracting is the part I used to skip. You cannot easily un-abstract if you wait until the layer has ten callers and a pile of flags. When I notice the flags, I paste the body back into each caller, delete the branches that caller never took, and look at what is left. Often the shared function was running different code for each site. After the inline, the next extract is obvious, or there is nothing to extract.</p>
+<p>That feels like throwing work away. It is how I stop paying interest on a loan I should not have taken. I would rather have three honest copies than one clever name that lies about what happens next.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Read the source — lulzx</title>
-<meta name="description" content="The best programmers I know spend more time reading code than writing it. I used to think building things was how you got good. It's part of it. But the ot">
+<meta name="description" content="I learned more from the Redis source than from any database course. Fifty thousand lines of clear C. Start at the entry point and follow the data. The comments explain why.">
 <meta property="og:title" content="Read the source">
-<meta property="og:description" content="The best programmers I know spend more time reading code than writing it. I used to think building things was how you got good. It's part of it. But the ot">
+<meta property="og:description" content="I learned more from the Redis source than from any database course. Fifty thousand lines of clear C. Start at the entry point and follow the data. The comments explain why.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/read-the-source">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,21 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Read the source</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Jun 2020</span><span>1 min read</span></div>
-<article><p>The best programmers I know spend more time reading code than writing it.</p>
-<p>I used to think building things was how you got good. It's part of it. But the other part is reading how other people solved the same problem. Not blog posts <em>about</em> the code. The actual code.</p>
-<p>I learned more from reading the Redis source than from any database course. It's 50,000 lines of beautifully clear C. Every function does what its name says. The comments explain <em>why</em>, not <em>what</em>.</p>
-<p>When I'm stuck on a design decision, I look at how someone I respect solved it. Not Stack Overflow. Not a tutorial. The source. It's always there. Most things worth learning from are open source.</p>
-<p>Reading code is a skill nobody teaches and everyone needs.</p></article>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Jun 2020</span><span>3 min read</span></div>
+<article><p>I used to think building things was how you got good. Building is half of it. The other half is sitting in a working system and watching how it actually moves.</p>
+<p>Not a post about the code. The code.</p>
+<h2>What Redis taught me</h2>
+<p>I learned more from reading the Redis source than from any database course. About 50,000 lines of clear C. You can hold the shape of it. Every function does what its name says. The comments explain <em>why</em>.</p>
+<p>A why comment is the gold. The calls are obvious. Increment here, free that, return. The comment is the part you cannot recover from the statements: the failure that happens if you skip the first call, the order that looks unnatural on purpose, the case that used to live at the bottom of the loop and broke people. Code tells you the path. The comment tells you which path was refused.</p>
+<p>I start at the entry. <code>main</code>, the listen socket, the loop that waits for a connection. Then I pick one type and stay there. A hash. A string. How a command name becomes a function pointer. I do not open a random helper in the middle of a file and hope the plot appears. The plot is the data. Follow the bytes from the client to the structure that holds them.</p>
+<p>Names that tell the truth drop the amount you have to keep in your head. When a function is called <code>lookupCommand</code> I can treat it as a door. I only walk through it when the door is the thing I came to understand.</p>
+<h2>How I read when I am stuck</h2>
+<p>A tutorial compresses. It shows the happy path and hides the constraint that made the ugly branch exist. The source still has the constraint. The timeout. The buffer that gets reused. The case where a replica connects mid-write. That is the part I need when my own design is wobbling.</p>
+<p>I do not read to collect tricks. I read to see the cycle. Where state lives when the function returns. What is allowed to fail. What the author refused to make clever. A small, boring structure that survived years of load teaches more than a diagram of a structure that never shipped.</p>
+<p>When I cannot decide, I open a system that already made the decision and shipped it. How does this store expire a key without stalling the loop? How does this parser reject a bad line without allocating a tree? The answers are in files I can grep. Most things worth stealing a shape from are sitting in the open.</p>
+<h2>The skill</h2>
+<p>Reading code is slower than writing a toy. The first hour feels like walking into a city without a map. Then a street repeats. Then a square. Then you know where the river is and you stop being lost.</p>
+<p>I still write every day. I read more than I used to, on purpose. The programs I trust are the ones whose source I have sat with long enough that their next change would not surprise me.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

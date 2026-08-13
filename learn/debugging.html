@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Debug by reading — lulzx</title>
-<meta name="description" content="When something breaks, I don't reach for the debugger. I read the code. Not skim. Read. Start from the entry point. Follow the data. Ask: what did I think">
+<meta name="description" content="When something breaks I read from the entry point, form a hypothesis, and add one log. Three rounds solve most bugs. The debugger waits until I know what to ask it.">
 <meta property="og:title" content="Debug by reading">
-<meta property="og:description" content="When something breaks, I don't reach for the debugger. I read the code. Not skim. Read. Start from the entry point. Follow the data. Ask: what did I think">
+<meta property="og:description" content="When something breaks I read from the entry point, form a hypothesis, and add one log. Three rounds solve most bugs. The debugger waits until I know what to ask it.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/debugging">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,24 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Debug by reading</h1>
-<div class="meta"><span class="badge seed">seed</span><span>Jun 2025</span><span>1 min read</span></div>
+<div class="meta"><span class="badge seed">seed</span><span>Jun 2025</span><span>3 min read</span></div>
 <article><p>When something breaks, I don't reach for the debugger. I read the code.</p>
-<p>Not skim. Read. Start from the entry point. Follow the data. Ask: what did I <em>think</em> this does? What does it <em>actually</em> do? The bug is in the gap between those two questions.</p>
-<p>Debuggers are great for watching state. But they don't help you understand <em>why</em> the state is wrong. For that, you need to think. And thinking requires reading.</p>
-<p>My debugging process: read, form a hypothesis, add one log to confirm or deny, repeat. Three rounds of this solves most bugs. The ones it doesn't are the interesting ones.</p>
-<p>The best debugging tool is a good understanding of your own code. If you have that, you barely need anything else.</p></article>
+<p>Not skim. Read. Start from the entry point. Follow the data. Ask: what did I <em>think</em> this does? What does it <em>actually</em> do? The bug lives in the gap between those two questions.</p>
+<h2>Make it small first</h2>
+<p>A failure on a huge input is a bad place to think. Shrink it until the same wrong answer shows up on something you can hold. Half the file. One request. One row. If the small case is clean, the bug is in whatever the small case dropped, and you just learned that without opening a tool.</p>
+<p>The crash is rarely the crime. Bad data walked through good functions and died somewhere polite. I start at the door the request used, not at the stack frame that finally complained. The path between those two is the map.</p>
+<h2>One guess, one probe</h2>
+<p>I form a hypothesis I can kill. "This map is empty here." "This branch never runs." "The id that left the handler is not the id that hit the query." Then I add one log that will confirm or deny that sentence. Not five. One.</p>
+<p>Five logs at once is fishing. You will see a mess of values and invent a story that fits all of them. One log answers one question. Then I read again with that answer in hand and pick the next cut. Binary search on the data, not a tour of every file.</p>
+<p>I write the guess down if I have already been circling for a few minutes. Head memory drops the thing you already ruled out and you test it again. The note is ugly. It works.</p>
+<h2>Three rounds</h2>
+<p>Three rounds of this solves most bugs. Read. Guess. One log. Repeat. By the third answer the gap has usually closed. The function I trusted was lying, or the input was not the shape I swore it was, or two names pointed at different rows.</p>
+<p>The ones that survive three rounds are the interesting ones. Races. Two writers. A cache that served a value no write path still believes. Those need a tighter reproduction, or a debugger, or a look at what changed in the last commit. I still do not start there. I start when I can name the question the tool should answer.</p>
+<h2>What the debugger is for</h2>
+<p>A debugger is a camera. It is excellent at showing you the room. It will not tell you why the furniture is wrong. If I attach it first I wander through frames and watch numbers flicker until I am tired. That feels like work. It is usually a delay on thinking.</p>
+<p>I reach for it when the state is large and I already know which object is lying. Step through that object. Do not step through the program hoping the lie will wave.</p>
+<p>Change one thing when you fix. If you tidy three functions and the test goes green, you do not know which edit mattered, and you will ship two of them by accident.</p>
+<p>The tool that matters is a picture of the code that matches the code. If I have that, I barely need anything else. When I do not have it, reading is how I get it back.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

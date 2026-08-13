@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tiny commits — lulzx</title>
-<meta name="description" content="My average commit is 15 lines. Some are 3. Rarely more than 50. Each commit does one thing. Rename a variable. Fix a bug. Add a function. Not &quot;refactor aut">
+<meta name="description" content="My average commit is 15 lines. Some are 3. Rarely more than 50. One thing per commit so bisect works and a 10-line review takes 30 seconds.">
 <meta property="og:title" content="Tiny commits">
-<meta property="og:description" content="My average commit is 15 lines. Some are 3. Rarely more than 50. Each commit does one thing. Rename a variable. Fix a bug. Add a function. Not &quot;refactor aut">
+<meta property="og:description" content="My average commit is 15 lines. Some are 3. Rarely more than 50. One thing per commit so bisect works and a 10-line review takes 30 seconds.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/git-small">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,11 +60,22 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Tiny commits</h1>
-<div class="meta"><span class="badge seed">seed</span><span>Sep 2025</span><span>1 min read</span></div>
+<div class="meta"><span class="badge seed">seed</span><span>Sep 2025</span><span>3 min read</span></div>
 <article><p>My average commit is 15 lines. Some are 3. Rarely more than 50.</p>
 <p>Each commit does one thing. Rename a variable. Fix a bug. Add a function. Not "refactor auth module." That's five commits pretending to be one.</p>
-<p>Small commits make git bisect useful. When a bug appears, you can binary search through commits and find it in minutes. If each commit is 500 lines, bisect tells you "the bug is somewhere in these 500 lines." Thanks for nothing.</p>
-<p>Small commits also make code review possible. I can review a 10-line diff in 30 seconds. I can review a 500-line diff in... actually I can't. Nobody can. They just skim and approve.</p>
+<p>I used to save up a whole afternoon and dump it in one hash. The message was a shrug. The diff was a weather system. I could not revert the rename without also reverting the bugfix. I could not ship the bugfix without dragging the half-finished rename onto main. So I sat on all of it until Friday, then asked someone to "take a look."</p>
+<h2>What one thing means</h2>
+<p>A commit is one sentence I could put in a changelog. If the sentence needs an "and," I am holding two commits. Rename the variable. Then change the call sites, if that is a second thought. Then add the function. Then wire it. Four hashes. Four ways back.</p>
+<p>I do not always see the slices at the start. I make a mess in the working tree, then I cut it with <code>git add -p</code>. Hunk by hunk. This hunk is the rename. That hunk is the new branch in the parser. The leftover is still dirty, and that is fine. The leftover is tomorrow's commit, or tonight's after dinner.</p>
+<p>The message has to stand alone. Future me will grep for a word and land on this hash. If the message is "wip" or "fixes," the hash is a brick. If the message says what changed and why the old way hurt, the log is a map.</p>
+<h2>Why the size</h2>
+<p>Small commits make <code>git bisect</code> useful. When a bug appears, I can binary search through commits and find it in minutes. If each commit is 500 lines, bisect tells me the bug is somewhere in these 500 lines. Thanks for nothing.</p>
+<p>A 15-line commit is a save point. I bank the insight. I reset hard if the next hour goes nowhere. I cherry-pick the bugfix onto main while the feature branch is still ugly. I revert one hash without a surgical rebase. Mixed commits steal all of that. The revert becomes a rewrite.</p>
+<p>Merge conflicts get smaller too. One reason the hunk exists. I can see what this side was trying to do. A 400-line conflict is two people who both "cleaned up" the same file for different reasons.</p>
+<h2>Review</h2>
+<p>Small commits also make code review possible. I can review a 10-line diff in 30 seconds. I can review a 500-line diff in... actually I can't. Nobody can. They just skim and approve. The comments land on style because style is visible. The logic hole in the third file stays.</p>
+<p>A stack of tiny commits can still be one PR. The reviewer can walk the hashes like chapters. Or they can read the whole diff if it still fits on a screen. I do not confuse "one PR" with "one commit." The PR is the conversation. The commits are the record.</p>
+<p>I stop adding to a commit when I cannot hold the whole change in my head at once. That is usually well under 50 lines. Sometimes it is 3. A three-line commit that deletes a bad branch is a complete thought. Padding it with an unrelated tidy would only make the thought harder to find.</p>
 <p>Write the smallest commit that makes sense on its own. Then write the next one.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>

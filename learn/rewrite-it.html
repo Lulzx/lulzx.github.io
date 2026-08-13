@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The second version — lulzx</title>
-<meta name="description" content="I rewrite things a lot. Not because the first version is bad. Because I understand the problem now. The first time you build something, you're learning the">
+<meta name="description" content="I rewrite things a lot because I understand the problem now. I rewrote my search engine three times. The rewrite is starting informed.">
 <meta property="og:title" content="The second version">
-<meta property="og:description" content="I rewrite things a lot. Not because the first version is bad. Because I understand the problem now. The first time you build something, you're learning the">
+<meta property="og:description" content="I rewrite things a lot because I understand the problem now. I rewrote my search engine three times. The rewrite is starting informed.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/rewrite-it">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,22 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">The second version</h1>
-<div class="meta"><span class="badge sprout">sprout</span><span>Nov 2024</span><span>1 min read</span></div>
+<div class="meta"><span class="badge sprout">sprout</span><span>Nov 2024</span><span>3 min read</span></div>
 <article><p>I rewrite things a lot. Not because the first version is bad. Because I understand the problem now.</p>
 <p>The first time you build something, you're learning the domain. You make wrong abstractions. You over-engineer some parts and under-engineer others. You can't know the right design until you've built the wrong one.</p>
-<p>The rewrite isn't starting over. It's starting informed.</p>
-<p>I rewrote my search engine three times. Version one: Python, slow, wrong data structures. Version two: Node.js, faster, better architecture, still wrong in subtle ways. Version three: Rust, correct, fast, half the code of version one.</p>
-<p>People say "don't rewrite." I think they mean "don't rewrite for fun." But rewriting because you now understand the problem deeply? That produces the best software I've ever written.</p></article>
+<p>The rewrite starts informed. I already paid for the wrong map.</p>
+<h2>Three versions</h2>
+<p>I rewrote my search engine three times. Version one: Python, slow, wrong data structures. I was discovering what a query even was, what I needed to store, what I could throw away. The code grew the shape of that confusion. Version two: Node.js, faster, better architecture, still wrong in subtle ways. I had the nouns right and the memory wrong. Version three: Rust, correct, fast, half the code of version one. The half is the point. I deleted the machinery I had invented to paper over the first two mistakes.</p>
+<p>Each pass I could name what the last one got wrong. Wrong structure. Wrong runtime. Wrong amount of code. If I had not been able to name it, I would have been rewriting for a mood. A mood is how you get a fourth version that is just the third with new names.</p>
+<h2>When I don't</h2>
+<p>Ugly is not a reason. Ugly is often a scar. A weird branch, a defensive copy, a check that looks paranoid. Those lines were paid for by a failure I have already forgotten. If I throw the file away because I cannot stand to read it, I throw the failures away too. I will meet them again, in the same order, with more confidence and less memory.</p>
+<p>I also don't rewrite when I can move one seam. A slow function can become a faster function. A tangled module can grow an interface and shrink behind it. The rest of the program keeps running. Users keep their habits. I keep the tests that already know the old promises. A full rewrite pauses all of that. I am now estimating a product I already shipped, and I will be wrong about the corners.</p>
+<p>The check I use: is the current shape a ceiling, or is it a mess on top of a shape that still works. Wrong data structures were a ceiling. I could not make the Python engine honest by renaming files. A messy folder is not a ceiling. A messy folder is a week of moving things with the lights on.</p>
+<h2>What I keep</h2>
+<p>I keep the cases. The queries that failed. The files that timed out. The input I did not think was legal. Those go in a list next to the new code. If the new engine cannot eat the old list, it is not finished. Speed and taste do not count until the old promises hold.</p>
+<p>Cutover is a measurement, not a birthday. If I cannot say what better means in a number or a failing test, I am about to ship a story. The old engine earned its keep. The new one has to beat it at the same job.</p>
+<p>I do not dump every lesson in as a feature. The second version wants to be complete. Complete is how it gets larger than the first while claiming to be wiser. I only carry the constraints I can still feel. The rest can wait until they hurt again.</p>
+<p>Don't rewrite for fun. Rewrite when you can name what the first version got wrong, and the new one is smaller because of it. That is the software I trust. I had to build the other kind to get there.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

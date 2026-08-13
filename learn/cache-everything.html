@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cache it — lulzx</title>
-<meta name="description" content="The fastest computation is the one you don't do. My semver library is fast because it precomputes. My bots are fast because they cache user data. This webs">
+<meta name="description" content="The fastest computation is the one you don't do. Precompute, cache user data, or ship files. Keep caches small, TTLs short, and invalidation explicit.">
 <meta property="og:title" content="Cache it">
-<meta property="og:description" content="The fastest computation is the one you don't do. My semver library is fast because it precomputes. My bots are fast because they cache user data. This webs">
+<meta property="og:description" content="The fastest computation is the one you don't do. Precompute, cache user data, or ship files. Keep caches small, TTLs short, and invalidation explicit.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/cache-everything">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,27 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Cache it</h1>
-<div class="meta"><span class="badge sprout">sprout</span><span>Sep 2024</span><span>1 min read</span></div>
+<div class="meta"><span class="badge sprout">sprout</span><span>Sep 2024</span><span>3 min read</span></div>
 <article><p>The fastest computation is the one you don't do.</p>
-<p>My semver library is fast because it precomputes. My bots are fast because they cache user data. This website is fast because there's nothing to compute at all.</p>
-<p>People reach for clever algorithms when a lookup table would do. I've replaced O(n log n) sorts with O(1) hash lookups more times than I can count. Not because I'm smart. Because the data didn't change often enough to justify recomputing.</p>
-<p>The trick is knowing when to invalidate. Cache without invalidation is just a bug waiting to happen. I keep caches small, TTLs short, and invalidation explicit. A stale cache is worse than no cache.</p>
-<p>When in doubt: compute once, store the result, serve it forever. Recompute only when the input changes.</p></article>
+<p>My semver library is fast because it precomputes. My bots are fast because they cache user data. This website is fast because there is nothing to compute at all. Three shapes. Same move. Do the work once, keep the answer, hand it back.</p>
+<h2>When the input barely moves</h2>
+<p>I have replaced n log n sorts with hash lookups more times than I can count. Not because I am clever. Because the data did not change often enough to justify lining it up again.</p>
+<p>A lookup table is a cache you fill before anyone asks. Version strings live in a tiny box. Most majors never pass 50. I allocate the common ones at startup and parsing <code>1.0.0</code> becomes a key in a map. No regex. No walk. The answer was already sitting there.</p>
+<p>User data in the bots is the same idea with a shorter life. Look the user up once. Keep the row. The next messages do not ask the database who this is.</p>
+<p>This site is the extreme case. Files on disk. No render. No query. The cache is the page.</p>
+<h2>What belongs in the box</h2>
+<p>Cache the result of work that is expensive, asked often, and slow to change. Skip the rest. A value that is different on every request is a second copy of the source with extra steps.</p>
+<p>Keep the box small. A small cache is a list you can dump and read. When something is wrong you can stare at the keys and see the lie. A big cache is a second system you do not understand.</p>
+<p>Name the key after the input. If two inputs share a key, you will serve the wrong answer and blame the CPU. If one input fans out into five keys, you will forget to clear four of them.</p>
+<h2>How it goes stale</h2>
+<p>A cache with no plan for death is a bug with a head start. I keep three rules close.</p>
+<p>Make invalidation explicit. When the input changes, delete the key in the same place you write the new value. If a write path forgets to clear, the old answer lives until something else happens to kick it out.</p>
+<p>Keep TTLs short. A timer is a backstop, not a strategy. It bounds how long a missed delete can hurt. I pick the longest lie I can live with for that kind of data, then cut it down. A listing can be a minute late. A balance cannot.</p>
+<p>Eviction is a capacity decision. Invalidation is a truth decision. When memory is full the policy throws away whatever it likes, including entries that are still true. That is not the same as deciding an entry is wrong. Mix them in your head and you will tune the wrong knob.</p>
+<p>A stale cache is worse than no cache. The miss is slow and honest. The hit is fast and wrong. People trust the fast answer.</p>
+<h2>When everyone misses at once</h2>
+<p>A popular key expires. A handful of requests arrive in the same breath. All of them miss. All of them recompute. The database you were protecting takes a punch it did not need.</p>
+<p>I recompute those keys on the write, not on the pile-up. If I have to expire, I expire on a timer I control, not at the traffic peak. Compute once. Store the result. Serve it until the input changes. If you cannot name the moment the input changes, you are not ready to keep the answer.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

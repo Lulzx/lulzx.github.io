@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Delete it — lulzx</title>
-<meta name="description" content="The best commit I made last month was 400 lines of deletions. There was a feature nobody used. I checked the analytics. Zero hits in 90 days. I deleted it.">
+<meta name="description" content="The best commit I made last month was 400 lines of deletions. A feature with zero hits in 90 days. Then a deletion pass every few months.">
 <meta property="og:title" content="Delete it">
-<meta property="og:description" content="The best commit I made last month was 400 lines of deletions. There was a feature nobody used. I checked the analytics. Zero hits in 90 days. I deleted it.">
+<meta property="og:description" content="The best commit I made last month was 400 lines of deletions. A feature with zero hits in 90 days. Then a deletion pass every few months.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/delete-your-code">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,21 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Delete it</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Mar 2024</span><span>1 min read</span></div>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Mar 2024</span><span>3 min read</span></div>
 <article><p>The best commit I made last month was 400 lines of deletions.</p>
 <p>There was a feature nobody used. I checked the analytics. Zero hits in 90 days. I deleted it. The codebase got simpler. The tests got faster. One less thing to maintain.</p>
-<p>Developers are hoarders. "We might need this later." You won't. And if you do, it's in git. But you won't.</p>
-<p>I do a deletion pass every few months. Dead code. Unused imports. Config for features that shipped three versions ago. Comments that describe code that's been rewritten twice since.</p>
-<p>Every line you delete is a line that can't have bugs. A line that can't confuse the next person. A line that doesn't slow down your IDE. Deletion is the most underrated refactoring tool.</p></article>
+<p>I almost left it. The code still compiled. The tests still passed. Removing it meant touching a route, a template, a flag, a couple of helpers that only existed for that path. The honest reason I hesitated was loss. I wrote that feature. Deleting it felt like admitting the bet was wrong. The analytics did not care. Zero is zero.</p>
+<h2>How I know it's dead</h2>
+<p>A hit count is the cleanest signal I have. Zero in 90 days is enough for a page, a command, a cron. I also grep for callers. I watch the logs for a name I am about to kill. If something still ticks, I go read the tick before I touch the files. A "dead" helper that runs on boot is not dead. It is load-bearing and badly named.</p>
+<p>Flags are a graveyard. A flag that has been on for everyone for two releases is not a flag. It is an <code>if true</code>. I delete the false branch, then the flag, then the config key. Same for config that describes a version we no longer ship. Same for comments that narrate a function I rewrote last year. Comments rot faster than code because nobody compiles them.</p>
+<p>Unreachable code is easier. The editor already greys it out. Unused imports too. I do not wait for a grand cleanup to take those. They go in the same PR as the change that orphaned them, or they go in the next deletion pass.</p>
+<h2>We might need this</h2>
+<p>I tell myself that a lot. I will not. And if I do, it's in git. The real fear is that I will not be able to <em>find</em> it. A deleted file does not show up in grep of HEAD. So I search the history. <code>git log -G</code> with a function name. <code>git log -- path/that/died.ts</code>. The commit that removed it is a bookmark. I can restore a file from that hash in a minute. The times I skipped deletion, the need never arrived.</p>
+<p>When I am unsure, I do not yank the code on a Friday and walk away. I hide the entry point first. Comment the route. Turn the flag off. Leave the files for a watch window that covers a normal week. If nothing screams, the files go. If something screams, I learned a dependency I did not have in my head. That is cheaper than a surprise outage and cheaper than keeping the museum open.</p>
+<h2>The pass</h2>
+<p>I do a deletion pass every few months. Dead code. Unused imports. Config for features that shipped three versions ago. Comments that describe code that's been rewritten twice since. I pick a corner of the repo and walk it the way I walk a diff. What is this for. Who calls it. When did it last move.</p>
+<p>The pass is easier when the code was easy to delete in the first place. A feature behind one door. A helper that does not reach into three other packages. Tight coupling is how a 40-line feature becomes a 400-line deletion, and also how I talk myself out of starting.</p>
+<p>Every line I delete is a line that can't have bugs. A line that can't confuse the next person. A line that doesn't slow down the tests or the index. I still write more than I delete. The pass is how I keep that from being the only direction the repo knows.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

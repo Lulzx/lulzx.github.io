@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Start with the interface — lulzx</title>
-<meta name="description" content="Before I write any implementation, I write the function signature. The API. The interface. Whatever you want to call the boundary between &quot;what it does&quot; an">
+<meta name="description" content="I write the function signature before any implementation. I have thrown away entire bodies and kept the interface. The callers never knew.">
 <meta property="og:title" content="Start with the interface">
-<meta property="og:description" content="Before I write any implementation, I write the function signature. The API. The interface. Whatever you want to call the boundary between &quot;what it does&quot; an">
+<meta property="og:description" content="I write the function signature before any implementation. I have thrown away entire bodies and kept the interface. The callers never knew.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/api-first">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,11 +60,20 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Start with the interface</h1>
-<div class="meta"><span class="badge sprout">sprout</span><span>Jan 2025</span><span>1 min read</span></div>
-<article><p>Before I write any implementation, I write the function signature. The API. The interface. Whatever you want to call the boundary between "what it does" and "how it does it."</p>
-<p>If the interface is clean, the implementation usually follows. If the interface is awkward, no amount of clever code inside will fix it.</p>
-<p>I've thrown away entire implementations and kept the interface unchanged. The callers never knew. That's the point. The interface is the contract. Everything else is negotiable.</p>
-<p>Most bad code isn't bad inside functions. It's bad at the boundaries. Functions that take seven parameters. Methods that do three things. APIs that require you to call things in a specific order. Fix the interface and the code fixes itself.</p></article>
+<div class="meta"><span class="badge sprout">sprout</span><span>Jan 2025</span><span>3 min read</span></div>
+<article><p>Before I write any implementation, I write the function signature. The API. The interface. The boundary between what it does and how it does it.</p>
+<p>If the interface is clean, the body usually follows. I can see the types, the names, the error path, and the insides have a place to land. If the interface is awkward, no amount of clever code inside will fix it. Callers will still pass seven arguments in the right mood. They will still call step two before step one. They will still read the comment I wrote because the signature would not speak.</p>
+<h2>The part I keep</h2>
+<p>I have thrown away entire implementations and kept the interface unchanged. The callers never knew. That is the point. The interface is the contract. Everything else is negotiable.</p>
+<p>I treat that as a test. If I cannot swap the body without touching the call sites, the insides crawled out. The file handle that the caller still has to close. The map that the caller has to fill in a secret order. The boolean that only means something if you read the other module.</p>
+<p>When I am unsure, I write the call site first, against a function that does not exist yet. I write the sentence I want to say. If the sentence needs a preamble, or a cleanup block, or a comment that says "do not call this twice," the boundary is still wrong. I change the names and the arguments until the call reads like a decision I actually want to make.</p>
+<h2>Where the rot lives</h2>
+<p>Most bad code is not bad inside functions. It is bad at the boundaries. Functions that take seven parameters. Methods that do three things. APIs that require you to call things in a specific order. I have written all three when I started from a body I already liked and then exposed whatever variables I had lying around.</p>
+<p>Seven parameters usually mean I never named the clump. Three jobs in one method mean I never split the contract. A required order means the object has a secret life, and the type will let you talk to it while it is only half built. I fix those at the edge. I wrap the clump. I split the method. I make the half-built state unnameable, so there is no function to call too early.</p>
+<p>A comment that explains how to call something is a signature that failed. I used to add the comment. Now I treat it as a failing test of the boundary. The words belong in the names and the types, where a caller cannot skip them.</p>
+<h2>When I start the body</h2>
+<p>I start the body when the call sites look boring. One or two arguments. A result I can match on. No leftover "and then remember to." At that point the implementation is a private problem. I can be sloppy in there for a day. I can replace it on the next day. The people on the other side of the function do not come with me.</p>
+<p>This is also how I know a piece of work wants this shape. If I cannot write the signature without inventing the algorithm, I do not understand the job yet. I stay at the boundary. I write another fake call. I delete an argument. I rename the return. The insides can wait. They have always been the cheap part.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

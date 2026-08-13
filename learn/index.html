@@ -914,14 +914,14 @@ const notesData = {
         title: 'Everything on one box',
         stage: 'sprout',
         planted: '2026-06',
-        tended: '2026-06',
+        tended: '2026-08',
         words: ['systems', 'building', 'minimal', 'small', 'footprint'],
         relatedNotes: ['minimal-software', 'shipping-fast'],
-        content: `<p>One box. A cheap 4-core ARM machine. It runs everything I have ever shipped and it is boring. Four months of uptime, a third of the disk used, memory basically empty.</p>
+        content: `<p>One box. A cheap 4-core ARM machine. It runs everything I have ever shipped and it is boring. Four months of uptime, a third of the disk used, memory basically empty. The box is barely awake. Until the disk, the CPU, or the memory is actually full, a second machine is just a second thing to understand.</p>
 <p>People will tell you you need Kubernetes. A CI pipeline. A container registry. A managed Postgres that bills you by the hour. For a handful of side projects. This is insane. You need a reverse proxy and a little discipline. That is the whole stack.</p>
 <h2>caddy is the entire front end</h2>
 <p>One process is on the internet. Caddy. It does TLS for you, gets the certs, renews them, forwards each domain to something on localhost. No certbot. No renewal cron. No 3am page because a cert expired. You write down a domain, you get HTTPS. Done.</p>
-<p>It runs as a container in <code>network_mode: host</code> so it grabs <code>:80</code> and <code>:443</code> directly, no port-mapping in the way. The certs live in a volume, so rebuilding the container does not throw them away and re-fetch.</p>
+<p>It runs as a container in <code>network_mode: host</code> so it grabs <code>:80</code> and <code>:443</code> directly, no port-mapping in the way. The certs live in a volume, so rebuilding the container does not throw them away and re-fetch. A rebuild that forgets that volume spends the afternoon talking to a CA for names you already proved last month.</p>
 <pre><code>services:
   caddy:
     build: .
@@ -958,7 +958,7 @@ app.example.com {
     }
     encode gzip
 }</code></pre>
-<p>One rule: name your hosts. I turned on on-demand TLS once so any subdomain would just work. Then bots started hammering random names and Caddy went and tried to get a real cert for every one of them. Dumb. List the domains you actually own and move on.</p>
+<p>One rule: name your hosts. I turned on on-demand TLS once so any subdomain would just work. Then bots started hammering random names and Caddy went and tried to get a real cert for every one of them. The CA has a limit. I burned it on garbage. Dumb. List the domains you actually own and move on.</p>
 <h2>two shapes, that is it</h2>
 <p>Everything on the box is one of two things.</p>
 <p>Already in Docker? It is a compose file in a folder.</p>
@@ -989,19 +989,19 @@ TimeoutStopSec=10
 WantedBy=multi-user.target</code></pre>
 <p>Both end up identical. A process on localhost, started after what it needs, restarted when it dies, sitting behind Caddy. Docker versus systemd is a detail. Nobody cares which one. The system is the same shape either way.</p>
 <h2>the firewall is decoration</h2>
-<p>This is the part that lets me not think about it. Caddy is on <code>:80</code> and <code>:443</code>. Everything else, every app, every worker, the database, binds <code>127.0.0.1</code>. Nothing else is reachable from the outside, period. You cannot hack a port that was never opened. The firewall is there for show.</p>
+<p>This is the part that lets me not think about it. Caddy is on <code>:80</code> and <code>:443</code>. Everything else, every app, every worker, the database, binds <code>127.0.0.1</code>. Nothing else is reachable from the outside, period. You cannot hack a port that was never opened. The firewall is there for show. One service bound to <code>0.0.0.0</code> by habit and the show is the only door.</p>
 <h2>postgres is just running</h2>
 <p>Postgres is on the box. Not a container, not managed, not a line item on a bill. It listens on <code>127.0.0.1</code>, apps connect to <code>localhost</code>, and the units wait for it before they start. That is the entire database strategy.</p>
-<p>Backup is <code>pg_dump</code> on a timer. One command, one file, copy it off the box. You do not need a managed cluster for an app doing ten requests a minute. You need a cron job.</p>
+<p>Backup is <code>pg_dump</code> on a timer. One command, one file, copy it off the box. A dump that sits next to the database dies with the disk. The restore test is whether I can build the app again on an empty machine from that file. You do not need a managed cluster for an app doing ten requests a minute. You need a cron job and a second place the file can live.</p>
 <h2>my laptop, but public</h2>
 <p>Sometimes I want a real URL pointing at code running on my Mac. A webhook while I am still building it, a quick demo, something I have not deployed and might never.</p>
 <p>So the laptop opens a reverse tunnel. <code>ssh -R 9000:localhost:3000 box</code> parks a port on the server that forwards back to my desk. Then it is just another Caddy line.</p>
 <pre><code>dev.example.com {
     reverse_proxy localhost:9000     # rides the tunnel to my laptop
 }</code></pre>
-<p>Public HTTPS on one end, my laptop on the other. The webhook hits the URL, Caddy does TLS, the request rides the tunnel home. It is ngrok, except I own both ends and it is free.</p>
+<p>Public HTTPS on one end, my laptop on the other. The webhook hits the URL, Caddy does TLS, the request rides the tunnel home. I own both ends and it costs nothing.</p>
 <h2>deploys are boring on purpose</h2>
-<p>Pull, rebuild, restart. <code>git pull && docker compose up -d --build</code>, or <code>git pull && systemctl restart app</code>. A config-only change to the proxy is <code>caddy reload</code> and nothing even goes down. No pipeline, no registry, no waiting on a runner in someone else's datacenter.</p>
+<p>Pull, rebuild, restart. <code>git pull && docker compose up -d --build</code>, or <code>git pull && systemctl restart app</code>. A config-only change to the proxy is <code>caddy reload</code> and nothing even goes down. No pipeline, no registry, no waiting on a runner in someone else's datacenter. One box means one copy of the code is live. There is no fleet to drift.</p>
 <p>A deploy should be the most boring thing that happens all day.</p>
 <h2>what I don't run</h2>
 <p>No Kubernetes. No Terraform. No CI platform charging me by the minute. No service mesh, no load balancer, no autoscaler for traffic that fits in the corner of one CPU.</p>
@@ -1011,218 +1011,320 @@ WantedBy=multi-user.target</code></pre>
         title: 'Less code',
         stage: 'evergreen',
         planted: '2024-10',
-        tended: '2026-01',
+        tended: '2026-08',
         words: ['minimal', 'dependencies', 'small', 'footprint', 'zero', 'principles'],
         relatedNotes: ['the-100-line-rule', 'one-file'],
         content: `<p>I keep coming back to this: the best code is the code I didn't write.</p>
-<p>Not in a lazy way. In a <em>if this line doesn't need to exist, it shouldn't</em> way.</p>
-<p>Every line I add is a line I have to maintain. A line that can break. A line someone else has to read and understand. Including future me, who will have forgotten why it's there.</p>
+<p>If this line doesn't need to exist, it shouldn't.</p>
+<p>Every line I add is a line I have to maintain. A line that can break. A line someone else has to read and understand. Including future me, who will have forgotten why it's there. The line is doing work today. It is also a bill that arrives every time I touch the file, run the tests, or explain the system.</p>
 <h2>What I actually do</h2>
-<p>Before I add a feature, I try to remove one. Before I add a file, I check if an existing one can hold it. Before I add a dependency, I look at how many lines it would take to write myself.</p>
-<p>Usually fewer than I think.</p>
-<p>My site is one HTML file. My CLI tools compile to single binaries. My libraries have zero runtime dependencies. Not because I'm trying to prove something. Because every time I've done it the other way, I've regretted it.</p>
+<p>Before I add a feature, I try to remove one. Before I add a file, I check if an existing one can hold it. Before I add a dependency, I look at how many lines it would take to write myself. Usually fewer than I think.</p>
+<p>The order matters. If I add first, the new thing justifies itself by existing. I start protecting it. I write tests for a path nobody asked for. I name a module after a guess. Removal after that is a fight with my own last week.</p>
+<p>My site is one HTML file. My CLI tools compile to single binaries. My libraries have zero runtime dependencies. Not because I'm trying to prove something. Because every time I've done it the other way, I've regretted it. The extra package had a release I did not want. The extra service had a failure I did not need. The extra file had a loop of imports I then had to undo.</p>
+<p>I ask the same three questions on every PR I open, including my own. Does this line need to exist for the behavior I want. Can an old line already do it. If I delete this in six months, what else comes with it. If the last answer is "half the package," I have built a trap.</p>
+<h2>Easy to take off</h2>
+<p>The code I keep has a door. A feature behind one route. A helper that does not reach into three crates. A config key that only one binary reads. When the bet is wrong I can pull the door off and the house still stands. Code that is cleverly reused across everything is code I will never delete. I will only decorate it.</p>
+<p>I used to chase reuse. One function, many callers, a proud little graph. Then I needed to change one caller and the others came with it. Now I let two short copies live until the third one appears and the shape is obvious. Duplication is cheap. A wrong shared core is a root I cannot pull.</p>
+<p>Layers help when they hide a mess I do not want to see. They hurt when they hide a mess I need to see. I flatten anything I cannot explain in one sentence. The sentence has to name a job, not a pattern.</p>
 <h2>The hard part</h2>
-<p>Removing is harder than adding. Always. Your brain wants to solve problems by creating things. It takes real discipline to solve them by destroying things instead.</p>
-<p>But the projects I'm most proud of are the ones where I looked at the code and thought "there's nothing left to take away."</p>`
+<p>Removing is harder than adding. Always. Your brain wants to solve problems by creating things. A new file feels like progress. A red diff feels like loss. I have to sit with that feeling long enough to remember the last time a fat module slowed me down.</p>
+<p>The stop condition is not zero features. It is a file I can hold in my head. I know what every function is for. I know which ones I would keep if the product shrank tomorrow. The projects I'm most proud of are the ones where I looked at the code and thought there's nothing left to take away. That look does not last. The next feature will try to stay. The habit is the look, done again.</p>`
     },
     'shipping-fast': {
         title: 'Ship small, ship often',
         stage: 'evergreen',
         planted: '2025-12',
-        tended: '2026-01',
+        tended: '2026-08',
         words: ['systems', 'building', 'adapt', 'execute', 'minimal'],
         relatedNotes: ['worse-is-better', 'minimal-software'],
-        content: `<p>The fastest teams I've worked with shipped the smallest changes.</p>
-<p>Not because small is easy. Because small is <em>safe</em>. A 30-line diff is easy to review, easy to test, easy to revert if it breaks. A 3000-line diff is a prayer.</p>
-<p>I used to batch things up. "I'll ship all of this together when it's ready." It was never ready. And when I finally pushed, something always broke, and I couldn't tell which part did it.</p>
+        content: `<p>The fastest teams I've worked with shipped the smallest changes. A 30-line diff is easy to review, easy to test, easy to revert if it breaks. A 3000-line diff is a prayer.</p>
+<p>I used to batch things up. I'll ship all of this together when it's ready. It was never ready. The pile grew a refactor, a half-done feature, a bug I noticed in passing. When I finally pushed, something always broke, and I couldn't tell which part did it. The revert was a coin flip. I sat in the logs guessing.</p>
 <p>Now I ship constantly. Multiple times a day sometimes. Each change does one thing. If it breaks, I know exactly what and exactly why.</p>
-<h2>The counterintuitive part</h2>
-<p>Going faster means doing less per step. Not more. The urge is always to do more. Add the error handling, refactor that other thing while you're in there, fix that bug you noticed. Don't.</p>
-<p>One thing. Ship it. Next thing.</p>
-<p>Deploy should be boring. If it's exciting, you're doing it wrong.</p>`
+<h2>One thing</h2>
+<p>One thing means one reason the diff exists. A flag flipped. A function added. A query tightened. The error handling for that function waits for the next change. The rename I spotted waits too. The urge is always to do more while I am already in the file. That is how a 30-line ship becomes a 300-line one, and then I am back to guessing.</p>
+<p>I write the extra ideas down. A line in a notes file. A comment on the PR. Then I leave them. The next ship can pick one up. If the extra idea is actually required for this change to work, then it was never extra. It was part of the one thing. I was lying to myself about the size.</p>
+<p>The check is simple. Can I describe the change in one short sentence without an "and"? If I need the "and," I have two ships taped together.</p>
+<h2>After it lands</h2>
+<p>A small ship is cheap to watch. I look at the thing it touched. The endpoint, the log line, the page. I wait long enough that a real request would have hit it. If the signal is wrong I revert that commit. I do not stack a hotfix on a guess. Revert first. Then think.</p>
+<p>The 3000-line ship cannot do this. There is no one signal. Five things moved. Two of them might be fine. The revert undoes the good with the bad, so nobody wants to revert, so we patch forward in the dark.</p>
+<p>Frequent ships also teach the pipe. If I only deploy on Fridays after a long branch, deploy itself is the event. People hover. Someone has a rollback doc open. Deploy should be boring. If it's exciting, you're doing it wrong.</p>
+<p>Boring means I have done this today already. The tests ran. The same command ran. The same host took the file. Nothing in the ritual is special because this particular change feels big. If a change needs a special ritual, I split it until it doesn't.</p>
+<h2>What I refuse to mix</h2>
+<p>A feature and a refactor in the same diff. A behavior change and a formatting pass. A migration and the code that needs it, unless they truly cannot live apart. Mixed diffs fail in mixed ways. The review becomes a vibe check. Later, when something is wrong, the history points at a blob.</p>
+<p>I used to think going faster meant packing more into each step. The teams that looked slow in the morning, one small PR after another, were the ones still shipping at 4pm. The teams with one giant branch had a war room and a frozen main.</p>
+<p>Small is safe because the blast is small. One file. One behavior. One way back. I still feel the pull to batch until ready. Ready is a feeling. Shipped is a fact.</p>`
     },
     'telegram-bots': {
         title: 'Seven years of Telegram bots',
         stage: 'evergreen',
         planted: '2024-06',
-        tended: '2026-01',
+        tended: '2026-08',
         words: ['systems', 'building', 'adapt', 'learn', 'runtimes'],
         relatedNotes: ['learn-by-building', 'shipping-fast'],
         content: `<p>I started building Telegram bots in 2017 because I was bored. Wrote one that replied to messages with random quotes. Took maybe an hour.</p>
-<p>That was the gateway drug.</p>
-<p>Seven years later, some of my bots handle millions of messages a day. I've learned more about building reliable systems from bots than from any job or course.</p>
-<h2>The one thing that matters</h2>
-<p>Webhooks, not polling. That's it. That's the entire scaling secret. Polling is you calling Telegram every second asking "anything new?" Webhooks are Telegram calling <em>you</em> when something happens.</p>
-<p>After that, it's the same stuff that makes any system work: queue your messages, process them async, cache aggressively, and log everything.</p>
-<h2>What bots taught me</h2>
-<p>Bots fail constantly. The API times out. Users send garbage. Your server runs out of memory at 3am. You learn to build for failure because you have no choice.</p>
-<p>A bot that crashes and recovers gracefully is infinitely better than one that never crashes but silently drops messages. I apply this to everything I build now.</p>
-<p>Most of what I know about distributed systems, I learned from a chat bot.</p>`
+<p>That was the first one that stayed running.</p>
+<p>Seven years later, some of my bots handle millions of messages a day. I have learned more about building reliable systems from those bots than from any job or course. The hard parts never lived in the reply handler. They lived in everything that had to keep working after the process died.</p>
+<h2>Push, not ask</h2>
+<p>Webhooks, not polling. Polling is you calling Telegram on a loop asking if anything new showed up. Fine on a laptop. Fine for a quote bot. One process, outbound only, no public URL. Also one process forever. A second poller on the same token gets a conflict and the first one is a single point of failure. While you wait for the next loop, the user is already gone.</p>
+<p>Webhooks flip the direction. You give Telegram an HTTPS URL. A message arrives, they POST it to you. Idle traffic is nothing. You can put more than one box behind the URL. The work starts the moment the user hits send.</p>
+<p>The trade is that you now have a public endpoint, a certificate, and a promise to answer quickly. If you do not return OK in time, they try again. The same update can land twice. Sending the reply twice is a new message, not a no-op. You have to remember which updates you already answered. At-least-once is the contract. Exactly-once is a story you tell yourself.</p>
+<h2>The work sits outside the request</h2>
+<p>After the push, the rest is the same stuff that makes any system stay up. Queue the update. Ack the webhook. Process async. Cache anything you would otherwise ask for on every message. Log the raw payload, the decision, and the send. Rate limits are real. One chat will 429 you if you talk too fast. A group has a tighter ceiling. A broadcast will sit in the queue and drip out, or it will eat the process.</p>
+<p>The queue, the cache, and the log have to live outside a single run. Restart the box and the in-memory version of all three is gone. The bot that survives is the one that can pick the queue back up and know which updates it already answered.</p>
+<h2>Failure is the job</h2>
+<p>Bots fail constantly. The API times out. Users send garbage. Your server runs out of memory at 3am. You learn to build for failure because you have no choice. A crash that recovers and replays the queue is better than a process that never dies and quietly drops a night of messages. I apply this to everything I build now.</p>
+<p>Most of what I know about distributed systems, I learned from a chat bot. Who is allowed to call whom. What you ack. What you retry. What you refuse to do twice. What you write down so the next process is not guessing.</p>`
     },
     'semver-30x-faster': {
         title: 'semver, but 30x faster',
         stage: 'evergreen',
         planted: '2025-12',
-        tended: '2026-01',
+        tended: '2026-08',
         words: ['computation', 'minimal', 'zero', 'dependencies', 'small', 'footprint', 'execute'],
         relatedNotes: ['minimal-software', 'the-100-line-rule'],
         content: `<p>Every <code>npm install</code> parses version strings. Thousands of them. Installing preact alone calls <code>semver</code> 21,000 times. One package.</p>
-<p>The <code>semver</code> package has 150 million weekly downloads. And it's doing way more work than it needs to.</p>
+<p>The <code>semver</code> package has 150 million weekly downloads. And it is doing way more work than it needs to. A parse walks a regex, allocates an object, splits prerelease tags, and throws if the string is ugly. That is the right work for a string you have never seen. It is the wrong work for <code>1.0.0</code> the twenty thousandth time in the same install.</p>
 <h2>The dumb idea</h2>
-<p>Version numbers aren't random. React is at 18. Node is at 22. Most packages never pass major version 50. So I precomputed all of them.</p>
+<p>Version numbers aren't random. React is at 18. Node is at 22. Most packages never pass major version 50. The input space is small and almost still. So I precomputed all of them.</p>
 <pre><code>const cache = Object.create(null);
 for (let M = 0; M &lt; 50; M++)
   for (let m = 0; m &lt; 50; m++)
     for (let p = 0; p &lt; 20; p++)
       cache[M+'.'+m+'.'+p] = {major: M, minor:m, patch:p};</code></pre>
-<p>50,000 objects. Allocated once. Now parsing <code>1.0.0</code> is just a hash lookup. No regex. No nothing.</p>
+<p>50,000 objects. Allocated once, at load. Now parsing <code>1.0.0</code> is a hash lookup on a string the engine already interned. No regex. No split. No new object on the hot path. The miss still goes through a real parser for the weird ones, the build numbers, the <code>1.0.0-beta.8</code>. Those are rare. The install is made of the common ones.</p>
+<p><code>Object.create(null)</code> matters. A normal object has a prototype chain. A lookup for a name that happens to exist on that chain is a surprise. A null-prototype map is just the keys I put there.</p>
 <h2>Then compile the ranges</h2>
-<p><code>^1.2.3</code> always means the same thing. So compile it once to a closure:</p>
+<p><code>^1.2.3</code> always means the same thing. The caret does not depend on the version you will test later. So compile it once to a closure:</p>
 <pre><code>(M, m, p, pr) =&gt; !pr && M === 1 && ((m-2)||(p-3)) >= 0</code></pre>
-<p>Next time you check any version against <code>^1.2.3</code>, it's four integers and some arithmetic. Done.</p>
+<p>Next time you check any version against <code>^1.2.3</code>, it is four integers and some arithmetic. No range string. No walk of comparators. The predicate is the range. A satisfy call in an install is this function against a cache hit. That is why 21,000 calls stop being a tax.</p>
+<h2>What I tried that lost</h2>
+<p>Hash arrays were slower than V8's internals. I packed majors and minors into integer slots and indexed them myself. The engine already turns a hot string key on a stable object into something close to a field access. My extra hash paid a constant the runtime had already deleted. I threw the arrays out.</p>
+<p>A fast-path parser for short numeric versions added a branch and a walk before the cache lookup. The cache was already the fast path. The extra work ran on every call, including the ones the table already knew. I deleted it.</p>
+<p>Gut said both of those should win. The clock said no. I keep the bench next to the code. If a change does not move the number, it does not ship.</p>
 <h2>Result</h2>
 <p><strong>208 million</strong> parses per second. 35x faster. 6.4 kB gzipped. Zero dependencies.</p>
-<p>Half my ideas didn't work. Hash arrays were slower than V8's internals. Fast-path parsing added overhead because the cache was already fast enough. Benchmark everything. Your gut is wrong.</p>
+<p>The 35x comes from refusing the regex on the strings that show up. The 6.4 kB is the table plus the compiler plus the fallback. No tree of helpers. The 150 million weekly downloads are 150 million chances to do this work the slow way. I wanted the common case to be a lookup and a few integer compares.</p>
 <p><a href="https://github.com/Lulzx/pico-semver">github.com/Lulzx/pico-semver</a></p>`
     },
     'the-100-line-rule': {
         title: 'The 100-line rule',
         stage: 'evergreen',
         planted: '2023-06',
-        tended: '2026-01',
+        tended: '2026-08',
         words: ['dependencies', 'zero', 'minimal', 'small', 'principles'],
         relatedNotes: ['minimal-software', 'do-it-yourself'],
         content: `<p>If a dependency is less than 100 lines of code, I write it myself.</p>
-<p>Not because I think I'm smarter than the library author. Because I think 100 lines I understand completely is better than 100 lines I don't.</p>
-<p>Left-pad was 11 lines. It broke the internet. I could have written it in 30 seconds. So could you. So could anyone. But 2.5 million projects depended on one person not deleting their npm package.</p>
-<p>I have a utils file in most of my projects. It has debounce, throttle, deep clone, a couple of string helpers. Maybe 80 lines total. I've never had a supply chain attack on my utils file.</p>
-<p>The threshold isn't really 100 lines. It's: <em>can I understand every line of this?</em> If yes, I own it. If no, I think very hard about whether I need it.</p>`
+<p>I want 100 lines I understand completely more than 100 lines I don't. A package is those lines plus a name on a registry, a version range, a lockfile entry, a person who can unpublish, a publish token that can leak, and every package <em>that</em> package pulls in. I take the whole chain when I type the install command. I rarely want the chain.</p>
+<p>Someone unpublished an 11-line pad helper. It prepended characters to a string in a loop. Builds failed across millions of projects. I could have written those 11 lines in 30 seconds. So could you. So could anyone. But 2.5 million projects depended on one person not deleting their npm package. The helper was never the hard part. The hard part was letting a registry own a loop.</p>
+<h2>What I keep in the repo</h2>
+<p>I have a utils file in most of my projects. It has debounce, throttle, deep clone, a couple of string helpers. Maybe 80 lines total. I've never had a supply chain attack on my utils file. It does not update itself at 2am. It does not grow a transitive tree I have never opened. When it is wrong, the stack points at a function I can read without leaving the editor.</p>
+<p>I copy the 20 lines I need, or I write them. I do not vendor a "utils kit" that also formats dates and parses query strings I will never touch. Extra helpers become extra surface. Someone will call the date formatter from a path I did not review, and then I own a calendar.</p>
+<p>100 is a fence, not a religion. Some 40-line packages wrap a native module I cannot see. Some 90-line packages are a thin file on top of a tree of twenty others. I count what actually lands in <code>node_modules</code>, or I do not count. A pretty README is not the size of the risk.</p>
+<h2>What I still install</h2>
+<p>I still take a dependency when the hard part is years of cases I have not lived. A TLS stack. A parser for a format with a graveyard of edge cases. Crypto I would get slightly wrong. Those lines are not 100. They are a career. Installing them is cheaper than pretending I can reproduce the scars.</p>
+<p>I also install what the runtime already is. I do not rewrite <code>git</code>. I do not rewrite a database. The rule is for the glue I reach for out of habit, the one function that feels too small to type.</p>
+<p>Even then I pin the version. I read the install tree. I ask whether I need the library or one function from it. One function is a candidate for the utils file. The whole library is a candidate for staying a library.</p>
+<h2>The real test</h2>
+<p>The threshold isn't really 100 lines. It's: <em>can I understand every line of this?</em> If yes, I own it. If no, I think very hard about whether I need it. If I cannot explain what happens when the maintainer vanishes, I do not have a helper. I have a bet.</p>
+<p>Owning the lines has a cost. I fix my own bugs. I do not get patches for free. That is the trade I want for debounce. It is a trade I refuse for a cipher. The rule is how I tell those two apart before the lockfile grows a life of its own.</p>`
     },
     'do-it-yourself': {
         title: 'npm install regret',
         stage: 'evergreen',
         planted: '2023-03',
-        tended: '2025-10',
+        tended: '2026-08',
         words: ['dependencies', 'zero', 'minimal', 'building', 'source'],
         relatedNotes: ['the-100-line-rule', 'minimal-software'],
         content: `<p>I used to <code>npm install</code> everything. Need to pad a string? Package. Parse a date? Package. Check if a number is even? Believe it or not, package.</p>
-<p>Then I'd open <code>node_modules</code> and find 800 folders for a project that sends emails.</p>
-<p>The turning point was a security audit. I had to explain every dependency. Why do we need this? What does it do? Can we trust the maintainer? I couldn't answer for half of them. I'd installed packages I'd never read a single line of.</p>
-<p>Now I default to writing it myself. Most things I need are 20-50 lines. The ones that aren't (crypto, compression, database drivers) I add thoughtfully and pin the version.</p>
-<p>My <code>node_modules</code> went from 800 folders to about 30. My builds are faster. My deploys are smaller. And I actually know what my code does.</p>`
+<p>Then I would open <code>node_modules</code> and find 800 folders for a project that sends emails.</p>
+<h2>The audit</h2>
+<p>The turning point was a security audit. I had to explain every dependency. Why do we need this? What does it do? Can we trust the maintainer? I could not answer for half of them. I had installed packages I had never read a single line of.</p>
+<p>One line in <code>package.json</code> is not one folder. It is a tree. The tree has its own trees. Each folder has a person on the other end with a password, a token, a laptop. I had been nodding at a list I could not recite.</p>
+<p>The tiny ones were the worst. A check for even. A pad. A wrapper around a one-line native method. Those are the packages that get a new maintainer on a Tuesday and a <code>postinstall</code> on Wednesday. I had no reason to pull them except that typing <code>n % 2</code> felt like I was wasting time.</p>
+<h2>What I write</h2>
+<p>Now I default to writing it myself. Most things I need are 20-50 lines. A pad. A date format I actually use. A retry loop. A small router. I can read all of it on a train. When it breaks I know which file to open.</p>
+<p>Copying twenty lines into the repo is cheaper than depending on them. The copy does not grow a new script. It does not change because someone two hops away published <code>1.0.1</code>. It does not run on install. It sits there and does the one job.</p>
+<p>I still add packages. Crypto. Compression. Database drivers. Those are the ones where a mistake of mine would be worse than a stranger's code I have actually read. I add them on purpose. I pin the version. I commit the lockfile and I install from it. A floating range is a stranger choosing my next Tuesday.</p>
+<h2>What changed</h2>
+<p>My <code>node_modules</code> went from 800 folders to about 30. Builds got faster. Deploys got smaller. The audit question became answerable. I can walk the tree in an afternoon and say what each name is for.</p>
+<p>I upgrade slowly. A new version is a new text I have not read. I wait a bit and I read the diff if the package sits on a path that handles money, auth, or install. A sudden jump in file size, a new lifecycle script, a maintainer swap with no note: those are stop conditions. I do not merge them to keep the bot green.</p>
+<p>The 20-line helper is mine. The pinned driver is a choice I can still explain. The other 770 folders were a habit I mistook for speed.</p>`
     },
     'rust-changed-my-brain': {
         title: 'Rust rewired my brain',
         stage: 'evergreen',
         planted: '2023-01',
-        tended: '2025-12',
+        tended: '2026-08',
         words: ['computation', 'systems', 'learn', 'foundations'],
         relatedNotes: ['learn-by-building', 'speed-is-a-feature'],
         content: `<p>I picked up Rust in 2023 expecting a language. I got a way of thinking.</p>
-<p>The borrow checker isn't a restriction. It's a question: <em>who owns this data?</em> I'd never asked that before. In Python and JavaScript, the answer was "who cares, the garbage collector will figure it out." In Rust, you have to know.</p>
-<p>Now I think about ownership in every language. When I write TypeScript, I notice when I'm passing references carelessly. When I design an API, I think about who's responsible for cleanup. Rust didn't teach me Rust. It taught me to think about data.</p>
-<p>The other thing: Rust made me comfortable with the compiler saying no. In dynamic languages, you discover mistakes at runtime. In Rust, the compiler catches them. At first this felt slow. Now every other language feels reckless.</p>
-<p>I still write TypeScript and Python when they're the right tool. But I write them differently than I used to.</p>`
+<p>The borrow checker keeps asking one question: <em>who owns this data?</em> I had never asked that before. In Python and JavaScript the answer was easy. Who cares. The garbage collector will figure it out. In Rust I have to know. Each value has one owner. There is only one at a time. When the owner leaves scope, the value is dropped. I can lend it, mutably to one place or shared to many, and I cannot do both at once.</p>
+<h2>What the no is pointing at</h2>
+<p>At first the compiler felt like a hall monitor. I would write the shape I was used to, a graph of objects that all point at each other and mutate when they feel like it, and the compiler would refuse. I cloned things to make it shut up. I wrapped things so two owners could pretend to share. The code compiled and I had learned nothing.</p>
+<p>The useful fight is the one that makes me redraw the data. If two functions both need to change the same buffer, the design never decided who is in charge of the buffer. Once I pick an owner, the rest of the function gets shorter. The compiler was naming a blur I had been living with.</p>
+<p>I still reach for an explicit copy when I actually need two values. I still share when the lifetime is honestly shared. Those are decisions now. They used to be the default, hidden behind a runtime that cleaned up after me.</p>
+<h2>The question travels</h2>
+<p>Now I think about ownership in every language. When I write TypeScript I notice when I pass an object into two places and both of them write to it. When I design an API I ask who closes the file, who frees the connection, who is allowed to mutate the record after the call returns. The type system over there will not stop me. The question still saves me a week of "who touched this."</p>
+<p>Cleanup is the same question with a clock on it. If I open a handle, someone has to shut it. If that someone is "whoever goes out of scope last," I want that written down, even in Python, even if the language will not check me. I used to leave that to luck and a finalizer I never read.</p>
+<h2>Getting used to no</h2>
+<p>Rust also made me comfortable with the compiler saying no. In dynamic languages I discover the mistake when a request hits the bad path. In Rust the compiler catches the path I did not run. At first this felt slow. I would spend an afternoon on a program that would have "worked" in Python, meaning it would have run until the aliasing showed up in production.</p>
+<p>The slowness moved. I pay it at the keyboard. I do not pay it later, on a path I never ran, when two writers both thought they owned the value. After enough of those nos, I start writing in the shape the checker wants. I stop fighting. The program gets a spine before it gets a body.</p>
+<p>I still write TypeScript and Python when they are the right tool. I write them differently than I used to. I name the owner out loud. I get suspicious when two writers share a value. I treat a type error as a cheap no, and I miss it when the language cannot say it.</p>`
     },
     'read-the-source': {
         title: 'Read the source',
         stage: 'evergreen',
         planted: '2020-06',
-        tended: '2025-08',
+        tended: '2026-08',
         words: ['source', 'auditable', 'learn', 'foundations'],
         relatedNotes: ['rust-changed-my-brain', 'learn-by-building'],
-        content: `<p>The best programmers I know spend more time reading code than writing it.</p>
-<p>I used to think building things was how you got good. It's part of it. But the other part is reading how other people solved the same problem. Not blog posts <em>about</em> the code. The actual code.</p>
-<p>I learned more from reading the Redis source than from any database course. It's 50,000 lines of beautifully clear C. Every function does what its name says. The comments explain <em>why</em>, not <em>what</em>.</p>
-<p>When I'm stuck on a design decision, I look at how someone I respect solved it. Not Stack Overflow. Not a tutorial. The source. It's always there. Most things worth learning from are open source.</p>
-<p>Reading code is a skill nobody teaches and everyone needs.</p>`
+        content: `<p>I used to think building things was how you got good. Building is half of it. The other half is sitting in a working system and watching how it actually moves.</p>
+<p>Not a post about the code. The code.</p>
+<h2>What Redis taught me</h2>
+<p>I learned more from reading the Redis source than from any database course. About 50,000 lines of clear C. You can hold the shape of it. Every function does what its name says. The comments explain <em>why</em>.</p>
+<p>A why comment is the gold. The calls are obvious. Increment here, free that, return. The comment is the part you cannot recover from the statements: the failure that happens if you skip the first call, the order that looks unnatural on purpose, the case that used to live at the bottom of the loop and broke people. Code tells you the path. The comment tells you which path was refused.</p>
+<p>I start at the entry. <code>main</code>, the listen socket, the loop that waits for a connection. Then I pick one type and stay there. A hash. A string. How a command name becomes a function pointer. I do not open a random helper in the middle of a file and hope the plot appears. The plot is the data. Follow the bytes from the client to the structure that holds them.</p>
+<p>Names that tell the truth drop the amount you have to keep in your head. When a function is called <code>lookupCommand</code> I can treat it as a door. I only walk through it when the door is the thing I came to understand.</p>
+<h2>How I read when I am stuck</h2>
+<p>A tutorial compresses. It shows the happy path and hides the constraint that made the ugly branch exist. The source still has the constraint. The timeout. The buffer that gets reused. The case where a replica connects mid-write. That is the part I need when my own design is wobbling.</p>
+<p>I do not read to collect tricks. I read to see the cycle. Where state lives when the function returns. What is allowed to fail. What the author refused to make clever. A small, boring structure that survived years of load teaches more than a diagram of a structure that never shipped.</p>
+<p>When I cannot decide, I open a system that already made the decision and shipped it. How does this store expire a key without stalling the loop? How does this parser reject a bad line without allocating a tree? The answers are in files I can grep. Most things worth stealing a shape from are sitting in the open.</p>
+<h2>The skill</h2>
+<p>Reading code is slower than writing a toy. The first hour feels like walking into a city without a map. Then a street repeats. Then a square. Then you know where the river is and you stop being lost.</p>
+<p>I still write every day. I read more than I used to, on purpose. The programs I trust are the ones whose source I have sat with long enough that their next change would not surprise me.</p>`
     },
     'speed-is-a-feature': {
         title: 'Speed is respect',
         stage: 'evergreen',
         planted: '2024-03',
-        tended: '2025-12',
+        tended: '2026-08',
         words: ['computation', 'execute', 'minimal', 'systems', 'footprint'],
         relatedNotes: ['semver-30x-faster', 'minimal-software'],
         content: `<p>Every millisecond you waste is a millisecond of someone's life.</p>
-<p>That sounds dramatic. But multiply it. A page that takes 2 seconds instead of 200ms, loaded 10,000 times a day. That's 5 hours of human life wasted. Every day. On one page.</p>
-<p>Performance isn't a technical concern. It's a moral one. When your software is slow, you're saying: my time was more valuable than yours. I couldn't be bothered to optimize this.</p>
-<p>I don't mean premature optimization. I mean: choose the right data structure. Don't load what you don't need. Don't make the user wait for something you could have precomputed.</p>
-<p>The fastest software I use is the software I forget is there. It just does the thing instantly and gets out of the way. That's what respect looks like in code.</p>`
+<p>That sounds dramatic. Multiply it. A page that takes 2 seconds instead of 200ms, loaded 10,000 times a day. That is 5 hours of human life. Every day. On one page. You will never meet those people. They still paid.</p>
+<h2>What a wait does</h2>
+<p>A click that comes back before you lift your finger feels like your hand did the thing. Past a second your mind leaves the sentence you were reading. You check another tab. You forget why you opened this one. The work is still in flight. The person is not. Ten seconds and they have left the page for good.</p>
+<p>The wait also grows in memory. A slow page feels longer than the clock says, and later it feels longer still. You remember the stall, not the content.</p>
+<p>Average time lies. The request that takes two seconds while the rest take eighty milliseconds is the one that trains people to flinch. I watch the slow end of the distribution. That is the one they will tell a friend about.</p>
+<h2>Where the time actually goes</h2>
+<p>Most of the five hours is work nobody asked for. A payload that includes three screens the person will never open. A sort of data that has not changed since Tuesday. A round trip for a value you could have written into the page. A script that runs before the first paint to decide something the HTML already knew.</p>
+<p>I pick the structure that matches the question. I do not load what this screen does not use. I do not make someone wait for a result I could have computed before they arrived. This site is files. There is no query to hide behind. If a page is slow here, I shipped the wait on purpose.</p>
+<p>I do not mean polishing a path that runs once at deploy. I mean the path a stranger hits with their thumb, ten thousand times, while I am doing something else. The 5 hours is that path, multiplied, and ignored because each wait looked small in isolation.</p>
+<h2>Getting out of the way</h2>
+<p>When the software is slow I am saying my afternoon was worth more than theirs. I had the files open. They had a bus to catch. I left the extra query in because the box was quiet on my desk.</p>
+<p>The fastest software I use is the software I forget is there. It does the thing and steps aside. No spinner that apologizes. No skeleton that advertises the wait. Just the next state, already true.</p>
+<p>You take the time once, on your side of the click, so they do not take it ten thousand times on theirs.</p>`
     },
     'apple-silicon': {
         title: 'The M1 broke my assumptions',
         stage: 'sprout',
         planted: '2024-01',
-        tended: '2025-10',
+        tended: '2026-08',
         words: ['computation', 'parallel', 'runtimes', 'systems'],
         relatedNotes: ['rust-changed-my-brain', 'speed-is-a-feature'],
         content: `<p>In 2024 I started porting ML models to Apple Silicon using MLX-Swift. I expected it to be a compromise. Run models locally, sure, but slowly.</p>
 <p>It wasn't slow.</p>
-<p>Unified memory changes everything. The GPU and CPU share the same RAM. No copying tensors back and forth. You just... use it. A 14-inch laptop running inference faster than my old cloud GPU setup.</p>
-<p>I ported speculative decoding. Then a reasoning model. Then an OCR pipeline. Each time I expected to hit a wall. Each time the wall wasn't there.</p>
-<p>The assumption I had to break: "real ML needs a data center." No. Real ML needs good hardware and good software. A MacBook has both now.</p>
-<p>The models run locally. No API calls. No latency. No sending private data to someone else's server. I think this is the future and most people haven't realized it yet.</p>`
+<h2>One pool of RAM</h2>
+<p>Unified memory is the whole trick. The GPU and the CPU share the same RAM. On the old cloud box every tensor had a trip. Write it on the host. Copy it over the bus. Compute. Copy it back. The copies were the day.</p>
+<p>On the laptop there is nothing to copy. The weights sit in memory. The GPU reads them. The CPU can touch the same bytes. The KV cache grows in the same pool. MLX-Swift is built for that layout. You do not stage a buffer for a device that already shares the room. You just use it.</p>
+<p>A 14-inch laptop running inference faster than my old cloud GPU setup. I kept waiting for the catch. The catch is capacity, not speed. The model has to fit. If it fits, the machine is already working.</p>
+<h2>Decode is a shuffle</h2>
+<p>Generating a token is cheap math and an expensive walk through the weights. You load the whole model to write one word, then you do it again. The math finishes. The walk does not. That is why a small draft helps.</p>
+<p>I ported speculative decoding first. A small network guesses a handful of tokens. The big model checks them in one pass instead of one pass per token. Same answer. Fewer walks. On a machine where the walk is the tax, that is the gain.</p>
+<p>Then a reasoning model. Then an OCR pipeline. Each time I expected to hit a wall. Each time the wall was not there. Memory was the wall, when it showed up. A model that does not fit does not get faster with a better kernel. It just spills, or it refuses.</p>
+<h2>The data stays here</h2>
+<p>The models run locally. No API calls. No waiting on a queue in another country. No sending a private page, a photo, a chunk of mail to a box I do not hold the keys for.</p>
+<p>That changed what I was willing to run. OCR on a document I would not upload. A reasoning pass on notes that are not public. A draft of text that is still mine. The laptop is fast enough that I stopped making the trade I used to make: send it away, get the answer, hope the log is quiet. The only network the job needs is the one that fetched the weights once.</p>
+<p>I had a sentence I repeated for years. Real ML needs a data center. I was measuring the wrong thing. I needed hardware that could hold the weights and software that knew the memory was shared. The 14-inch machine had both. I just had to stop shipping the work out of the room.</p>`
     },
     'learn-by-building': {
         title: 'Learn by building',
         stage: 'evergreen',
         planted: '2017-06',
-        tended: '2025-12',
+        tended: '2026-08',
         words: ['learn', 'building', 'adapt', 'systems'],
         relatedNotes: ['seven-years', 'telegram-bots'],
         content: `<p>I never finished a programming course. I've started dozens. Never finished one.</p>
 <p>What I did instead: I built things. A bot that tells you the weather. A search engine for my bookmarks. A CLI tool that does one thing I needed.</p>
 <p>Each one taught me exactly what I needed to know, exactly when I needed to know it. Not "here's how arrays work" in week 3 of a curriculum. But "I need to sort these results by relevance, how do I do that?" at 1am on a Tuesday because I'm obsessed with my side project.</p>
-<p>Courses teach you syntax. Projects teach you engineering. The difference is that projects have real constraints: this needs to actually work, for real users, on a real computer.</p>
-<p>Build something small. Make it work. Make it better. That's the whole curriculum.</p>`
+<h2>The question has to hurt first</h2>
+<p>A lesson I read ahead of time sits in a notebook. A lesson I need at 1am sticks. The weather bot did not care that I had watched a video about HTTP. It cared that the forecast had to come back as a sentence a person could read. I went and learned the next piece because the bot was sitting there half-alive and I wanted it to answer.</p>
+<p>The bookmark search did the same thing to ranking. I had a pile of links and a query box. The naive list was wrong in a way I could feel. That is when sorting by relevance became a real sentence instead of a module name. The CLI was smaller. One job I was tired of doing by hand. It had to take an argument, fail loudly on a bad path, and print something I could pipe. Those constraints are the teacher. Syntax shows up as a side effect of making the command exist.</p>
+<h2>A thing that has to run</h2>
+<p>A course can end on a quiz. A project ends when a person, even if the person is me at 1am, gets a useful answer on a real machine. That is a different stop condition. I cannot mark the weather bot done because I understood the diagram. I mark it done when it replies with tomorrow's temperature. Then I mark it better when the timeout does not take the process down with it.</p>
+<p>I still open docs. I still skim a chapter when I am stuck. I stop when the chapter is no longer the blocker. The unused chapter evaporates. The page I needed at 1am does not. The curriculum is the next broken behavior. Build something small. Make it work. Make it better. The Tuesday night question is the syllabus. The running program is the exam.</p>
+<p>I have a graveyard of course logins and a short list of ugly tools I still use. The tools are what I kept. When I need a new skill I pick the smallest thing that would force me to touch it, and I do not leave the desk until that thing does the one job.</p>`
     },
     'one-file': {
         title: 'One file is enough',
         stage: 'sprout',
         planted: '2025-06',
-        tended: '2026-02',
+        tended: '2026-08',
         words: ['minimal', 'small', 'building', 'everything', 'source'],
         relatedNotes: ['minimal-software', 'the-100-line-rule'],
         content: `<p>This website is one HTML file. The CSS, the JavaScript, the data, the components, the router. All in one file.</p>
 <p>People ask why. The answer: why not?</p>
-<p>One file means no build step. No bundler config. No module resolution. No "it works on my machine." Open the file, it works. Deploy the file, it's live.</p>
-<p>There's a weird pressure in web development to have a "proper" project structure. Fourteen config files before you write a line of code. A build pipeline that takes longer than the actual program.</p>
-<p>For a lot of projects, especially personal ones, none of that is necessary. You're not building Gmail. You're building a page that shows some text and links. One file handles that just fine.</p>
-<p>I'll add complexity when I need it. So far I haven't needed it.</p>`
+<p>One file means no build step. No bundler config. No module resolution. No "it works on my machine." Open the file, it works. Deploy the file, it's live. The path from edit to browser is a save and a refresh. I can break the page and see the break in the same breath. I can host it anywhere that will serve a file.</p>
+<h2>What I get</h2>
+<p>Search works. I grep one path. The theme variables sit above the markup that uses them. The note data sits above the function that renders a note. When a style is wrong I do not bounce between three folders guessing which import won. I scroll. The whole program is in the scrollback.</p>
+<p>There's a weird pressure in web development to have a "proper" project structure. Fourteen config files before you write a line of code. A build pipeline that takes longer than the actual program. A <code>src</code> tree that exists so the bundler has something to chew. I have started projects that way and spent the first evening on the chewing. The page was still empty.</p>
+<p>For a lot of projects, especially personal ones, none of that is necessary. I am not building a product with a hundred screens and a team of twelve. I am building a page that shows some text and links. One file handles that just fine. The router is a few functions. The data is an object. The CSS is a block at the top. If I need a second page I can still be in the same document.</p>
+<p>A CLI can be one <code>main.rs</code> for a long time. A bot can be one Python file with a handler and a loop. The moment I split, I pay for imports, for a layout, for the question of where the next function lives. I pay that tax when the file is actually fighting me. Not on day one as a ritual.</p>
+<h2>When I would split</h2>
+<p>A file wants to break when two parts change for different reasons. The notes and the theme are still one site, so they still live together. If I started generating images, or running a server that is not the page, that work would get its own door. Different deploy, different failure, different pace. That is a seam. I wait for the seam. I do not invent one because a tutorial had a <code>components/</code> folder.</p>
+<p>A file also wants to break when I cannot follow a click. If I have to hold five scattered helpers in my head to see what a button does, the one-file bet has failed. Then I cut along the path I keep re-reading, not along type. All the CSS in one pile and all the JS in another is a split that usually makes the click harder. I would rather keep a feature in one stretch of the file, with a heading over it, until that stretch is a real program.</p>
+<p>Two people in the same file will step on each other. This site is me. The conflict cost is zero. If that changes, the file can become two. Splitting later is a move. Splitting first is a guess I then have to maintain.</p>
+<p>I'll add complexity when I need it. So far I haven't needed it. The test is still the same. Open the file. Does it work. Deploy the file. Is it live. The day those two sentences need a pipeline, I will build the pipeline for that day, and I will know why it exists.</p>`
     },
     'worse-is-better': {
         title: 'Ship it ugly',
         stage: 'evergreen',
         planted: '2024-08',
-        tended: '2025-10',
+        tended: '2026-08',
         words: ['building', 'adapt', 'execute', 'principles'],
         relatedNotes: ['shipping-fast', 'learn-by-building'],
         content: `<p>The first version of everything I've shipped was embarrassing.</p>
 <p>My first Telegram bot was 200 lines of spaghetti Python with hardcoded strings. It worked. People used it. I cleaned it up later.</p>
-<p>My first Rust CLI was a single main.rs with no error handling. It worked. I used it daily. I refactored it later.</p>
+<p>My first Rust CLI was a single <code>main.rs</code> with no error handling. It worked. I used it daily. I refactored it later.</p>
 <p>This website was a plain HTML page with no CSS for a week. It worked. You're reading the better version. But the ugly version came first.</p>
-<p>I've watched people spend months "getting it right" before showing anyone. They burn out or lose interest. The project dies in a private repo, perfect and unseen.</p>
-<p>Ship the ugly version. See if anyone cares. If they do, make it less ugly. If they don't, you just saved yourself months of polishing something nobody wanted.</p>`
+<h2>What ugly is allowed to be</h2>
+<p>Ugly can be incomplete. One command. One chat. One page. The happy path in a straight line. Missing flags. Hardcoded strings I will hate in a month. A function that does too much because I do not yet know the joints.</p>
+<p>Ugly cannot be a lie. The bot has to answer. The CLI has to do the job I open a terminal for. The page has to be readable. If the core path is wrong, I am not shipping early. I am shipping broken, and then I learn the wrong lesson when people bounce. Incomplete teaches me what they needed next. Broken teaches me they cannot trust me.</p>
+<p>I pick the simplicity I can actually type. A single file. A loop. Errors printed and ignored, for a week, on a tool only I run. I do not pick a framework that makes the first day look like a finished product. That kind of polish is a costume. It hides that I still do not know which feature matters.</p>
+<p>The implementation has to stay small enough to throw away. If the first version needs a schema migration plan, I have already decided it is permanent. Permanent is how ugly becomes a prison. I want ugly that I can delete in an afternoon once I know the real shape.</p>
+<h2>What I wait for</h2>
+<p>I wait for contact. A person uses the bot. I use the CLI the next morning without groaning. Someone reads the page. Contact is the only signal that tells me which part of the mess is load-bearing. Until then I am decorating a guess.</p>
+<p>I've watched people spend months "getting it right" before showing anyone. They burn out or lose interest. The project dies in a private repo, perfect and unseen. The types were right. The folders were right. Nobody ever filed the one complaint that would have named the product.</p>
+<p>I know that delay. The longer I wait, the more the first look has to justify the wait. That is a terrible deal to offer a stranger, and a worse one to offer myself at 1am.</p>
+<h2>When I stop polishing</h2>
+<p>If nobody cares, I stop. I just saved myself months of polishing something nobody wanted. The 200-line bot earned a cleanup because people kept talking to it. The CLI earned error handling because I kept running it. The site earned CSS because I kept opening it. Effort follows use. Use does not follow a mood board.</p>
+<p>If they care, I make it less ugly in the order of pain. The string that broke. The crash I hit twice. The layout I could not read on my phone. I do not start with a rewrite of the parts that never came up. Completeness can wait. Consistency can wait. The next cut is the one I can feel.</p>
+<p>I still have a floor. I will not ship a secret. I will not ship a tool that destroys data with no warning. Ugly is a sloppy kitchen I can cook in. The rest of the embarrassment is a draft. Drafts get users. Users tell me which sentence to write next.</p>`
     },
     'remote-from-india': {
         title: 'The timezone advantage',
         stage: 'sprout',
         planted: '2024-04',
-        tended: '2025-06',
+        tended: '2026-08',
         words: ['building', 'adapt', 'from', 'systems'],
         relatedNotes: ['seven-years', 'shipping-fast'],
-        content: `<p>I'm in India. Most of my clients are in the US or Europe. People think this is a disadvantage. It's not.</p>
-<p>When my American clients go to sleep, I start working. When they wake up, the thing they asked for is done. It feels like magic to them. It's just timezones.</p>
-<p>The async part is key. I don't do meetings if I can avoid it. Write it down. Put it in a ticket. I'll read it and respond with code.</p>
-<p>Meetings across timezones are miserable for everyone. But a well-written message works in every timezone. I've had entire client relationships where we never had a single call. Just messages and pull requests. The work spoke for itself.</p>
-<p>Remote work isn't about being in the same room at the same time. It's about being reliable and clear. That works from anywhere.</p>`
+        content: `<p>I'm in India. Most of my clients are in the US or Europe. People treat the gap as a problem I should apologize for. The gap is the product.</p>
+<p>When my American clients go to sleep, I start working. When they wake up, the thing they asked for is done. It feels like magic to them. It's just timezones. Their evening ticket is my morning. Their morning inbox already has a diff.</p>
+<p>The same clock that looks awkward on a calendar is a free overnight shift if the work can move without a voice on the line. I get a quiet block. They get a finished thing. Nobody stays up to perform overlap.</p>
+<h2>The handoff has to be written</h2>
+<p>The async part is the whole mechanism. I don't do meetings if I can avoid it. Write it down. Put it in a ticket. I'll read it and respond with code. A ticket that names the outcome, the constraint, and how we'll know it's done can sit overnight without losing a word. A "quick call" cannot. Someone is always in their pajamas, or skipping dinner, or half in another meeting.</p>
+<p>Meetings across timezones punish both sides. One person stays late. The other wakes early. The recording is worse than the page you could have written in the first place. A well-written message works in every timezone. I've had entire client relationships where we never had a single call. Just messages and pull requests. The work spoke for itself.</p>
+<p>The failure mode is a question that only I can answer, sitting in a thread until I wake up, while they sit blocked. I try to leave the next step in the PR before I stop. What I changed. What I did not. What I need from them if the build goes red. If they do the same on their end, I never start a morning by guessing.</p>
+<h2>Reliability is the overlap</h2>
+<p>Europe and the US are different clocks, same rule. Europe overlaps my afternoon. The US overlaps almost nothing unless I stay up. I do not rearrange my sleep to pretend we share an office. I rearrange the work so a question I cannot answer is rare. If I need a decision from them, I put the recommendation in the ticket before I stop, the way I would for a team with no meetings at all. They can approve from their morning coffee. I pick it up the next day.</p>
+<p>I do not need a two-hour window on the calendar if the last message was enough. When something is actually on fire, we pick a short overlap and we keep it short. The rest of the week runs on the queue. Tickets, comments, green checks. I show up every day and I close what I said I would close. That is the contract. Location is a footnote.</p>
+<p>Remote work from here is a written handoff plus a clock that keeps moving after they log off. Do that cleanly and the distance disappears. Do it sloppy and the distance is all anyone can see.</p>`
     },
     'seven-years': {
         title: 'Seven years of shipping code',
         stage: 'evergreen',
         planted: '2024-01',
-        tended: '2026-01',
+        tended: '2026-08',
         words: ['building', 'learn', 'adapt', 'systems', 'source'],
         relatedNotes: ['learn-by-building', 'rust-changed-my-brain'],
         content: `<p>2017: Telegram bots in Python. Everything in one file. Deployed by SSH-ing into a $5 server and running <code>python bot.py</code>.</p>
@@ -1230,228 +1332,382 @@ for (let M = 0; M &lt; 50; M++)
 <p>2019: Built an image search engine. Learned about vectors, embeddings, and why databases are hard.</p>
 <p>2020: Information retrieval systems. HNSW, semantic search, the stuff that turned into "AI" a few years later.</p>
 <p>2021: Burned out. Built nothing for three months. Came back and everything was better.</p>
-<p>2023: Found Rust. Rewrote my CLI tools. Realized I'd been thinking about software wrong for years.</p>
+<p>2023: Rust. Rewrote my CLI tools. Realized I'd been thinking about software wrong for years.</p>
 <p>2024: Apple Silicon, MLX-Swift, running models locally that used to need a data center.</p>
-<p>The through-line isn't a plan. I didn't have a five-year roadmap. I just kept building whatever interested me, and the interests kept changing. The only constant: I always shipped something.</p>
-<p>Seven years of following curiosity. That's the whole career strategy.</p>`
+<h2>What the list is actually doing</h2>
+<p>The through-line isn't a plan. I didn't have a five-year roadmap. I just kept building whatever interested me, and the interests kept changing. The only constant: I always shipped something. A year that produced a running bot, a search box, a CLI, or a model on my desk counted. A year I spent only intending to start did not make the list.</p>
+<p>Each rewrite looked wasteful from the outside. The Node bots were the Python bots again. The Rust CLIs were tools I already had. I was not chasing a stack. I was running into a wall the last stack had hidden. Callbacks felt fine until they nested. A folder of images felt like a database until I needed nearest neighbors. A shell script felt like a tool until I wanted a type that could not represent a bad flag. The next year is usually the previous year's leftover pain, named properly.</p>
+<p>Some years you ship. Some years you are still coming back. The three months off in 2021 are part of the same career as the $5 VPS. Stopping was a thing I did, then I shipped again. The list skips a year because that is what the work did. I do not owe the calendar a project for every number.</p>
+<p>Curiosity moves. The $5 box taught me process and uptime. The image search taught me vectors. The retrieval work sat there until the rest of the world wanted a word for it. The laptop in 2024 runs what I used to SSH into a bigger machine to touch. I did not schedule that sequence. I followed the thing I wanted to open after dinner, and I did not leave it in a gist.</p>
+<p>Seven years of following curiosity. Ship the thing in front of you. Let the next year argue with it.</p>`
     },
     'naming': {
         title: 'Names are interfaces',
         stage: 'seed',
         planted: '2025-03',
-        tended: '2025-08',
+        tended: '2026-08',
         words: ['building', 'source', 'foundations', 'principles'],
         relatedNotes: ['read-the-source', 'one-file'],
         content: `<p>I spend more time naming things than writing the code inside them.</p>
-<p>A function called <code>processData</code> tells me nothing. A function called <code>parseVersionString</code> tells me everything. The second one doesn't need a comment. The first one needs a paragraph.</p>
-<p>Good names are compression. They pack meaning into a few characters. Bad names are debt. Every time someone reads <code>handleStuff</code>, they have to open the function and read the body to know what it does.</p>
-<p>I rename things constantly. It's free. It doesn't change behavior. But it changes comprehension. And comprehension is everything when you're debugging at midnight and your brain is half off.</p>
-<p>If I can't name something clearly, it usually means I don't understand it well enough yet. The naming struggle is a design signal.</p>`
+<p>A function called <code>processData</code> tells me nothing. A function called <code>parseVersionString</code> tells me everything. The second one does not need a comment. The first one needs a paragraph, and even then I will open the body the next time I see the call. The name is what the call site has. If the name is empty, every reader pays the full cost of the function again.</p>
+<h2>What a name has to carry</h2>
+<p>A good name is compression. It packs the job into a few characters so I can keep the body closed. I already do this with loops and maps. I do not reread <code>forEach</code> to remember it walks a list. I want my own functions to work the same way. A chunk I can hold. A debt I do not reopen.</p>
+<p>The compression is lossy. English is fuzzier than the code. The work is choosing what must survive the squeeze. Most naming fights I have sat in are one of two losses. The verb is slightly wrong, so people argue <code>assign</code> versus <code>link</code> versus <code>apply</code>. Or the name dropped a part of the job, and the dropped part is the part that bites you later.</p>
+<p>A name that needs <code>and</code> in it is already a warning. <code>linkUserAndEnableDownloadsAndSetChargeDate</code> is honest, and honesty that long means the function is doing three jobs. I cannot compress three jobs without lying. I split the function until each name fits in the mouth.</p>
+<p><code>handleStuff</code> and <code>doThings</code> and <code>processData</code> are the other failure. They compress away everything. I have to open the body. The name used a slot and gave me nothing back.</p>
+<h2>Rename is cheap</h2>
+<p>I rename things constantly. It is free. It does not change behavior. It changes whether I can hold the program at midnight, when my brain is half off and the stack trace is the only map I have. A wrong name sends me into the wrong file. A right name puts me on the line.</p>
+<p>I used to treat a first name as permanent because renaming felt like fussing. Then I noticed how much time I spent re-deriving what <code>manager</code> meant in this folder. The rename is one commit. The confusion is every visit after that.</p>
+<p>I rename at the call site first. I write the name I wish I could call, then I make the function match. If the wish-name will not settle, I do not start the body. The insides will only freeze a blur.</p>
+<h2>When the name will not come</h2>
+<p>If I cannot name something clearly, I do not understand it well enough yet. The struggle is a design signal. I am missing the job, or I have glued two jobs together, or I have not decided what the function is allowed to ignore.</p>
+<p>I sit with a scratch name and a few call sites. I try the name in a sentence: this function does X to Y and returns Z. If I cannot finish the sentence without waving my hands, I am looking at a pile. I split the pile, or I write the ugly version in one place until the shape shows up. A bad name shipped early is harder to kill than a long function I still know is temporary.</p>`
     },
     'debugging': {
         title: 'Debug by reading',
         stage: 'seed',
         planted: '2025-06',
-        tended: '2025-11',
+        tended: '2026-08',
         words: ['learn', 'source', 'execute', 'foundations'],
         relatedNotes: ['read-the-source', 'rust-changed-my-brain'],
         content: `<p>When something breaks, I don't reach for the debugger. I read the code.</p>
-<p>Not skim. Read. Start from the entry point. Follow the data. Ask: what did I <em>think</em> this does? What does it <em>actually</em> do? The bug is in the gap between those two questions.</p>
-<p>Debuggers are great for watching state. But they don't help you understand <em>why</em> the state is wrong. For that, you need to think. And thinking requires reading.</p>
-<p>My debugging process: read, form a hypothesis, add one log to confirm or deny, repeat. Three rounds of this solves most bugs. The ones it doesn't are the interesting ones.</p>
-<p>The best debugging tool is a good understanding of your own code. If you have that, you barely need anything else.</p>`
+<p>Not skim. Read. Start from the entry point. Follow the data. Ask: what did I <em>think</em> this does? What does it <em>actually</em> do? The bug lives in the gap between those two questions.</p>
+<h2>Make it small first</h2>
+<p>A failure on a huge input is a bad place to think. Shrink it until the same wrong answer shows up on something you can hold. Half the file. One request. One row. If the small case is clean, the bug is in whatever the small case dropped, and you just learned that without opening a tool.</p>
+<p>The crash is rarely the crime. Bad data walked through good functions and died somewhere polite. I start at the door the request used, not at the stack frame that finally complained. The path between those two is the map.</p>
+<h2>One guess, one probe</h2>
+<p>I form a hypothesis I can kill. "This map is empty here." "This branch never runs." "The id that left the handler is not the id that hit the query." Then I add one log that will confirm or deny that sentence. Not five. One.</p>
+<p>Five logs at once is fishing. You will see a mess of values and invent a story that fits all of them. One log answers one question. Then I read again with that answer in hand and pick the next cut. Binary search on the data, not a tour of every file.</p>
+<p>I write the guess down if I have already been circling for a few minutes. Head memory drops the thing you already ruled out and you test it again. The note is ugly. It works.</p>
+<h2>Three rounds</h2>
+<p>Three rounds of this solves most bugs. Read. Guess. One log. Repeat. By the third answer the gap has usually closed. The function I trusted was lying, or the input was not the shape I swore it was, or two names pointed at different rows.</p>
+<p>The ones that survive three rounds are the interesting ones. Races. Two writers. A cache that served a value no write path still believes. Those need a tighter reproduction, or a debugger, or a look at what changed in the last commit. I still do not start there. I start when I can name the question the tool should answer.</p>
+<h2>What the debugger is for</h2>
+<p>A debugger is a camera. It is excellent at showing you the room. It will not tell you why the furniture is wrong. If I attach it first I wander through frames and watch numbers flicker until I am tired. That feels like work. It is usually a delay on thinking.</p>
+<p>I reach for it when the state is large and I already know which object is lying. Step through that object. Do not step through the program hoping the lie will wave.</p>
+<p>Change one thing when you fix. If you tidy three functions and the test goes green, you do not know which edit mattered, and you will ship two of them by accident.</p>
+<p>The tool that matters is a picture of the code that matches the code. If I have that, I barely need anything else. When I do not have it, reading is how I get it back.</p>`
     },
     'tools-shape-thinking': {
         title: 'Your tools are your thoughts',
         stage: 'seed',
         planted: '2025-08',
-        tended: '2025-12',
+        tended: '2026-08',
         words: ['computation', 'learn', 'foundations', 'systems'],
         relatedNotes: ['rust-changed-my-brain', 'learn-by-building'],
-        content: `<p>I write different code in Rust than in Python. Not just syntactically. Structurally. The language shapes how I think about the problem.</p>
-<p>In Python I prototype fast and sloppy. In Rust I design upfront because the compiler won't let me be sloppy. In TypeScript I lean on types to document intent. Each language is a different lens on the same problem.</p>
-<p>Same with editors. Same with operating systems. Same with keyboards. Everything you use daily shapes how you think without you noticing.</p>
-<p>I switched to a tiling window manager and started breaking problems into smaller, independent pieces. Coincidence? Maybe. But probably not.</p>
-<p>Choose your tools deliberately. You become what you use.</p>`
+        content: `<p>I write different code in Rust than in Python. Not just syntactically. Structurally. The language shapes how I cut the problem before I have typed a useful line.</p>
+<p>In Python I reach for a dict and a script. I prototype fast and sloppy. I will know the shape when I see it run. In Rust I design upfront because the compiler will not let me be sloppy. I have to name the owner, the error, the lifetime, before the first happy path compiles. In TypeScript I lean on types to write the intent down and let the checker nag me when a field goes missing. Each language is a different lens on the same job.</p>
+<h2>What the tool forces me to say</h2>
+<p>A language does more than make some ideas easy. It makes some ideas hard to avoid. Rust will not let me skip ownership. TypeScript will not let me skip the shape of the value, at least not without writing <code>any</code> and feeling it. Python will not force either, so I can spend a whole afternoon without deciding. That freedom is why I open it when I am still lost. It is also why the lostness can last.</p>
+<p>I notice this most when I move a thought between them. A Python sketch that was "a list of dicts I will figure out later" becomes, in Rust, a struct and an enum and a decision about who holds the vec. The problem did not change. The tool refused the blur. Sometimes that refusal is the whole reason I switch. Sometimes I need the blur for a day, and Python is the honest choice.</p>
+<p>Editors, operating systems, keyboards do a quieter version of the same thing. A wall of tabs makes me think in piles. I stop noticing because I live there all day. The default grain of the tool becomes the default grain of the work.</p>
+<h2>Tiles</h2>
+<p>I switched to a tiling window manager and started breaking problems into smaller, independent pieces. Coincidence? Maybe. Probably not.</p>
+<p>A floating desktop lets windows stack. I can hide a mess under another mess and tell myself I am still in the same task. A tiling desktop refuses the stack. Every window takes a slice. If I open a fourth thing, something else has to shrink or move to another workspace. The screen keeps asking me whether this belongs next to that, or whether I have started a second job and should admit it.</p>
+<p>I began to cut work the same way. One pane for the file I am editing. One for the test output. One for the notes. If a change will not fit in that layout, I am probably holding two jobs. The screen trained the cut. The size of a thought I will hold at once got smaller.</p>
+<h2>Picking on purpose</h2>
+<p>I become what I use. If I live in a language that never asks who owns the value, I stop asking. If I live in a desktop that lets twenty tabs overlap, I stop finishing the first one. The reverse is also true. A strict tool will make me pay for questions I do not care about today. I pick the one whose forced questions match the job.</p>
+<p>When I start something new I ask what I want the tool to nag me about. Ownership. Types. Speed of a sketch. Visible pieces on one screen. Then I pick the nag and live with it long enough for it to get into my hands. The structure I write is the structure the tool would not let me skip.</p>`
     },
     'side-projects': {
         title: 'Side projects are the real work',
         stage: 'sprout',
         planted: '2024-06',
-        tended: '2025-10',
+        tended: '2026-08',
         words: ['building', 'learn', 'source', 'adapt'],
         relatedNotes: ['learn-by-building', 'seven-years'],
         content: `<p>Everything good in my career came from a side project.</p>
 <p>My first job came from a Telegram bot I built for fun. My freelance clients found me through open source repos. My best technical skills came from projects nobody asked me to build.</p>
-<p>Side projects have one advantage over work projects: you choose the constraints. Want to learn Rust? Build something in Rust. Want to understand ML inference? Port a model. Nobody's telling you to use the company's approved stack.</p>
-<p>I don't build side projects to "build a portfolio." I build them because I'm curious about something and the only way to understand it is to build it.</p>
-<p>The portfolio is a side effect. The curiosity is the point.</p>`
+<p>The bot was running. Someone could talk to it. That was enough to start a conversation that became a job. Later a stranger would clone a repo and write me. I did not send a deck. I sent a link. The link had to do the talking while I was asleep.</p>
+<h2>You pick the walls</h2>
+<p>Side projects have one advantage over work projects: you choose the constraints. Want to learn Rust? Build something in Rust. Want to understand ML inference? Port a model. Nobody's telling you to use the company's approved stack. The ticket at work is whoever shouted last. The night project can be the one question I cannot stop turning over.</p>
+<p>That freedom is also the trap. A folder of half clones teaches you how to start. A bot that still answers, a CLI someone else can install, a model that runs on the machine on my desk. Those have a stop condition. They work, or they don't. I can feel the gap. I go read the one page I need. I change the code. I run it again. The skill sticks because the project punishes the wrong answer.</p>
+<p>Unasked work is where I get to be wrong in private and still keep the lesson. Work will not let me throw away the stack for a month to see if the types pay off. A weekend CLI will.</p>
+<h2>What people are actually hiring</h2>
+<p>I don't build side projects to "build a portfolio." I build them because I'm curious about something and the only way to understand it is to build it. The portfolio is a side effect. A hiring manager, or a client, is looking for evidence that I finish things when nobody files a ticket. The public repo is that evidence if it still builds. A graveyard of tutorials is evidence of the opposite.</p>
+<p>I keep the ones I still want to open. I delete or archive the rest. The first job and the freelance work both came from a project that had users, even if the users were me and a handful of strangers. Curiosity picked the problem. Shipping it made it visible. Visible and finished is what turned into money. A private experiment can teach you. A public one can also hire you. The next one starts the same way. I want to know how something works, so I build a small version that has to survive contact with a real input.</p>`
     },
     'rewrite-it': {
         title: 'The second version',
         stage: 'sprout',
         planted: '2024-11',
-        tended: '2025-12',
+        tended: '2026-08',
         words: ['building', 'learn', 'adapt', 'systems', 'minimal'],
         relatedNotes: ['worse-is-better', 'seven-years'],
         content: `<p>I rewrite things a lot. Not because the first version is bad. Because I understand the problem now.</p>
 <p>The first time you build something, you're learning the domain. You make wrong abstractions. You over-engineer some parts and under-engineer others. You can't know the right design until you've built the wrong one.</p>
-<p>The rewrite isn't starting over. It's starting informed.</p>
-<p>I rewrote my search engine three times. Version one: Python, slow, wrong data structures. Version two: Node.js, faster, better architecture, still wrong in subtle ways. Version three: Rust, correct, fast, half the code of version one.</p>
-<p>People say "don't rewrite." I think they mean "don't rewrite for fun." But rewriting because you now understand the problem deeply? That produces the best software I've ever written.</p>`
+<p>The rewrite starts informed. I already paid for the wrong map.</p>
+<h2>Three versions</h2>
+<p>I rewrote my search engine three times. Version one: Python, slow, wrong data structures. I was discovering what a query even was, what I needed to store, what I could throw away. The code grew the shape of that confusion. Version two: Node.js, faster, better architecture, still wrong in subtle ways. I had the nouns right and the memory wrong. Version three: Rust, correct, fast, half the code of version one. The half is the point. I deleted the machinery I had invented to paper over the first two mistakes.</p>
+<p>Each pass I could name what the last one got wrong. Wrong structure. Wrong runtime. Wrong amount of code. If I had not been able to name it, I would have been rewriting for a mood. A mood is how you get a fourth version that is just the third with new names.</p>
+<h2>When I don't</h2>
+<p>Ugly is not a reason. Ugly is often a scar. A weird branch, a defensive copy, a check that looks paranoid. Those lines were paid for by a failure I have already forgotten. If I throw the file away because I cannot stand to read it, I throw the failures away too. I will meet them again, in the same order, with more confidence and less memory.</p>
+<p>I also don't rewrite when I can move one seam. A slow function can become a faster function. A tangled module can grow an interface and shrink behind it. The rest of the program keeps running. Users keep their habits. I keep the tests that already know the old promises. A full rewrite pauses all of that. I am now estimating a product I already shipped, and I will be wrong about the corners.</p>
+<p>The check I use: is the current shape a ceiling, or is it a mess on top of a shape that still works. Wrong data structures were a ceiling. I could not make the Python engine honest by renaming files. A messy folder is not a ceiling. A messy folder is a week of moving things with the lights on.</p>
+<h2>What I keep</h2>
+<p>I keep the cases. The queries that failed. The files that timed out. The input I did not think was legal. Those go in a list next to the new code. If the new engine cannot eat the old list, it is not finished. Speed and taste do not count until the old promises hold.</p>
+<p>Cutover is a measurement, not a birthday. If I cannot say what better means in a number or a failing test, I am about to ship a story. The old engine earned its keep. The new one has to beat it at the same job.</p>
+<p>I do not dump every lesson in as a feature. The second version wants to be complete. Complete is how it gets larger than the first while claiming to be wiser. I only carry the constraints I can still feel. The rest can wait until they hurt again.</p>
+<p>Don't rewrite for fun. Rewrite when you can name what the first version got wrong, and the new one is smaller because of it. That is the software I trust. I had to build the other kind to get there.</p>`
     },
     'boring-tech': {
         title: 'Pick boring technology',
         stage: 'evergreen',
         planted: '2024-02',
-        tended: '2025-11',
+        tended: '2026-08',
         words: ['systems', 'building', 'dependencies', 'principles'],
         relatedNotes: ['shipping-fast', 'minimal-software'],
-        content: `<p>PostgreSQL. Redis. A Linux server. That's it. That's the stack for 90% of what you'll ever build.</p>
-<p>I spent years chasing new databases. Tried CockroachDB, FaunaDB, SurrealDB. Each one had a compelling pitch. Each one had weird edge cases nobody documented because nobody had hit them yet.</p>
-<p>PostgreSQL has been hit with everything. Every edge case is documented. Every weird behavior has a Stack Overflow answer from 2014. That's not boring. That's battle-tested.</p>
-<p>New technology is someone else's unfinished experiment. You're volunteering to be their QA team. Sometimes that's worth it. Usually it isn't.</p>
-<p>I save my innovation budget for the thing that actually matters. The product. Everything under it should be as boring as possible.</p>`
+        content: `<p>PostgreSQL. Redis. A Linux server. That is the stack for most of what I will ever ship. I keep saying it like a joke. I mean it as a budget.</p>
+<p>I spent years chasing new databases. Tried CockroachDB, FaunaDB, SurrealDB. Each one had a compelling pitch. Multi-region this, no-ops that, a query language that would finally feel like the app. Each one had weird edge cases nobody documented because nobody had hit them yet. I hit them, with no page to steal.</p>
+<h2>What boring actually buys</h2>
+<p>PostgreSQL has been hit with everything. Every edge case is written down. Every weird behavior has a thread from 2014. I used to hear that as dull. I hear it now as a list of ways the thing has already failed, in public, with a workaround. I can list the main ways it will let me down before I put data in it. That is the whole prize.</p>
+<p>New software always has two piles of ignorance. Things I know I do not know, like what happens at 100% CPU. Things I do not even know to look for, like a stats file that pauses the world. Both piles exist in old software too. The new pile is just larger, and I will find it on a Saturday, with users waiting, with no thread to steal an answer from.</p>
+<p>New technology is someone else's unfinished experiment. I am volunteering to be their QA team. Sometimes that is the work. A database company should live on that edge. I am usually trying to ship a product. The product already spends the attention I have.</p>
+<h2>The check before I add a thing</h2>
+<p>Attention is scarce. I get a small budget for things that are weird, new, or hard. If I spend it on the store, I do not have it for the thing customers can see. I try to keep the budget for the product and let everything under it stay dull.</p>
+<p>Before I add a piece of stack, I try to solve the job with what I already run. The honest answer is almost never "we cannot." It is "we can, and it will be uglier for a while." Uglier for a while is cheaper than a second database I have to monitor, back up, and explain to the next person. If the real itch is that I want to use the new thing, I stop. Wanting a tool is not a problem the product has.</p>
+<p>The mix matters as much as any one choice. Adding a language that does the same job as the one I already have is an easy no. Adding another place that stores data feels different in the body, so I have talked myself into it more than once. It is still another thing that can fall over at 3am. The long cost of keeping a system up is larger than the inconvenience of building on a slightly worse fit.</p>
+<h2>When I still pick the new one</h2>
+<p>I do add new things. I add them when the current stack makes the job expensive in a way I can write down, and when I am willing to move the old path over or accept two systems for a named stretch of time. I do not add a cache because a talk made caching look clean. I add it because I can point at the query and the clock.</p>
+<p>I still reach for PostgreSQL first. I still put Redis in front when I actually need a fast shared scratchpad. I still put it on a Linux box I can ssh into. The dullness is the point. I want the failure to be a kind I have already seen.</p>`
     },
     'fail-loudly': {
         title: "Crash, don't hide",
         stage: 'evergreen',
         planted: '2023-09',
-        tended: '2025-08',
+        tended: '2026-08',
         words: ['systems', 'execute', 'principles', 'building'],
         relatedNotes: ['telegram-bots', 'debugging'],
-        content: `<p>The worst bugs are the ones that don't crash.</p>
-<p>A null pointer exception at 3am is annoying but simple. You get a stack trace. You find the line. You fix it. A function that silently returns wrong data? That can run for weeks before anyone notices. By then the damage is everywhere.</p>
-<p>I write code that crashes early. If something is wrong, I want to know immediately. Not in a log file nobody reads. Not as a subtle data inconsistency. A loud, obvious failure.</p>
-<p>Assert your assumptions. Validate at boundaries. If a function receives data it doesn't expect, panic. Don't try to "handle" it by guessing what the caller meant.</p>
-<p>A crash is a gift. It tells you exactly what went wrong, exactly where, exactly when. Silent failures tell you nothing until it's too late.</p>`
+        content: `<p>The worst bugs are the ones that do not crash.</p>
+<p>A null pointer exception at 3am is annoying but simple. I get a stack trace. I find the line. I fix it. A function that silently returns wrong data can run for weeks before anyone notices. By then the damage is in the database, in the cache, in the emails we already sent. The original lie is gone. I am debugging a neighborhood.</p>
+<h2>Early and loud</h2>
+<p>I write code that crashes early. If something is wrong, I want to know in the same breath. Not in a log file nobody reads. Not as a subtle inconsistency that looks like a real value. A loud, obvious failure, close to the line that broke the rule.</p>
+<p>Early is the when. Loud is the how. I have shipped both halves alone and gotten nothing. A process that dies and writes a line to a file I never open is still silent. A dashboard that turns red two weeks after the bad write is loud about the wrong moment. I want the signal at the first bad input, on a channel a person will actually see: a red test, a stack trace, an alert that names the field.</p>
+<p>A crash is a gift. It tells me what went wrong, where, and when. A dead process usually does less harm than a crippled one that keeps writing. I will take the 3am page over a quiet week of numbers that were already fiction.</p>
+<h2>What I refuse to guess</h2>
+<p>I assert the things I am assuming. I validate at the boundary, where the data still has a sender I can blame. If a function receives a shape it does not expect, it panics, or it returns an error that cannot be mistaken for success. I do not "handle" it by guessing what the caller meant.</p>
+<p>Guessing is how silent damage starts. An empty list from a down database looks like "there are no rows." A missing field defaulted to zero looks like a real zero. A <code>catch</code> that logs and continues looks like resilience. It is a factory for plausible lies. If I catch something, I either fix the cause or I let the failure keep traveling. I do not invent a value so the rest of the function can run.</p>
+<p>Config is the cheap version of the same rule. I want the process to die at boot when a URL is missing or a retry policy is a typo. I do not want the first paying request to discover it. The blast radius of a refused start is one deploy. The blast radius of a default is every write after.</p>
+<h2>Where I do not crash the user</h2>
+<p>A user-facing page that dies on every ugly payload is loud at the wrong person. Inside, I still fail hard: exception, metric, alert. Outside, I can retry, or show a stale tile, or refuse the action without taking the whole app down. The rule is the same. Do not pretend nothing happened. Do not write the bad data through so the screen can stay pretty.</p>
+<p>Loud signals rot if I fire too many of them. An alert channel that cries all day becomes another log file. I keep the checks few and close to an invariant I actually mean. Then I let them be rude.</p>
+<p>The check I keep coming back to is simple. If this is wrong, will I hear about it before it has children? If the answer is no, the handler is a mute.</p>`
     },
     'no-meetings': {
         title: 'Just write it down',
         stage: 'sprout',
         planted: '2024-06',
-        tended: '2025-09',
+        tended: '2026-08',
         words: ['building', 'adapt', 'from', 'systems'],
         relatedNotes: ['remote-from-india', 'shipping-fast'],
         content: `<p>Most meetings should be a document.</p>
-<p>A meeting takes an hour from five people. That's five hours gone. A document takes 30 minutes to write and 10 minutes each to read. Same information, four hours saved.</p>
-<p>I've worked with teams that had no meetings at all. Just shared documents, pull requests, and short messages. We shipped faster than any team I'd been on before.</p>
-<p>Writing forces clarity. In a meeting you can wave your hands and say "you know what I mean." In a document you actually have to say what you mean.</p>
-<p>When I need a decision, I write a one-page proposal with my recommendation and two alternatives. People read it, comment, and we're done. No scheduling. No "can everyone do Tuesday at 3?"</p>`
+<p>A meeting takes an hour from five people. That's five hours gone. A document takes 30 minutes to write and 10 minutes each to read. Same information, four hours saved. The calendar still looks full if you only count rooms. The week is empty of the work.</p>
+<p>I've worked with teams that had no meetings at all. Just shared documents, pull requests, and short messages. We shipped faster than any team I'd been on before. Nobody waited on Tuesday at 3. The page was already there when you sat down.</p>
+<h2>What the page has to hold</h2>
+<p>Writing forces the sentence to finish. In a room you can wave your hands and say you know what I mean. On a page you have to name the thing. Status, announcements, and the weekly slot that always ends twenty minutes early belong on a page. If the only outcome is that five people now know what one person already knew, you spent five hours to copy a paragraph.</p>
+<p>When I need a decision, I write a one-page proposal with my recommendation and two alternatives. What we should do. What else I considered. What I need from you. People read it, comment, and we're done. No scheduling. The comments sit next to the claim they answer. A month later I can open the same page and see why we picked the first option.</p>
+<p>A page without a recommendation is a meeting waiting to happen. Everyone arrives to discover the decision still has no owner. A page that hides the alternatives does the same trick from the other side. It asks people to rubber-stamp a feeling. I put the two options I am not taking on the page so the argument has somewhere to go besides a call.</p>
+<h2>When the room still wins</h2>
+<p>Some work wants voices in the same hour. A fight that has already gone in circles on the page. Two people who need to look at the same screen and type. A conversation where the point is the relationship, not the ticket. Those are rare if the writing is doing its job. I do not book the room first and hope the agenda appears. I write the page. If the comments stall on a real disagreement, then I spend the hour.</p>
+<p>The tax is not only the hour on the invite. It is the hour before, when you cannot start a deep task because a call is coming, and the hour after, when the thread in your head is still the call. Five people means five of those scars. A document you can close.</p>
+<p>I still talk to people. I still leave comments that run long. The default is the page, the PR, the ticket with a recommendation at the top. If we can decide from that, we already did.</p>`
     },
     'api-first': {
         title: 'Start with the interface',
         stage: 'sprout',
         planted: '2025-01',
-        tended: '2025-12',
+        tended: '2026-08',
         words: ['building', 'systems', 'foundations', 'principles'],
         relatedNotes: ['naming', 'minimal-software'],
-        content: `<p>Before I write any implementation, I write the function signature. The API. The interface. Whatever you want to call the boundary between "what it does" and "how it does it."</p>
-<p>If the interface is clean, the implementation usually follows. If the interface is awkward, no amount of clever code inside will fix it.</p>
-<p>I've thrown away entire implementations and kept the interface unchanged. The callers never knew. That's the point. The interface is the contract. Everything else is negotiable.</p>
-<p>Most bad code isn't bad inside functions. It's bad at the boundaries. Functions that take seven parameters. Methods that do three things. APIs that require you to call things in a specific order. Fix the interface and the code fixes itself.</p>`
+        content: `<p>Before I write any implementation, I write the function signature. The API. The interface. The boundary between what it does and how it does it.</p>
+<p>If the interface is clean, the body usually follows. I can see the types, the names, the error path, and the insides have a place to land. If the interface is awkward, no amount of clever code inside will fix it. Callers will still pass seven arguments in the right mood. They will still call step two before step one. They will still read the comment I wrote because the signature would not speak.</p>
+<h2>The part I keep</h2>
+<p>I have thrown away entire implementations and kept the interface unchanged. The callers never knew. That is the point. The interface is the contract. Everything else is negotiable.</p>
+<p>I treat that as a test. If I cannot swap the body without touching the call sites, the insides crawled out. The file handle that the caller still has to close. The map that the caller has to fill in a secret order. The boolean that only means something if you read the other module.</p>
+<p>When I am unsure, I write the call site first, against a function that does not exist yet. I write the sentence I want to say. If the sentence needs a preamble, or a cleanup block, or a comment that says "do not call this twice," the boundary is still wrong. I change the names and the arguments until the call reads like a decision I actually want to make.</p>
+<h2>Where the rot lives</h2>
+<p>Most bad code is not bad inside functions. It is bad at the boundaries. Functions that take seven parameters. Methods that do three things. APIs that require you to call things in a specific order. I have written all three when I started from a body I already liked and then exposed whatever variables I had lying around.</p>
+<p>Seven parameters usually mean I never named the clump. Three jobs in one method mean I never split the contract. A required order means the object has a secret life, and the type will let you talk to it while it is only half built. I fix those at the edge. I wrap the clump. I split the method. I make the half-built state unnameable, so there is no function to call too early.</p>
+<p>A comment that explains how to call something is a signature that failed. I used to add the comment. Now I treat it as a failing test of the boundary. The words belong in the names and the types, where a caller cannot skip them.</p>
+<h2>When I start the body</h2>
+<p>I start the body when the call sites look boring. One or two arguments. A result I can match on. No leftover "and then remember to." At that point the implementation is a private problem. I can be sloppy in there for a day. I can replace it on the next day. The people on the other side of the function do not come with me.</p>
+<p>This is also how I know a piece of work wants this shape. If I cannot write the signature without inventing the algorithm, I do not understand the job yet. I stay at the boundary. I write another fake call. I delete an argument. I rename the return. The insides can wait. They have always been the cheap part.</p>`
     },
     'delete-your-code': {
         title: 'Delete it',
         stage: 'evergreen',
         planted: '2024-03',
-        tended: '2026-01',
+        tended: '2026-08',
         words: ['minimal', 'dependencies', 'source', 'principles'],
         relatedNotes: ['minimal-software', 'the-100-line-rule'],
         content: `<p>The best commit I made last month was 400 lines of deletions.</p>
 <p>There was a feature nobody used. I checked the analytics. Zero hits in 90 days. I deleted it. The codebase got simpler. The tests got faster. One less thing to maintain.</p>
-<p>Developers are hoarders. "We might need this later." You won't. And if you do, it's in git. But you won't.</p>
-<p>I do a deletion pass every few months. Dead code. Unused imports. Config for features that shipped three versions ago. Comments that describe code that's been rewritten twice since.</p>
-<p>Every line you delete is a line that can't have bugs. A line that can't confuse the next person. A line that doesn't slow down your IDE. Deletion is the most underrated refactoring tool.</p>`
+<p>I almost left it. The code still compiled. The tests still passed. Removing it meant touching a route, a template, a flag, a couple of helpers that only existed for that path. The honest reason I hesitated was loss. I wrote that feature. Deleting it felt like admitting the bet was wrong. The analytics did not care. Zero is zero.</p>
+<h2>How I know it's dead</h2>
+<p>A hit count is the cleanest signal I have. Zero in 90 days is enough for a page, a command, a cron. I also grep for callers. I watch the logs for a name I am about to kill. If something still ticks, I go read the tick before I touch the files. A "dead" helper that runs on boot is not dead. It is load-bearing and badly named.</p>
+<p>Flags are a graveyard. A flag that has been on for everyone for two releases is not a flag. It is an <code>if true</code>. I delete the false branch, then the flag, then the config key. Same for config that describes a version we no longer ship. Same for comments that narrate a function I rewrote last year. Comments rot faster than code because nobody compiles them.</p>
+<p>Unreachable code is easier. The editor already greys it out. Unused imports too. I do not wait for a grand cleanup to take those. They go in the same PR as the change that orphaned them, or they go in the next deletion pass.</p>
+<h2>We might need this</h2>
+<p>I tell myself that a lot. I will not. And if I do, it's in git. The real fear is that I will not be able to <em>find</em> it. A deleted file does not show up in grep of HEAD. So I search the history. <code>git log -G</code> with a function name. <code>git log -- path/that/died.ts</code>. The commit that removed it is a bookmark. I can restore a file from that hash in a minute. The times I skipped deletion, the need never arrived.</p>
+<p>When I am unsure, I do not yank the code on a Friday and walk away. I hide the entry point first. Comment the route. Turn the flag off. Leave the files for a watch window that covers a normal week. If nothing screams, the files go. If something screams, I learned a dependency I did not have in my head. That is cheaper than a surprise outage and cheaper than keeping the museum open.</p>
+<h2>The pass</h2>
+<p>I do a deletion pass every few months. Dead code. Unused imports. Config for features that shipped three versions ago. Comments that describe code that's been rewritten twice since. I pick a corner of the repo and walk it the way I walk a diff. What is this for. Who calls it. When did it last move.</p>
+<p>The pass is easier when the code was easy to delete in the first place. A feature behind one door. A helper that does not reach into three other packages. Tight coupling is how a 40-line feature becomes a 400-line deletion, and also how I talk myself out of starting.</p>
+<p>Every line I delete is a line that can't have bugs. A line that can't confuse the next person. A line that doesn't slow down the tests or the index. I still write more than I delete. The pass is how I keep that from being the only direction the repo knows.</p>`
     },
     'types-are-docs': {
         title: 'Types are the first draft',
         stage: 'seed',
         planted: '2025-06',
-        tended: '2025-12',
+        tended: '2026-08',
         words: ['computation', 'verifiable', 'foundations', 'source'],
         relatedNotes: ['rust-changed-my-brain', 'naming'],
         content: `<p>I write the types before I write the logic.</p>
-<p>A type signature is a compressed specification. <code>fn parse(input: &str) -> Result&lt;Version, ParseError&gt;</code> tells you almost everything. It takes a string. It might fail. When it succeeds, you get a Version. When it fails, you know why.</p>
-<p>No comment could do that in fewer characters. And unlike comments, the compiler checks types. They can't drift out of date. They can't lie.</p>
-<p>TypeScript made me appreciate this. Coming from JavaScript, adding types felt like busywork. Then I stopped having an entire class of bugs. Functions getting called with wrong arguments. Properties accessed on undefined. Type narrowing catching impossible states.</p>
-<p>Types won't catch logic bugs. But they catch everything else. That frees my brain to focus on the hard problems.</p>`
+<p>A type signature is a compressed specification. This one does most of the talking:</p>
+<pre><code>fn parse(input: &str) -> Result&lt;Version, ParseError&gt;</code></pre>
+<p>It takes a string. It might fail. When it succeeds, I get a <code>Version</code>, not another string I have to treat carefully. When it fails, I get a reason. No comment does that in fewer characters. Unlike a comment, the compiler checks it. It cannot drift. It cannot lie.</p>
+<h2>Check once, keep the proof</h2>
+<p>The useful move is to turn a loose value into a tight one at the edge, and then refuse to carry the loose one any further. A function that looks at a list, throws if it is empty, and returns nothing has checked something and then thrown the knowledge away. The next function still receives a list that might be empty. It will check again, or it will pretend, or it will blow up later on a path I already handled.</p>
+<p>A function that takes the same list and returns a <code>Version</code> (or a non-empty list, or an email, or a parsed config) has spent the check on a type. After that, the rest of the program can stop asking. I parse at the boundary. Inside, I work with values that cannot be the bad case. If I later remove the check, the return type has to change, and every caller lights up.</p>
+<p>Wide types leak work. <code>string</code> and <code>any</code> and a json blob mean every function re-learns the rules. The same "is this present" guard shows up again because I never minted a type that made absence impossible. The type was the missing comment, and also the missing test.</p>
+<h2>What TypeScript took from me</h2>
+<p>TypeScript made me feel this in my hands. Coming from JavaScript, adding types felt like busywork. Then I stopped having an entire class of bugs. Functions called with the wrong argument. Properties read off <code>undefined</code>. A switch that forgot a case. Narrowing that would not let me into a branch unless the value could actually be there.</p>
+<p>I still open a <code>.ts</code> file and write the types first. The structs, the unions, the function heads. If the types will not compose, the logic will not either. I would rather find that in the signatures than halfway through a pile of conditionals that exist to paper over a shape I never decided.</p>
+<h2>What they will not do</h2>
+<p>Types will not catch a wrong formula. They will not notice that I sorted the list in the wrong direction. They will not save me from a business rule I misunderstood. Those stay on me, and on tests that actually run the path.</p>
+<p>They catch the rest. The impossible state. The missing field. The call that used to work when everything was a dict. That is enough. It leaves my attention for the part the compiler cannot see.</p>
+<p>When I am stuck I go back to the signature. If <code>parse</code> can return a bare <code>Version</code>, I have promised a world that does not exist. I put the <code>Result</code> back. The body gets easier after the promise is honest.</p>`
     },
     'cache-everything': {
         title: 'Cache it',
         stage: 'sprout',
         planted: '2024-09',
-        tended: '2025-10',
+        tended: '2026-08',
         words: ['computation', 'systems', 'execute', 'runtimes'],
         relatedNotes: ['speed-is-a-feature', 'semver-30x-faster'],
         content: `<p>The fastest computation is the one you don't do.</p>
-<p>My semver library is fast because it precomputes. My bots are fast because they cache user data. This website is fast because there's nothing to compute at all.</p>
-<p>People reach for clever algorithms when a lookup table would do. I've replaced O(n log n) sorts with O(1) hash lookups more times than I can count. Not because I'm smart. Because the data didn't change often enough to justify recomputing.</p>
-<p>The trick is knowing when to invalidate. Cache without invalidation is just a bug waiting to happen. I keep caches small, TTLs short, and invalidation explicit. A stale cache is worse than no cache.</p>
-<p>When in doubt: compute once, store the result, serve it forever. Recompute only when the input changes.</p>`
+<p>My semver library is fast because it precomputes. My bots are fast because they cache user data. This website is fast because there is nothing to compute at all. Three shapes. Same move. Do the work once, keep the answer, hand it back.</p>
+<h2>When the input barely moves</h2>
+<p>I have replaced n log n sorts with hash lookups more times than I can count. Not because I am clever. Because the data did not change often enough to justify lining it up again.</p>
+<p>A lookup table is a cache you fill before anyone asks. Version strings live in a tiny box. Most majors never pass 50. I allocate the common ones at startup and parsing <code>1.0.0</code> becomes a key in a map. No regex. No walk. The answer was already sitting there.</p>
+<p>User data in the bots is the same idea with a shorter life. Look the user up once. Keep the row. The next messages do not ask the database who this is.</p>
+<p>This site is the extreme case. Files on disk. No render. No query. The cache is the page.</p>
+<h2>What belongs in the box</h2>
+<p>Cache the result of work that is expensive, asked often, and slow to change. Skip the rest. A value that is different on every request is a second copy of the source with extra steps.</p>
+<p>Keep the box small. A small cache is a list you can dump and read. When something is wrong you can stare at the keys and see the lie. A big cache is a second system you do not understand.</p>
+<p>Name the key after the input. If two inputs share a key, you will serve the wrong answer and blame the CPU. If one input fans out into five keys, you will forget to clear four of them.</p>
+<h2>How it goes stale</h2>
+<p>A cache with no plan for death is a bug with a head start. I keep three rules close.</p>
+<p>Make invalidation explicit. When the input changes, delete the key in the same place you write the new value. If a write path forgets to clear, the old answer lives until something else happens to kick it out.</p>
+<p>Keep TTLs short. A timer is a backstop, not a strategy. It bounds how long a missed delete can hurt. I pick the longest lie I can live with for that kind of data, then cut it down. A listing can be a minute late. A balance cannot.</p>
+<p>Eviction is a capacity decision. Invalidation is a truth decision. When memory is full the policy throws away whatever it likes, including entries that are still true. That is not the same as deciding an entry is wrong. Mix them in your head and you will tune the wrong knob.</p>
+<p>A stale cache is worse than no cache. The miss is slow and honest. The hit is fast and wrong. People trust the fast answer.</p>
+<h2>When everyone misses at once</h2>
+<p>A popular key expires. A handful of requests arrive in the same breath. All of them miss. All of them recompute. The database you were protecting takes a punch it did not need.</p>
+<p>I recompute those keys on the write, not on the pile-up. If I have to expire, I expire on a timer I control, not at the traffic peak. Compute once. Store the result. Serve it until the input changes. If you cannot name the moment the input changes, you are not ready to keep the answer.</p>`
     },
     'overnight': {
         title: 'No overnight successes',
         stage: 'sprout',
         planted: '2025-02',
-        tended: '2025-12',
+        tended: '2026-08',
         words: ['building', 'learn', 'adapt'],
         relatedNotes: ['seven-years', 'side-projects'],
         content: `<p>My most popular repo has 500 stars. It took four years to get there.</p>
-<p>Year one: 12 stars. All from friends. Year two: 40. A few strangers found it. Year three: 150. Someone mentioned it in a blog post. Year four: 500. It showed up on Hacker News for 20 minutes.</p>
-<p>From the outside it looks like it blew up overnight. From the inside it was four years of quiet commits, fixing issues nobody reported, and improving docs nobody read yet.</p>
-<p>Every "overnight success" I know has a story like this. Years of invisible work, then one day of visibility. The visibility isn't the success. The years are.</p>
-<p>Keep shipping. Even when nobody's watching. Especially when nobody's watching.</p>`
+<p>Year one: 12 stars. All from friends. Year two: 40. A few strangers found it. Year three: 150. Someone mentioned it in a blog post. Year four: 500. It showed up on a front page for 20 minutes.</p>
+<p>From the outside it looks like it blew up overnight. From the inside it was four years of quiet commits, fixing issues nobody reported, and improving docs nobody read yet. The spike was a door opening onto a room I had already furnished. If the install was broken that week, the twenty minutes would have been a screenshot of a 404.</p>
+<h2>What the quiet years are for</h2>
+<p>A stranger lands once. They clone. They hit the first command in the README. That command has to work. The issue they were going to file has to already be closed, or the workaround has to be in the docs. Year one and year two felt like shouting into a well. I still tagged releases. I still rewrote the example that only I was running. That is the part you cannot skip and then buy back on the day people arrive.</p>
+<p>The blog post in year three did not invent the project. It pointed at something that had been sitting there, compiling, with a changelog. The front page in year four did the same thing faster. Visibility is a weather event. It passes. What it leaves behind is whoever stayed because the thing actually ran.</p>
+<p>I have watched the other shape too. A repo that gets a burst and then rot. Issues pile up. The last commit is the launch commit. The next stranger arrives, hits a dead end, and leaves a star that means nothing. The overnight story needs a project that can survive being seen.</p>
+<h2>Stay in the room</h2>
+<p>I do not know which commit will be the one a stranger bookmarks. I know the project has to still be alive when they do. Keep shipping when nobody is watching. That is the only time most of the work happens. The twenty minutes are a side effect you cannot schedule. The four years are the job.</p>
+<p>500 stars is a small number in the abstract. It is a large number if you remember year one. I still open that repo and do the boring fix. The next person who finds it should get the project I wish I had cloned in year one, not the one I had that year.</p>`
     },
     'india': {
         title: 'Building from India',
         stage: 'sprout',
         planted: '2024-08',
-        tended: '2025-11',
+        tended: '2026-08',
         words: ['building', 'from', 'adapt', 'learn'],
         relatedNotes: ['remote-from-india', 'seven-years'],
         content: `<p>The Indian tech scene has a reputation problem. Cheap outsourcing. Body shops. "Do the needful."</p>
 <p>I ignore all of it. I charge $1,000/day. I turn down work that isn't interesting. I open source everything I can.</p>
-<p>The best developers I know are in India. They just don't have the visibility. They're building real systems for real scale, not getting profiled in TechCrunch.</p>
-<p>My internet is fine. My hardware is fine. My timezone is an advantage. The only thing that used to be hard was payments, and that's solved now too.</p>
-<p>Where you build doesn't matter. What you build does. Ship good work. Let the code speak for itself.</p>`
+<p>The rate is a filter before it is a number. People who want a warm body at a discount bounce off it. People who want a specific person stay. I would rather have fewer days and keep the work I actually want to think about. The uninteresting work pays the same hour and spends a different kind of money. Attention. Taste. The next six months of what I am willing to open.</p>
+<h2>Proof that does not need a profile</h2>
+<p>The best developers I know are in India. They are building real systems for real scale. They do not show up in the usual writeups. A public repo does. A bot that stays up. A CLI someone else can install. I open source what I can because the work has to travel without me on a call explaining that I am serious. The code is the introduction. The commit history is the reference.</p>
+<p>Visibility used to mean a magazine or a conference badge. I do not have those, and I do not wait for them. A stranger can clone the thing, hit a bug, and see how I fixed the last one. That is enough to start a conversation that ends in an invoice.</p>
+<h2>The old bottleneck</h2>
+<p>My internet is fine. My hardware is fine. My timezone is an advantage. I work while they sleep. The only thing that used to be hard was payments. Getting dollars into an Indian account used to mean fees, forms, and a stretch of not knowing if the transfer was actually moving. That part is solved now. An invoice goes out. The money lands. I stop thinking about rails and go back to the diff.</p>
+<p>Once the transfer works, the remaining argument is the work itself. Location is a story other people tell about you. I let the rate, the public code, and the finished week answer it. I still turn work down. If the problem is dull, or the person wants a cheaper pair of hands with my name on the invoice, I say no. A full calendar of dull tickets is how you become the reputation you were trying to leave.</p>
+<p>The interesting work still has to ship on a clock they can feel. I write the update. I open the PR. I do not hide behind "will do the needful." That phrase is the reputation. The opposite is a specific next step and a finished day. Charge enough that the wrong jobs bounce. Keep the repos public enough that the right ones can find you. Then do the work while they sleep.</p>
+<p>Ship something they can run. Charge enough that the boring jobs select themselves out. Keep the rest public when you can. The rest of the scene can keep its slogans.</p>`
     },
     'burnout': {
         title: 'Take the break',
         stage: 'seed',
         planted: '2025-04',
-        tended: '2025-09',
+        tended: '2026-08',
         words: ['learn', 'adapt', 'building'],
         relatedNotes: ['seven-years', 'side-projects'],
         content: `<p>In 2021 I stopped coding for three months. Didn't touch a keyboard. Didn't think about software. Just existed.</p>
 <p>When I came back everything was clearer. Problems that felt impossible before were obvious. Code I'd been stuck on for weeks wrote itself in an afternoon.</p>
-<p>The break wasn't wasted time. It was the most productive thing I did that year. My brain needed space to reorganize.</p>
-<p>Now I take breaks before I need them. A week off every few months. No guilt. No "just one quick fix." Off means off.</p>
-<p>You're not a machine. Machines don't need breaks. You do. Take them.</p>`
+<p>I had been sitting inside those problems every day. The same files. The same wrong shape. A weekend off does not move that. The loop is still loaded when you open the laptop on Monday. Three months emptied it. I could see the extra layer I had been defending, the function that should have been deleted, the approach that only made sense because I was tired of starting over.</p>
+<h2>The work keeps running after you close the lid</h2>
+<p>A bad week is a bad week. What wrecked me was the stretch where nothing ever fully stopped. The bug stayed in my head in the shower. The unfinished CLI sat on the desk I walked past. Sleep did not reset it. A long weekend did not reset it. I came back sharper because I had actually left. The stuck work had time to go quiet. When I sat down again I was looking at the problem, not at my last failed attempt to solve it.</p>
+<p>The break wasn't wasted time. It was the most productive thing I did that year. My brain needed space to reorganize. I did not earn that by grinding harder in month two. I earned it by stopping.</p>
+<p>I watch for the stretch where I am still typing and no longer want the file. That is late. The three months were what late looks like when you ignore it long enough.</p>
+<h2>Off means off</h2>
+<p>Now I take breaks before I need them. A week off every few months. No guilt. No "just one quick fix." Off means off. The quick fix is how the week becomes a half-week and the half-week becomes another quarter of running hot. I close the laptop. I do not peek at CI. I do not reply to the "tiny" review. I do not "just check" the bot logs. The queue can wait. If it cannot wait, I did not actually take the week.</p>
+<p>I still like building. That is why the stop has to be real. A machine can run until a disk dies. I get worse first. The diffs get sloppy. The obvious fix hides. I start protecting work I should throw away. Then I am three months away from a keyboard again, or I am shipping that version of myself into a client repo.</p>
+<p>Take the week while you still want to come back. The afternoon where the old problem writes itself is the return on leaving it alone.</p>`
     },
     'simplicity-debt': {
         title: 'Complexity is debt',
         stage: 'evergreen',
         planted: '2023-11',
-        tended: '2026-01',
+        tended: '2026-08',
         words: ['minimal', 'principles', 'systems', 'dependencies'],
         relatedNotes: ['minimal-software', 'boring-tech'],
-        content: `<p>Every abstraction is a loan. You're borrowing simplicity now and paying complexity later.</p>
-<p>Sometimes the loan is worth it. A well-placed abstraction saves hours. But most abstractions are premature. You add a factory because you think you'll need four implementations. You end up with one. Now you have a factory with one implementation and everyone has to understand the indirection.</p>
-<p>I count abstractions like I count dependencies. Each one needs to justify its existence. If I can't explain why this layer exists in one sentence, I flatten it.</p>
-<p>Three lines of duplicated code is better than one abstraction nobody understands. You can always abstract later. You can't easily un-abstract.</p>`
+        content: `<p>Every abstraction is a loan. I borrow a little simplicity now and pay complexity later. The payment is the extra name, the extra file, the extra hop through a function that only exists to hide the hop. I pay it every time I come back to the code, and every time someone else has to learn the map before they can change a line.</p>
+<p>Sometimes the loan is worth it. A well-placed layer saves hours of copy-paste and keeps one rule in one place. Most of the ones I have added were early. I could already see four implementations. I built the factory first. I ended up with one. Now everyone has to understand the factory to reach the one thing that actually runs.</p>
+<h2>What I count</h2>
+<p>I count abstractions the way I count dependencies. Each one has to justify staying. A dependency can sit unused in a lockfile and I will still feel it on upgrade day. An extra type, an extra interface, an extra manager class does the same thing to my head. If I cannot explain why this layer exists in one sentence, I flatten it.</p>
+<p>The sentence has to name a job, not a hope. "This wraps the HTTP client so retries live in one place" is a job. "This will make it easy when we add more providers" is a hope. Hopes do not get a file.</p>
+<h2>How a layer goes bad</h2>
+<p>The usual path is quiet. I see two similar blocks. I extract them and give the extract a name. The code looks cleaner. Time passes. A new case is almost the same. I feel I should keep the shared thing, so I add a flag. Then a second flag. Then a branch that only one caller takes. What used to be one idea is now a procedure that does slightly different things depending on who called it.</p>
+<p>The existing code argues that it is necessary. It took time to write. It has tests. It has a name. The pressure is to add one more parameter and get on with the day. That is how I have grown functions I can no longer hold in my head. The callers still look tidy. The mess moved inside, where it compounds.</p>
+<p>A useful check: if I am threading booleans through a shared function so each caller can get a slightly different path, the shared function is already the wrong shape. The sameness was visual. The jobs were different.</p>
+<h2>Duplication I will live with</h2>
+<p>Three lines of duplicated code is better than one abstraction nobody understands. I can read three lines. I can change one copy without breaking the other. I can always abstract later, once I have seen the third copy and know which parts actually move together.</p>
+<p>Two similar blocks are not always the same idea. One wants a display string. The other wants a filename. They can look alike for a week and still be different jobs. Leaving them duplicated is cheaper than teaching a helper to be both.</p>
+<p>I wait. The first time I just write it. The second time I wince and leave it. The third time I look at all three and only then decide if they share a name. If I cannot find a name that does not include "and", I leave the copies. A name I cannot say is a layer I should not add.</p>
+<h2>Walking it back</h2>
+<p>Un-abstracting is the part I used to skip. You cannot easily un-abstract if you wait until the layer has ten callers and a pile of flags. When I notice the flags, I paste the body back into each caller, delete the branches that caller never took, and look at what is left. Often the shared function was running different code for each site. After the inline, the next extract is obvious, or there is nothing to extract.</p>
+<p>That feels like throwing work away. It is how I stop paying interest on a loan I should not have taken. I would rather have three honest copies than one clever name that lies about what happens next.</p>`
     },
     'git-small': {
         title: 'Tiny commits',
         stage: 'seed',
         planted: '2025-09',
-        tended: '2026-01',
+        tended: '2026-08',
         words: ['building', 'source', 'adapt', 'systems'],
         relatedNotes: ['shipping-fast', 'delete-your-code'],
         content: `<p>My average commit is 15 lines. Some are 3. Rarely more than 50.</p>
 <p>Each commit does one thing. Rename a variable. Fix a bug. Add a function. Not "refactor auth module." That's five commits pretending to be one.</p>
-<p>Small commits make git bisect useful. When a bug appears, you can binary search through commits and find it in minutes. If each commit is 500 lines, bisect tells you "the bug is somewhere in these 500 lines." Thanks for nothing.</p>
-<p>Small commits also make code review possible. I can review a 10-line diff in 30 seconds. I can review a 500-line diff in... actually I can't. Nobody can. They just skim and approve.</p>
+<p>I used to save up a whole afternoon and dump it in one hash. The message was a shrug. The diff was a weather system. I could not revert the rename without also reverting the bugfix. I could not ship the bugfix without dragging the half-finished rename onto main. So I sat on all of it until Friday, then asked someone to "take a look."</p>
+<h2>What one thing means</h2>
+<p>A commit is one sentence I could put in a changelog. If the sentence needs an "and," I am holding two commits. Rename the variable. Then change the call sites, if that is a second thought. Then add the function. Then wire it. Four hashes. Four ways back.</p>
+<p>I do not always see the slices at the start. I make a mess in the working tree, then I cut it with <code>git add -p</code>. Hunk by hunk. This hunk is the rename. That hunk is the new branch in the parser. The leftover is still dirty, and that is fine. The leftover is tomorrow's commit, or tonight's after dinner.</p>
+<p>The message has to stand alone. Future me will grep for a word and land on this hash. If the message is "wip" or "fixes," the hash is a brick. If the message says what changed and why the old way hurt, the log is a map.</p>
+<h2>Why the size</h2>
+<p>Small commits make <code>git bisect</code> useful. When a bug appears, I can binary search through commits and find it in minutes. If each commit is 500 lines, bisect tells me the bug is somewhere in these 500 lines. Thanks for nothing.</p>
+<p>A 15-line commit is a save point. I bank the insight. I reset hard if the next hour goes nowhere. I cherry-pick the bugfix onto main while the feature branch is still ugly. I revert one hash without a surgical rebase. Mixed commits steal all of that. The revert becomes a rewrite.</p>
+<p>Merge conflicts get smaller too. One reason the hunk exists. I can see what this side was trying to do. A 400-line conflict is two people who both "cleaned up" the same file for different reasons.</p>
+<h2>Review</h2>
+<p>Small commits also make code review possible. I can review a 10-line diff in 30 seconds. I can review a 500-line diff in... actually I can't. Nobody can. They just skim and approve. The comments land on style because style is visible. The logic hole in the third file stays.</p>
+<p>A stack of tiny commits can still be one PR. The reviewer can walk the hashes like chapters. Or they can read the whole diff if it still fits on a screen. I do not confuse "one PR" with "one commit." The PR is the conversation. The commits are the record.</p>
+<p>I stop adding to a commit when I cannot hold the whole change in my head at once. That is usually well under 50 lines. Sometimes it is 3. A three-line commit that deletes a bad branch is a complete thought. Padding it with an unrelated tidy would only make the thought harder to find.</p>
 <p>Write the smallest commit that makes sense on its own. Then write the next one.</p>`
     },
     'loops': {

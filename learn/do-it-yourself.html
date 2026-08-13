@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>npm install regret — lulzx</title>
-<meta name="description" content="I used to npm install everything. Need to pad a string? Package. Parse a date? Package. Check if a number is even? Believe it or not, package. Then I'd ope">
+<meta name="description" content="I used to npm install everything, even a check for even numbers. A security audit I could not explain half of taught me to write the 20-line thing and pin the rest.">
 <meta property="og:title" content="npm install regret">
-<meta property="og:description" content="I used to npm install everything. Need to pad a string? Package. Parse a date? Package. Check if a number is even? Believe it or not, package. Then I'd ope">
+<meta property="og:description" content="I used to npm install everything, even a check for even numbers. A security audit I could not explain half of taught me to write the 20-line thing and pin the rest.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/do-it-yourself">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,21 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">npm install regret</h1>
-<div class="meta"><span class="badge evergreen">evergreen</span><span>Mar 2023</span><span>1 min read</span></div>
+<div class="meta"><span class="badge evergreen">evergreen</span><span>Mar 2023</span><span>3 min read</span></div>
 <article><p>I used to <code>npm install</code> everything. Need to pad a string? Package. Parse a date? Package. Check if a number is even? Believe it or not, package.</p>
-<p>Then I'd open <code>node_modules</code> and find 800 folders for a project that sends emails.</p>
-<p>The turning point was a security audit. I had to explain every dependency. Why do we need this? What does it do? Can we trust the maintainer? I couldn't answer for half of them. I'd installed packages I'd never read a single line of.</p>
-<p>Now I default to writing it myself. Most things I need are 20-50 lines. The ones that aren't (crypto, compression, database drivers) I add thoughtfully and pin the version.</p>
-<p>My <code>node_modules</code> went from 800 folders to about 30. My builds are faster. My deploys are smaller. And I actually know what my code does.</p></article>
+<p>Then I would open <code>node_modules</code> and find 800 folders for a project that sends emails.</p>
+<h2>The audit</h2>
+<p>The turning point was a security audit. I had to explain every dependency. Why do we need this? What does it do? Can we trust the maintainer? I could not answer for half of them. I had installed packages I had never read a single line of.</p>
+<p>One line in <code>package.json</code> is not one folder. It is a tree. The tree has its own trees. Each folder has a person on the other end with a password, a token, a laptop. I had been nodding at a list I could not recite.</p>
+<p>The tiny ones were the worst. A check for even. A pad. A wrapper around a one-line native method. Those are the packages that get a new maintainer on a Tuesday and a <code>postinstall</code> on Wednesday. I had no reason to pull them except that typing <code>n % 2</code> felt like I was wasting time.</p>
+<h2>What I write</h2>
+<p>Now I default to writing it myself. Most things I need are 20-50 lines. A pad. A date format I actually use. A retry loop. A small router. I can read all of it on a train. When it breaks I know which file to open.</p>
+<p>Copying twenty lines into the repo is cheaper than depending on them. The copy does not grow a new script. It does not change because someone two hops away published <code>1.0.1</code>. It does not run on install. It sits there and does the one job.</p>
+<p>I still add packages. Crypto. Compression. Database drivers. Those are the ones where a mistake of mine would be worse than a stranger's code I have actually read. I add them on purpose. I pin the version. I commit the lockfile and I install from it. A floating range is a stranger choosing my next Tuesday.</p>
+<h2>What changed</h2>
+<p>My <code>node_modules</code> went from 800 folders to about 30. Builds got faster. Deploys got smaller. The audit question became answerable. I can walk the tree in an afternoon and say what each name is for.</p>
+<p>I upgrade slowly. A new version is a new text I have not read. I wait a bit and I read the diff if the package sits on a path that handles money, auth, or install. A sudden jump in file size, a new lifecycle script, a maintainer swap with no note: those are stop conditions. I do not merge them to keep the bot green.</p>
+<p>The 20-line helper is mine. The pinned driver is a choice I can still explain. The other 770 folders were a habit I mistook for speed.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

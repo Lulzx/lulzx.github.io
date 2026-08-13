@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Names are interfaces — lulzx</title>
-<meta name="description" content="I spend more time naming things than writing the code inside them. A function called processData tells me nothing. A function called parseVersionString tel">
+<meta name="description" content="I spend more time naming things than writing the code inside them. If I cannot name a function, I do not understand it yet. Rename is free. Confusion is not.">
 <meta property="og:title" content="Names are interfaces">
-<meta property="og:description" content="I spend more time naming things than writing the code inside them. A function called processData tells me nothing. A function called parseVersionString tel">
+<meta property="og:description" content="I spend more time naming things than writing the code inside them. If I cannot name a function, I do not understand it yet. Rename is free. Confusion is not.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/naming">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,21 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Names are interfaces</h1>
-<div class="meta"><span class="badge seed">seed</span><span>Mar 2025</span><span>1 min read</span></div>
+<div class="meta"><span class="badge seed">seed</span><span>Mar 2025</span><span>3 min read</span></div>
 <article><p>I spend more time naming things than writing the code inside them.</p>
-<p>A function called <code>processData</code> tells me nothing. A function called <code>parseVersionString</code> tells me everything. The second one doesn't need a comment. The first one needs a paragraph.</p>
-<p>Good names are compression. They pack meaning into a few characters. Bad names are debt. Every time someone reads <code>handleStuff</code>, they have to open the function and read the body to know what it does.</p>
-<p>I rename things constantly. It's free. It doesn't change behavior. But it changes comprehension. And comprehension is everything when you're debugging at midnight and your brain is half off.</p>
-<p>If I can't name something clearly, it usually means I don't understand it well enough yet. The naming struggle is a design signal.</p></article>
+<p>A function called <code>processData</code> tells me nothing. A function called <code>parseVersionString</code> tells me everything. The second one does not need a comment. The first one needs a paragraph, and even then I will open the body the next time I see the call. The name is what the call site has. If the name is empty, every reader pays the full cost of the function again.</p>
+<h2>What a name has to carry</h2>
+<p>A good name is compression. It packs the job into a few characters so I can keep the body closed. I already do this with loops and maps. I do not reread <code>forEach</code> to remember it walks a list. I want my own functions to work the same way. A chunk I can hold. A debt I do not reopen.</p>
+<p>The compression is lossy. English is fuzzier than the code. The work is choosing what must survive the squeeze. Most naming fights I have sat in are one of two losses. The verb is slightly wrong, so people argue <code>assign</code> versus <code>link</code> versus <code>apply</code>. Or the name dropped a part of the job, and the dropped part is the part that bites you later.</p>
+<p>A name that needs <code>and</code> in it is already a warning. <code>linkUserAndEnableDownloadsAndSetChargeDate</code> is honest, and honesty that long means the function is doing three jobs. I cannot compress three jobs without lying. I split the function until each name fits in the mouth.</p>
+<p><code>handleStuff</code> and <code>doThings</code> and <code>processData</code> are the other failure. They compress away everything. I have to open the body. The name used a slot and gave me nothing back.</p>
+<h2>Rename is cheap</h2>
+<p>I rename things constantly. It is free. It does not change behavior. It changes whether I can hold the program at midnight, when my brain is half off and the stack trace is the only map I have. A wrong name sends me into the wrong file. A right name puts me on the line.</p>
+<p>I used to treat a first name as permanent because renaming felt like fussing. Then I noticed how much time I spent re-deriving what <code>manager</code> meant in this folder. The rename is one commit. The confusion is every visit after that.</p>
+<p>I rename at the call site first. I write the name I wish I could call, then I make the function match. If the wish-name will not settle, I do not start the body. The insides will only freeze a blur.</p>
+<h2>When the name will not come</h2>
+<p>If I cannot name something clearly, I do not understand it well enough yet. The struggle is a design signal. I am missing the job, or I have glued two jobs together, or I have not decided what the function is allowed to ignore.</p>
+<p>I sit with a scratch name and a few call sites. I try the name in a sentence: this function does X to Y and returns Z. If I cannot finish the sentence without waving my hands, I am looking at a pile. I split the pile, or I write the ugly version in one place until the shape shows up. A bad name shipped early is harder to kill than a long function I still know is temporary.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

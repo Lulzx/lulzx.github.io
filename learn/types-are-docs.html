@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Types are the first draft — lulzx</title>
-<meta name="description" content="I write the types before I write the logic. A type signature is a compressed specification. fn parse(input: &amp;str) -&gt; Result&amp;lt;Version, ParseError&amp;gt; tell">
+<meta name="description" content="I write the types before the logic. A signature is a spec the compiler will check. Moving from JavaScript to TypeScript killed a whole class of bugs.">
 <meta property="og:title" content="Types are the first draft">
-<meta property="og:description" content="I write the types before I write the logic. A type signature is a compressed specification. fn parse(input: &amp;str) -&gt; Result&amp;lt;Version, ParseError&amp;gt; tell">
+<meta property="og:description" content="I write the types before the logic. A signature is a spec the compiler will check. Moving from JavaScript to TypeScript killed a whole class of bugs.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/types-are-docs">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,12 +60,22 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">Types are the first draft</h1>
-<div class="meta"><span class="badge seed">seed</span><span>Jun 2025</span><span>1 min read</span></div>
+<div class="meta"><span class="badge seed">seed</span><span>Jun 2025</span><span>3 min read</span></div>
 <article><p>I write the types before I write the logic.</p>
-<p>A type signature is a compressed specification. <code>fn parse(input: &str) -> Result&lt;Version, ParseError&gt;</code> tells you almost everything. It takes a string. It might fail. When it succeeds, you get a Version. When it fails, you know why.</p>
-<p>No comment could do that in fewer characters. And unlike comments, the compiler checks types. They can't drift out of date. They can't lie.</p>
-<p>TypeScript made me appreciate this. Coming from JavaScript, adding types felt like busywork. Then I stopped having an entire class of bugs. Functions getting called with wrong arguments. Properties accessed on undefined. Type narrowing catching impossible states.</p>
-<p>Types won't catch logic bugs. But they catch everything else. That frees my brain to focus on the hard problems.</p></article>
+<p>A type signature is a compressed specification. This one does most of the talking:</p>
+<pre><code>fn parse(input: &str) -> Result&lt;Version, ParseError&gt;</code></pre>
+<p>It takes a string. It might fail. When it succeeds, I get a <code>Version</code>, not another string I have to treat carefully. When it fails, I get a reason. No comment does that in fewer characters. Unlike a comment, the compiler checks it. It cannot drift. It cannot lie.</p>
+<h2>Check once, keep the proof</h2>
+<p>The useful move is to turn a loose value into a tight one at the edge, and then refuse to carry the loose one any further. A function that looks at a list, throws if it is empty, and returns nothing has checked something and then thrown the knowledge away. The next function still receives a list that might be empty. It will check again, or it will pretend, or it will blow up later on a path I already handled.</p>
+<p>A function that takes the same list and returns a <code>Version</code> (or a non-empty list, or an email, or a parsed config) has spent the check on a type. After that, the rest of the program can stop asking. I parse at the boundary. Inside, I work with values that cannot be the bad case. If I later remove the check, the return type has to change, and every caller lights up.</p>
+<p>Wide types leak work. <code>string</code> and <code>any</code> and a json blob mean every function re-learns the rules. The same "is this present" guard shows up again because I never minted a type that made absence impossible. The type was the missing comment, and also the missing test.</p>
+<h2>What TypeScript took from me</h2>
+<p>TypeScript made me feel this in my hands. Coming from JavaScript, adding types felt like busywork. Then I stopped having an entire class of bugs. Functions called with the wrong argument. Properties read off <code>undefined</code>. A switch that forgot a case. Narrowing that would not let me into a branch unless the value could actually be there.</p>
+<p>I still open a <code>.ts</code> file and write the types first. The structs, the unions, the function heads. If the types will not compose, the logic will not either. I would rather find that in the signatures than halfway through a pile of conditionals that exist to paper over a shape I never decided.</p>
+<h2>What they will not do</h2>
+<p>Types will not catch a wrong formula. They will not notice that I sorted the list in the wrong direction. They will not save me from a business rule I misunderstood. Those stay on me, and on tests that actually run the path.</p>
+<p>They catch the rest. The impossible state. The missing field. The call that used to work when everything was a dict. That is enough. It leaves my attention for the part the compiler cannot see.</p>
+<p>When I am stuck I go back to the signature. If <code>parse</code> can return a bare <code>Version</code>, I have promised a world that does not exist. I put the <code>Result</code> back. The body gets easier after the promise is honest.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>

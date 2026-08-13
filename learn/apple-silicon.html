@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The M1 broke my assumptions — lulzx</title>
-<meta name="description" content="In 2024 I started porting ML models to Apple Silicon using MLX-Swift. I expected it to be a compromise. Run models locally, sure, but slowly. It wasn't slo">
+<meta name="description" content="In 2024 I started porting models to Apple Silicon with MLX-Swift. Unified memory, a 14-inch laptop, no API calls. The wall I expected was not there.">
 <meta property="og:title" content="The M1 broke my assumptions">
-<meta property="og:description" content="In 2024 I started porting ML models to Apple Silicon using MLX-Swift. I expected it to be a compromise. Run models locally, sure, but slowly. It wasn't slo">
+<meta property="og:description" content="In 2024 I started porting models to Apple Silicon with MLX-Swift. Unified memory, a 14-inch laptop, no API calls. The wall I expected was not there.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://lulzx.com/learn/apple-silicon">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
@@ -60,13 +60,21 @@ footer::before{content:"";display:block;height:7px;background-image:var(--stripe
 <main><div class="wrap">
 <a class="back" href="/learn">← writing</a>
 <h1 class="t">The M1 broke my assumptions</h1>
-<div class="meta"><span class="badge sprout">sprout</span><span>Jan 2024</span><span>1 min read</span></div>
+<div class="meta"><span class="badge sprout">sprout</span><span>Jan 2024</span><span>3 min read</span></div>
 <article><p>In 2024 I started porting ML models to Apple Silicon using MLX-Swift. I expected it to be a compromise. Run models locally, sure, but slowly.</p>
 <p>It wasn't slow.</p>
-<p>Unified memory changes everything. The GPU and CPU share the same RAM. No copying tensors back and forth. You just... use it. A 14-inch laptop running inference faster than my old cloud GPU setup.</p>
-<p>I ported speculative decoding. Then a reasoning model. Then an OCR pipeline. Each time I expected to hit a wall. Each time the wall wasn't there.</p>
-<p>The assumption I had to break: "real ML needs a data center." No. Real ML needs good hardware and good software. A MacBook has both now.</p>
-<p>The models run locally. No API calls. No latency. No sending private data to someone else's server. I think this is the future and most people haven't realized it yet.</p></article>
+<h2>One pool of RAM</h2>
+<p>Unified memory is the whole trick. The GPU and the CPU share the same RAM. On the old cloud box every tensor had a trip. Write it on the host. Copy it over the bus. Compute. Copy it back. The copies were the day.</p>
+<p>On the laptop there is nothing to copy. The weights sit in memory. The GPU reads them. The CPU can touch the same bytes. The KV cache grows in the same pool. MLX-Swift is built for that layout. You do not stage a buffer for a device that already shares the room. You just use it.</p>
+<p>A 14-inch laptop running inference faster than my old cloud GPU setup. I kept waiting for the catch. The catch is capacity, not speed. The model has to fit. If it fits, the machine is already working.</p>
+<h2>Decode is a shuffle</h2>
+<p>Generating a token is cheap math and an expensive walk through the weights. You load the whole model to write one word, then you do it again. The math finishes. The walk does not. That is why a small draft helps.</p>
+<p>I ported speculative decoding first. A small network guesses a handful of tokens. The big model checks them in one pass instead of one pass per token. Same answer. Fewer walks. On a machine where the walk is the tax, that is the gain.</p>
+<p>Then a reasoning model. Then an OCR pipeline. Each time I expected to hit a wall. Each time the wall was not there. Memory was the wall, when it showed up. A model that does not fit does not get faster with a better kernel. It just spills, or it refuses.</p>
+<h2>The data stays here</h2>
+<p>The models run locally. No API calls. No waiting on a queue in another country. No sending a private page, a photo, a chunk of mail to a box I do not hold the keys for.</p>
+<p>That changed what I was willing to run. OCR on a document I would not upload. A reasoning pass on notes that are not public. A draft of text that is still mine. The laptop is fast enough that I stopped making the trade I used to make: send it away, get the answer, hope the log is quiet. The only network the job needs is the one that fetched the weights once.</p>
+<p>I had a sentence I repeated for years. Real ML needs a data center. I was measuring the wrong thing. I needed hardware that could hold the weights and software that knew the memory was shared. The 14-inch machine had both. I just had to stop shipping the work out of the room.</p></article>
 </div></main>
 <footer><div class="fin"><span>© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></footer>
 </body>
