@@ -1,2 +1,5 @@
 .claude/
+node_modules/
+.wrangler/
+worker-configuration.d.ts
 .DS_Store

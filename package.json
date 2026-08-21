@@ -1,0 +1,12 @@
+{
+  "name": "lulzx-garden",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:agents": "node scripts/generate-agent-assets.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "4.125.0"
+  }
+}

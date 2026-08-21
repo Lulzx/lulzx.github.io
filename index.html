@@ -13,6 +13,44 @@
 <meta property="og:image" content="https://lulzx.com/assets/ink/fuji.webp">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://lulzx.com/">
+<link rel="alternate" type="text/markdown" href="https://lulzx.com/index.md">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://lulzx.com/#person",
+      "name": "lulzx",
+      "url": "https://lulzx.com/",
+      "email": "mailto:wiserishabh@gmail.com",
+      "jobTitle": "Software Engineer",
+      "description": "Software engineer building small developer tools, local machine learning systems, information retrieval, and reliable automation.",
+      "sameAs": ["https://github.com/Lulzx", "https://t.me/lulzx"]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://lulzx.com/#organization",
+      "name": "lulzx",
+      "url": "https://lulzx.com/",
+      "description": "Independent software engineering projects and technical writing by lulzx.",
+      "founder": {"@id": "https://lulzx.com/#person"},
+      "contactPoint": {"@type": "ContactPoint", "contactType": "project and site enquiries", "email": "wiserishabh@gmail.com", "url": "https://lulzx.com/contact", "availableLanguage": "English"},
+      "address": {"@type": "PostalAddress", "addressCountry": "JP"}
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://lulzx.com/#website",
+      "name": "lulzx",
+      "url": "https://lulzx.com/",
+      "description": "A software engineering digital garden about quiet systems, tools, performance, and building.",
+      "author": {"@id": "https://lulzx.com/#person"},
+      "publisher": {"@id": "https://lulzx.com/#organization"},
+      "inLanguage": "en"
+    }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -386,10 +424,234 @@ html.dark .write-row:hover { background: #000; }
     .footer-inner { grid-template-columns: 1fr; gap: 1.6rem; }
     .principles { grid-template-columns: 1fr; }
 }
+.ssr-intro { padding: 2.8rem 0 0; }
+.ssr-intro .page-intro { max-width: 72ch; }
+.ssr-notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; margin-top: 1.6rem; }
+.ssr-note { border: 1px solid var(--line-strong); background: var(--panel); padding: 1.15rem 1.2rem; }
+.ssr-note h3 { font-family: var(--disp); font-size: .9rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .65rem; }
+.ssr-note h3 a { border-bottom: 2px solid var(--red); }
+.ssr-note p { color: var(--muted); font-size: .88rem; line-height: 1.7; margin-top: .55rem; }
+.ssr-words { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.3rem; }
+@media (max-width: 720px) { .ssr-notes { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<div id="app"></div>
+<div id="app"><!-- AGENT_SSR_START -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container header-inner"><a href="/" class="brand">lulzx.com</a><div class="nav-wrap"><nav class="nav"><a href="/words"><span class="en">words</span></a><a href="/projects"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
+<main id="main">
+  <section class="container"><div class="hero"><div class="hero-text"><div class="hero-kicker"><hr class="speedline"><span class="tx">Now broadcasting</span><hr class="speedline"></div><h1>Software engineer.<span class="l2">Building quiet systems.</span></h1><p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p><div class="hero-links"><a href="/projects">View projects →</a><a href="/learn">Read my notes →</a><a href="/about">About me →</a></div><div class="quote-box"><span class="ln">Build with intent.</span><span class="ln">Ship small.</span><span class="ln">Leave room to think.</span></div></div><div class="hero-art"><div class="monitor"><div class="screen"><img class="ink-img" src="/assets/ink/fuji.webp" width="1100" height="825" alt="Archive footage: Mount Fuji with a pine on the shore, in newsreel monochrome"></div><div class="mcap"><span>archive footage · mt. fuji</span></div></div></div></div></section>
+  <section class="section container"><div class="rule-head"><hr><h2>What guides the work</h2><hr></div><div class="principles"><div class="principle"><h3>Do one thing well</h3><p>Small tools with clear boundaries are easier to understand, test, and replace.</p></div><div class="principle"><h3>Minimal by default</h3><p>Every dependency and abstraction has to earn its place.</p></div><div class="principle"><h3>Auditable from source</h3><p>Important behavior should be visible in code and verifiable from evidence.</p></div><div class="principle"><h3>Performance is respect</h3><p>Remove waiting from the path a person uses repeatedly.</p></div><div class="principle"><h3>Build for failure</h3><p>Keep state outside a single run, make retries safe, and leave a way back.</p></div></div></section>
+  <section class="section container ssr-intro"><div class="head-row"><h2>Writing garden</h2><a class="more-link" href="/learn">All notes →</a></div><p class="page-intro">These are first-person field notes about building and operating software. They cover small systems, source reading, performance, local machine learning, dependencies, reliability, and the habits that shape the work. The excerpts below are present in the raw HTML so readers and crawlers do not need JavaScript to discover the substance of the site.</p><div class="ssr-notes">
+<article class="ssr-note">
+  <h3><a href="/learn/api-first">Start with the interface</a></h3>
+  <p>Before I write any implementation, I write the function signature. The API. The interface. The boundary between what it does and how it does it.</p>
+  <p>If the interface is clean, the body usually follows. I can see the types, the names, the error path, and the insides have a place to land. If the interface is awkward, no amount of clever code inside will fix it. Callers will still pass seven arguments in the right mood. They will still call step two before step one. They will still read the comment I wrote because the signature would not speak.</p>
+  <p>I have thrown away entire implementations and kept the interface unchanged. The callers never knew. That is the point. The interface is the contract. Everything else is negotiable.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/apple-silicon">The M1 broke my assumptions</a></h3>
+  <p>In 2024 I started porting ML models to Apple Silicon using MLX-Swift. I expected it to be a compromise. Run models locally, sure, but slowly.</p>
+  <p>It wasn't slow.</p>
+  <p>Unified memory is the whole trick. The GPU and the CPU share the same RAM. On the old cloud box every tensor had a trip. Write it on the host. Copy it over the bus. Compute. Copy it back. The copies were the day.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/boring-tech">Pick boring technology</a></h3>
+  <p>PostgreSQL. Redis. A Linux server. That is the stack for most of what I will ever ship. I keep saying it like a joke. I mean it as a budget.</p>
+  <p>I spent years chasing new databases. Tried CockroachDB, FaunaDB, SurrealDB. Each one had a compelling pitch. Multi-region this, no-ops that, a query language that would finally feel like the app. Each one had weird edge cases nobody documented because nobody had hit them yet. I hit them, with no page to steal.</p>
+  <p>PostgreSQL has been hit with everything. Every edge case is written down. Every weird behavior has a thread from 2014. I used to hear that as dull. I hear it now as a list of ways the thing has already failed, in public, with a workaround. I can list the main ways it will let me down before I put data in it. That is the whole prize.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/burnout">Take the break</a></h3>
+  <p>In 2021 I stopped coding for three months. Didn't touch a keyboard. Didn't think about software. Just existed.</p>
+  <p>When I came back everything was clearer. Problems that felt impossible before were obvious. Code I'd been stuck on for weeks wrote itself in an afternoon.</p>
+  <p>I had been sitting inside those problems every day. The same files. The same wrong shape. A weekend off does not move that. The loop is still loaded when you open the laptop on Monday. Three months emptied it. I could see the extra layer I had been defending, the function that should have been deleted, the approach that only made sense because I was tired of starting over.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/cache-everything">Cache it</a></h3>
+  <p>The fastest computation is the one you don't do.</p>
+  <p>My semver library is fast because it precomputes. My bots are fast because they cache user data. This website is fast because there is nothing to compute at all. Three shapes. Same move. Do the work once, keep the answer, hand it back.</p>
+  <p>I have replaced n log n sorts with hash lookups more times than I can count. Not because I am clever. Because the data did not change often enough to justify lining it up again.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/debugging">Debug by reading</a></h3>
+  <p>When something breaks, I don't reach for the debugger. I read the code.</p>
+  <p>Not skim. Read. Start from the entry point. Follow the data. Ask: what did I think this does? What does it actually do? The bug lives in the gap between those two questions.</p>
+  <p>A failure on a huge input is a bad place to think. Shrink it until the same wrong answer shows up on something you can hold. Half the file. One request. One row. If the small case is clean, the bug is in whatever the small case dropped, and you just learned that without opening a tool.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/delete-your-code">Delete it</a></h3>
+  <p>The best commit I made last month was 400 lines of deletions.</p>
+  <p>There was a feature nobody used. I checked the analytics. Zero hits in 90 days. I deleted it. The codebase got simpler. The tests got faster. One less thing to maintain.</p>
+  <p>I almost left it. The code still compiled. The tests still passed. Removing it meant touching a route, a template, a flag, a couple of helpers that only existed for that path. The honest reason I hesitated was loss. I wrote that feature. Deleting it felt like admitting the bet was wrong. The analytics did not care. Zero is zero.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/do-it-yourself">npm install regret</a></h3>
+  <p>I used to npm install everything. Need to pad a string? Package. Parse a date? Package. Check if a number is even? Believe it or not, package.</p>
+  <p>Then I would open node_modules and find 800 folders for a project that sends emails.</p>
+  <p>The turning point was a security audit. I had to explain every dependency. Why do we need this? What does it do? Can we trust the maintainer? I could not answer for half of them. I had installed packages I had never read a single line of.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/fail-loudly">Crash, don't hide</a></h3>
+  <p>The worst bugs are the ones that do not crash.</p>
+  <p>A null pointer exception at 3am is annoying but simple. I get a stack trace. I find the line. I fix it. A function that silently returns wrong data can run for weeks before anyone notices. By then the damage is in the database, in the cache, in the emails we already sent. The original lie is gone. I am debugging a neighborhood.</p>
+  <p>I write code that crashes early. If something is wrong, I want to know in the same breath. Not in a log file nobody reads. Not as a subtle inconsistency that looks like a real value. A loud, obvious failure, close to the line that broke the rule.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/git-small">Tiny commits</a></h3>
+  <p>My average commit is 15 lines. Some are 3. Rarely more than 50.</p>
+  <p>Each commit does one thing. Rename a variable. Fix a bug. Add a function. Not &quot;refactor auth module.&quot; That's five commits pretending to be one.</p>
+  <p>I used to save up a whole afternoon and dump it in one hash. The message was a shrug. The diff was a weather system. I could not revert the rename without also reverting the bugfix. I could not ship the bugfix without dragging the half-finished rename onto main. So I sat on all of it until Friday, then asked someone to &quot;take a look.&quot;</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/india">Building from India</a></h3>
+  <p>The Indian tech scene has a reputation problem. Cheap outsourcing. Body shops. &quot;Do the needful.&quot;</p>
+  <p>I ignore all of it. I charge $1,000/day. I turn down work that isn't interesting. I open source everything I can.</p>
+  <p>The rate is a filter before it is a number. People who want a warm body at a discount bounce off it. People who want a specific person stay. I would rather have fewer days and keep the work I actually want to think about. The uninteresting work pays the same hour and spends a different kind of money. Attention. Taste. The next six months of what I am willing to open.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/learn-by-building">Learn by building</a></h3>
+  <p>I never finished a programming course. I've started dozens. Never finished one.</p>
+  <p>What I did instead: I built things. A bot that tells you the weather. A search engine for my bookmarks. A CLI tool that does one thing I needed.</p>
+  <p>Each one taught me exactly what I needed to know, exactly when I needed to know it. Not &quot;here's how arrays work&quot; in week 3 of a curriculum. But &quot;I need to sort these results by relevance, how do I do that?&quot; at 1am on a Tuesday because I'm obsessed with my side project.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/loops">Loops</a></h3>
+  <p>You should not be prompting coding agents anymore. You should be designing loops that prompt them.</p>
+  <p>I was late to that. For a long time I treated the agent like a very fast junior. I asked for a plan. I read it. I said do part one. Then part two. I spun up another agent for review and copied the feedback back by hand. I was the loop. I carried the context, decided the order, made sure nothing fell through. It worked. It did not scale with me.</p>
+  <p>The first version I tried was almost a joke. A goal file, a progress file, and a while loop that started a fresh agent every time the last one exited. Same prompt. Clean context. The only memory was on disk: the code, the git log, a short note about what already failed. That is the whole trick. The model forgets. The repo does not.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/minimal-software">Less code</a></h3>
+  <p>I keep coming back to this: the best code is the code I didn't write.</p>
+  <p>If this line doesn't need to exist, it shouldn't.</p>
+  <p>Every line I add is a line I have to maintain. A line that can break. A line someone else has to read and understand. Including future me, who will have forgotten why it's there. The line is doing work today. It is also a bill that arrives every time I touch the file, run the tests, or explain the system.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/naming">Names are interfaces</a></h3>
+  <p>I spend more time naming things than writing the code inside them.</p>
+  <p>A function called processData tells me nothing. A function called parseVersionString tells me everything. The second one does not need a comment. The first one needs a paragraph, and even then I will open the body the next time I see the call. The name is what the call site has. If the name is empty, every reader pays the full cost of the function again.</p>
+  <p>A good name is compression. It packs the job into a few characters so I can keep the body closed. I already do this with loops and maps. I do not reread forEach to remember it walks a list. I want my own functions to work the same way. A chunk I can hold. A debt I do not reopen.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/no-meetings">Just write it down</a></h3>
+  <p>Most meetings should be a document.</p>
+  <p>A meeting takes an hour from five people. That's five hours gone. A document takes 30 minutes to write and 10 minutes each to read. Same information, four hours saved. The calendar still looks full if you only count rooms. The week is empty of the work.</p>
+  <p>I've worked with teams that had no meetings at all. Just shared documents, pull requests, and short messages. We shipped faster than any team I'd been on before. Nobody waited on Tuesday at 3. The page was already there when you sat down.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/one-file">One file is enough</a></h3>
+  <p>This website is one HTML file. The CSS, the JavaScript, the data, the components, the router. All in one file.</p>
+  <p>People ask why. The answer: why not?</p>
+  <p>One file means no build step. No bundler config. No module resolution. No &quot;it works on my machine.&quot; Open the file, it works. Deploy the file, it's live. The path from edit to browser is a save and a refresh. I can break the page and see the break in the same breath. I can host it anywhere that will serve a file.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/one-vps">Everything on one box</a></h3>
+  <p>One box. A cheap 4-core ARM machine. It runs everything I have ever shipped and it is boring. Four months of uptime, a third of the disk used, memory basically empty. The box is barely awake. Until the disk, the CPU, or the memory is actually full, a second machine is just a second thing to understand.</p>
+  <p>People will tell you you need Kubernetes. A CI pipeline. A container registry. A managed Postgres that bills you by the hour. For a handful of side projects. This is insane. You need a reverse proxy and a little discipline. That is the whole stack.</p>
+  <p>One process is on the internet. Caddy. It does TLS for you, gets the certs, renews them, forwards each domain to something on localhost. No certbot. No renewal cron. No 3am page because a cert expired. You write down a domain, you get HTTPS. Done.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/overnight">No overnight successes</a></h3>
+  <p>My most popular repo has 500 stars. It took four years to get there.</p>
+  <p>Year one: 12 stars. All from friends. Year two: 40. A few strangers found it. Year three: 150. Someone mentioned it in a blog post. Year four: 500. It showed up on a front page for 20 minutes.</p>
+  <p>From the outside it looks like it blew up overnight. From the inside it was four years of quiet commits, fixing issues nobody reported, and improving docs nobody read yet. The spike was a door opening onto a room I had already furnished. If the install was broken that week, the twenty minutes would have been a screenshot of a 404.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/read-the-source">Read the source</a></h3>
+  <p>I used to think building things was how you got good. Building is half of it. The other half is sitting in a working system and watching how it actually moves.</p>
+  <p>Not a post about the code. The code.</p>
+  <p>I learned more from reading the Redis source than from any database course. About 50,000 lines of clear C. You can hold the shape of it. Every function does what its name says. The comments explain why.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/remote-from-india">The timezone advantage</a></h3>
+  <p>I'm in India. Most of my clients are in the US or Europe. People treat the gap as a problem I should apologize for. The gap is the product.</p>
+  <p>When my American clients go to sleep, I start working. When they wake up, the thing they asked for is done. It feels like magic to them. It's just timezones. Their evening ticket is my morning. Their morning inbox already has a diff.</p>
+  <p>The same clock that looks awkward on a calendar is a free overnight shift if the work can move without a voice on the line. I get a quiet block. They get a finished thing. Nobody stays up to perform overlap.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/rewrite-it">The second version</a></h3>
+  <p>I rewrite things a lot. Not because the first version is bad. Because I understand the problem now.</p>
+  <p>The first time you build something, you're learning the domain. You make wrong abstractions. You over-engineer some parts and under-engineer others. You can't know the right design until you've built the wrong one.</p>
+  <p>The rewrite starts informed. I already paid for the wrong map.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/rust-changed-my-brain">Rust rewired my brain</a></h3>
+  <p>I picked up Rust in 2023 expecting a language. I got a way of thinking.</p>
+  <p>The borrow checker keeps asking one question: who owns this data? I had never asked that before. In Python and JavaScript the answer was easy. Who cares. The garbage collector will figure it out. In Rust I have to know. Each value has one owner. There is only one at a time. When the owner leaves scope, the value is dropped. I can lend it, mutably to one place or shared to many, and I cannot do both at once.</p>
+  <p>At first the compiler felt like a hall monitor. I would write the shape I was used to, a graph of objects that all point at each other and mutate when they feel like it, and the compiler would refuse. I cloned things to make it shut up. I wrapped things so two owners could pretend to share. The code compiled and I had learned nothing.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/semver-30x-faster">semver, but 30x faster</a></h3>
+  <p>Every npm install parses version strings. Thousands of them. Installing preact alone calls semver 21,000 times. One package.</p>
+  <p>The semver package has 150 million weekly downloads. And it is doing way more work than it needs to. A parse walks a regex, allocates an object, splits prerelease tags, and throws if the string is ugly. That is the right work for a string you have never seen. It is the wrong work for 1.0.0 the twenty thousandth time in the same install.</p>
+  <p>Version numbers aren't random. React is at 18. Node is at 22. Most packages never pass major version 50. The input space is small and almost still. So I precomputed all of them.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/seven-years">Seven years of shipping code</a></h3>
+  <p>2017: Telegram bots in Python. Everything in one file. Deployed by SSH-ing into a $5 server and running python bot.py.</p>
+  <p>2018: Discovered Node.js. Rewrote everything. Thought callbacks were fine. They weren't.</p>
+  <p>2019: Built an image search engine. Learned about vectors, embeddings, and why databases are hard.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/shipping-fast">Ship small, ship often</a></h3>
+  <p>The fastest teams I've worked with shipped the smallest changes. A 30-line diff is easy to review, easy to test, easy to revert if it breaks. A 3000-line diff is a prayer.</p>
+  <p>I used to batch things up. I'll ship all of this together when it's ready. It was never ready. The pile grew a refactor, a half-done feature, a bug I noticed in passing. When I finally pushed, something always broke, and I couldn't tell which part did it. The revert was a coin flip. I sat in the logs guessing.</p>
+  <p>Now I ship constantly. Multiple times a day sometimes. Each change does one thing. If it breaks, I know exactly what and exactly why.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/side-projects">Side projects are the real work</a></h3>
+  <p>Everything good in my career came from a side project.</p>
+  <p>My first job came from a Telegram bot I built for fun. My freelance clients found me through open source repos. My best technical skills came from projects nobody asked me to build.</p>
+  <p>The bot was running. Someone could talk to it. That was enough to start a conversation that became a job. Later a stranger would clone a repo and write me. I did not send a deck. I sent a link. The link had to do the talking while I was asleep.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/simplicity-debt">Complexity is debt</a></h3>
+  <p>Every abstraction is a loan. I borrow a little simplicity now and pay complexity later. The payment is the extra name, the extra file, the extra hop through a function that only exists to hide the hop. I pay it every time I come back to the code, and every time someone else has to learn the map before they can change a line.</p>
+  <p>Sometimes the loan is worth it. A well-placed layer saves hours of copy-paste and keeps one rule in one place. Most of the ones I have added were early. I could already see four implementations. I built the factory first. I ended up with one. Now everyone has to understand the factory to reach the one thing that actually runs.</p>
+  <p>I count abstractions the way I count dependencies. Each one has to justify staying. A dependency can sit unused in a lockfile and I will still feel it on upgrade day. An extra type, an extra interface, an extra manager class does the same thing to my head. If I cannot explain why this layer exists in one sentence, I flatten it.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/speed-is-a-feature">Speed is respect</a></h3>
+  <p>Every millisecond you waste is a millisecond of someone's life.</p>
+  <p>That sounds dramatic. Multiply it. A page that takes 2 seconds instead of 200ms, loaded 10,000 times a day. That is 5 hours of human life. Every day. On one page. You will never meet those people. They still paid.</p>
+  <p>A click that comes back before you lift your finger feels like your hand did the thing. Past a second your mind leaves the sentence you were reading. You check another tab. You forget why you opened this one. The work is still in flight. The person is not. Ten seconds and they have left the page for good.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/telegram-bots">Seven years of Telegram bots</a></h3>
+  <p>I started building Telegram bots in 2017 because I was bored. Wrote one that replied to messages with random quotes. Took maybe an hour.</p>
+  <p>That was the first one that stayed running.</p>
+  <p>Seven years later, some of my bots handle millions of messages a day. I have learned more about building reliable systems from those bots than from any job or course. The hard parts never lived in the reply handler. They lived in everything that had to keep working after the process died.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/the-100-line-rule">The 100-line rule</a></h3>
+  <p>If a dependency is less than 100 lines of code, I write it myself.</p>
+  <p>I want 100 lines I understand completely more than 100 lines I don't. A package is those lines plus a name on a registry, a version range, a lockfile entry, a person who can unpublish, a publish token that can leak, and every package that package pulls in. I take the whole chain when I type the install command. I rarely want the chain.</p>
+  <p>Someone unpublished an 11-line pad helper. It prepended characters to a string in a loop. Builds failed across millions of projects. I could have written those 11 lines in 30 seconds. So could you. So could anyone. But 2.5 million projects depended on one person not deleting their npm package. The helper was never the hard part. The hard part was letting a registry own a loop.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/tools-shape-thinking">Your tools are your thoughts</a></h3>
+  <p>I write different code in Rust than in Python. Not just syntactically. Structurally. The language shapes how I cut the problem before I have typed a useful line.</p>
+  <p>In Python I reach for a dict and a script. I prototype fast and sloppy. I will know the shape when I see it run. In Rust I design upfront because the compiler will not let me be sloppy. I have to name the owner, the error, the lifetime, before the first happy path compiles. In TypeScript I lean on types to write the intent down and let the checker nag me when a field goes missing. Each language is a different lens on the same job.</p>
+  <p>A language does more than make some ideas easy. It makes some ideas hard to avoid. Rust will not let me skip ownership. TypeScript will not let me skip the shape of the value, at least not without writing any and feeling it. Python will not force either, so I can spend a whole afternoon without deciding. That freedom is why I open it when I am still lost. It is also why the lostness can last.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/types-are-docs">Types are the first draft</a></h3>
+  <p>I write the types before I write the logic.</p>
+  <p>A type signature is a compressed specification. This one does most of the talking:</p>
+  <p>fn parse(input: &amp;str) -&gt; Result&lt;Version, ParseError&gt; It takes a string. It might fail. When it succeeds, I get a Version, not another string I have to treat carefully. When it fails, I get a reason. No comment does that in fewer characters. Unlike a comment, the compiler checks it. It cannot drift. It cannot lie.</p>
+</article>
+<article class="ssr-note">
+  <h3><a href="/learn/worse-is-better">Ship it ugly</a></h3>
+  <p>The first version of everything I've shipped was embarrassing.</p>
+  <p>My first Telegram bot was 200 lines of spaghetti Python with hardcoded strings. It worked. People used it. I cleaned it up later.</p>
+  <p>My first Rust CLI was a single main.rs with no error handling. It worked. I used it daily. I refactored it later.</p>
+</article></div></section>
+  <section class="section container"><div class="head-row"><h2>Word garden</h2><a class="more-link" href="/words">Open the garden →</a></div><p class="page-intro">Short connected concepts used across the notes.</p><div class="ssr-words"><a class="chip" href="/words/adapt">adapt</a><a class="chip" href="/words/and">and</a><a class="chip" href="/words/at">at</a><a class="chip" href="/words/auditable">auditable</a><a class="chip" href="/words/building">building</a><a class="chip" href="/words/cognition">cognition</a><a class="chip" href="/words/computation">computation</a><a class="chip" href="/words/dependencies">dependencies</a><a class="chip" href="/words/everything">everything</a><a class="chip" href="/words/execute">execute</a><a class="chip" href="/words/first">first</a><a class="chip" href="/words/footprint">footprint</a><a class="chip" href="/words/foundations">foundations</a><a class="chip" href="/words/from">from</a><a class="chip" href="/words/intersection">intersection</a><a class="chip" href="/words/just">just</a><a class="chip" href="/words/learn">learn</a><a class="chip" href="/words/massively">massively</a><a class="chip" href="/words/minimal">minimal</a><a class="chip" href="/words/not">not</a><a class="chip" href="/words/of">of</a><a class="chip" href="/words/parallel">parallel</a><a class="chip" href="/words/possible">possible</a><a class="chip" href="/words/principles">principles</a><a class="chip" href="/words/reason">reason</a><a class="chip" href="/words/runtimes">runtimes</a><a class="chip" href="/words/small">small</a><a class="chip" href="/words/source">source</a><a class="chip" href="/words/systems">systems</a><a class="chip" href="/words/that">that</a><a class="chip" href="/words/the">the</a><a class="chip" href="/words/verifiable">verifiable</a><a class="chip" href="/words/where">where</a><a class="chip" href="/words/zero">zero</a></div></section>
+  <section class="section container"><div class="head-row"><h2>Identity and machine access</h2></div><p class="page-intro">lulzx is a software engineer building public tools and keeping a working garden of what those projects teach. Read <a href="/about">about lulzx</a>, use the <a href="/contact">contact page</a>, review the <a href="/privacy">privacy policy</a>, or start from the <a href="/developers">lulzx developer resources</a>. Agents can use <a href="/llms.txt">llms.txt</a>, the <a href="/sitemap.xml">XML sitemap</a>, and Markdown content negotiation.</p></section>
+</main>
+<footer class="site-footer"><div class="container"><div class="footer-sign"><span class="en">End of broadcast</span></div><div class="footer-bottom"><span class="copy">© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></div></footer>
+<!-- AGENT_SSR_END --></div>
 
 <script>
 const { createApp, computed, ref, watch, onMounted, onUnmounted } = Vue;
@@ -2206,6 +2468,54 @@ const About = {
 </div>`
 };
 
+const Contact = {
+    template: `
+<div class="page container about-page">
+  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">通信</span><span class="tx">Open channel</span><hr class="speedline"></div>
+  <h1 class="page-title">Contact lulzx</h1>
+  <article class="prose">
+    <p>The most reliable way to reach me is email. Write to <a href="mailto:wiserishabh@gmail.com">wiserishabh@gmail.com</a> for project questions, collaboration, a correction to this site, or a private security or privacy report.</p>
+    <p>You can also reach me on <a href="https://t.me/lulzx" rel="me">Telegram</a>. For a bug in a public repository, use the relevant <a href="https://github.com/Lulzx" rel="me">GitHub project</a> so the report and follow-up stay with the code.</p>
+    <h2>What to include</h2>
+    <p>Include the relevant URL or repository, the smallest input that reproduces the problem, what you expected, and what happened. Remove access tokens, passwords, private customer data, and other secrets from logs or screenshots.</p>
+    <h2>Scope</h2>
+    <p>This is a personal site rather than a staffed support desk. There is no public support API, webhook endpoint, or MCP server. The <router-link to="/developers">developer resources page</router-link> describes the machine-readable resources that do exist.</p>
+  </article>
+</div>`
+};
+
+const Privacy = {
+    template: `
+<div class="page container about-page">
+  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">記録</span><span class="tx">Site record</span><hr class="speedline"></div>
+  <h1 class="page-title">Privacy</h1>
+  <article class="prose">
+    <p>lulzx.com is a personal, read-only website. It has no user accounts, payment flow, comment form, newsletter form, or advertising tracker.</p>
+    <h2>Browser storage</h2>
+    <p>The site remembers the selected theme and may cache a short public list of GitHub projects in local storage. Clear site data for lulzx.com to remove both.</p>
+    <h2>Network requests</h2>
+    <p>Cloudflare and GitHub Pages deliver the site and may process ordinary request and security logs. Pages may request fonts from Google Fonts, scripts from unpkg, project metadata from the public GitHub API, and images from GitHub or this domain.</p>
+    <h2>Contact</h2>
+    <p>Privacy questions can be sent to <a href="mailto:wiserishabh@gmail.com">wiserishabh@gmail.com</a>. The full static policy was last updated 22 August 2026.</p>
+  </article>
+</div>`
+};
+
+const Developers = {
+    template: `
+<div class="page container about-page">
+  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">機械</span><span class="tx">Machine interface</span><hr class="speedline"></div>
+  <h1 class="page-title">lulzx Developer Resources</h1>
+  <article class="prose">
+    <p>lulzx is a personal software engineering site and public digital garden. Its developer surface is stable public URLs, a source repository, an XML sitemap, agent instructions, and Markdown representations.</p>
+    <h2>Entry points</h2>
+    <p>Read <a href="/llms.txt">llms.txt</a>, discover pages in the <a href="/sitemap.xml">XML sitemap</a>, or send <code>Accept: text/markdown</code> to a content URL. Site source lives on <a href="https://github.com/Lulzx/lulzx.github.io">GitHub</a>.</p>
+    <h2>Integration boundary</h2>
+    <p>There is no public OpenAPI document, authentication flow, webhook contract, SDK, or MCP server because the site has no write operations or authenticated services. Follow project links to their repositories and use the <router-link to="/contact">contact page</router-link> when a human decision is required.</p>
+  </article>
+</div>`
+};
+
 const NotFound = {
     computed: { recent() { return allNotes().slice(0, 4); } },
     template: `
@@ -2288,6 +2598,9 @@ const App = {
           <router-link to="/projects">projects</router-link>
           <router-link to="/learn">learn</router-link>
           <router-link to="/about">about</router-link>
+          <router-link to="/contact">contact</router-link>
+          <router-link to="/privacy">privacy</router-link>
+          <router-link to="/developers">developers</router-link>
           <a href="/gallery/">gallery</a>
         </div>
         <div class="fcol">
@@ -2325,6 +2638,9 @@ const routes = [
     { path: '/learn/:noteId', component: NoteDetail },
     { path: '/notes/:noteId', redirect: to => '/learn/' + to.params.noteId },
     { path: '/about', component: About },
+    { path: '/contact', component: Contact },
+    { path: '/privacy', component: Privacy },
+    { path: '/developers', component: Developers },
     { path: '/:pathMatch(.*)*', component: NotFound }
 ];
 const router = createRouter({
@@ -2347,6 +2663,9 @@ router.afterEach((to) => {
     else if (to.path.startsWith('/learn')) t = 'writing — lulzx';
     else if (to.path.startsWith('/projects')) t = 'projects — lulzx';
     else if (to.path.startsWith('/about')) t = 'about — lulzx';
+    else if (to.path.startsWith('/contact')) t = 'contact — lulzx';
+    else if (to.path.startsWith('/privacy')) t = 'privacy — lulzx';
+    else if (to.path.startsWith('/developers')) t = 'developer resources — lulzx';
     document.title = t;
 });
 

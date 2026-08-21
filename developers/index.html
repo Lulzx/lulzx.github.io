@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>lulzx Developer Resources | Machine-readable site access</title><meta name="description" content="Developer resources for lulzx: source code, Markdown negotiation, llms.txt, XML sitemap, content routes, and integration boundaries."><link rel="canonical" href="https://lulzx.com/developers"><link rel="stylesheet" href="/assets/trust.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet"></head>
+<body><header class="bar"><div class="bar-in"><a class="brand" href="/">lulzx.com</a><nav class="nav"><a href="/about">about</a><a href="/contact">contact</a><a href="/projects">projects</a><a href="/privacy">privacy</a></nav></div></header><main class="wrap"><p class="kicker">Machine interface</p><h1>lulzx Developer Resources</h1><article>
+<p>lulzx is a personal software engineering site and public digital garden. It does not expose a transactional product API. Its developer surface is the content itself: stable public URLs, a source repository, an XML sitemap, agent instructions, and Markdown representations negotiated from the same page URLs.</p>
+<h2>Machine-readable entry points</h2><ul>
+<li><a href="/llms.txt">/llms.txt</a> describes when an agent should use the site and points to the most useful collections.</li>
+<li><a href="/sitemap.xml">/sitemap.xml</a> lists indexable pages and last modification dates.</li>
+<li>Send <code>Accept: text/markdown</code> to a content URL to request Markdown. Responses vary on <code>Accept</code>; unsupported media types receive HTTP 406.</li>
+<li><a href="https://github.com/Lulzx/lulzx.github.io">github.com/Lulzx/lulzx.github.io</a> contains the source and revision history for this site.</li>
+</ul>
+<h2>Content routes</h2>
+<p>Long notes use <code>/learn/&lt;id&gt;</code>. Connected vocabulary entries use <code>/words/&lt;id&gt;</code>. The main collections are <a href="/learn">/learn</a>, <a href="/words">/words</a>, and <a href="/projects">/projects</a>. A missing route returns a genuine HTTP 404 with recovery links instead of an application shell pretending that the resource exists.</p>
+<h2>Integration boundary</h2>
+<p>There is currently no public OpenAPI document, authentication flow, webhook contract, SDK, or MCP server for lulzx.com because the site does not provide write operations or authenticated services. Agents should read or cite the public content, follow project links to their own repositories, and use the contact page when a human decision is required. Do not infer an API from the site's client-side requests.</p>
+<div class="callout"><strong>Example</strong><p class="machine">curl -H "Accept: text/markdown" https://lulzx.com/about</p></div>
+</article></main><footer><div class="foot-in"><span>© 2026 lulzx.com</span><span class="machine">Public content. Stable routes. Explicit boundaries.</span></div></footer></body></html>

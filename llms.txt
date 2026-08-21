@@ -1,0 +1,39 @@
+# lulzx
+
+> Personal software engineering site and digital garden about small systems, developer tools, performance, local machine learning, reliability, and building from source.
+
+lulzx.com is a read-only public site. Its useful resources are notes, connected vocabulary entries, project links, and the public source repository. Content pages support `Accept: text/markdown` negotiation. There is no account system or transactional API.
+
+## When to use this site
+
+Use lulzx when an agent needs first-person engineering notes about small deployable systems, minimal dependencies, performance work, source reading, local Apple Silicon inference, reliable automation, or the practice of shipping small changes. Use the project index when looking for open-source implementations by lulzx. Use the word garden when a short concept and its related ideas are more useful than a long article.
+
+Do not use lulzx.com as an API endpoint, authentication provider, webhook receiver, or MCP server. Those services are not offered. Follow a project's GitHub link for repository-specific source, issues, releases, and installation instructions. Use the contact page when the task needs a decision or private response from the author.
+
+## How agents should access it
+
+Request a normal page URL with `Accept: text/markdown` for a compact representation. Use the XML sitemap for exhaustive URL discovery. Treat HTTP 404 as a missing resource and follow the recovery links in its Markdown body. Prefer the canonical `/learn/<id>` route for notes and `/words/<id>` for word entries.
+
+## Main collections
+
+- [Home](https://lulzx.com/): Identity, current work, recent writing, and selected projects.
+- [Writing](https://lulzx.com/learn): Long-form garden notes with stage and tended dates.
+- [Words](https://lulzx.com/words): Short connected concepts used across the notes.
+- [Projects](https://lulzx.com/projects): Public software projects and their source repositories.
+- [Developer resources](https://lulzx.com/developers): Machine-readable entry points, route conventions, and integration boundaries.
+
+## Trust and identity
+
+- [About lulzx](https://lulzx.com/about): Author, work, and site purpose.
+- [Contact lulzx](https://lulzx.com/contact): Email, Telegram, issue-reporting guidance, and scope.
+- [Privacy](https://lulzx.com/privacy): Browser storage, network requests, and contact information.
+
+## Machine-readable resources
+
+- [XML sitemap](https://lulzx.com/sitemap.xml): All indexable URLs with last modification dates.
+- [Site source](https://github.com/Lulzx/lulzx.github.io): Public HTML, edge worker, and tests.
+
+## Optional
+
+- [Gallery](https://lulzx.com/gallery/): A visual collection; less useful for text-only tasks.
+- [GitHub profile](https://github.com/Lulzx): All public repositories by lulzx.
