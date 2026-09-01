@@ -16,10 +16,10 @@ Request a normal page URL with `Accept: text/markdown` for a compact representat
 
 ## Main collections
 
-- [Home](https://lulzx.com/): Identity, current work, recent writing, and selected projects.
+- [Projects](https://lulzx.com/): The public project index, the site root. A plain list, ordered by depth of the work.
+- [Home](https://lulzx.com/landing): Identity, current work, recent writing, and selected projects.
 - [Writing](https://lulzx.com/learn): Long-form garden notes with stage and tended dates.
 - [Words](https://lulzx.com/words): Short connected concepts used across the notes.
-- [Projects](https://lulzx.com/projects): Public software projects and their source repositories.
 - [Developer resources](https://lulzx.com/developers): Machine-readable entry points, route conventions, and integration boundaries.
 
 ## Trust and identity

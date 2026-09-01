@@ -79,11 +79,21 @@ const noteCards = notes.map(item => `
 </article>`).join('');
 const wordLinks = words.map(item => `<a class="chip" href="/words/${item.id}">${escapeHtml(item.title)}</a>`).join('');
 
+const projectSource = read('index.html');
+const projectBlock = projectSource.match(/const PROJECT_LINES = \[([\s\S]*?)\n\];/);
+if (!projectBlock) throw new Error('PROJECT_LINES missing from index.html');
+const projectEntries = [...projectBlock[1].matchAll(/\{ name: '(.*?)', href: '(.*?)', text: '(.*?)' \}/g)]
+  .map(match => ({ name: match[1], href: match[2], text: match[3].replace(/\\'/g, "'") }));
+const projectLinks = projectEntries
+  .map(item => `<p><a href="${item.href}">${escapeHtml(item.name)}</a>: ${escapeHtml(item.text)}</p>`)
+  .join('\n  ');
+
 const shell = `
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header"><div class="container header-inner"><a href="/" class="brand">lulzx.com</a><div class="nav-wrap"><nav class="nav"><a href="/words"><span class="en">words</span></a><a href="/projects"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
+<header class="site-header"><div class="container header-inner"><a href="/landing" class="brand">lulzx.com</a><div class="nav-wrap"><nav class="nav"><a href="/words"><span class="en">words</span></a><a href="/"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
 <main id="main">
-  <section class="container"><div class="hero"><div class="hero-text"><div class="hero-kicker"><hr class="speedline"><span class="tx">Now broadcasting</span><hr class="speedline"></div><h1>Software engineer.<span class="l2">Building quiet systems.</span></h1><p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p><div class="hero-links"><a href="/projects">View projects →</a><a href="/learn">Read my notes →</a><a href="/about">About me →</a></div><div class="quote-box"><span class="ln">Build with intent.</span><span class="ln">Ship small.</span><span class="ln">Leave room to think.</span></div></div><div class="hero-art"><div class="monitor"><div class="screen"><img class="ink-img" src="/assets/ink/fuji.webp" width="1100" height="825" alt="Archive footage: Mount Fuji with a pine on the shore, in newsreel monochrome"></div><div class="mcap"><span>archive footage · mt. fuji</span></div></div></div></div></section>
+  <section class="section container"><div class="head-row"><h2>Projects</h2></div><p class="page-intro">Public software by lulzx, ordered by the depth of the work rather than by date. The bare list at the site root carries the same entries.</p><div class="ssr-projects">${projectLinks}</div></section>
+  <section class="container"><div class="hero"><div class="hero-text"><div class="hero-kicker"><hr class="speedline"><span class="tx">Now broadcasting</span><hr class="speedline"></div><h1>Software engineer.<span class="l2">Building quiet systems.</span></h1><p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p><div class="hero-links"><a href="/">View projects →</a><a href="/learn">Read my notes →</a><a href="/about">About me →</a></div><div class="quote-box"><span class="ln">Build with intent.</span><span class="ln">Ship small.</span><span class="ln">Leave room to think.</span></div></div><div class="hero-art"><div class="monitor"><div class="screen"><img class="ink-img" src="/assets/ink/fuji.webp" width="1100" height="825" alt="Archive footage: Mount Fuji with a pine on the shore, in newsreel monochrome"></div><div class="mcap"><span>archive footage · mt. fuji</span></div></div></div></div></section>
   <section class="section container"><div class="rule-head"><hr><h2>What guides the work</h2><hr></div><div class="principles"><div class="principle"><h3>Do one thing well</h3><p>Small tools with clear boundaries are easier to understand, test, and replace.</p></div><div class="principle"><h3>Minimal by default</h3><p>Every dependency and abstraction has to earn its place.</p></div><div class="principle"><h3>Auditable from source</h3><p>Important behavior should be visible in code and verifiable from evidence.</p></div><div class="principle"><h3>Performance is respect</h3><p>Remove waiting from the path a person uses repeatedly.</p></div><div class="principle"><h3>Build for failure</h3><p>Keep state outside a single run, make retries safe, and leave a way back.</p></div></div></section>
   <section class="section container ssr-intro"><div class="head-row"><h2>Writing garden</h2><a class="more-link" href="/learn">All notes →</a></div><p class="page-intro">These are first-person field notes about building and operating software. They cover small systems, source reading, performance, local machine learning, dependencies, reliability, and the habits that shape the work. The excerpts below are present in the raw HTML so readers and crawlers do not need JavaScript to discover the substance of the site.</p><div class="ssr-notes">${noteCards}</div></section>
   <section class="section container"><div class="head-row"><h2>Word garden</h2><a class="more-link" href="/words">Open the garden →</a></div><p class="page-intro">Short connected concepts used across the notes.</p><div class="ssr-words">${wordLinks}</div></section>
@@ -111,7 +121,7 @@ function lastModified(filePath) {
 }
 
 const routes = [
-  ['/', 'index.html'], ['/about', 'about/index.html'], ['/contact', 'contact/index.html'],
+  ['/', 'index.html'], ['/landing', 'index.html'], ['/about', 'about/index.html'], ['/contact', 'contact/index.html'],
   ['/developers', 'developers/index.html'], ['/gallery/', 'gallery/index.html'], ['/learn', 'index.html'],
   ['/privacy', 'privacy/index.html'], ['/projects', 'index.html'], ['/words', 'index.html'],
   ...notes.map(item => [`/learn/${item.id}`, item.filePath]),

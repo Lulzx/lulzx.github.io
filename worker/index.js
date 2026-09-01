@@ -1,9 +1,10 @@
 const HTML = 'text/html';
 const MARKDOWN = 'text/markdown';
 
-const SPA_INDEX_PATHS = new Set(['/projects', '/words']);
+const SPA_INDEX_PATHS = new Set(['/landing', '/projects', '/words']);
 const MARKDOWN_PATHS = new Map([
-  ['/', '/index.md'],
+  ['/', '/projects.md'],
+  ['/landing', '/index.md'],
   ['/about', '/about/index.md'],
   ['/contact', '/contact/index.md'],
   ['/developers', '/developers/index.md'],

@@ -1,6 +1,6 @@
 # lulzx projects
 
-Small, focused software projects by lulzx. Most are open source and built to do one job well. Ordered by depth of the work rather than by date.
+Small, focused software projects by lulzx. Most are open source and built to do one job well. Ordered by depth of the work rather than by date. This list is the site root; the rest of the site starts at [lulzx.com/landing](https://lulzx.com/landing).
 
 - [cuda-metal](https://github.com/Lulzx/cuda-metal): CUDA compiler and runtime for Apple Silicon: it compiles and runs CUDA kernels on the M-series GPU.
 - [gromacs-metal](https://github.com/Lulzx/gromacs-metal): full-GPU PME for GROMACS on Apple Silicon through AdaptiveCpp's SYCL-to-Metal backend, with a VkFFT Metal bridge.

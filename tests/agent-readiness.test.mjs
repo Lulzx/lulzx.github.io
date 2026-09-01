@@ -22,6 +22,8 @@ function mockOrigin(overrides = {}) {
     '/': new Response('<h1>HTML home</h1>', { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', Vary: 'Accept-Encoding' } }),
     '/index.html': new Response('<h1>SPA</h1>', { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', Vary: 'Accept-Encoding' } }),
     '/index.md': new Response('# Markdown home', { status: 200, headers: { 'Content-Type': 'text/plain' } }),
+    '/landing': new Response('fallback shell', { status: 404, headers: { 'Content-Type': 'text/html; charset=utf-8' } }),
+    '/projects.md': new Response('# Markdown projects', { status: 200, headers: { 'Content-Type': 'text/plain' } }),
     '/about': new Response('<h1>About</h1>', { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } }),
     '/about/index.md': new Response('# About', { status: 200, headers: { 'Content-Type': 'text/plain' } }),
     '/projects': new Response('fallback shell', { status: 404, headers: { 'Content-Type': 'text/html; charset=utf-8' } }),
@@ -81,7 +83,7 @@ test('sitemap is valid in shape and covers every public content page', () => {
   const xml = read('sitemap.xml');
   assert.match(xml, /^<\?xml version="1\.0" encoding="UTF-8"\?>/);
   assert.match(xml, /<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
-  for (const route of ['/', '/about', '/contact', '/privacy', '/developers', '/projects', '/learn', '/words', '/gallery/']) {
+  for (const route of ['/', '/landing', '/about', '/contact', '/privacy', '/developers', '/projects', '/learn', '/words', '/gallery/']) {
     assert.ok(xml.includes(`<loc>https://lulzx.com${route}</loc>`), `missing ${route}`);
   }
   for (const dir of ['learn', 'words']) {
@@ -116,11 +118,16 @@ test('media preference honors q-values, specificity, and explicit rejection', ()
 });
 
 test('edge serves Markdown with correct content type and Vary', async () => {
+  // The root serves the project index; the designed home lives at /landing.
   const response = await handleRequest(new Request('https://lulzx.com/', { headers: { Accept: 'text/markdown' } }), mockOrigin());
   assert.equal(response.status, 200);
   assert.equal(response.headers.get('Content-Type'), 'text/markdown; charset=utf-8');
   assert.match(response.headers.get('Vary'), /Accept/i);
-  assert.equal(await response.text(), '# Markdown home');
+  assert.equal(await response.text(), '# Markdown projects');
+
+  const landing = await handleRequest(new Request('https://lulzx.com/landing', { headers: { Accept: 'text/markdown' } }), mockOrigin());
+  assert.equal(landing.status, 200);
+  assert.equal(await landing.text(), '# Markdown home');
 });
 
 test('edge serves HTML with alternate link and Vary: Accept, Accept-Encoding', async () => {

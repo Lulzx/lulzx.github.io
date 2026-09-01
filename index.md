@@ -16,7 +16,7 @@ The site is a public working garden. Long notes record what I learned while buil
 
 - [Writing](https://lulzx.com/learn): notes on systems, tools, performance, and building.
 - [Words](https://lulzx.com/words): connected concepts in the garden.
-- [Projects](https://lulzx.com/projects): public software and source repositories.
+- [Projects](https://lulzx.com/): public software and source repositories, the site root.
 - [About](https://lulzx.com/about): who lulzx is and how I work.
 - [Developer resources](https://lulzx.com/developers): machine-readable entry points and boundaries.
 - [Contact](https://lulzx.com/contact): email, Telegram, and issue-reporting guidance.

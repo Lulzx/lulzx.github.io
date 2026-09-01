@@ -452,9 +452,76 @@ html.bellard-mode .page-enter-active, html.bellard-mode .page-leave-active { tra
 <body>
 <div id="app"><!-- AGENT_SSR_START -->
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header"><div class="container header-inner"><a href="/" class="brand">lulzx.com</a><div class="nav-wrap"><nav class="nav"><a href="/words"><span class="en">words</span></a><a href="/projects"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
+<header class="site-header"><div class="container header-inner"><a href="/landing" class="brand">lulzx.com</a><div class="nav-wrap"><nav class="nav"><a href="/words"><span class="en">words</span></a><a href="/"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
 <main id="main">
-  <section class="container"><div class="hero"><div class="hero-text"><div class="hero-kicker"><hr class="speedline"><span class="tx">Now broadcasting</span><hr class="speedline"></div><h1>Software engineer.<span class="l2">Building quiet systems.</span></h1><p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p><div class="hero-links"><a href="/projects">View projects →</a><a href="/learn">Read my notes →</a><a href="/about">About me →</a></div><div class="quote-box"><span class="ln">Build with intent.</span><span class="ln">Ship small.</span><span class="ln">Leave room to think.</span></div></div><div class="hero-art"><div class="monitor"><div class="screen"><img class="ink-img" src="/assets/ink/fuji.webp" width="1100" height="825" alt="Archive footage: Mount Fuji with a pine on the shore, in newsreel monochrome"></div><div class="mcap"><span>archive footage · mt. fuji</span></div></div></div></div></section>
+  <section class="section container"><div class="head-row"><h2>Projects</h2></div><p class="page-intro">Public software by lulzx, ordered by the depth of the work rather than by date. The bare list at the site root carries the same entries.</p><div class="ssr-projects"><p><a href="https://github.com/Lulzx/cuda-metal">cuda-metal</a>: CUDA compiler and runtime for Apple Silicon: it compiles and runs CUDA kernels on the M-series GPU.</p>
+  <p><a href="https://github.com/Lulzx/gromacs-metal">gromacs-metal</a>: full-GPU PME for GROMACS on Apple Silicon through AdaptiveCpp's SYCL-to-Metal backend, with a VkFFT Metal bridge.</p>
+  <p><a href="https://github.com/Lulzx/zpdf">zpdf</a>: zero-copy PDF text extraction in Zig. Memory-mapped parsing with SIMD acceleration.</p>
+  <p><a href="https://github.com/Lulzx/warpx-metal">warpx-metal</a>: WarpX electromagnetic particle-in-cell simulations on the Apple Silicon GPU through an AdaptiveCpp SYCL Metal backend.</p>
+  <p><a href="https://github.com/Lulzx/hvm">hvm</a>: a Zig implementation of HVM, the Higher-Order Virtual Machine based on the interaction calculus.</p>
+  <p><a href="https://github.com/Lulzx/arturo-compiler">arturo-compiler</a>: a self-hosting compiler for Arturo, written in Arturo.</p>
+  <p><a href="https://github.com/Lulzx/tacitj">tacitj</a>: a self-hosting compiler for a tacit-leaning subset of J, written in J.</p>
+  <p><a href="https://github.com/Lulzx/WrenJIT">WrenJIT</a>: a tracing JIT compiler for the Wren scripting language.</p>
+  <p><a href="https://github.com/Lulzx/VF64-metal">VF64-metal</a>: a virtual FP64 research harness for Apple Metal GPUs, which have no hardware double precision.</p>
+  <p><a href="https://github.com/Lulzx/tiny-kernel">tiny-kernel</a>: fused Metal kernels for LLM inference, written in Zig. No Python, no PyTorch.</p>
+  <p><a href="https://github.com/Lulzx/zeno">zeno</a>: GPU-accelerated batched physics simulation for robotics and reinforcement learning on Apple Silicon.</p>
+  <p><a href="https://github.com/Lulzx/lulang">lulang</a>: a numerics-first programming language.</p>
+  <p><a href="https://github.com/Lulzx/sectorc">sectorc</a>: a C compiler built from first principles, on the premise that you should trust no compiler you have not verified.</p>
+  <p><a href="https://github.com/Lulzx/tacit">tacit</a>: an array-transformation OS written in Uiua. It schedules graphs, not threads.</p>
+  <p><a href="https://github.com/Lulzx/beam.zig">beam.zig</a>: a minimalist BEAM virtual machine in Zig.</p>
+  <p><a href="https://github.com/Lulzx/zig-tvm">zig-tvm</a>: a compact, table-driven implementation of the TON Virtual Machine in Zig.</p>
+  <p><a href="https://github.com/Lulzx/wasm-mquickjs">wasm-mquickjs</a>: MicroQuickJS compiled to WebAssembly.</p>
+  <p><a href="https://github.com/Lulzx/zs3">zs3</a>: S3-compatible object storage written in Zig with zero dependencies.</p>
+  <p><a href="https://github.com/Lulzx/tinypdf">tinypdf</a>: a PDF creation library in less than 400 lines of TypeScript. No dependencies, and the files it writes are real PDFs.</p>
+  <p><a href="https://github.com/Lulzx/blaze-bpe">blaze-bpe</a>: a lightweight embeddable tiktoken-compatible BPE tokenizer core in Rust.</p>
+  <p><a href="https://github.com/Lulzx/supsearch">supsearch</a>: a program synthesis engine that solves every problem in LamBench with no model and no tokens, certified by the benchmark's own checker.</p>
+  <p><a href="https://github.com/Lulzx/ontogenesis">ontogenesis</a>: a lambda-calculus synthesizer that invents its own vocabulary as it searches.</p>
+  <p><a href="https://github.com/Lulzx/progen">progen</a>: program synthesis through HVM4 superpositions.</p>
+  <p><a href="https://github.com/Lulzx/subquadratic-sparse-attention">subquadratic-sparse-attention</a>: an MLX prototype for content-routed subquadratic sparse attention and long-context associative recall.</p>
+  <p><a href="https://github.com/Lulzx/lulzfish">lulzfish</a>: a high-performance chess engine.</p>
+  <p><a href="https://github.com/Lulzx/barunlm-35m-browser">barunlm-35m-browser</a>: the BarunLM-35M language model converted to ONNX and run entirely client-side with onnxruntime-web.</p>
+  <p><a href="https://github.com/Lulzx/nn.zig">nn.zig</a>: a neural network in roughly 600 lines of Zig, training with GEMM batching through Accelerate.</p>
+  <p><a href="https://github.com/Lulzx/nabla">nabla</a>: reverse-mode automatic differentiation on NumPy: exact gradients through any composition.</p>
+  <p><a href="https://github.com/Lulzx/solon">solon</a>: a language learner built on minimum description length. No transformer and no backpropagation.</p>
+  <p><a href="https://github.com/Lulzx/helicon">helicon</a>: GPU-accelerated magnetic nozzle simulation and plasma detachment analysis.</p>
+  <p><a href="https://github.com/Lulzx/driftmap">driftmap</a>: vortex flow map methods for simulating plasma edge turbulence.</p>
+  <p><a href="https://github.com/Lulzx/skein">skein</a>: a GPS-denied drone-swarm autonomy simulator with EKF localisation, cooperative SLAM and gossip consensus.</p>
+  <p><a href="https://github.com/Lulzx/microduck-backflip">microduck-backflip</a>: a reproducible reinforcement-learning task, evaluation pipeline and safety gates for teaching a Pollen Robotics MicroDuck to backflip.</p>
+  <p><a href="https://github.com/Lulzx/zsearch">zsearch</a>: a branchable, content-addressed full-text search index in Zig.</p>
+  <p><a href="https://github.com/Lulzx/walsync">walsync</a>: streams SQLite's write-ahead log to S3 and restores it on demand, so a database can follow you between machines.</p>
+  <p><a href="https://github.com/Lulzx/GeoPERSIST">GeoPERSIST</a>: persistent geospatial world models.</p>
+  <p><a href="https://github.com/Lulzx/soma">soma</a>: a small-scale SIMD operating system for many-agent systems.</p>
+  <p><a href="https://github.com/Lulzx/typed-inference">typed-inference</a>: a schema-compiled grammar runtime that guarantees structured output from a language model.</p>
+  <p><a href="https://github.com/Lulzx/recall">recall</a>: RECALL-500, a benchmark measuring where retrieval-augmented generation fails against differential memory.</p>
+  <p><a href="https://github.com/Lulzx/memo">memo</a>: permanent memory for agents in 150 lines of Python: one log file and one projection.</p>
+  <p><a href="https://github.com/Lulzx/caas">caas</a>: others persist computation. This persists responsibility: promises kept even when the promiser is gone.</p>
+  <p><a href="https://github.com/Lulzx/caplock">caplock</a>: stops dependencies from reaching anything they were not explicitly granted.</p>
+  <p><a href="https://github.com/Lulzx/encept">encept</a>: perceptual image hashing that uses Apple's hardware H.264 encoder as a learned similarity function.</p>
+  <p><a href="https://github.com/Lulzx/paragon">paragon</a>: provably correct model training on Bend's massively parallel runtime.</p>
+  <p><a href="https://github.com/Lulzx/reality-fit">reality-fit</a>: a webcam scan and a printed marker produce a 3D-printed part that fits on the first try.</p>
+  <p><a href="https://github.com/Lulzx/ego-death">ego-death</a>: a mathematical framework modelling psychedelics as 2-cell transformations in predictive coding hierarchies.</p>
+  <p><a href="https://github.com/Lulzx/pybin">pybin</a>: ships a Python application as a single executable.</p>
+  <p><a href="https://github.com/Lulzx/mirror">mirror</a>: bidirectional functions for JavaScript. One function, both directions, no duplication.</p>
+  <p><a href="https://github.com/Lulzx/tinydocx">tinydocx</a>: a minimal DOCX and ODT creation library with no dependencies.</p>
+  <p><a href="https://github.com/Lulzx/tinysoup">tinysoup</a>: a zero-dependency HTML parser for TypeScript with a BeautifulSoup-like API.</p>
+  <p><a href="https://github.com/Lulzx/tinybarcode">tinybarcode</a>: SVG barcode generation in under 1KB gzipped.</p>
+  <p><a href="https://github.com/Lulzx/reverse-geocode">reverse-geocode</a>: offline reverse geocoding in the browser, comparing a Morton grid against two H3 approaches.</p>
+  <p><a href="https://github.com/Lulzx/press">press</a>: drop in a video and get a small one back. A native macOS compressor built with Zig and ffmpeg.</p>
+  <p><a href="https://github.com/Lulzx/ubrowser">ubrowser</a>: fast and cheap browser automation for Claude Code.</p>
+  <p><a href="https://github.com/Lulzx/carry-terminal">carry-terminal</a>: an agent-native terminal, written in Rust.</p>
+  <p><a href="https://github.com/Lulzx/mimo-build">mimo-build</a>: a terminal AI coding agent written in Rust.</p>
+  <p><a href="https://github.com/Lulzx/lulz-router">lulz-router</a>: runs Claude Code, Codex or OpenCode on one subscription, bridging the Responses and Chat Completions APIs.</p>
+  <p><a href="https://github.com/Lulzx/open-tag">open-tag</a>: a model- and platform-agnostic alternative to Claude Tag: a persistent AI teammate for Telegram and Discord.</p>
+  <p><a href="https://github.com/Lulzx/social-stockfish">social-stockfish</a>: Monte Carlo tree search over conversations: it looks several moves ahead to suggest what to say.</p>
+  <p><a href="https://github.com/Lulzx/rat-runner">rat-runner</a>: a third-person rat sandbox in three.js, with shell fur through alpha-to-coverage.</p>
+  <p><a href="https://github.com/Lulzx/life-sim">life-sim</a>: an interactive multiscale WebGL simulation of a living E. coli cell.</p>
+  <p><a href="https://github.com/Lulzx/living-in-a-van">living-in-a-van</a>: a five-minute animated short rendered from a single HTML file, with hand-drawn SVG and local text-to-speech voices.</p>
+  <p><a href="https://github.com/Lulzx/flute">flute</a>: sixteen interfaces that only make sense above a million tokens per second.</p>
+  <p><a href="https://github.com/Lulzx/rockylm">rockylm</a>: a 9M-parameter language model that talks like Rocky from Project Hail Mary, with speech in his cloned voice.</p>
+  <p><a href="https://github.com/Lulzx/telekit">telekit</a>: native-feeling UI components for Telegram Mini Apps. No dependencies and no build step.</p>
+  <p><a href="https://github.com/Lulzx/esp32-cam-web-streamer">esp32-cam-web-streamer</a>: live MJPEG webcam firmware for the AI-Thinker ESP32-CAM, viewable in any browser over WiFi.</p>
+  <p><a href="https://github.com/Lulzx/latent-sokoban">latent-sokoban</a>: a pixel-based latent world model competition.</p></div></section>
+  <section class="container"><div class="hero"><div class="hero-text"><div class="hero-kicker"><hr class="speedline"><span class="tx">Now broadcasting</span><hr class="speedline"></div><h1>Software engineer.<span class="l2">Building quiet systems.</span></h1><p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p><div class="hero-links"><a href="/">View projects →</a><a href="/learn">Read my notes →</a><a href="/about">About me →</a></div><div class="quote-box"><span class="ln">Build with intent.</span><span class="ln">Ship small.</span><span class="ln">Leave room to think.</span></div></div><div class="hero-art"><div class="monitor"><div class="screen"><img class="ink-img" src="/assets/ink/fuji.webp" width="1100" height="825" alt="Archive footage: Mount Fuji with a pine on the shore, in newsreel monochrome"></div><div class="mcap"><span>archive footage · mt. fuji</span></div></div></div></div></section>
   <section class="section container"><div class="rule-head"><hr><h2>What guides the work</h2><hr></div><div class="principles"><div class="principle"><h3>Do one thing well</h3><p>Small tools with clear boundaries are easier to understand, test, and replace.</p></div><div class="principle"><h3>Minimal by default</h3><p>Every dependency and abstraction has to earn its place.</p></div><div class="principle"><h3>Auditable from source</h3><p>Important behavior should be visible in code and verifiable from evidence.</p></div><div class="principle"><h3>Performance is respect</h3><p>Remove waiting from the path a person uses repeatedly.</p></div><div class="principle"><h3>Build for failure</h3><p>Keep state outside a single run, make retries safe, and leave a way back.</p></div></div></section>
   <section class="section container ssr-intro"><div class="head-row"><h2>Writing garden</h2><a class="more-link" href="/learn">All notes →</a></div><p class="page-intro">These are first-person field notes about building and operating software. They cover small systems, source reading, performance, local machine learning, dependencies, reliability, and the habits that shape the work. The excerpts below are present in the raw HTML so readers and crawlers do not need JavaScript to discover the substance of the site.</p><div class="ssr-notes">
 <article class="ssr-note">
@@ -2083,9 +2150,9 @@ const ICO = {
 
 // ---- static content ----
 const NAV = [
-    { to: '/', label: 'home', kj: 'ホーム' },
+    { to: '/landing', label: 'home', kj: 'ホーム' },
     { to: '/words', label: 'words', kj: '言葉' },
-    { to: '/projects', label: 'projects', kj: '作品' },
+    { to: '/', label: 'projects', kj: '作品' },
     { to: '/learn', label: 'learn', kj: '記録' },
     { to: '/about', label: 'about', kj: '略歴' }
 ];
@@ -2166,7 +2233,7 @@ const Home = {
       <h1>Software engineer.<span class="l2">Building quiet systems.</span></h1>
       <p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p>
       <div class="hero-links">
-        <router-link to="/projects">View projects <span class="arr">&rarr;</span></router-link>
+        <router-link to="/">View projects <span class="arr">&rarr;</span></router-link>
         <router-link to="/learn">Read my notes <span class="arr">&rarr;</span></router-link>
         <router-link to="/about">About me <span class="arr">&rarr;</span></router-link>
       </div>
@@ -2498,7 +2565,7 @@ const ProjectsIndex = {
   <p class="site"><router-link to="/">https://lulzx.com</router-link></p>
   <p v-for="p in lines" :key="p.name"><a :href="p.href" target="_blank" rel="noopener">{{ p.name }}</a>: {{ p.text }}</p>
   <p>Everything else is on <a href="https://github.com/Lulzx" target="_blank" rel="noopener">github.com/Lulzx</a>.</p>
-  <p><router-link to="/">home</router-link> &middot; <router-link to="/words">words</router-link> &middot; <router-link to="/learn">writing</router-link> &middot; <router-link to="/about">about</router-link></p>
+  <p><router-link to="/landing">home</router-link> &middot; <router-link to="/words">words</router-link> &middot; <router-link to="/learn">writing</router-link> &middot; <router-link to="/about">about</router-link></p>
 </div>`
 };
 
@@ -2620,7 +2687,7 @@ const App = {
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header" :class="{ scrolled }">
     <div class="container header-inner">
-      <router-link to="/" class="brand"><span v-html="ICO.logo"></span> lulzx.com</router-link>
+      <router-link to="/landing" class="brand"><span v-html="ICO.logo"></span> lulzx.com</router-link>
       <div class="nav-wrap">
         <nav class="nav" :class="{ open: menuOpen }">
           <router-link v-for="n in NAV" :key="n.to" :to="n.to" :class="{ active: isActive(n) }"><span class="kj" aria-hidden="true">{{ n.kj }}</span><span class="en">{{ n.label }}</span></router-link>
@@ -2643,14 +2710,14 @@ const App = {
       <div class="footer-sign"><span class="kj" aria-hidden="true">放送終了</span><span class="en">End of broadcast</span></div>
       <div class="footer-inner">
         <div class="footer-brand">
-          <router-link to="/" class="brand"><span v-html="ICO.logo"></span> lulzx.com</router-link>
+          <router-link to="/landing" class="brand"><span v-html="ICO.logo"></span> lulzx.com</router-link>
           <p>Exploring systems, tools, and ideas. Building things that make me &mdash; and maybe someone else &mdash; think.</p>
           <span class="footer-loc"><span v-html="ICO.pin"></span> Somewhere in Japan</span>
         </div>
         <div class="fcol">
           <h4><span class="kj" aria-hidden="true">案内</span>Explore</h4>
           <router-link to="/words">words</router-link>
-          <router-link to="/projects">projects</router-link>
+          <router-link to="/">projects</router-link>
           <router-link to="/learn">learn</router-link>
           <router-link to="/about">about</router-link>
           <router-link to="/contact">contact</router-link>
@@ -2685,10 +2752,11 @@ const App = {
 
 // ---- router ----
 const routes = [
-    { path: '/', component: Home },
+    { path: '/', component: ProjectsIndex },
+    { path: '/landing', component: Home },
     { path: '/words', component: WordsIndex },
     { path: '/words/:word', component: WordDetail },
-    { path: '/projects', component: ProjectsIndex },
+    { path: '/projects', redirect: '/' },
     { path: '/learn', component: LearnIndex, alias: '/learn/' },
     { path: '/learn/:noteId', component: NoteDetail },
     { path: '/notes/:noteId', redirect: to => '/learn/' + to.params.noteId },
@@ -2707,8 +2775,8 @@ const router = createRouter({
 
 // per-route document titles
 router.afterEach((to) => {
-    // /projects renders as a bare document: no site chrome, no theme, no colours.
-    document.documentElement.classList.toggle('bellard-mode', to.path === '/projects');
+    // The root renders as a bare document: no site chrome, no theme, no colours.
+    document.documentElement.classList.toggle('bellard-mode', to.path === '/');
     const base = 'lulzx — quiet systems';
     let t = base;
     if (to.params.noteId) {
@@ -2716,9 +2784,10 @@ router.afterEach((to) => {
         t = (n ? n.title : 'Not found') + ' — lulzx';
     } else if (to.params.word) {
         t = to.params.word + ' — words — lulzx';
-    } else if (to.path.startsWith('/words')) t = 'words — lulzx';
+    } else if (to.path === '/') t = 'lulzx';
+    else if (to.path.startsWith('/words')) t = 'words — lulzx';
     else if (to.path.startsWith('/learn')) t = 'writing — lulzx';
-    else if (to.path.startsWith('/projects')) t = 'projects — lulzx';
+    else if (to.path.startsWith('/landing')) t = base;
     else if (to.path.startsWith('/about')) t = 'about — lulzx';
     else if (to.path.startsWith('/contact')) t = 'contact — lulzx';
     else if (to.path.startsWith('/privacy')) t = 'privacy — lulzx';
