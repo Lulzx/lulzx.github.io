@@ -64,7 +64,7 @@ test('homepage exposes complete Person, Organization, and WebSite JSON-LD', () =
 test('trust and developer pages have canonical titles, H1s, and 500+ text characters', () => {
   for (const route of ['about', 'contact', 'privacy', 'developers']) {
     const html = read(`${route}/index.html`);
-    assert.match(html, new RegExp(`<title>[^<]*lulzx`, 'i'), `${route} title does not name lulzx`);
+    assert.match(html, /<title>[A-Za-z][^<]{0,24}<\/title>/, `${route} needs a short plain title`);
     assert.equal((html.match(/<h1\b/gi) || []).length, 1, `${route} must have one H1`);
     assert.ok(visibleText(html).length >= 500, `${route} has less than 500 characters`);
     assert.match(html, new RegExp(`<link rel="canonical" href="https://lulzx.com/${route}">`));
