@@ -445,6 +445,7 @@ html.bellard-mode .page-enter-active, html.bellard-mode .page-leave-active { tra
 .bellard p { margin: 0 0 1em; color: #000; font-family: inherit; font-size: 1em; line-height: 1.4; max-width: none; }
 .bellard a { color: #00e; text-decoration: underline; background: none; border: 0; padding: 0; font: inherit; }
 .bellard a:visited { color: #551a8b; }
+.bellard p.site { text-align: right; }
 .bellard a:hover, .bellard a:focus { color: #00e; text-decoration: underline; }
 </style>
 </head>
@@ -2448,6 +2449,7 @@ const ProjectsIndex = {
     },
     template: `
 <div class="bellard">
+  <p class="site"><router-link to="/">https://lulzx.com</router-link></p>
   <p v-for="p in lines" :key="p.name"><a :href="p.href" target="_blank" rel="noopener">{{ p.name }}</a>: {{ p.text }}</p>
   <p>Everything else is on <a href="https://github.com/Lulzx" target="_blank" rel="noopener">github.com/Lulzx</a>.</p>
   <p><router-link to="/">home</router-link> &middot; <router-link to="/words">words</router-link> &middot; <router-link to="/learn">writing</router-link> &middot; <router-link to="/about">about</router-link></p>
