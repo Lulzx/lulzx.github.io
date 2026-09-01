@@ -433,6 +433,19 @@ html.dark .write-row:hover { background: #000; }
 .ssr-note p { color: var(--muted); font-size: .88rem; line-height: 1.7; margin-top: .55rem; }
 .ssr-words { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.3rem; }
 @media (max-width: 720px) { .ssr-notes { grid-template-columns: 1fr; } }
+
+/* ---- /projects: bare bellard.org-style document ---- */
+html.bellard-mode { background: #fff; }
+html.bellard-mode body { background: #fff; color: #000; font-family: "Times New Roman", Times, serif; font-size: 16px; line-height: 1.4; -webkit-font-smoothing: auto; }
+html.bellard-mode body::before { display: none; }
+html.bellard-mode .site-header, html.bellard-mode .site-footer, html.bellard-mode .skip-link { display: none; }
+html.bellard-mode ::selection { background: #b4d5fe; color: #000; }
+html.bellard-mode .page-enter-active, html.bellard-mode .page-leave-active { transition: none; }
+.bellard { padding: 8px; }
+.bellard p { margin: 0 0 1em; color: #000; font-family: inherit; font-size: 1em; line-height: 1.4; max-width: none; }
+.bellard a { color: #00e; text-decoration: underline; background: none; border: 0; padding: 0; font: inherit; }
+.bellard a:visited { color: #551a8b; }
+.bellard a:hover, .bellard a:focus { color: #00e; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -2405,45 +2418,39 @@ const NoteDetail = {
 </div>`
 };
 
+const PROJECT_LINES = [
+  { name: 'cuda-metal', href: 'https://github.com/Lulzx/cuda-metal', text: 'CUDA compiler and runtime for Apple Silicon: it compiles and runs CUDA kernels on the M-series GPU.' },
+  { name: 'zs3', href: 'https://github.com/Lulzx/zs3', text: 'S3-compatible object storage written in Zig with zero dependencies.' },
+  { name: 'WrenJIT', href: 'https://github.com/Lulzx/WrenJIT', text: 'a tracing JIT compiler for the Wren scripting language.' },
+  { name: 'tinypdf', href: 'https://github.com/Lulzx/tinypdf', text: 'a PDF creation library in less than 400 lines of TypeScript. No dependencies, and the files it writes are real PDFs.' },
+  { name: 'zpdf', href: 'https://github.com/Lulzx/zpdf', text: 'zero-copy PDF text extraction in Zig. Memory-mapped parsing with SIMD acceleration.' },
+  { name: 'tinydocx', href: 'https://github.com/Lulzx/tinydocx', text: 'a minimal DOCX and ODT creation library with no dependencies.' },
+  { name: 'tinysoup', href: 'https://github.com/Lulzx/tinysoup', text: 'a zero-dependency HTML parser for TypeScript with a BeautifulSoup-like API.' },
+  { name: 'tinybarcode', href: 'https://github.com/Lulzx/tinybarcode', text: 'SVG barcode generation in under 1KB gzipped.' },
+  { name: 'blaze-bpe', href: 'https://github.com/Lulzx/blaze-bpe', text: 'a lightweight embeddable tiktoken-compatible BPE tokenizer core in Rust.' },
+  { name: 'tiny-kernel', href: 'https://github.com/Lulzx/tiny-kernel', text: 'fused Metal kernels for LLM inference, written in Zig. No Python, no PyTorch.' },
+  { name: 'nn.zig', href: 'https://github.com/Lulzx/nn.zig', text: 'a neural network in roughly 600 lines of Zig, training with GEMM batching through Accelerate.' },
+  { name: 'barunlm-35m-browser', href: 'https://github.com/Lulzx/barunlm-35m-browser', text: 'the BarunLM-35M language model converted to ONNX and run entirely client-side with onnxruntime-web.' },
+  { name: 'hvm', href: 'https://github.com/Lulzx/hvm', text: 'a Zig implementation of HVM, the Higher-Order Virtual Machine based on the interaction calculus.' },
+  { name: 'sectorc', href: 'https://github.com/Lulzx/sectorc', text: 'a C compiler built from first principles, on the premise that you should trust no compiler you have not verified.' },
+  { name: 'warpx-metal', href: 'https://github.com/Lulzx/warpx-metal', text: 'WarpX electromagnetic particle-in-cell simulations on the Apple Silicon GPU through an AdaptiveCpp SYCL Metal backend.' },
+  { name: 'zeno', href: 'https://github.com/Lulzx/zeno', text: 'GPU-accelerated batched physics simulation for robotics and reinforcement learning on Apple Silicon.' },
+  { name: 'driftmap', href: 'https://github.com/Lulzx/driftmap', text: 'vortex flow map methods for simulating plasma edge turbulence.' },
+  { name: 'encept', href: 'https://github.com/Lulzx/encept', text: 'perceptual image hashing that uses Apple\'s hardware H.264 encoder as a learned similarity function.' },
+  { name: 'ubrowser', href: 'https://github.com/Lulzx/ubrowser', text: 'fast and cheap browser automation for Claude Code.' },
+  { name: 'copilot', href: 'https://github.com/Lulzx/copilot', text: 'a CLI copilot tool written in Rust.' },
+  { name: 'esp32-cam-web-streamer', href: 'https://github.com/Lulzx/esp32-cam-web-streamer', text: 'live MJPEG webcam firmware for the AI-Thinker ESP32-CAM, viewable in any browser over WiFi.' }
+];
+
 const ProjectsIndex = {
-    data() { return { q: (this.$route.query.q || '') + '' }; },
     computed: {
-      projects() {
-        let all = projectsStore.value;
-        if (!this.q.trim()) return all;
-        const qq = this.q.toLowerCase().trim();
-        return all.filter(p => (p.name + ' ' + p.desc + ' ' + p.tags).toLowerCase().includes(qq));
-      },
-      total() { return projectsStore.value.length; }
+      lines() { return PROJECT_LINES; }
     },
-    watch: {
-      q(v) { this.$router.replace({ query: v.trim() ? { q: v } : {} }); }
-    },
-    mounted() {
-      this.onKey = (e) => {
-        if (e.key === '/' && !/INPUT|TEXTAREA/.test((document.activeElement || {}).tagName || '')) {
-          e.preventDefault();
-          if (this.$refs.filter) this.$refs.filter.focus();
-        }
-      };
-      window.addEventListener('keydown', this.onKey);
-    },
-    beforeUnmount() { window.removeEventListener('keydown', this.onKey); },
     template: `
-<div class="page container">
-  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">作品</span><span class="tx">Field equipment</span><hr class="speedline"></div>
-  <h1 class="page-title">Projects</h1>
-  <p class="page-intro">Small, focused tools. Most are open source. All are built to do one thing well and stay out of your way.</p>
-  <input class="filter-input" ref="filter" type="search" placeholder="Filter projects... press /" v-model="q" @keydown.esc="q = ''; $refs.filter.blur()" aria-label="Filter projects" />
-  <div style="text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--faint);margin:-.3rem 0 .8rem;">{{ projects.length }} / {{ total }}</div>
-  <div class="proj-grid" style="margin-top:2.4rem">
-    <a class="proj-card" v-for="pr in projects" :key="pr.name" :href="pr.href" target="_blank" rel="noopener">
-      <span class="ico" v-html="ICO[pr.icon]"></span>
-      <h3>{{ pr.name }}</h3>
-      <p>{{ pr.desc }}</p>
-      <div class="ptags">{{ pr.tags }}</div>
-    </a>
-  </div>
+<div class="bellard">
+  <p v-for="p in lines" :key="p.name"><a :href="p.href" target="_blank" rel="noopener">{{ p.name }}</a>: {{ p.text }}</p>
+  <p>Everything else is on <a href="https://github.com/Lulzx" target="_blank" rel="noopener">github.com/Lulzx</a>.</p>
+  <p><router-link to="/">home</router-link> &middot; <router-link to="/words">words</router-link> &middot; <router-link to="/learn">writing</router-link> &middot; <router-link to="/about">about</router-link></p>
 </div>`
 };
 
@@ -2652,6 +2659,8 @@ const router = createRouter({
 
 // per-route document titles
 router.afterEach((to) => {
+    // /projects renders as a bare document: no site chrome, no theme, no colours.
+    document.documentElement.classList.toggle('bellard-mode', to.path === '/projects');
     const base = 'lulzx — quiet systems';
     let t = base;
     if (to.params.noteId) {
