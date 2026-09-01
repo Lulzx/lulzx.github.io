@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>lulzx&#39;s software projects</title>
+<title>Lulzx</title>
 <meta name="description" content="A CUDA compiler and runtime for Apple Silicon, self-hosting compilers and virtual machines, zero-copy document parsers, GPU physics and plasma simulation, and small tools. Source for all of it.">
 <meta name="theme-color" content="#EFEEEA">
-<meta property="og:title" content="lulzx&#39;s software projects">
+<meta property="og:title" content="Lulzx">
 <meta property="og:description" content="A CUDA compiler and runtime for Apple Silicon, self-hosting compilers and virtual machines, zero-copy document parsers, GPU physics and plasma simulation, and small tools. Source for all of it.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lulzx.com/">
@@ -2776,21 +2776,18 @@ const router = createRouter({
 router.afterEach((to) => {
     // The root renders as a bare document: no site chrome, no theme, no colours.
     document.documentElement.classList.toggle('bellard-mode', to.path === '/');
-    const base = 'lulzx — quiet systems';
-    let t = base;
+    let t = 'Lulzx';
     if (to.params.noteId) {
         const n = notesData[to.params.noteId];
-        t = (n ? n.title : 'Not found') + ' — lulzx';
+        t = n ? n.title : 'Not found';
     } else if (to.params.word) {
-        t = to.params.word + ' — words — lulzx';
-    } else if (to.path === '/') t = "lulzx's software projects";
-    else if (to.path.startsWith('/words')) t = 'words — lulzx';
-    else if (to.path.startsWith('/learn')) t = 'writing — lulzx';
-    else if (to.path.startsWith('/landing')) t = base;
-    else if (to.path.startsWith('/about')) t = 'about — lulzx';
-    else if (to.path.startsWith('/contact')) t = 'contact — lulzx';
-    else if (to.path.startsWith('/privacy')) t = 'privacy — lulzx';
-    else if (to.path.startsWith('/developers')) t = 'developer resources — lulzx';
+        t = to.params.word;
+    } else if (to.path.startsWith('/words')) t = 'words';
+    else if (to.path.startsWith('/learn')) t = 'writing';
+    else if (to.path.startsWith('/about')) t = 'about';
+    else if (to.path.startsWith('/contact')) t = 'contact';
+    else if (to.path.startsWith('/privacy')) t = 'privacy';
+    else if (to.path.startsWith('/developers')) t = 'developer resources';
     document.title = t;
 });
 
