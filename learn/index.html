@@ -3,17 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>lulzx — quiet systems</title>
-<meta name="description" content="Software engineer building small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.">
+<title>lulzx&#39;s software projects</title>
+<meta name="description" content="A CUDA compiler and runtime for Apple Silicon, self-hosting compilers and virtual machines, zero-copy document parsers, GPU physics and plasma simulation, and small tools. Source for all of it.">
 <meta name="theme-color" content="#EFEEEA">
-<meta property="og:title" content="lulzx.com — quiet systems">
-<meta property="og:description" content="Software engineer. Building small, focused tools and systems. Minimal by default, auditable from source.">
+<meta property="og:title" content="lulzx&#39;s software projects">
+<meta property="og:description" content="A CUDA compiler and runtime for Apple Silicon, self-hosting compilers and virtual machines, zero-copy document parsers, GPU physics and plasma simulation, and small tools. Source for all of it.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lulzx.com/">
-<meta property="og:image" content="https://lulzx.com/assets/ink/fuji.webp">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <link rel="canonical" href="https://lulzx.com/">
-<link rel="alternate" type="text/markdown" href="https://lulzx.com/index.md">
+<link rel="alternate" type="text/markdown" href="https://lulzx.com/projects.md">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -2784,7 +2783,7 @@ router.afterEach((to) => {
         t = (n ? n.title : 'Not found') + ' — lulzx';
     } else if (to.params.word) {
         t = to.params.word + ' — words — lulzx';
-    } else if (to.path === '/') t = 'lulzx';
+    } else if (to.path === '/') t = "lulzx's software projects";
     else if (to.path.startsWith('/words')) t = 'words — lulzx';
     else if (to.path.startsWith('/learn')) t = 'writing — lulzx';
     else if (to.path.startsWith('/landing')) t = base;
