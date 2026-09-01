@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { copyFileSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 
 const root = new URL('../', import.meta.url);
@@ -136,5 +136,7 @@ write('sitemap.xml', sitemap);
 
 copyFileSync(new URL('index.html', root), new URL('404.html', root));
 copyFileSync(new URL('index.html', root), new URL('learn/index.html', root));
+mkdirSync(new URL('landing/', root), { recursive: true });
+copyFileSync(new URL('index.html', root), new URL('landing/index.html', root));
 
 console.log(`Generated raw homepage (${shell.length} chars), ${notes.length + words.length} Markdown pages, sitemap, and SPA copies.`);
