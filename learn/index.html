@@ -831,6 +831,7 @@ html.dark .cab-card:hover svg, html.dark .cab-card:focus-visible svg, html.dark 
 <header class="site-header"><div class="container header-inner"><div class="nav-wrap"><nav class="nav"><a href="/words"><span class="en">words</span></a><a href="/"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
 <main id="main">
   <section class="section container"><div class="head-row"><h2>Projects</h2></div><p class="page-intro">Compilers, simulations, and tools by lulzx.</p><div class="ssr-projects"><p><a href="https://github.com/Lulzx/cuda-metal">cuda-metal</a>: CUDA compiler and runtime for Apple Silicon: it compiles and runs CUDA kernels on the M-series GPU.</p>
+  <p><a href="https://github.com/Lulzx/box3d-metal">box3d-metal</a>: a Metal compute backend for Box3D on Apple Silicon, packaged as a reproducible overlay with tests and benchmarks.</p>
   <p><a href="https://github.com/Lulzx/gromacs-metal">gromacs-metal</a>: full-GPU PME for GROMACS on Apple Silicon through AdaptiveCpp's SYCL-to-Metal backend, with a VkFFT Metal bridge.</p>
   <p><a href="https://github.com/Lulzx/zpdf">zpdf</a>: zero-copy PDF text extraction in Zig. Memory-mapped parsing with SIMD acceleration.</p>
   <p><a href="https://github.com/Lulzx/warpx-metal">warpx-metal</a>: WarpX electromagnetic particle-in-cell simulations on the Apple Silicon GPU through an AdaptiveCpp SYCL Metal backend.</p>
@@ -875,6 +876,7 @@ html.dark .cab-card:hover svg, html.dark .cab-card:focus-visible svg, html.dark 
   <p><a href="https://github.com/Lulzx/encept">encept</a>: perceptual image hashing that uses Apple's hardware H.264 encoder as a learned similarity function.</p>
   <p><a href="https://github.com/Lulzx/paragon">paragon</a>: provably correct model training on Bend's massively parallel runtime.</p>
   <p><a href="https://github.com/Lulzx/reality-fit">reality-fit</a>: a webcam scan and a printed marker produce a 3D-printed part that fits on the first try.</p>
+  <p><a href="https://github.com/Lulzx/future">future</a>: a fifteen-year forecast built from first principles.</p>
   <p><a href="https://github.com/Lulzx/ego-death">ego-death</a>: a mathematical framework modelling psychedelics as 2-cell transformations in predictive coding hierarchies.</p>
   <p><a href="https://github.com/Lulzx/pybin">pybin</a>: ships a Python application as a single executable.</p>
   <p><a href="https://github.com/Lulzx/mirror">mirror</a>: bidirectional functions for JavaScript. One function, both directions, no duplication.</p>
@@ -884,6 +886,7 @@ html.dark .cab-card:hover svg, html.dark .cab-card:focus-visible svg, html.dark 
   <p><a href="https://github.com/Lulzx/reverse-geocode">reverse-geocode</a>: offline reverse geocoding in the browser, comparing a Morton grid against two H3 approaches.</p>
   <p><a href="https://github.com/Lulzx/press">press</a>: drop in a video and get a small one back. A native macOS compressor built with Zig and ffmpeg.</p>
   <p><a href="https://github.com/Lulzx/ubrowser">ubrowser</a>: fast and cheap browser automation for Claude Code.</p>
+  <p><a href="https://github.com/Lulzx/helium">helium</a>: a Rust-native development environment built on GPUI, orchestrating parallel AI coding agents from issue to pull request.</p>
   <p><a href="https://github.com/Lulzx/carry-terminal">carry-terminal</a>: an agent-native terminal, written in Rust.</p>
   <p><a href="https://github.com/Lulzx/mimo-build">mimo-build</a>: a terminal AI coding agent written in Rust.</p>
   <p><a href="https://github.com/Lulzx/lulz-router">lulz-router</a>: runs Claude Code, Codex or OpenCode on one subscription, bridging the Responses and Chat Completions APIs.</p>
@@ -2863,6 +2866,7 @@ const NoteDetail = {
 
 const PROJECT_LINES = [
   { name: 'cuda-metal', href: 'https://github.com/Lulzx/cuda-metal', text: 'CUDA compiler and runtime for Apple Silicon: it compiles and runs CUDA kernels on the M-series GPU.' },
+  { name: 'box3d-metal', href: 'https://github.com/Lulzx/box3d-metal', text: 'a Metal compute backend for Box3D on Apple Silicon, packaged as a reproducible overlay with tests and benchmarks.' },
   { name: 'gromacs-metal', href: 'https://github.com/Lulzx/gromacs-metal', text: 'full-GPU PME for GROMACS on Apple Silicon through AdaptiveCpp\'s SYCL-to-Metal backend, with a VkFFT Metal bridge.' },
   { name: 'zpdf', href: 'https://github.com/Lulzx/zpdf', text: 'zero-copy PDF text extraction in Zig. Memory-mapped parsing with SIMD acceleration.' },
   { name: 'warpx-metal', href: 'https://github.com/Lulzx/warpx-metal', text: 'WarpX electromagnetic particle-in-cell simulations on the Apple Silicon GPU through an AdaptiveCpp SYCL Metal backend.' },
@@ -2907,6 +2911,7 @@ const PROJECT_LINES = [
   { name: 'encept', href: 'https://github.com/Lulzx/encept', text: 'perceptual image hashing that uses Apple\'s hardware H.264 encoder as a learned similarity function.' },
   { name: 'paragon', href: 'https://github.com/Lulzx/paragon', text: 'provably correct model training on Bend\'s massively parallel runtime.' },
   { name: 'reality-fit', href: 'https://github.com/Lulzx/reality-fit', text: 'a webcam scan and a printed marker produce a 3D-printed part that fits on the first try.' },
+  { name: 'future', href: 'https://github.com/Lulzx/future', text: 'a fifteen-year forecast built from first principles.' },
   { name: 'ego-death', href: 'https://github.com/Lulzx/ego-death', text: 'a mathematical framework modelling psychedelics as 2-cell transformations in predictive coding hierarchies.' },
   { name: 'pybin', href: 'https://github.com/Lulzx/pybin', text: 'ships a Python application as a single executable.' },
   { name: 'mirror', href: 'https://github.com/Lulzx/mirror', text: 'bidirectional functions for JavaScript. One function, both directions, no duplication.' },
@@ -2916,6 +2921,7 @@ const PROJECT_LINES = [
   { name: 'reverse-geocode', href: 'https://github.com/Lulzx/reverse-geocode', text: 'offline reverse geocoding in the browser, comparing a Morton grid against two H3 approaches.' },
   { name: 'press', href: 'https://github.com/Lulzx/press', text: 'drop in a video and get a small one back. A native macOS compressor built with Zig and ffmpeg.' },
   { name: 'ubrowser', href: 'https://github.com/Lulzx/ubrowser', text: 'fast and cheap browser automation for Claude Code.' },
+  { name: 'helium', href: 'https://github.com/Lulzx/helium', text: 'a Rust-native development environment built on GPUI, orchestrating parallel AI coding agents from issue to pull request.' },
   { name: 'carry-terminal', href: 'https://github.com/Lulzx/carry-terminal', text: 'an agent-native terminal, written in Rust.' },
   { name: 'mimo-build', href: 'https://github.com/Lulzx/mimo-build', text: 'a terminal AI coding agent written in Rust.' },
   { name: 'lulz-router', href: 'https://github.com/Lulzx/lulz-router', text: 'runs Claude Code, Codex or OpenCode on one subscription, bridging the Responses and Chat Completions APIs.' },
@@ -2931,20 +2937,21 @@ const PROJECT_LINES = [
   { name: 'latent-sokoban', href: 'https://github.com/Lulzx/latent-sokoban', text: 'a pixel-based latent world model competition.' }
 ];
 
-// ---- root: 67 instruments in eight drawers ----
+// ---- root: instruments in eight drawers ----
 const PROJECT_GROUPS = [
-  { id: 'metal', kj: '金属', blurb: 'GPU computing on Apple Silicon', names: ['cuda-metal', 'gromacs-metal', 'warpx-metal', 'VF64-metal', 'tiny-kernel', 'zeno', 'encept', 'subquadratic-sparse-attention'] },
+  { id: 'metal', kj: '金属', blurb: 'GPU computing on Apple Silicon', names: ['cuda-metal', 'box3d-metal', 'gromacs-metal', 'warpx-metal', 'VF64-metal', 'tiny-kernel', 'zeno', 'encept', 'subquadratic-sparse-attention'] },
   { id: 'compilers', kj: '翻訳', blurb: 'Programming languages, compilers, and virtual machines', names: ['hvm', 'arturo-compiler', 'tacitj', 'WrenJIT', 'wasm-mquickjs', 'lulang', 'sectorc', 'tacit', 'beam.zig', 'zig-tvm'] },
   { id: 'synthesis', kj: '探索', blurb: 'Program synthesis, search, and planning', names: ['supsearch', 'ontogenesis', 'progen', 'solon', 'lulzfish', 'social-stockfish', 'latent-sokoban'] },
-  { id: 'models', kj: '模型', blurb: 'Model training, inference, and evaluation', names: ['nn.zig', 'nabla', 'paragon', 'barunlm-35m-browser', 'rockylm', 'blaze-bpe', 'typed-inference', 'recall', 'ego-death'] },
+  { id: 'models', kj: '模型', blurb: 'Model training, inference, and evaluation', names: ['nn.zig', 'nabla', 'paragon', 'barunlm-35m-browser', 'rockylm', 'blaze-bpe', 'typed-inference', 'recall', 'ego-death', 'future'] },
   { id: 'simulation', kj: '模擬', blurb: 'plasma, cells, drones, a duck and one rat', names: ['helicon', 'driftmap', 'skein', 'microduck-backflip', 'life-sim', 'rat-runner', 'reality-fit', 'GeoPERSIST'] },
   { id: 'storage', kj: '保存', blurb: 'Storage, search, and persistence', names: ['zs3', 'zsearch', 'walsync', 'zpdf', 'reverse-geocode', 'caas'] },
   { id: 'tiny', kj: '極小', blurb: 'no dependencies, no build step, one file where possible', names: ['tinypdf', 'tinydocx', 'tinysoup', 'tinybarcode', 'telekit', 'mirror', 'pybin', 'press', 'esp32-cam-web-streamer', 'living-in-a-van'] },
-  { id: 'agents', kj: '代理', blurb: 'Agent tools, memory, and permissions', names: ['ubrowser', 'carry-terminal', 'mimo-build', 'lulz-router', 'open-tag', 'memo', 'caplock', 'soma', 'flute'] }
+  { id: 'agents', kj: '代理', blurb: 'Agent tools, memory, and permissions', names: ['ubrowser', 'helium', 'carry-terminal', 'mimo-build', 'lulz-router', 'open-tag', 'memo', 'caplock', 'soma', 'flute'] }
 ];
 
 // Each specimen is an interpretive drawing of the project's mechanism.
 const SPECIMENS = {
+  'box3d-metal': ['box', 1], 'helium': ['workspace', 2], 'future': ['forecast', 3],
   'cuda-metal': ['bridge', 0], 'gromacs-metal': ['molecule', 1], 'warpx-metal': ['wave', 2], 'VF64-metal': ['pair', 3], 'tiny-kernel': ['chip', 4], 'zeno': ['pendulum', 5], 'encept': ['image', 6], 'subquadratic-sparse-attention': ['matrix', 7],
   'hvm': ['tree', 0], 'arturo-compiler': ['loop', 1], 'tacitj': ['arrayfold', 2], 'WrenJIT': ['trace', 3], 'wasm-mquickjs': ['wasmmodule', 4], 'lulang': ['numerics', 5], 'sectorc': ['verify', 6], 'tacit': ['schedule', 7], 'beam.zig': ['mailboxes', 8], 'zig-tvm': ['stack', 9],
   'supsearch': ['searchpath', 3], 'ontogenesis': ['vocabulary', 5], 'progen': ['superposition', 2], 'solon': ['mdl', 3], 'lulzfish': ['chess', 0], 'social-stockfish': ['conversation', 1], 'latent-sokoban': ['grid', 2],
@@ -2965,6 +2972,8 @@ function specimen(name, gi) {
   const repeat = (n, fn) => Array.from({length:n}, (_,i)=>fn(i)).join('');
   let art='';
   switch(kind) {
+    case 'workspace': art=rect(27,19,146,86)+path('M27 36H173 M76 36V105 M35 47H65 M35 57H60 M35 67H66')+repeat(3,i=>rect(87,45+i*18,29,12)+line(116,51+i*18,132,69))+rect(132,60,29,18,c); break;
+    case 'forecast': art=path('M30 24V98H176 M39 85L65 73L91 66L115 48 M115 48L166 23 M115 48L166 49 M115 48L166 76')+dot(39,85,3)+dot(65,73,3)+dot(91,66,3)+dot(115,48,5)+path('M115 18V93')+repeat(3,i=>dot(166,23+i*26,3)); break;
     case 'numerics': art=path('M51 22H38V100H51 M149 22H162V100H149')+repeat(3,y=>repeat(3,x=>{let n=(x+y)%3;return n===0?dot(64+x*35,37+y*25,4):n===1?path(`M${59+x*35} ${37+y*25}h10m-5 -5v10`):rect(60+x*35,33+y*25,8,8)})); break;
     case 'verify': art=path('M49 29H84L105 48V95H49Z M84 29V48H105 M60 60H88 M60 70H79 M118 45L140 36L162 45V65Q160 83 140 97Q120 83 118 65Z M129 64L138 73L153 54'); break;
     case 'switchboard': art=repeat(3,i=>rect(25,23+i*29,28,16)+line(53,31+i*29,87,60))+dot(98,60,11)+path('M109 60H139V31H167 M139 60H167 M139 60V89H167')+repeat(3,i=>dot(171,31+i*29,4)); break;
