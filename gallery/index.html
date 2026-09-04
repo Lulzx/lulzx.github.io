@@ -7,7 +7,7 @@
   <title>Gallery</title>
   <meta name="description" content="A quiet gallery of images. Minimal by default.">
   <meta name="theme-color" content="#EFEEEA">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23718334'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Yuji+Syuku&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -70,35 +70,26 @@ html.dark body::before{opacity:.08}
 @media (max-width:640px){.header-inner{height:54px}.page-head{padding:2rem 0 0}.lb-close,.lb-arrow{width:40px;height:40px}.lb-prev{left:12px}.lb-next{right:12px}}
 ::-webkit-scrollbar{width:0}
 </style>
+<link rel="stylesheet" href="/assets/cabinet.css">
 </head>
 
 <body>
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="/">
-        <svg class="seal" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="7"/><g stroke="currentColor" stroke-width="7" fill="none" stroke-linecap="round"><path d="M31 42a24 24 0 0 1 38 0"/><path d="M39 50.5a13 13 0 0 1 22 0"/></g><circle cx="50" cy="58" r="6" fill="currentColor"/><path d="M50 62 40 80h20z" fill="currentColor"/></svg>
-        lulzx.com
-      </a>
-      <nav class="nav">
-        <a href="/words">words</a>
-        <a href="/projects">projects</a>
-        <a href="/learn">learn</a>
-        <a href="/about">about</a>
-        <a href="/gallery/" class="here">gallery</a>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
-      </nav>
+
+      <nav class="nav" aria-label="Main navigation"><a href="/">home</a><a href="/words">words</a><a href="/learn">writing</a><a href="/about">about</a><a href="/gallery/">gallery</a><a href="https://github.com/Lulzx" target="_blank" rel="noopener">github ↗</a><button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button></nav>
     </div>
   </header>
 
   <div class="container">
     <div class="page-head">
       <div class="eyebrow"><span class="kj" aria-hidden="true">写真</span> gallery</div>
-      <h1>Things caught by the eye</h1>
-      <p>A quiet collection. Tap any frame to look closer; swipe or arrow keys to drift through.</p>
+      <h1>Gallery</h1>
+      <p>Open an image to view it. Use the arrow keys or swipe to browse.</p>
     </div>
     <div class="rule"></div>
-    <div class="loading" id="loading">gathering images&hellip;</div>
+    <div class="loading" id="loading">Loading images&hellip;</div>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -122,7 +113,7 @@ html.dark body::before{opacity:.08}
       document.documentElement.classList.toggle('dark', dark);
       toggleBtn.innerHTML = dark ? SUN : MOON;
       const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', dark ? '#131314' : '#EFEEEA');
+      if (meta) meta.setAttribute('content', dark ? '#1d221e' : '#eeefea');
     }
 
     let dark = false;

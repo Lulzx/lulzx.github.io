@@ -50,7 +50,7 @@
   ]
 }
 </script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C9252B'/%3E%3Cg stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M28 40a30 30 0 0 1 44 0'/%3E%3Cpath d='M37 49a17 17 0 0 1 26 0'/%3E%3C/g%3E%3Ccircle cx='50' cy='58' r='7' fill='%23fff'/%3E%3Cpath d='M50 63 37 86h26z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23718334'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Yuji+Syuku&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -433,27 +433,282 @@ html.dark .write-row:hover { background: #000; }
 .ssr-words { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.3rem; }
 @media (max-width: 720px) { .ssr-notes { grid-template-columns: 1fr; } }
 
-/* ---- /projects: bare bellard.org-style document ---- */
-html.bellard-mode { background: #fff; }
-html.bellard-mode body { background: #fff; color: #000; font-family: "Times New Roman", Times, serif; font-size: 16px; line-height: 1.4; -webkit-font-smoothing: auto; }
-html.bellard-mode body::before { display: none; }
-html.bellard-mode .site-header, html.bellard-mode .site-footer, html.bellard-mode .skip-link { display: none; }
-html.bellard-mode ::selection { background: #b4d5fe; color: #000; }
-html.bellard-mode .page-enter-active, html.bellard-mode .page-leave-active { transition: none; }
-.bellard { padding: 8px; }
-.bellard p { margin: 0 0 1em; color: #000; font-family: inherit; font-size: 1em; line-height: 1.4; max-width: none; }
-.bellard a { color: #00e; text-decoration: underline; background: none; border: 0; padding: 0; font: inherit; }
-.bellard a:visited { color: #551a8b; }
-.bellard p.site { text-align: right; }
-.bellard a:hover, .bellard a:focus { color: #00e; text-decoration: underline; }
+/* ---- / : a cabinet of working instruments ---- */
+html.root-mode, html.root-mode body { background: #eeefea; color: #252b29; }
+html.root-mode body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+html.root-mode body::before, html.root-mode .site-header, html.root-mode .site-footer { display: none; }
+html.root-mode ::selection { background: #c7e755; color: #252b29; }
+html.root-mode .page-enter-active, html.root-mode .page-leave-active { transition: none; }
+.cabinet { --cab-line: #c9cdc3; --cab-muted: #626b61; max-width: 1560px; margin: auto; padding: 0 4.5vw; }
+.cabinet a:focus-visible { outline: 2px solid #425b22; outline-offset: 5px; }
+.cab-top { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 25px 0; border-bottom: 1px solid var(--cab-line); }
+.cab-brand { font-size: 19px; font-weight: 650; letter-spacing: -.06em; }
+.cab-brand span { display: inline-block; width: 9px; height: 9px; background: #718334; margin-right: 10px; border-radius: 50%; }
+.cab-top nav { display: flex; gap: 25px; font-size: 12px; }
+.cab-top nav a:hover, .cab-end a:hover { text-decoration: underline; text-underline-offset: 5px; }
+.cab-hero { display: grid; grid-template-columns: 1fr 1.1fr; align-items: center; gap: 7vw; padding: 66px 0 60px; }
+.cab-eyebrow, .cab-meta, .cab-index, .cab-count, .cab-id, .cab-end, .cab-plate-label { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.cab-eyebrow { color: var(--cab-muted); display: flex; gap: 12px; align-items: center; }
+.cab-eyebrow::before { content: ''; width: 24px; border-top: 1px solid #718334; }
+.cab-hero h1 { font-size: clamp(76px, 10vw, 155px); letter-spacing: -.085em; line-height: .95; font-weight: 500; margin: 23px 0 25px; }
+.cab-intro { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(21px, 2.1vw, 30px); line-height: 1.35; max-width: 24ch; }
+.cab-sub { font-size: 13px; color: var(--cab-muted); max-width: 37ch; margin-top: 20px; line-height: 1.7; }
+.cab-hero-foot { margin-top: 42px; display: flex; gap: 27px; color: var(--cab-muted); }
+.cab-hero-foot strong { color: #252b29; font-weight: 500; }
+.cab-overview { border: 1px solid #bcc3b3; padding: 22px 25px 17px; background: #e5e8df; box-shadow: 0 3px 0 #dce0d5, 0 4px 0 #bfc6b6; }
+.cab-overview-head { display: flex; justify-content: space-between; padding-bottom: 15px; border-bottom: 1px solid #bdc5b4; color: #56624c; }
+.cab-drawer { display: grid; grid-template-columns: 79px 1fr 20px; gap: 8px; align-items: center; border-bottom: 1px solid #cbd1c4; min-height: 44px; }
+.cab-drawer:last-child { border: 0; }
+.cab-drawer-name { font-family: ui-monospace, monospace; font-size: 10px; color: #58614e; }
+.cab-drawer-name:hover { color: #252b29; text-decoration: underline; }
+.cab-miniatures { display: flex; align-items: center; }
+.cab-mini { width: 10%; display: block; transition: transform .18s ease; }
+.cab-mini svg { width: 100%; height: 37px; display: block; }
+.cab-mini:hover, .cab-mini:focus-visible { transform: translateY(-4px) scale(1.3); }
+.cab-drawer .cab-count { text-align: right; color: #737d68; font-size: 9px; }
+.cab-index { display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 17px 0; border-top: 1px solid var(--cab-line); border-bottom: 1px solid var(--cab-line); color: var(--cab-muted); }
+.cab-index a { padding: 4px 0; }
+.cab-index a:hover { color: #252b29; }
+.cab-index sup { font-size: 8px; margin-left: 5px; color: #87917c; }
+.cab-section { padding: 54px 0 10px; scroll-margin-top: 24px; }
+.cab-section-head { display: grid; grid-template-columns: 45px 1fr auto; gap: 15px; align-items: baseline; margin-bottom: 24px; }
+.cab-section-head .cab-id { color: #7c866d; }
+.cab-section h2 { font-size: 27px; line-height: 1.2; font-weight: 500; letter-spacing: -.045em; }
+.cab-section h2 .kj { font-size: 19px; color: #909883; margin-left: 13px; }
+.cab-section-head p { font-size: 12px; color: var(--cab-muted); margin-top: 7px; }
+.cab-section-head .cab-count { color: var(--cab-muted); }
+.cab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--cab-line); border-left: 1px solid var(--cab-line); }
+.cab-card { display: flex; flex-direction: column; min-width: 0; padding: 17px 24px 27px; border-right: 1px solid var(--cab-line); border-bottom: 1px solid var(--cab-line); background: #f3f4ef; scroll-margin-top: 24px; transition: background .18s; }
+.cab-card:hover, .cab-card:focus-visible { background: #fafbf7; }
+.cab-plate-label { display: flex; justify-content: space-between; color: #8a9281; font-size: 9px; }
+.cab-plate-label .cab-arrow { color: #4e6041; font-size: 15px; line-height: 1; transition: transform .18s; }
+.cab-card:hover .cab-arrow { transform: translate(2px,-2px); }
+.cab-specimen { height: 160px; display: grid; place-items: center; margin: 7px 0 17px; background-image: radial-gradient(#dce0d5 .7px, transparent .7px); background-size: 13px 13px; }
+.cab-specimen svg { height: 132px; width: 215px; max-width: 100%; overflow: visible; transition: transform .3s ease; }
+.cab-card:hover .cab-specimen svg, .cab-card:focus-visible .cab-specimen svg { transform: translateY(-3px); }
+.cab-card h3 { font-size: 19px; font-weight: 550; letter-spacing: -.045em; line-height: 1.25; overflow-wrap: anywhere; margin-bottom: 10px; }
+.cab-card p { font-size: 13px; line-height: 1.7; color: #626b61; max-width: 45ch; }
+.cab-end { display: flex; justify-content: space-between; gap: 20px; margin-top: 65px; padding: 24px 0 35px; border-top: 1px solid var(--cab-line); color: var(--cab-muted); text-transform: none; letter-spacing: 0; }
+.cab-end a { color: #252b29; }
+@media(min-width:1450px) { .cab-specimen { height: 185px; } }
+@media(max-width:950px) { .cab-hero { gap: 4vw; } .cab-overview { padding: 15px; } .cab-drawer { grid-template-columns: 65px 1fr 15px; gap: 3px; } .cab-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media(max-width:650px) { .cabinet { padding: 0 20px; } .cab-top { align-items: flex-start; padding: 20px 0; } .cab-top nav { gap: 10px 16px; flex-wrap: wrap; justify-content: flex-end; max-width: 230px; font-size: 11px; } .cab-hero { grid-template-columns: 1fr; padding: 42px 0 30px; gap: 30px; } .cab-hero h1 { font-size: 95px; margin: 21px 0; } .cab-intro { max-width: 27ch; } .cab-hero-foot { margin-top: 25px; } .cab-overview { padding: 15px; } .cab-drawer { grid-template-columns: 70px 1fr 15px; } .cab-index { gap: 5px 19px; font-size: 9px; } .cab-section { padding-top: 37px; } .cab-section-head { grid-template-columns: 27px 1fr auto; gap: 8px; } .cab-section-head .cab-count { font-size: 8px; } .cab-grid { grid-template-columns: 1fr; } .cab-card { padding: 16px 22px 25px; } .cab-specimen { height: 155px; } .cab-card h3 { font-size: 21px; } .cab-card p { font-size: 14px; } .cab-end { flex-direction: column; margin-top: 42px; } }
+@media(prefers-reduced-motion:reduce) { .cabinet *, .cabinet *::before { transition: none !important; } }
+</style>
+<style id="cabinet-shared">
+/* Shared cabinet palette and page treatment. */
+:root { --paper:#eeefea; --paper-2:#e5e8df; --paper2:#e5e8df; --panel:#f3f4ef; --panel-black:#e5e8df; --black:#e5e8df; --ink:#252b29; --ink-soft:#454e45; --muted:#626b61; --faint:#727c69; --line:#c9cdc3; --line-strong:#bcc3b3; --red:#718334; --red-text:#586b32; --on-black:#252b29; --on-black-muted:#626b61; --stripe:none; --shadow:none; --body:'Helvetica Neue',Helvetica,Arial,sans-serif; --disp:'Helvetica Neue',Helvetica,Arial,sans-serif; --maxw:1180px; }
+html.dark { --paper:#1d221e; --paper-2:#272e26; --paper2:#272e26; --panel:#242a24; --panel-black:#272e26; --black:#272e26; --ink:#e5e9de; --ink-soft:#c4cdbc; --muted:#a3af98; --faint:#99a58f; --line:#3b4638; --line-strong:#53604a; --red:#a7bd73; --red-text:#bccf95; --on-black:#e5e9de; --on-black-muted:#a3af98; --shadow:none; }
+body { background:var(--paper); color:var(--ink); font-family:var(--body); }
+body::before, .site-header::before, header::before, .bar::before, footer::before, .site-footer::before, .hero::after, .footer-sign, .about-stamp, .seal-stamp, .screen::after, .monitor .rec, .principle::before, .proj-card::before, .proj-card::after, .wblock::before, .block::before, article h2::before, .prose h2::before { display:none; }
+::selection { background:#c7e755; color:#252b29; }
+.site-header, body > header, .bar { position:relative; background:var(--paper); color:var(--ink); }
+.site-header.scrolled { box-shadow:none; }
+.header-inner, .hin, .bar-in { display:flex; justify-content:space-between; min-height:78px; height:auto; padding-top:20px; padding-bottom:20px; border-bottom:1px solid var(--line); align-items:center; gap:24px; max-width:1180px; margin:auto; }
+.brand, .footer-brand .brand { display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-family:var(--body); color:var(--ink); font-size:19px; font-weight:650; letter-spacing:-.06em; text-transform:none; white-space:nowrap; }
+.brand > span, .brand > img, .brand > svg { display:none; }
+.brand::before { content:''; display:inline-block; width:9px; height:9px; border-radius:50%; background:var(--red); margin-right:3px; }
+.nav-wrap { gap:18px; }
+.nav { display:flex; flex-wrap:wrap; align-items:center; gap:22px; height:auto; }
+.nav a, .nav a .en, .hin a.learn { text-decoration:none; color:var(--muted); font:12px var(--body); letter-spacing:0; text-transform:none; }
+.nav a .kj { display:none; }
+.nav a:hover, .nav a.active, .nav a.here, .nav a.router-link-active, .hin a.learn:hover { color:var(--ink); }
+.nav a.active::after, .nav a.here::after, .nav a.router-link-active::after { height:1px; bottom:-6px; }
+.theme-toggle { width:30px; height:30px; flex:none; background:transparent; color:var(--muted); border:1px solid var(--line); cursor:pointer; font:14px var(--body); display:grid; place-items:center; }
+.theme-toggle:hover { color:var(--ink); border-color:var(--red); }
+.theme-toggle svg { width:16px; height:16px; }
+.page { padding-top:58px; }
+.page-title, h1.t, .word-title, .page-head h1, .wrap > h1 { text-align:left; font-family:var(--body); font-size:clamp(34px,5vw,58px); font-weight:500; line-height:1.1; letter-spacing:-.055em; text-transform:none; }
+.page-title, .page-intro, .page-kicker, .meta-row { max-width:760px; margin-left:auto; margin-right:auto; }
+.page-intro { text-align:left; font-size:16px; line-height:1.75; }
+.page-kicker, .page-head .eyebrow { justify-content:flex-start; color:var(--muted); }
+.page-kicker .tx, .kicker, .page-head .eyebrow { font:10px var(--mono); letter-spacing:.1em; color:var(--muted); }
+.page-kicker .kj, .page-kicker hr, .page-head .eyebrow .kj, .page-head .eyebrow::before, .page-head .eyebrow::after { display:none; }
+.meta-row { justify-content:flex-start; }
+.meta, .meta-row { font-size:10px; letter-spacing:.05em; }
+.badge { font:10px var(--mono); border-width:1px; letter-spacing:.03em; padding:5px 8px; }
+.badge::before { display:none; }
+.badge.sprout { background:var(--paper-2); color:var(--ink-soft); border-color:var(--line-strong); }
+.badge.evergreen { background:var(--red-text); color:var(--paper); border-color:var(--red-text); }
+.prose { max-width:760px; }
+.prose p, article p { font-size:16px; line-height:1.9; }
+.prose h2, article h2, .wrap h2 { font-family:var(--body); font-size:22px; font-weight:500; line-height:1.35; letter-spacing:-.03em; text-transform:none; border-top:1px solid var(--line); padding-top:24px; }
+.prose a, article a, .block a { border-bottom:1px solid var(--red); }
+.prose pre, article pre { border:1px solid var(--line); background:var(--paper-2); color:var(--ink); }
+.copy-btn { color:var(--muted); border-color:var(--line-strong); }
+.copy-btn:hover { color:var(--ink); }
+.write-list { border:1px solid var(--line); max-width:760px; }
+.write-row { padding:20px 22px; }
+.write-row:hover, html.dark .write-row:hover { background:var(--paper-2); }
+.write-row:hover .ttl { color:var(--ink); }
+.write-row:hover .tags, .write-row:hover .arr { color:var(--muted); }
+.write-row:hover .date { color:var(--red-text); }
+.filter-input { max-width:760px; border:1px solid var(--line); padding:12px 15px; font:13px var(--body); }
+.word-group .gh, .note-nav { border-width:1px; border-color:var(--line); }
+.word-group .gh h3 { font-size:19px; letter-spacing:-.03em; text-transform:none; font-weight:500; }
+.word-flow a { border:1px solid var(--line); padding:8px 13px; background:var(--panel); }
+.word-flow a:hover { background:var(--paper-2); color:var(--ink); }
+.blocks, .content { gap:16px; }
+.wblock, .block { background:var(--panel); border:1px solid var(--line); padding:24px; }
+.wblock h3, .block h2 { font:10px var(--mono); letter-spacing:.1em; color:var(--muted); }
+.site-footer, body > footer { background:var(--paper); color:var(--muted); border-top:1px solid var(--line); }
+.footer-brand p, .footer-loc { color:var(--muted); }
+.footer-inner { padding-top:35px; }
+.fcol h4 { font:10px var(--mono); letter-spacing:.1em; color:var(--muted); }
+.fcol h4 .kj { display:none; }
+.fcol a, .footer-bottom, .fin, .foot-in { color:var(--muted); }
+.fcol a:hover { color:var(--ink); }
+.footer-bottom { border-color:var(--line); }
+.hero { border:1px solid var(--line); background:var(--panel); }
+.hero h1 { text-transform:none; letter-spacing:-.05em; font-weight:500; }
+.hero h1 .l2 { color:var(--red-text); }
+.hero-kicker .kj, .hero-kicker hr { display:none; }
+.hero-kicker .tx { font:10px var(--mono); letter-spacing:.1em; }
+.hero-links a { border-width:1px; font:12px var(--body); letter-spacing:0; text-transform:none; }
+.quote-box, .monitor { border:1px solid var(--line); box-shadow:none; }
+.quote-box::before { content:'Working notes'; font:10px var(--mono); letter-spacing:.1em; }
+.quote-box .ln { font:14px/1.9 var(--body); letter-spacing:0; text-transform:none; }
+.monitor .mcap { border-top:1px solid var(--line); background:var(--paper-2); color:var(--muted); }
+.rule-head h2, .head-row h2 { font-size:24px; font-weight:500; letter-spacing:-.035em; text-transform:none; }
+.rule-head hr, .speedline, .rule { height:1px; border-bottom:0; }
+.principle h3, .proj-card h3, .ssr-note h3 { font-size:18px; letter-spacing:-.03em; text-transform:none; }
+.proj-card:hover { box-shadow:none; }
+.page-head { text-align:left; padding-top:58px; }
+.page-head p { margin-left:0; }
+.page-head + .rule { margin-left:0; }
+.grid-item { border:1px solid var(--line); background:var(--panel); }
+.grid-item img { filter:none; }
+.callout { box-shadow:none; border-color:var(--line); }
+.wrap > article { border-top:1px solid var(--line); }
+body.word-page { display:block; }
+.word-page > .container { border:0; background:transparent; margin:0 auto; max-width:1180px; padding:0 24px; display:block; }
+.word-page > .container::after { display:none; }
+.word-page .word-title { padding:55px 0 15px; }
+.word-page .content { max-width:none; padding:20px 0 50px; }
+html.root-mode, html.root-mode body { background:var(--paper); color:var(--ink); }
+.cabinet { --cab-line:var(--line); --cab-muted:var(--muted); }
+.cab-top nav { align-items:center; }
+.cab-overview { background:var(--paper-2); border-color:var(--line-strong); box-shadow:0 3px 0 var(--paper-2),0 4px 0 var(--line-strong); }
+.cab-hero-foot strong, .cab-end a { color:var(--ink); }
+.cab-overview-head, .cab-drawer-name { color:var(--muted); }
+.cab-overview-head, .cab-drawer { border-color:var(--line); }
+.cab-card { background:var(--panel); }
+.cab-card:hover, .cab-card:focus-visible { background:var(--paper); }
+.cab-card p, .cab-plate-label, .cab-section-head .cab-id { color:var(--muted); }
+.cab-index a:hover, .cab-drawer-name:hover { color:var(--ink); }
+html.dark .cab-specimen { background-image:radial-gradient(#3b4638 .7px,transparent .7px); }
+html.dark .cab-specimen svg, html.dark .cab-mini svg { filter:brightness(1.35); }
+@media(max-width:720px) {
+ .header-inner, .hin, .bar-in { align-items:flex-start; flex-wrap:wrap; gap:15px; height:auto; padding-top:20px; padding-bottom:18px; }
+ .nav-wrap { width:100%; }
+ .nav, .nav.open { display:flex; position:static; flex-direction:row; flex-wrap:wrap; align-items:center; gap:16px; background:transparent; border:0; padding:0; width:auto; }
+ .nav a, .nav.open a, .nav a:nth-child(-n+2) { display:inline-flex; width:auto; padding:0; border:0; font-size:12px; }
+ .nav a .en { font-size:12px; }
+ .nav.open a.active { color:var(--ink); }
+ .menu-btn { display:none; }
+ .page.container { padding:35px 20px 20px; }
+ .page-head { padding-top:35px; }
+ .cab-top { flex-wrap:wrap; gap:15px; }
+ .cab-top nav { max-width:none; justify-content:flex-start; gap:16px; width:100%; }
+ .word-page .content { grid-template-columns:1fr; }
+ .word-page .word-title { padding-top:35px; }
+ .prose p, article p { font-size:16px; }
+}
+
+.site-header > .container { flex-direction:row; width:100%; margin:0 auto; border-left:0; border-right:0; border-top:0; background:transparent; padding-left:24px; padding-right:24px; }
+.site-header > .container::after { display:none; }
+</style>
+<style id="cabinet-refinements">
+/* Root refinements: readable specimens and persistent category navigation. */
+.cabinet { max-width:1480px; }
+.cab-top { padding:20px 0; }
+.cab-top nav { width:100%; gap:28px; }
+.cab-top .theme-toggle { margin-left:auto; border-color:transparent; }
+.cab-top nav a { color:var(--muted); }
+.cab-top nav a:hover, .cab-top nav a.rl-active { color:var(--ink); }
+.cab-top nav a.rl-active { text-decoration:underline; text-underline-offset:6px; text-decoration-thickness:1px; }
+.cab-hero { grid-template-columns:.82fr 1.18fr; gap:5vw; padding:58px 0 56px; }
+.cab-hero h1 { font-size:clamp(88px,10.5vw,150px); letter-spacing:-.075em; margin:0 0 30px; }
+.cab-intro { max-width:22ch; font-size:clamp(24px,2.2vw,31px); line-height:1.32; letter-spacing:-.025em; text-wrap:balance; }
+.cab-sub { max-width:32ch; margin-top:23px; font-size:13px; }
+.cab-overview { position:relative; padding:20px 22px 0; border-color:var(--line-strong); box-shadow:0 3px 0 var(--paper),0 4px 0 var(--line-strong); }
+.cab-overview-head { font-size:9px; letter-spacing:.13em; padding-bottom:14px; }
+.cab-drawer { min-height:46px; grid-template-columns:75px 1fr 15px; gap:9px; }
+.cab-drawer-name { font-size:10px; }
+.cab-miniatures { min-width:0; }
+.cab-mini { position:relative; min-width:0; flex:0 0 10%; width:10%; border-radius:2px; }
+.cab-mini svg { height:43px; }
+.cab-mini:hover, .cab-mini:focus-visible { transform:translateY(-2px); background:var(--panel); outline:1px solid var(--line-strong); outline-offset:1px; }
+.cab-inspect { display:flex; align-items:center; justify-content:space-between; gap:16px; border-top:1px solid var(--line-strong); min-height:40px; margin-top:1px; color:var(--muted); font:10px var(--mono); }
+.cab-inspect-name { color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cab-inspect-category { font-size:9px; }
+.cab-index { position:sticky; top:0; z-index:10; flex-wrap:nowrap; gap:0; padding:0; background:var(--paper); overflow-x:auto; scrollbar-width:none; box-shadow:0 5px 0 var(--paper); }
+.cab-index::-webkit-scrollbar { display:none; }
+.cab-index a { position:relative; white-space:nowrap; padding:20px 21px; flex:1 0 auto; text-align:center; font-size:10px; letter-spacing:.075em; color:var(--muted); transition:color .18s,background .18s; }
+.cab-index a:first-child { padding-left:12px; }
+.cab-index a::after { content:''; position:absolute; left:15px; right:15px; bottom:0; height:2px; background:var(--red); transform:scaleX(0); transform-origin:left; transition:transform .2s; }
+.cab-index a.is-current { color:var(--ink); background:var(--panel); }
+.cab-index a.is-current::after { transform:scaleX(1); }
+.cab-index a:hover { color:var(--ink); background:var(--panel); }
+.cab-index sup { color:var(--muted); opacity:.75; font-size:8px; margin-left:7px; }
+.cab-section { padding:58px 0 8px; scroll-margin-top:72px; }
+.cab-section-head { grid-template-columns:33px 1fr auto; gap:14px; margin-bottom:23px; }
+.cab-section-head .cab-id { font-size:10px; color:var(--muted); }
+.cab-section h2 { font-size:31px; letter-spacing:-.035em; }
+.cab-section h2 .kj { font-size:19px; opacity:.65; margin-left:12px; }
+.cab-section-head p { font-size:13px; margin-top:6px; }
+.cab-section-head .cab-count { font-size:9px; letter-spacing:.06em; }
+.cab-grid { gap:12px; border:0; }
+.cab-card { position:relative; padding:16px 20px 25px; border:1px solid var(--line); scroll-margin-top:84px; transition:background .2s,border-color .2s,box-shadow .2s; }
+.cab-card:hover, .cab-card:focus-visible { border-color:var(--line-strong); background:var(--panel); box-shadow:0 3px 0 var(--paper-2); }
+.cab-card:target { border-color:var(--red); }
+.cab-plate-label { font-size:9px; letter-spacing:.055em; }
+.cab-plate-label .cab-arrow { font-size:15px; color:var(--muted); }
+.cab-specimen { position:relative; height:183px; margin:15px 0 23px; background-color:var(--paper); background-image:radial-gradient(var(--line) .65px,transparent .65px); background-size:12px 12px; border:1px solid var(--line); }
+.cab-specimen::before, .cab-specimen::after { content:''; position:absolute; width:9px; height:9px; border-color:var(--line-strong); border-style:solid; pointer-events:none; }
+.cab-specimen::before { left:-1px; top:-1px; border-width:1px 0 0 1px; }
+.cab-specimen::after { right:-1px; bottom:-1px; border-width:0 1px 1px 0; }
+.cab-specimen svg { width:240px; height:144px; max-width:85%; transition:transform .3s cubic-bezier(.2,.7,.2,1); }
+.cab-card:hover .cab-specimen svg, .cab-card:focus-visible .cab-specimen svg { transform:translateY(-2px) scale(1.045); }
+.cab-card h3 { font-size:21px; font-weight:500; letter-spacing:-.035em; line-height:1.2; margin-bottom:11px; }
+.cab-card p { font-size:13px; line-height:1.75; max-width:43ch; }
+.cab-end { padding:26px 0 32px; margin-top:60px; font-size:11px; }
+html.dark .cab-specimen { background-image:radial-gradient(var(--line) .65px,transparent .65px); }
+@media(min-width:1100px) { .cab-section-head .cab-count { align-self:end; padding-bottom:3px; } }
+@media(max-width:1050px) { .cab-hero { grid-template-columns:.7fr 1fr; gap:30px; } .cab-overview { padding:16px 15px 0; } .cab-drawer { grid-template-columns:65px 1fr 12px; gap:5px; } .cab-index a { padding:18px 17px; } }
+@media(max-width:800px) { .cab-hero { grid-template-columns:1fr; gap:34px; padding:40px 0; } .cab-hero > div:first-child { max-width:500px; } .cab-hero h1 { font-size:104px; margin-bottom:21px; } .cab-intro { max-width:27ch; } .cab-sub { max-width:40ch; margin-top:16px; } .cab-overview { padding:18px 18px 0; } .cab-drawer { grid-template-columns:76px 1fr 15px; } .cab-mini svg { height:46px; } }
+@media(max-width:650px) { .cabinet { padding:0 20px; } .cab-top { padding:16px 0; } .cab-top nav { gap:16px; flex-wrap:nowrap; font-size:11px; } .cab-top .theme-toggle { width:25px; height:25px; } .cab-hero { padding:32px 0; gap:28px; } .cab-hero h1 { font-size:96px; margin-bottom:21px; } .cab-intro { font-size:25px; max-width:24ch; } .cab-overview { padding:15px 12px 0; } .cab-drawer { grid-template-columns:62px 1fr 12px; gap:4px; min-height:41px; } .cab-mini svg { height:39px; } .cab-drawer-name { font-size:9px; } .cab-inspect { min-height:37px; font-size:9px; } .cab-index { margin:0 -20px; padding:0 10px; } .cab-index a { padding:17px 13px; font-size:9px; } .cab-index a:first-child { padding-left:10px; } .cab-section { padding-top:37px; scroll-margin-top:62px; } .cab-section-head { grid-template-columns:24px 1fr auto; gap:8px; margin-bottom:18px; } .cab-section h2 { font-size:28px; } .cab-section-head p { font-size:12px; } .cab-section-head .cab-count { font-size:8px; } .cab-grid { gap:12px; } .cab-card { padding:14px 18px 24px; } .cab-specimen { height:177px; margin:13px 0 21px; } .cab-card h3 { font-size:22px; } .cab-card p { font-size:14px; line-height:1.7; } }
+@media(max-width:370px) { .cab-top nav { gap:11px; font-size:10px; } .cab-drawer { grid-template-columns:57px 1fr 10px; gap:3px; } }
+@media(prefers-reduced-motion:reduce) { .cabinet *, .cabinet *::after { transition:none !important; } .cab-card:hover .cab-specimen svg, .cab-card:focus-visible .cab-specimen svg { transform:none; } }
+
+/* The collection itself is the opening. */
+.cab-hero { display:block; padding:32px 0 34px; }
+.cab-overview { padding:0 25px 12px; }
+.cab-overview-head { align-items:center; padding:23px 0 20px; }
+.cab-overview-head h1 { font:500 28px/1.2 var(--body); letter-spacing:-.04em; margin:0; color:var(--ink); }
+.cab-overview-head .cab-meta { color:var(--muted); font-size:9px; }
+.cab-drawer { grid-template-columns:105px minmax(0,1fr) 18px; gap:16px; padding:9px 0; min-height:106px; }
+.cab-drawer-name { font-size:12px; letter-spacing:-.015em; }
+.cab-miniatures { display:grid; grid-template-columns:repeat(10,minmax(0,1fr)); gap:4px; align-items:start; }
+.cab-mini { width:100%; min-width:0; display:flex; flex-direction:column; align-items:center; min-height:87px; padding:3px 3px 5px; }
+.cab-mini svg { height:59px; width:100%; }
+.cab-mini-drawing { display:block; width:100%; }
+.cab-mini-name { display:block; width:100%; text-align:center; font:10px/1.3 var(--body); letter-spacing:-.015em; color:var(--muted); overflow-wrap:anywhere; }
+.cab-mini:hover .cab-mini-name, .cab-mini:focus-visible .cab-mini-name { color:var(--ink); }
+.cab-mini:hover, .cab-mini:focus-visible { transform:translateY(-2px); outline-color:var(--line); }
+.cab-drawer .cab-count { align-self:center; }
+@media(min-width:1450px) { .cab-mini svg { height:67px; } .cab-drawer { min-height:115px; } }
+@media(max-width:1050px) { .cab-drawer { grid-template-columns:85px minmax(0,1fr) 15px; gap:9px; } .cab-overview { padding:0 17px 10px; } .cab-mini-name { font-size:9px; } .cab-miniatures { gap:2px; } }
+@media(max-width:800px) { .cab-hero { padding:24px 0; } .cab-hero > div:first-child { max-width:none; } .cab-drawer { grid-template-columns:1fr auto; gap:7px; padding:12px 0; } .cab-drawer-name { grid-column:1; grid-row:1; font-size:11px; } .cab-drawer .cab-count { grid-column:2; grid-row:1; } .cab-miniatures { grid-column:1/-1; grid-row:2; display:flex; overflow-x:auto; align-items:flex-start; gap:5px; padding:3px 2px 7px; scrollbar-width:thin; scrollbar-color:var(--line-strong) transparent; } .cab-mini { flex:0 0 76px; min-height:86px; } .cab-mini svg { height:58px; } .cab-mini-name { font-size:10px; } }
+@media(max-width:650px) { .cab-hero { padding:20px 0 24px; } .cab-overview { padding:0 12px 4px; } .cab-overview-head { padding:18px 0 15px; } .cab-overview-head h1 { font-size:25px; margin:0; } .cab-overview-head .cab-meta { font-size:8px; } .cab-drawer { min-height:0; } }
 </style>
 </head>
 <body>
 <div id="app"><!-- AGENT_SSR_START -->
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header"><div class="container header-inner"><a href="/landing" class="brand">lulzx.com</a><div class="nav-wrap"><nav class="nav"><a href="/words"><span class="en">words</span></a><a href="/"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
+<header class="site-header"><div class="container header-inner"><div class="nav-wrap"><nav class="nav"><a href="/words"><span class="en">words</span></a><a href="/"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
 <main id="main">
-  <section class="section container"><div class="head-row"><h2>Projects</h2></div><p class="page-intro">Public software by lulzx, ordered by the depth of the work rather than by date. The bare list at the site root carries the same entries.</p><div class="ssr-projects"><p><a href="https://github.com/Lulzx/cuda-metal">cuda-metal</a>: CUDA compiler and runtime for Apple Silicon: it compiles and runs CUDA kernels on the M-series GPU.</p>
+  <section class="section container"><div class="head-row"><h2>Projects</h2></div><p class="page-intro">Compilers, simulations, and tools by lulzx.</p><div class="ssr-projects"><p><a href="https://github.com/Lulzx/cuda-metal">cuda-metal</a>: CUDA compiler and runtime for Apple Silicon: it compiles and runs CUDA kernels on the M-series GPU.</p>
   <p><a href="https://github.com/Lulzx/gromacs-metal">gromacs-metal</a>: full-GPU PME for GROMACS on Apple Silicon through AdaptiveCpp's SYCL-to-Metal backend, with a VkFFT Metal bridge.</p>
   <p><a href="https://github.com/Lulzx/zpdf">zpdf</a>: zero-copy PDF text extraction in Zig. Memory-mapped parsing with SIMD acceleration.</p>
   <p><a href="https://github.com/Lulzx/warpx-metal">warpx-metal</a>: WarpX electromagnetic particle-in-cell simulations on the Apple Silicon GPU through an AdaptiveCpp SYCL Metal backend.</p>
@@ -520,7 +775,7 @@ html.bellard-mode .page-enter-active, html.bellard-mode .page-leave-active { tra
   <p><a href="https://github.com/Lulzx/telekit">telekit</a>: native-feeling UI components for Telegram Mini Apps. No dependencies and no build step.</p>
   <p><a href="https://github.com/Lulzx/esp32-cam-web-streamer">esp32-cam-web-streamer</a>: live MJPEG webcam firmware for the AI-Thinker ESP32-CAM, viewable in any browser over WiFi.</p>
   <p><a href="https://github.com/Lulzx/latent-sokoban">latent-sokoban</a>: a pixel-based latent world model competition.</p></div></section>
-  <section class="container"><div class="hero"><div class="hero-text"><div class="hero-kicker"><hr class="speedline"><span class="tx">Now broadcasting</span><hr class="speedline"></div><h1>Software engineer.<span class="l2">Building quiet systems.</span></h1><p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p><div class="hero-links"><a href="/">View projects →</a><a href="/learn">Read my notes →</a><a href="/about">About me →</a></div><div class="quote-box"><span class="ln">Build with intent.</span><span class="ln">Ship small.</span><span class="ln">Leave room to think.</span></div></div><div class="hero-art"><div class="monitor"><div class="screen"><img class="ink-img" src="/assets/ink/fuji.webp" width="1100" height="825" alt="Archive footage: Mount Fuji with a pine on the shore, in newsreel monochrome"></div><div class="mcap"><span>archive footage · mt. fuji</span></div></div></div></div></section>
+  <section class="container"><div class="hero"><div class="hero-text"><div class="hero-kicker"><hr class="speedline"><span class="tx">Introduction</span><hr class="speedline"></div><h1>Software engineer.<span class="l2">Building quiet systems.</span></h1><p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p><div class="hero-links"><a href="/">View projects →</a><a href="/learn">Read my notes →</a><a href="/about">About me →</a></div><div class="quote-box"><span class="ln">Build with intent.</span><span class="ln">Ship small.</span><span class="ln">Leave room to think.</span></div></div><div class="hero-art"><div class="monitor"><div class="screen"><img class="ink-img" src="/assets/ink/fuji.webp" width="1100" height="825" alt="Archive footage: Mount Fuji with a pine on the shore, in newsreel monochrome"></div><div class="mcap"><span>archive footage · mt. fuji</span></div></div></div></div></section>
   <section class="section container"><div class="rule-head"><hr><h2>What guides the work</h2><hr></div><div class="principles"><div class="principle"><h3>Do one thing well</h3><p>Small tools with clear boundaries are easier to understand, test, and replace.</p></div><div class="principle"><h3>Minimal by default</h3><p>Every dependency and abstraction has to earn its place.</p></div><div class="principle"><h3>Auditable from source</h3><p>Important behavior should be visible in code and verifiable from evidence.</p></div><div class="principle"><h3>Performance is respect</h3><p>Remove waiting from the path a person uses repeatedly.</p></div><div class="principle"><h3>Build for failure</h3><p>Keep state outside a single run, make retries safe, and leave a way back.</p></div></div></section>
   <section class="section container ssr-intro"><div class="head-row"><h2>Writing garden</h2><a class="more-link" href="/learn">All notes →</a></div><p class="page-intro">These are first-person field notes about building and operating software. They cover small systems, source reading, performance, local machine learning, dependencies, reliability, and the habits that shape the work. The excerpts below are present in the raw HTML so readers and crawlers do not need JavaScript to discover the substance of the site.</p><div class="ssr-notes">
 <article class="ssr-note">
@@ -730,7 +985,7 @@ html.bellard-mode .page-enter-active, html.bellard-mode .page-leave-active { tra
   <section class="section container"><div class="head-row"><h2>Word garden</h2><a class="more-link" href="/words">Open the garden →</a></div><p class="page-intro">Short connected concepts used across the notes.</p><div class="ssr-words"><a class="chip" href="/words/adapt">adapt</a><a class="chip" href="/words/and">and</a><a class="chip" href="/words/at">at</a><a class="chip" href="/words/auditable">auditable</a><a class="chip" href="/words/building">building</a><a class="chip" href="/words/cognition">cognition</a><a class="chip" href="/words/computation">computation</a><a class="chip" href="/words/dependencies">dependencies</a><a class="chip" href="/words/everything">everything</a><a class="chip" href="/words/execute">execute</a><a class="chip" href="/words/first">first</a><a class="chip" href="/words/footprint">footprint</a><a class="chip" href="/words/foundations">foundations</a><a class="chip" href="/words/from">from</a><a class="chip" href="/words/intersection">intersection</a><a class="chip" href="/words/just">just</a><a class="chip" href="/words/learn">learn</a><a class="chip" href="/words/massively">massively</a><a class="chip" href="/words/minimal">minimal</a><a class="chip" href="/words/not">not</a><a class="chip" href="/words/of">of</a><a class="chip" href="/words/parallel">parallel</a><a class="chip" href="/words/possible">possible</a><a class="chip" href="/words/principles">principles</a><a class="chip" href="/words/reason">reason</a><a class="chip" href="/words/runtimes">runtimes</a><a class="chip" href="/words/small">small</a><a class="chip" href="/words/source">source</a><a class="chip" href="/words/systems">systems</a><a class="chip" href="/words/that">that</a><a class="chip" href="/words/the">the</a><a class="chip" href="/words/verifiable">verifiable</a><a class="chip" href="/words/where">where</a><a class="chip" href="/words/zero">zero</a></div></section>
   <section class="section container"><div class="head-row"><h2>Identity and machine access</h2></div><p class="page-intro">lulzx is a software engineer building public tools and keeping a working garden of what those projects teach. Read <a href="/about">about lulzx</a>, use the <a href="/contact">contact page</a>, review the <a href="/privacy">privacy policy</a>, or start from the <a href="/developers">lulzx developer resources</a>. Agents can use <a href="/llms.txt">llms.txt</a>, the <a href="/sitemap.xml">XML sitemap</a>, and Markdown content negotiation.</p></section>
 </main>
-<footer class="site-footer"><div class="container"><div class="footer-sign"><span class="en">End of broadcast</span></div><div class="footer-bottom"><span class="copy">© 2026 lulzx.com</span><span class="built">Built with plain text and good intentions.</span></div></div></footer>
+<footer class="site-footer"><div class="container"><div class="footer-sign"><span class="en">End of broadcast</span></div><div class="footer-bottom"><span class="copy">© 2026 lulzx.com</span><span class="built">Source on GitHub.</span></div></div></footer>
 <!-- AGENT_SSR_END --></div>
 
 <script>
@@ -2149,10 +2404,9 @@ const ICO = {
 
 // ---- static content ----
 const NAV = [
-    { to: '/landing', label: 'home', kj: 'ホーム' },
+    { to: '/', label: 'home', kj: 'ホーム' },
     { to: '/words', label: 'words', kj: '言葉' },
-    { to: '/', label: 'projects', kj: '作品' },
-    { to: '/learn', label: 'learn', kj: '記録' },
+    { to: '/learn', label: 'writing', kj: '記録' },
     { to: '/about', label: 'about', kj: '略歴' }
 ];
 const PRINCIPLES = [
@@ -2228,7 +2482,7 @@ const Home = {
   <section class="container">
   <div class="hero">
     <div class="hero-text">
-      <div class="hero-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">放送中</span><span class="tx">Now broadcasting</span><hr class="speedline"></div>
+      <div class="hero-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">放送中</span><span class="tx">Introduction</span><hr class="speedline"></div>
       <h1>Software engineer.<span class="l2">Building quiet systems.</span></h1>
       <p class="lede">I build small, focused tools and systems with a bias towards clarity, performance and control. Minimal by default. Auditable from source.</p>
       <div class="hero-links">
@@ -2384,9 +2638,9 @@ const LearnIndex = {
     beforeUnmount() { window.removeEventListener('keydown', this.onKey); },
     template: `
 <div class="page container">
-  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">記録</span><span class="tx">Bulletin feed</span><hr class="speedline"></div>
+  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">記録</span><span class="tx">Notes</span><hr class="speedline"></div>
   <h1 class="page-title">Writing</h1>
-  <p class="page-intro">Notes on building software: what I've learned shipping small tools, systems, and the occasional strong opinion.</p>
+  <p class="page-intro">Notes on building and running software.</p>
   <input class="filter-input" ref="filter" type="search" placeholder="Filter notes... press /" v-model="q" @keydown.esc="q = ''; $refs.filter.blur()" aria-label="Filter notes" />
   <div style="text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--faint);margin:-.3rem 0 .8rem;">{{ notes.length }} / {{ total }}</div>
   <div class="write-list" style="margin-top:2.4rem">
@@ -2555,16 +2809,159 @@ const PROJECT_LINES = [
   { name: 'latent-sokoban', href: 'https://github.com/Lulzx/latent-sokoban', text: 'a pixel-based latent world model competition.' }
 ];
 
+// ---- root: 67 instruments in eight drawers ----
+const PROJECT_GROUPS = [
+  { id: 'metal', kj: '金属', blurb: 'GPU computing on Apple Silicon', names: ['cuda-metal', 'gromacs-metal', 'warpx-metal', 'VF64-metal', 'tiny-kernel', 'zeno', 'encept', 'subquadratic-sparse-attention'] },
+  { id: 'compilers', kj: '翻訳', blurb: 'Programming languages, compilers, and virtual machines', names: ['hvm', 'arturo-compiler', 'tacitj', 'WrenJIT', 'wasm-mquickjs', 'lulang', 'sectorc', 'tacit', 'beam.zig', 'zig-tvm'] },
+  { id: 'synthesis', kj: '探索', blurb: 'Program synthesis, search, and planning', names: ['supsearch', 'ontogenesis', 'progen', 'solon', 'lulzfish', 'social-stockfish', 'latent-sokoban'] },
+  { id: 'models', kj: '模型', blurb: 'Model training, inference, and evaluation', names: ['nn.zig', 'nabla', 'paragon', 'barunlm-35m-browser', 'rockylm', 'blaze-bpe', 'typed-inference', 'recall', 'ego-death'] },
+  { id: 'simulation', kj: '模擬', blurb: 'plasma, cells, drones, a duck and one rat', names: ['helicon', 'driftmap', 'skein', 'microduck-backflip', 'life-sim', 'rat-runner', 'reality-fit', 'GeoPERSIST'] },
+  { id: 'storage', kj: '保存', blurb: 'Storage, search, and persistence', names: ['zs3', 'zsearch', 'walsync', 'zpdf', 'reverse-geocode', 'caas'] },
+  { id: 'tiny', kj: '極小', blurb: 'no dependencies, no build step, one file where possible', names: ['tinypdf', 'tinydocx', 'tinysoup', 'tinybarcode', 'telekit', 'mirror', 'pybin', 'press', 'esp32-cam-web-streamer', 'living-in-a-van'] },
+  { id: 'agents', kj: '代理', blurb: 'Agent tools, memory, and permissions', names: ['ubrowser', 'carry-terminal', 'mimo-build', 'lulz-router', 'open-tag', 'memo', 'caplock', 'soma', 'flute'] }
+];
+
+// Each specimen is an interpretive drawing of the project's mechanism.
+const SPECIMENS = {
+  'cuda-metal': ['bridge', 0], 'gromacs-metal': ['molecule', 1], 'warpx-metal': ['wave', 2], 'VF64-metal': ['pair', 3], 'tiny-kernel': ['chip', 4], 'zeno': ['pendulum', 5], 'encept': ['image', 6], 'subquadratic-sparse-attention': ['matrix', 7],
+  'hvm': ['tree', 0], 'arturo-compiler': ['loop', 1], 'tacitj': ['arrayfold', 2], 'WrenJIT': ['trace', 3], 'wasm-mquickjs': ['wasmmodule', 4], 'lulang': ['numerics', 5], 'sectorc': ['verify', 6], 'tacit': ['schedule', 7], 'beam.zig': ['mailboxes', 8], 'zig-tvm': ['stack', 9],
+  'supsearch': ['searchpath', 3], 'ontogenesis': ['vocabulary', 5], 'progen': ['superposition', 2], 'solon': ['mdl', 3], 'lulzfish': ['chess', 0], 'social-stockfish': ['conversation', 1], 'latent-sokoban': ['grid', 2],
+  'nn.zig': ['nodes', 1], 'nabla': ['curve', 0], 'paragon': ['parallel', 8], 'barunlm-35m-browser': ['window', 1], 'rockylm': ['sound', 2], 'blaze-bpe': ['tokens', 4], 'typed-inference': ['grammar', 1], 'recall': ['retrieval', 3], 'ego-death': ['rings', 4],
+  'helicon': ['field', 0], 'driftmap': ['vortex', 1], 'skein': ['swarm', 2], 'microduck-backflip': ['duck', 0], 'life-sim': ['cell', 0], 'rat-runner': ['rat', 0], 'reality-fit': ['fit', 0], 'GeoPERSIST': ['terrain', 1],
+  'zs3': ['box', 0], 'zsearch': ['branch', 0], 'walsync': ['wal', 0], 'zpdf': ['pages', 0], 'reverse-geocode': ['map', 3], 'caas': ['chain', 1],
+  'tinypdf': ['pdfwrite', 1], 'tinydocx': ['document', 2], 'tinysoup': ['markup', 4], 'tinybarcode': ['barcode', 0], 'telekit': ['components', 3], 'mirror': ['mirror', 0], 'pybin': ['compress', 1], 'press': ['film', 1], 'esp32-cam-web-streamer': ['camera', 0], 'living-in-a-van': ['van', 0],
+  'ubrowser': ['pointer', 4], 'carry-terminal': ['terminal', 0], 'mimo-build': ['codeedit', 1], 'lulz-router': ['switchboard', 3], 'open-tag': ['chat', 0], 'memo': ['log', 2], 'caplock': ['gate', 3], 'soma': ['lanes', 3], 'flute': ['interfaces', 5]
+};
+function specimen(name, gi) {
+  const [kind, seed] = SPECIMENS[name] || ['chip', 0];
+  const colors = ['#688642','#a87943','#8265a0','#577e9a','#448a80','#ad714f','#82822f','#77749d'];
+  const c = colors[gi % colors.length];
+  const line = (x,y,a,b,extra='') => `<path d="M${x} ${y}L${a} ${b}" ${extra}/>`;
+  const rect = (x,y,w,h,fill='none',extra='') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="${fill}" ${extra}/>`;
+  const dot = (x,y,r=4,fill=c) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}"/>`;
+  const path = d => `<path d="${d}"/>`;
+  const repeat = (n, fn) => Array.from({length:n}, (_,i)=>fn(i)).join('');
+  let art='';
+  switch(kind) {
+    case 'numerics': art=path('M51 22H38V100H51 M149 22H162V100H149')+repeat(3,y=>repeat(3,x=>{let n=(x+y)%3;return n===0?dot(64+x*35,37+y*25,4):n===1?path(`M${59+x*35} ${37+y*25}h10m-5 -5v10`):rect(60+x*35,33+y*25,8,8)})); break;
+    case 'verify': art=path('M49 29H84L105 48V95H49Z M84 29V48H105 M60 60H88 M60 70H79 M118 45L140 36L162 45V65Q160 83 140 97Q120 83 118 65Z M129 64L138 73L153 54'); break;
+    case 'switchboard': art=repeat(3,i=>rect(25,23+i*29,28,16)+line(53,31+i*29,87,60))+dot(98,60,11)+path('M109 60H139V31H167 M139 60H167 M139 60V89H167')+repeat(3,i=>dot(171,31+i*29,4)); break;
+    case 'arrayfold': art=repeat(5,i=>rect(27+i*30,21,23,17,i%2?c:'none'))+path('M38 44V60H158V44 M98 60V77 M92 71L98 77L104 71')+rect(76,82,44,22,c); break;
+    case 'wasmmodule': art=path('M57 24H94V34a9 9 0 1 0 18 0V24H145V58H135a9 9 0 1 0 0 18H145V100H57Z')+path('M72 48L78 78L86 58L94 78L100 48 M111 78L120 49L130 78 M115 68H126'); break;
+    case 'schedule': art=repeat(3,i=>line(28,35+i*27,172,35+i*27))+rect(37,27,29,16,c)+rect(94,27,33,16)+rect(69,54,32,16)+rect(132,54,24,16,c)+rect(110,81,33,16)+path('M66 35L69 62 M101 62L110 89 M127 35L132 62'); break;
+    case 'searchpath': art=path('M26 60H52L78 27H107 M52 60L78 91H107 M52 60H96L119 44H151 M96 60L122 78H158')+dot(26,60,5)+dot(107,27,3)+dot(107,91,3)+dot(158,78,3)+dot(151,44,12,'#eef0e7')+path('M146 44L150 48L157 39'); break;
+    case 'vocabulary': art=rect(25,23,42,31)+path('M33 45L45 31L59 45 M45 31V47 M67 38H93')+rect(94,24,24,27,c)+path('M106 51V65H53V86 M106 65H153V86')+rect(40,86,26,20,c)+rect(139,86,26,20,c)+path('M67 97H82 M125 97H139'); break;
+    case 'parallel': art=path('M30 60H52V26H76 M52 60H76 M52 60V94H76 M123 26H148V60H174 M123 60H148 M123 94H148V60')+repeat(3,i=>rect(77,15+i*34,45,22)+path(`M86 ${26+i*34}l7 5l17 -12`)); break;
+    case 'markup': art=path('M40 25L27 36L40 47 M61 25L74 36L61 47 M55 21L46 51 M81 36H112V62H133 M112 62V92H133')+rect(133,52,37,20)+rect(133,82,37,20)+path('M36 65V97H95 M48 65V84H95'); break;
+    case 'mailboxes': art=repeat(3,i=>rect(27+i*54,36,40,53)+path(`M${33+i*54} 43h28v18h-28z m0 0l14 10l14 -10`))+path('M45 28V18H153V28 M99 18V28 M42 99H54 M96 99H108 M150 99H162'); break;
+    case 'superposition': art=path('M25 60H49 M150 60H175')+repeat(4,i=>path(`M49 60C75 ${8+i*32} 126 ${8+i*32} 150 60`))+dot(49,60,5)+dot(150,60,5)+path('M87 51L100 38L113 51L100 64Z M87 72L100 59L113 72L100 85Z'); break;
+    case 'retrieval': art=repeat(4,i=>rect(32,24+i*21,65,13,i===2?c:'none'))+path('M103 74H124 M117 68L124 74L117 80')+dot(145,49,22,'#eef0e7')+line(160,65,176,87)+path('M134 49H156 M145 38V60'); break;
+    case 'mdl': art=path('M33 31H78V91H33 M33 45H65 M33 59H72 M33 73H59 M33 87H68 M84 60H110')+rect(115,34,50,53)+path('M124 73V47H137Q147 47 147 56Q147 66 137 66H124 M148 73H157')+path('M44 19H151 M44 15V23 M151 15V23'); break;
+    case 'tokens': art=repeat(6,i=>rect(22+i*27,25,21,17,i%3===0?c:'none'))+path('M32 49V59H86V49 M113 49V59H167V49 M59 59V76 M140 59V76')+rect(32,80,55,22,c)+rect(113,80,55,22)+line(94,91,106,91); break;
+    case 'conversation': art=path('M69 17H130V40H103L91 50V40H69Z M100 50V58H49V70 M100 58H151V70 M24 70H74V93H53L42 102V93H24Z M126 70H176V93H155L144 102V93H126Z')+repeat(3,i=>dot(84+i*15,28,2))+path('M35 81H62 M138 81H163'); break;
+    case 'components': art=rect(29,23,57,32,c)+rect(99,23,71,15)+rect(99,47,71,8)+rect(29,68,35,32)+rect(76,68,94,32)+dot(46,83,7,'#eef0e7')+path('M88 79H151 M88 89H126'); break;
+    case 'pointer': art=path('M44 34H101 M44 46H81 M44 58H95 M36 23H118V85H36Z M108 53L145 83L129 86L122 103Z')+path('M147 27L155 19 M157 42H174 M144 53L153 61'); break;
+    case 'interfaces': art=repeat(4,y=>repeat(4,x=>rect(28+x*38,15+y*25,30,19)+ (x===y?dot(43+x*38,24+y*25,4):line(34+x*38,24+y*25,46+x*38,24+y*25)))); break;
+    case 'grammar': art=path('M35 28H47 M35 28V93H47 M164 28H152 M164 28V93H152')+rect(60,22,30,19)+rect(111,51,30,19,c)+rect(60,81,30,19)+path('M90 31H126V51 M126 70V90H90 M60 31H47 M60 90H47'); break;
+    case 'map': art=path('M25 33L73 22L125 37L177 23V92L125 106L73 91L25 104Z M73 22V91 M125 37V106')+path('M112 53C112 32 145 32 145 53Q145 68 128 83Q112 68 112 53Z')+dot(128,52,5)+path('M36 83L53 60L73 68L91 53'); break;
+    case 'wal': art=repeat(6,i=>rect(22+i*19,49,14,23,i===3?c:'none'))+path('M30 40V28H154V39 M148 33L154 39L160 33')+'<ellipse cx="159" cy="49" rx="19" ry="8"/>'+path('M140 49V89C140 100 178 100 178 89V49 M140 72C140 82 178 82 178 72'); break;
+    case 'pdfwrite': art=path('M49 19H101L122 40V101H49Z M101 19V40H122 M62 48H98 M62 60H90 M62 72H80 M93 87L99 71L145 25L156 36L110 82Z M99 71L110 82 M141 30L152 41'); break;
+    case 'document': art=path('M53 18H146V103H53Z M65 32H132 M65 40H111')+rect(65,50,67,35)+path('M65 62H132 M65 74H132 M87 50V85 M112 50V85 M65 94H113 M43 27V110H135'); break;
+    case 'codeedit': art=path('M34 22H117V99H34 M47 37L41 43L47 49 M62 37L68 43L62 49 M58 34L51 53 M46 64H99 M46 75H82 M46 86H91')+path('M127 28H170V83H127Z M137 41H160 M137 52H151 M137 63H157 M111 61H132 M120 53L112 61L120 69'); break;
+    case 'lanes': art=repeat(4,i=>path(`M27 ${24+i*24}H174`)+repeat(5,j=>rect(38+j*26,17+i*24,17,14,j===(i+1)%5?c:'none')))+path('M95 11V110 M90 104L95 110L100 104'); break;
+
+    case 'bridge': art=repeat(4,i=>rect(27,30+i*16,30,8,i===seed%4?c:'none')+rect(145,30+i*16,27,8,i===(seed+1)%4?c:'none')+path(`M57 ${34+i*16} C89 ${34+i*16} 109 ${82-i*16} 145 ${82-i*16}`))+rect(89,42,22,32,'#e7ebdf'); break;
+    case 'molecule': art=repeat(7,i=>{let a=i*.897,x=100+44*Math.cos(a),y=60+37*Math.sin(a);return line(100,60,x,y)+dot(x,y,7,i%2?c:'#e6eadc')})+dot(100,60,12); break;
+    case 'wave': art=repeat(6,i=>path(`M25 ${36+i*9} C55 ${-5+i*12+seed} 65 ${125-i*5} 103 ${55+i*4} S145 ${10+i*12} 177 ${38+i*9}`)); break;
+    case 'pair': art=repeat(2,j=>repeat(8,i=>rect(26+i*19,40+j*24,15,18,(i+j)%3===0?c:'none')))+path('M28 30V24H174V30 M28 92V98H174V92'); break;
+    case 'chip': art=rect(70,30,60,60,'#e0e7d6')+repeat(5,i=>line(77+i*11,19,77+i*11,30)+line(77+i*11,90,77+i*11,102)+line(59,37+i*11,70,37+i*11)+line(130,37+i*11,141,37+i*11))+rect(83,43,34,34,c); break;
+    case 'pendulum': art=path('M38 95H163 M65 95V23H130 M96 23L125 66L95 91')+dot(125,66,8)+dot(95,91,7)+path('M137 39Q166 76 121 105'); break;
+    case 'image': art=rect(32,28,60,65)+rect(109,28,60,65)+path('M36 83L55 57L69 70L85 44 M114 83L132 54L146 67L161 47')+dot(48,43,4)+dot(126,42,4)+line(94,61,106,61); break;
+    case 'matrix': art=repeat(6,y=>repeat(9,x=>rect(39+x*14,20+y*14,9,9,(x*3+y+seed)%7<2?c:'none'))); break;
+    case 'tree': art=repeat(3,i=>{let x=45+i*55;return line(100,22,x,56)+dot(x,56,6)+repeat(2,j=>line(x,56,x-14+j*28,94)+rect(x-19+j*28,90,10,10,(i+j+seed)%3===0?c:'#eef0e7'))})+dot(100,22,7); break;
+    case 'loop': art=path('M63 32C20 32 20 90 63 90H136C178 90 178 32 136 32H63 M64 25L54 32L64 39 M135 83L145 90L135 97')+rect(72,45,56,30)+repeat(3,i=>line(81,53+i*8,112+(seed%2)*8,53+i*8)); break;
+    case 'trace': art=path('M27 91H58V71H80V49H112V28H173')+repeat(6,i=>dot(38+i*25,91-i*12,3))+path('M34 29H67 M34 36H56 M127 84H161 M142 91H161'); break;
+    case 'box': art=path('M100 20L150 43V88L100 109L50 86V43Z M50 43L100 66L150 43 M100 66V109')+path(seed?'M78 53V76L91 82 M111 80L126 73V51':'M75 32L126 55V76'); break;
+    case 'nodes': art=repeat(3,i=>repeat(3,j=>line(44,30+i*30,100,30+j*30)+line(100,30+i*30,157,30+j*30)))+repeat(3,i=>repeat(3,j=>dot(44+i*56,30+j*30,7,(i+j+seed)%3? '#e7e9e0':c))); break;
+    case 'stack': art=repeat(4,i=>rect(52+i*3,22+i*21,91,15,i==seed%4?c:'#eef0e7')+dot(131+i*3,29+i*21,2)); break;
+    case 'compress': art=repeat(5,i=>rect(24,23+i*17,25+(i+seed)%3*8,10))+repeat(5,i=>line(60,28+i*17,113,43+i*8))+rect(115,34,58,53,'#e3e7db')+repeat(3,i=>rect(124+i*14,45,8,30,i==seed%3?c:'none')); break;
+    case 'chess': art=path('M72 99H132L124 88H81Z M85 88L91 61L75 56L87 34L101 37L108 24L123 43L125 62L116 87 M86 44H106')+dot(112,44,2)+ (seed?path('M40 35H62V51H44Z M143 58H174V76H157L148 84V76H143Z'):''); break;
+    case 'grid': art=repeat(5,y=>repeat(6,x=>rect(52+x*17,19+y*17,17,17,(x===0||y===0||x===5||y===4)?'#dce3d1':'none')))+rect(87,54,14,14,c)+dot(113,79,4)+path('M77 45H110V60'); break;
+    case 'curve': art=path('M35 17V97H172 M42 85C77 86 69 19 109 35S136 91 166 30 M72 82L130 19')+dot(102,47,5); break;
+    case 'window': art=rect(35,23,130,78,'#e9ede1')+line(35,38,165,38)+repeat(3,i=>dot(43+i*7,31,1.5))+ (seed===3?repeat(3,i=>rect(45+i*38,49,30,39,i===1?c:'none')):seed===4?path('M54 53H117 M54 63H100 M54 73H89 M124 67L139 80L131 81L127 91Z'):repeat(4,i=>rect(47,49+i*11,50+((i+seed)*13)%49,5,i%2?c:'none'))); break;
+    case 'sound': art=repeat(23,i=>{let h=8+Math.abs(Math.sin(i*.7+seed)*Math.cos(i*.21))*66;return rect(31+i*6,60-h/2,3,h,i%4===0?'none':c)}); break;
+    case 'gate': art=rect(44,20,114,86)+rect(60,34,82,58)+rect(77,46,48,34,'#e3e8d9')+line(23,60,96,60)+dot(96,60,5)+path('M151 53L159 60L151 67')+ (seed===3?path('M93 46V38a9 9 0 0 1 18 0V46'):''); break;
+    case 'rings': art=repeat(6,i=>`<ellipse cx="100" cy="60" rx="${17+i*10}" ry="${10+i*7}" transform="rotate(${i*13},100,60)"/>`)+dot(100,60,4); break;
+    case 'field': art=repeat(9,i=>path(`M25 ${24+i*9}C95 ${24+i*7} 73 59 111 59S158 ${10+i*13} 179 ${8+i*13}`))+rect(72,31,13,59,'#e3e9dd'); break;
+    case 'vortex': art=repeat(5,j=>path('M33 63C33 7 164 7 164 65C164 110 56 106 56 61C56 26 143 27 143 64C143 87 77 90 77 61C77 45 121 45 121 62').replace('<path','<path transform="rotate('+j*7+' 100 60)"')); break;
+    case 'swarm': art=path('M45 78L86 28L149 48L129 94Z M45 78L149 48 M86 28L129 94')+[[45,78],[86,28],[149,48],[129,94]].map(([x,y])=>line(x-8,y-6,x+8,y+6)+line(x+8,y-6,x-8,y+6)+dot(x-8,y-6,3)+dot(x+8,y+6,3)+dot(x+8,y-6,3)+dot(x-8,y+6,3)).join(''); break;
+    case 'duck': art=path('M65 62Q52 84 84 88H113Q133 78 113 65V40Q113 22 96 26Q79 29 86 46L72 49L86 55V64Z M89 88V100H76 M107 88V100H120')+dot(100,37,2)+path('M48 49C47 10 139 7 148 50 M139 44L148 52L153 40'); break;
+    case 'cell': art='<ellipse cx="100" cy="60" rx="67" ry="35" transform="rotate(-12 100 60)" fill="#e1e9d8"/><ellipse cx="100" cy="60" rx="59" ry="28" transform="rotate(-12 100 60)"/>'+path('M73 58Q90 30 109 61T130 58 M71 65Q90 85 111 55T133 64 M165 50Q191 38 182 14')+repeat(10,i=>dot(55+(i*17)%90,44+(i*13)%32,2)); break;
+    case 'rat': art=path('M65 76C29 105 20 62 40 67 M64 75Q52 49 81 46Q111 35 135 64L155 78L135 85H80Z M84 84L78 96H92 M120 84L126 95H137 M143 78L167 72 M144 82L166 86')+dot(122,55,11,'#e1e6d9')+dot(138,70,2)+dot(155,78,2); break;
+    case 'fit': art=path('M35 35H81V51H101V72H81V90H35Z M164 35H120V51H102V72H120V90H164Z')+path('M48 19H151 M48 14V24 M151 14V24 M49 106H151'); break;
+    case 'terrain': art=repeat(6,i=>path(`M29 ${44+i*10}L61 ${21+i*10}L93 ${41+i*8}L125 ${23+i*9}L174 ${40+i*10}`))+line(102,30,102,69)+dot(102,30,6); break;
+    case 'branch': art=repeat(3,i=>rect(37,20+i*31,60,19,i==1?'#e0e7d6':'none'))+path('M97 60H122V29H142 M122 60V91H142')+rect(142,20,28,18,c)+rect(142,82,28,18); break;
+    case 'log': art=repeat(6,i=>rect(29,20+i*14,55,8,i===seed?c:'none'))+path('M90 61H111L120 42H144 M111 61L120 85H144')+rect(144,31,26,24)+rect(144,73,26,24,c); break;
+    case 'pages': art=rect(63,20,71,85,'#e0e5d8')+rect(56,15,71,85,'#f2f4ed')+path('M109 15V34H127')+repeat(5,i=>line(69,43+i*10,110-(i+seed)%3*9,43+i*10))+rect(69,82,12+seed*10,5,c); break;
+    case 'chain': art='<rect x="42" y="42" width="67" height="34" rx="17" transform="rotate(-25 75 59)"/><rect x="92" y="42" width="67" height="34" rx="17" transform="rotate(-25 125 59)"/>'+dot(100,60,5); break;
+    case 'barcode': art=repeat(28,i=>rect(44+i*4,36,1+(i%3),47+(i%7===0?6:0),i%4===0?'none':c))+path('M37 30V23H48 M153 23H166V30 M37 90V97H48 M153 97H166V90'); break;
+    case 'mirror': art=path('M100 19V105 M80 34H46V88H80L59 61Z M120 34H154V88H120L141 61Z')+line(86,60,114,60)+dot(100,60,4); break;
+    case 'film': art=rect(26,33,75,55)+repeat(5,i=>rect(31+i*14,37,6,4)+rect(31+i*14,80,6,4))+path('M56 49L76 60L56 72Z M109 60H129 M122 54L129 60L122 66')+rect(139,44,34,32,c); break;
+    case 'camera': art=rect(60,27,80,69,'#e0e6d7')+dot(100,58,22,'#f0f2e9')+dot(100,58,12)+repeat(4,i=>rect(52,37+i*14,8,5)+rect(140,37+i*14,8,5))+path('M153 32Q166 43 153 54 M162 23Q185 43 162 63'); break;
+    case 'van': art=path('M43 82V43H122L149 62V82H43Z M123 45V63H147 M54 52H77V68H54Z M85 52H109V68H85Z')+dot(66,83,10,'#f0f2e8')+dot(129,83,10,'#f0f2e8')+dot(66,83,3)+dot(129,83,3)+path('M27 101H176 M25 22H175 M32 17V27 M48 17V27 M64 17V27 M80 17V27 M96 17V27 M112 17V27 M128 17V27 M144 17V27 M160 17V27'); break;
+    case 'terminal': art=rect(36,26,128,74,'#e2e7da')+line(36,41,164,41)+path('M52 55L62 64L52 73 M74 74H93')+ (seed?repeat(3,i=>line(108,56+i*10,149-i*8,56+i*10)):'')+dot(45,34,2); break;
+    case 'chat': art=path('M31 29H113V70H70L52 85V70H31Z M119 49H166V91H146L132 102V91H88V77')+repeat(3,i=>dot(51+i*20,49,3)); break;
+  }
+  return `<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${art}</g></svg>`;
+}
 const ProjectsIndex = {
-    computed: {
-      lines() { return PROJECT_LINES; }
-    },
-    template: `
-<div class="bellard">
-  <p class="site"><router-link to="/">https://lulzx.com</router-link></p>
-  <p v-for="p in lines" :key="p.name"><a :href="p.href" target="_blank" rel="noopener">{{ p.name }}</a>: {{ p.text }}</p>
-  <p>Everything else is on <a href="https://github.com/Lulzx" target="_blank" rel="noopener">github.com/Lulzx</a>.</p>
-  <p><router-link to="/landing">home</router-link> &middot; <router-link to="/words">words</router-link> &middot; <router-link to="/learn">writing</router-link> &middot; <router-link to="/about">about</router-link></p>
+  data() {
+    const byName = Object.fromEntries(PROJECT_LINES.map(p => [p.name, p]));
+    const seen = new Set();
+    let serial = 0;
+    const groups = PROJECT_GROUPS.map((g, gi) => ({ ...g, items: g.names.filter(n => byName[n] && !seen.has(n) && seen.add(n)).map(n => ({ ...byName[n], serial: ++serial, drawing: specimen(n, gi) })) }));
+    const rest = PROJECT_LINES.filter(p => !seen.has(p.name));
+    if (rest.length) groups.push({ id: 'etc', kj: '他', blurb: 'the rest', items: rest.map(p => ({ ...p, serial: ++serial, drawing: specimen(p.name, 8) })) });
+    return { groups, count: PROJECT_LINES.length, activeGroup: groups[0].id };
+  },
+  methods: {
+    number(n) { return String(n).padStart(2, '0'); }
+  },
+  mounted() {
+    this.sectionObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) if (entry.isIntersecting) this.activeGroup = entry.target.id.slice(6);
+    }, { rootMargin: '-60px 0px -65% 0px', threshold: 0 });
+    this.$el.querySelectorAll('.cab-section').forEach(section => this.sectionObserver.observe(section));
+  },
+  beforeUnmount() { this.sectionObserver?.disconnect(); },
+  template: `
+<div class="cabinet">
+  <header class="cab-top">
+
+    <nav aria-label="Main navigation"><router-link to="/">home</router-link><router-link to="/words">words</router-link><router-link to="/learn">writing</router-link><router-link to="/about">about</router-link><a href="/gallery/">gallery</a><a href="https://github.com/Lulzx" target="_blank" rel="noopener">github ↗</a><button class="theme-toggle" @click="$root.toggleTheme()" :aria-label="$root.dark ? 'Switch to light theme' : 'Switch to dark theme'" v-html="$root.dark ? ICO.sun : ICO.moon"></button></nav>
+  </header>
+  <div class="cab-hero">
+    <div class="cab-overview" aria-label="Overview of all projects">
+      <div class="cab-overview-head"><h1>Projects</h1><span class="cab-meta">Index / 01–{{ count }}</span></div>
+      <div v-for="g in groups" :key="g.id" class="cab-drawer">
+        <a :href="'#group-' + g.id" class="cab-drawer-name">{{ g.id }}</a>
+        <div class="cab-miniatures"><a v-for="p in g.items" :key="p.name" :href="'#project-' + p.name" class="cab-mini" :aria-label="p.name"><span class="cab-mini-drawing" v-html="p.drawing"></span><span class="cab-mini-name" aria-hidden="true">{{ p.name }}</span></a></div>
+        <span class="cab-count">{{ number(g.items.length) }}</span>
+      </div>
+    </div>
+  </div>
+  <nav class="cab-index" aria-label="Project categories"><a v-for="g in groups" :key="g.id" :href="'#group-' + g.id" :class="{ 'is-current': activeGroup === g.id }" :aria-current="activeGroup === g.id ? 'location' : undefined" @click="activeGroup = g.id">{{ g.id }}<sup>{{ number(g.items.length) }}</sup></a></nav>
+  <section v-for="(g, gi) in groups" :key="g.id" :id="'group-' + g.id" class="cab-section" :aria-labelledby="'heading-' + g.id">
+    <div class="cab-section-head"><span class="cab-id">{{ number(gi + 1) }}</span><div><h2 :id="'heading-' + g.id">{{ g.id }}<span class="kj" aria-hidden="true">{{ g.kj }}</span></h2><p>{{ g.blurb }}</p></div><span class="cab-count">{{ number(g.items.length) }} projects</span></div>
+    <div class="cab-grid">
+      <a v-for="p in g.items" :key="p.name" :id="'project-' + p.name" class="cab-card" :href="p.href" target="_blank" rel="noopener" :aria-labelledby="'title-' + p.name">
+        <div class="cab-plate-label" aria-hidden="true"><span>{{ number(p.serial) }} / {{ g.id }}</span><span class="cab-arrow">↗</span></div>
+        <div class="cab-specimen" v-html="p.drawing"></div>
+        <h3 :id="'title-' + p.name">{{ p.name }}</h3><p>{{ p.text }}</p>
+      </a>
+    </div>
+  </section>
+  <footer class="cab-end"><span>More projects on <a href="https://github.com/Lulzx" target="_blank" rel="noopener">github.com/Lulzx ↗</a></span><a href="#main">Back to the top ↑</a></footer>
 </div>`
 };
 
@@ -2572,7 +2969,7 @@ const About = {
     template: `
 <div class="page container about-page">
   <div class="about-stamp" aria-hidden="true">&#38745;</div>
-  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">略歴</span><span class="tx">Personnel file</span><hr class="speedline"></div>
+  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">略歴</span><span class="tx">About</span><hr class="speedline"></div>
   <h1 class="page-title">About</h1>
   <article class="prose">
     <p>I'm a software engineer who likes building small things that work. Developer tools, ML inference on Apple Silicon, information retrieval, and automation that quietly does its job.</p>
@@ -2583,7 +2980,7 @@ const About = {
     <h2>Elsewhere</h2>
     <p>Code lives on <a href="https://github.com/Lulzx" target="_blank" rel="noopener">GitHub</a>. Notes live in the <router-link to="/learn">writing</router-link> section. Concepts I keep returning to are tended in the <router-link to="/words">words</router-link> garden.</p>
     <div class="colophon">
-      <p style="color:var(--muted);font-size:.92rem">Colophon: one hand-written HTML file, Vue, and no build step. Set in the manner of a kaiju-era emergency broadcast. Built with plain text and good intentions.</p>
+      <p style="color:var(--muted);font-size:.92rem">This site is written in HTML, CSS, and Vue, with no build step.</p>
     </div>
   </article>
 </div>`
@@ -2592,7 +2989,7 @@ const About = {
 const Contact = {
     template: `
 <div class="page container about-page">
-  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">通信</span><span class="tx">Open channel</span><hr class="speedline"></div>
+  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">通信</span><span class="tx">Contact</span><hr class="speedline"></div>
   <h1 class="page-title">Contact lulzx</h1>
   <article class="prose">
     <p>The most reliable way to reach me is email. Write to <a href="mailto:wiserishabh@gmail.com">wiserishabh@gmail.com</a> for project questions, collaboration, a correction to this site, or a private security or privacy report.</p>
@@ -2608,7 +3005,7 @@ const Contact = {
 const Privacy = {
     template: `
 <div class="page container about-page">
-  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">記録</span><span class="tx">Site record</span><hr class="speedline"></div>
+  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">記録</span><span class="tx">Privacy</span><hr class="speedline"></div>
   <h1 class="page-title">Privacy</h1>
   <article class="prose">
     <p>lulzx.com is a personal, read-only website. It has no user accounts, payment flow, comment form, newsletter form, or advertising tracker.</p>
@@ -2625,7 +3022,7 @@ const Privacy = {
 const Developers = {
     template: `
 <div class="page container about-page">
-  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">機械</span><span class="tx">Machine interface</span><hr class="speedline"></div>
+  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">機械</span><span class="tx">Resources</span><hr class="speedline"></div>
   <h1 class="page-title">lulzx Developer Resources</h1>
   <article class="prose">
     <p>lulzx is a personal software engineering site and public digital garden. Its developer surface is stable public URLs, a source repository, an XML sitemap, agent instructions, and Markdown representations.</p>
@@ -2641,9 +3038,9 @@ const NotFound = {
     computed: { recent() { return allNotes().slice(0, 4); } },
     template: `
 <div class="page container">
-  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">信号消失</span><span class="tx">Signal lost</span><hr class="speedline"></div>
-  <h1 class="page-title">Lost the path</h1>
-  <p class="page-intro">This page drifted off like mist over the water. <router-link to="/" style="border-bottom:1px solid var(--line-strong)">Return home</router-link>, or pick up a thread below.</p>
+  <div class="page-kicker"><hr class="speedline"><span class="kj" aria-hidden="true">信号消失</span><span class="tx">Page not found</span><hr class="speedline"></div>
+  <h1 class="page-title">Page not found</h1>
+  <p class="page-intro">This page does not exist. <router-link to="/" style="border-bottom:1px solid var(--line-strong)">Return home</router-link>, or pick up a thread below.</p>
   <div class="relate" style="max-width:680px;margin:2.6rem auto 0;text-align:center">
     <h4>Recent notes</h4>
     <div class="chips" style="justify-content:center">
@@ -2663,7 +3060,7 @@ const App = {
             document.documentElement.classList.toggle('dark', this.dark);
             try { localStorage.setItem('theme', this.dark ? 'dark' : 'light'); } catch (e) {}
             const m = document.querySelector('meta[name=theme-color]');
-            if (m) m.setAttribute('content', this.dark ? '#131314' : '#EFEEEA');
+            if (m) m.setAttribute('content', this.dark ? '#1d221e' : '#eeefea');
         },
         isActive(n) {
             const p = this.$route.path;
@@ -2686,11 +3083,11 @@ const App = {
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header" :class="{ scrolled }">
     <div class="container header-inner">
-      <router-link to="/landing" class="brand"><span v-html="ICO.logo"></span> lulzx.com</router-link>
+
       <div class="nav-wrap">
         <nav class="nav" :class="{ open: menuOpen }">
           <router-link v-for="n in NAV" :key="n.to" :to="n.to" :class="{ active: isActive(n) }"><span class="kj" aria-hidden="true">{{ n.kj }}</span><span class="en">{{ n.label }}</span></router-link>
-          <a href="/gallery/"><span class="kj" aria-hidden="true">写真</span><span class="en">gallery</span></a>
+          <a href="/gallery/"><span class="en">gallery</span></a><a href="https://github.com/Lulzx" target="_blank" rel="noopener"><span class="en">github ↗</span></a>
         </nav>
         <button class="theme-toggle" @click="toggleTheme" :aria-label="dark ? 'Switch to light' : 'Switch to dark'"><span v-html="dark ? ICO.sun : ICO.moon"></span></button>
         <button class="menu-btn" @click="menuOpen = !menuOpen" aria-label="Menu" :aria-expanded="menuOpen ? 'true' : 'false'" v-html="ICO.menu"></button>
@@ -2709,7 +3106,7 @@ const App = {
       <div class="footer-sign"><span class="kj" aria-hidden="true">放送終了</span><span class="en">End of broadcast</span></div>
       <div class="footer-inner">
         <div class="footer-brand">
-          <router-link to="/landing" class="brand"><span v-html="ICO.logo"></span> lulzx.com</router-link>
+          <router-link to="/" class="brand"><span v-html="ICO.logo"></span> lulzx.com</router-link>
           <p>Exploring systems, tools, and ideas. Building things that make me &mdash; and maybe someone else &mdash; think.</p>
           <span class="footer-loc"><span v-html="ICO.pin"></span> Somewhere in Japan</span>
         </div>
@@ -2742,7 +3139,7 @@ const App = {
       </div>
       <div class="footer-bottom">
         <span class="copy">&copy; 2026 lulzx.com &mdash; All rights reserved.</span>
-        <span class="built">Built with plain text and good intentions.</span>
+        <span class="built">Source on GitHub.</span>
       </div>
     </div>
   </footer>
@@ -2774,8 +3171,8 @@ const router = createRouter({
 
 // per-route document titles
 router.afterEach((to) => {
-    // The root renders as a bare document: no site chrome, no theme, no colours.
-    document.documentElement.classList.toggle('bellard-mode', to.path === '/');
+    // The root is its own world: no site chrome, its own colours.
+    document.documentElement.classList.toggle('root-mode', to.path === '/');
     let t = 'Lulzx';
     if (to.params.noteId) {
         const n = notesData[to.params.noteId];
