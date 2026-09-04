@@ -865,6 +865,7 @@ html.dark .cab-card:hover svg, html.dark .cab-card:focus-visible svg, html.dark 
   <p><a href="https://github.com/Lulzx/skein">skein</a>: a GPS-denied drone-swarm autonomy simulator with EKF localisation, cooperative SLAM and gossip consensus.</p>
   <p><a href="https://github.com/Lulzx/microduck-backflip">microduck-backflip</a>: a reproducible reinforcement-learning task, evaluation pipeline and safety gates for teaching a Pollen Robotics MicroDuck to backflip.</p>
   <p><a href="https://github.com/Lulzx/zsearch">zsearch</a>: a branchable, content-addressed full-text search index in Zig.</p>
+  <p><a href="https://github.com/Lulzx/hstrat-rs">hstrat-rs</a>: hereditary stratigraphy in Rust: compact retained checkpoints for reconstructing ancestry in digital evolution experiments.</p>
   <p><a href="https://github.com/Lulzx/walsync">walsync</a>: streams SQLite's write-ahead log to S3 and restores it on demand, so a database can follow you between machines.</p>
   <p><a href="https://github.com/Lulzx/GeoPERSIST">GeoPERSIST</a>: persistent geospatial world models.</p>
   <p><a href="https://github.com/Lulzx/soma">soma</a>: a small-scale SIMD operating system for many-agent systems.</p>
@@ -2900,6 +2901,7 @@ const PROJECT_LINES = [
   { name: 'skein', href: 'https://github.com/Lulzx/skein', text: 'a GPS-denied drone-swarm autonomy simulator with EKF localisation, cooperative SLAM and gossip consensus.' },
   { name: 'microduck-backflip', href: 'https://github.com/Lulzx/microduck-backflip', text: 'a reproducible reinforcement-learning task, evaluation pipeline and safety gates for teaching a Pollen Robotics MicroDuck to backflip.' },
   { name: 'zsearch', href: 'https://github.com/Lulzx/zsearch', text: 'a branchable, content-addressed full-text search index in Zig.' },
+  { name: 'hstrat-rs', href: 'https://github.com/Lulzx/hstrat-rs', text: 'hereditary stratigraphy in Rust: compact retained checkpoints for reconstructing ancestry in digital evolution experiments.' },
   { name: 'walsync', href: 'https://github.com/Lulzx/walsync', text: 'streams SQLite\'s write-ahead log to S3 and restores it on demand, so a database can follow you between machines.' },
   { name: 'GeoPERSIST', href: 'https://github.com/Lulzx/GeoPERSIST', text: 'persistent geospatial world models.' },
   { name: 'soma', href: 'https://github.com/Lulzx/soma', text: 'a small-scale SIMD operating system for many-agent systems.' },
@@ -2944,13 +2946,14 @@ const PROJECT_GROUPS = [
   { id: 'synthesis', kj: '探索', blurb: 'Program synthesis, search, and planning', names: ['supsearch', 'ontogenesis', 'progen', 'solon', 'lulzfish', 'social-stockfish', 'latent-sokoban'] },
   { id: 'models', kj: '模型', blurb: 'Model training, inference, and evaluation', names: ['nn.zig', 'nabla', 'paragon', 'barunlm-35m-browser', 'rockylm', 'blaze-bpe', 'typed-inference', 'recall', 'ego-death', 'future'] },
   { id: 'simulation', kj: '模擬', blurb: 'plasma, cells, drones, a duck and one rat', names: ['helicon', 'driftmap', 'skein', 'microduck-backflip', 'life-sim', 'rat-runner', 'reality-fit', 'GeoPERSIST'] },
-  { id: 'storage', kj: '保存', blurb: 'Storage, search, and persistence', names: ['zs3', 'zsearch', 'walsync', 'zpdf', 'reverse-geocode', 'caas'] },
+  { id: 'storage', kj: '保存', blurb: 'Storage, search, and persistence', names: ['zs3', 'zsearch', 'hstrat-rs', 'walsync', 'zpdf', 'reverse-geocode', 'caas'] },
   { id: 'tiny', kj: '極小', blurb: 'no dependencies, no build step, one file where possible', names: ['tinypdf', 'tinydocx', 'tinysoup', 'tinybarcode', 'telekit', 'mirror', 'pybin', 'press', 'esp32-cam-web-streamer', 'living-in-a-van'] },
   { id: 'agents', kj: '代理', blurb: 'Agent tools, memory, and permissions', names: ['ubrowser', 'helium', 'carry-terminal', 'mimo-build', 'lulz-router', 'open-tag', 'memo', 'caplock', 'soma', 'flute'] }
 ];
 
 // Each specimen is an interpretive drawing of the project's mechanism.
 const SPECIMENS = {
+  'hstrat-rs': ['strata', 0],
   'box3d-metal': ['box', 1], 'helium': ['workspace', 2], 'future': ['forecast', 3],
   'cuda-metal': ['bridge', 0], 'gromacs-metal': ['molecule', 1], 'warpx-metal': ['wave', 2], 'VF64-metal': ['pair', 3], 'tiny-kernel': ['chip', 4], 'zeno': ['pendulum', 5], 'encept': ['image', 6], 'subquadratic-sparse-attention': ['matrix', 7],
   'hvm': ['tree', 0], 'arturo-compiler': ['loop', 1], 'tacitj': ['arrayfold', 2], 'WrenJIT': ['trace', 3], 'wasm-mquickjs': ['wasmmodule', 4], 'lulang': ['numerics', 5], 'sectorc': ['verify', 6], 'tacit': ['schedule', 7], 'beam.zig': ['mailboxes', 8], 'zig-tvm': ['stack', 9],
@@ -2972,6 +2975,7 @@ function specimen(name, gi) {
   const repeat = (n, fn) => Array.from({length:n}, (_,i)=>fn(i)).join('');
   let art='';
   switch(kind) {
+    case 'strata': art=repeat(3,i=>rect(39+i*49,24,24,61)+repeat(4,j=>rect(43+i*49,30+j*13,16,6,j<2?c:'none')))+path('M51 85V101H100V85 M100 101H149V85 M100 101V111'); break;
     case 'workspace': art=rect(27,19,146,86)+path('M27 36H173 M76 36V105 M35 47H65 M35 57H60 M35 67H66')+repeat(3,i=>rect(87,45+i*18,29,12)+line(116,51+i*18,132,69))+rect(132,60,29,18,c); break;
     case 'forecast': art=path('M30 24V98H176 M39 85L65 73L91 66L115 48 M115 48L166 23 M115 48L166 49 M115 48L166 76')+dot(39,85,3)+dot(65,73,3)+dot(91,66,3)+dot(115,48,5)+path('M115 18V93')+repeat(3,i=>dot(166,23+i*26,3)); break;
     case 'numerics': art=path('M51 22H38V100H51 M149 22H162V100H149')+repeat(3,y=>repeat(3,x=>{let n=(x+y)%3;return n===0?dot(64+x*35,37+y*25,4):n===1?path(`M${59+x*35} ${37+y*25}h10m-5 -5v10`):rect(60+x*35,33+y*25,8,8)})); break;
