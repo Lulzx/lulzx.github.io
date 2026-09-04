@@ -701,6 +701,128 @@ html.dark .cab-specimen { background-image:radial-gradient(var(--line) .65px,tra
 @media(max-width:1050px) { .cab-drawer { grid-template-columns:85px minmax(0,1fr) 15px; gap:9px; } .cab-overview { padding:0 17px 10px; } .cab-mini-name { font-size:9px; } .cab-miniatures { gap:2px; } }
 @media(max-width:800px) { .cab-hero { padding:24px 0; } .cab-hero > div:first-child { max-width:none; } .cab-drawer { grid-template-columns:1fr auto; gap:7px; padding:12px 0; } .cab-drawer-name { grid-column:1; grid-row:1; font-size:11px; } .cab-drawer .cab-count { grid-column:2; grid-row:1; } .cab-miniatures { grid-column:1/-1; grid-row:2; display:flex; overflow-x:auto; align-items:flex-start; gap:5px; padding:3px 2px 7px; scrollbar-width:thin; scrollbar-color:var(--line-strong) transparent; } .cab-mini { flex:0 0 76px; min-height:86px; } .cab-mini svg { height:58px; } .cab-mini-name { font-size:10px; } }
 @media(max-width:650px) { .cab-hero { padding:20px 0 24px; } .cab-overview { padding:0 12px 4px; } .cab-overview-head { padding:18px 0 15px; } .cab-overview-head h1 { font-size:25px; margin:0; } .cab-overview-head .cab-meta { font-size:8px; } .cab-drawer { min-height:0; } }
+
+/* A single surface for each project, with colour carried through the collection. */
+.cabinet { --specimen-fill:var(--paper-2); }
+.cab-top { padding:22px 0; }
+.cab-overview { background:var(--panel); border-color:var(--line-strong); padding-left:26px; padding-right:26px; box-shadow:0 4px 0 var(--paper),0 5px 0 var(--line-strong); }
+.cab-overview-head { padding:26px 0 23px; }
+.cab-overview-head h1 { font-size:33px; letter-spacing:-.045em; }
+.cab-overview-head .cab-meta { letter-spacing:.13em; }
+.cab-drawer { position:relative; padding:12px 0; min-height:113px; }
+.cab-drawer-name { display:flex; align-items:center; gap:9px; color:var(--ink); font-size:12px; }
+.cab-drawer-name::before { content:''; width:5px; height:5px; background:var(--group-color); flex:none; }
+.cab-drawer .cab-count { font-size:10px; color:var(--muted); }
+.cab-mini { padding:5px 3px 8px; transition:background .18s,color .18s,transform .18s; border-radius:0; }
+.cab-mini svg { height:65px; }
+.cab-mini-name { margin-top:3px; font-size:10px; line-height:1.35; }
+.cab-mini:hover, .cab-mini:focus-visible { background:var(--group-color); outline-color:var(--group-color); --specimen-ink:#f5f6ef; --specimen-fill:rgba(245,246,239,.14); transform:translateY(-2px); }
+.cab-mini:hover .cab-mini-name, .cab-mini:focus-visible .cab-mini-name { color:#f5f6ef; }
+.cab-index { margin-top:8px; box-shadow:0 5px 0 var(--paper); }
+.cab-index a::after { background:var(--group-color); }
+.cab-index a.is-current { background:var(--paper-2); }
+.cab-section { padding-top:65px; }
+.cab-section-head { grid-template-columns:43px 1fr auto; gap:15px; margin-bottom:24px; }
+.cab-section-head .cab-id { border-top:2px solid var(--group-color); padding-top:8px; align-self:start; margin-top:8px; }
+.cab-section h2 { font-size:34px; font-weight:500; letter-spacing:-.045em; }
+.cab-section h2 .kj { margin-left:15px; font-size:20px; }
+.cab-section-head p { margin-top:8px; }
+.cab-grid { gap:10px; }
+.cab-card { padding:18px 24px 28px; border-color:var(--line); box-shadow:none; background:var(--panel); transition:background .22s ease,border-color .22s ease,color .22s ease; }
+.cab-plate-label { font-size:9px; letter-spacing:.075em; }
+.cab-plate-label .cab-arrow { font-size:18px; }
+.cab-specimen { background:transparent; border:0; height:190px; margin:8px 0 24px; }
+.cab-specimen::before, .cab-specimen::after { display:none; }
+.cab-specimen svg { width:250px; height:150px; max-width:90%; }
+.cab-card h3 { font-size:23px; font-weight:500; letter-spacing:-.04em; margin-bottom:12px; }
+.cab-card p { font-size:14px; line-height:1.75; max-width:44ch; }
+.cab-card:hover, .cab-card:focus-visible { background:var(--group-color); border-color:var(--group-color); color:#f5f6ef; box-shadow:none; --specimen-ink:#f5f6ef; --specimen-fill:rgba(245,246,239,.14); }
+.cab-card:hover h3, .cab-card:focus-visible h3, .cab-card:hover p, .cab-card:focus-visible p, .cab-card:hover .cab-plate-label, .cab-card:focus-visible .cab-plate-label, .cab-card:hover .cab-arrow, .cab-card:focus-visible .cab-arrow { color:#f5f6ef; }
+.cab-card:hover .cab-plate-label, .cab-card:focus-visible .cab-plate-label { opacity:.75; }
+.cab-card:hover .cab-specimen, .cab-card:focus-visible .cab-specimen { background:transparent; }
+.cab-card:hover .cab-specimen svg, .cab-card:focus-visible .cab-specimen svg { transform:translateY(-3px) scale(1.04); }
+.cab-card:focus-visible { outline:2px solid var(--group-color); outline-offset:4px; }
+.cab-card:target { border-color:var(--group-color); }
+html.dark .cab-specimen { background:transparent; }
+html.dark .cab-card:hover svg, html.dark .cab-card:focus-visible svg, html.dark .cab-mini:hover svg, html.dark .cab-mini:focus-visible svg { filter:none; }
+.cab-end { margin-top:72px; padding-top:28px; padding-bottom:36px; }
+@media(max-width:1050px) { .cab-overview { padding-left:18px; padding-right:18px; } .cab-mini-name { font-size:9px; } .cab-card { padding:17px 21px 26px; } }
+@media(max-width:800px) { .cab-drawer { min-height:0; padding:14px 0; } .cab-mini-name { font-size:10px; } .cab-mini { flex-basis:83px; } .cab-mini svg { height:61px; } }
+@media(max-width:650px) { .cab-top { padding:16px 0; } .cab-overview { padding-left:14px; padding-right:14px; } .cab-overview-head { padding:20px 0 18px; } .cab-overview-head h1 { font-size:28px; } .cab-section { padding-top:43px; } .cab-section-head { grid-template-columns:25px 1fr auto; gap:10px; margin-bottom:20px; } .cab-section h2 { font-size:30px; } .cab-section-head p { font-size:12px; margin-top:7px; } .cab-specimen { height:173px; margin:8px 0 21px; } .cab-card h3 { font-size:23px; } .cab-card p { font-size:14px; } .cab-card { padding:16px 22px 26px; } .cab-end { margin-top:48px; } }
+@media(prefers-reduced-motion:reduce) { .cab-card:hover .cab-specimen svg, .cab-card:focus-visible .cab-specimen svg { transform:none; } }
+
+/* Keep the complete overview visible on desktop; wrap on smaller screens. */
+@media(min-width:1100px) {
+ .cab-hero { padding:20px 0 25px; }
+ .cab-overview { padding:0 22px 7px; }
+ .cab-overview-head { padding:16px 0 14px; }
+ .cab-overview-head h1 { font-size:28px; }
+ .cab-drawer { padding:4px 0; min-height:0; }
+ .cab-mini { min-height:0; padding:2px 2px 4px; }
+ .cab-mini svg { height:clamp(32px,4.6vh,49px); }
+ .cab-mini-name { margin-top:1px; font-size:9px; line-height:1.2; }
+ .cab-miniatures { align-items:stretch; }
+}
+@media(max-width:1099px) {
+ .cab-drawer { grid-template-columns:1fr auto; gap:7px; min-height:0; padding:13px 0; }
+ .cab-drawer-name { grid-column:1; grid-row:1; }
+ .cab-drawer .cab-count { grid-column:2; grid-row:1; }
+ .cab-miniatures { grid-column:1/-1; grid-row:2; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); align-items:start; gap:8px 5px; overflow:visible; padding:3px 0; }
+ .cab-mini { width:100%; min-height:0; padding:3px 2px 5px; }
+ .cab-mini svg { height:52px; }
+ .cab-mini-name { font-size:10px; }
+}
+@media(max-width:480px) {
+ .cab-miniatures { grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px 4px; }
+ .cab-mini svg { height:43px; }
+ .cab-mini-name { font-size:9px; line-height:1.25; }
+}
+
+/* Full-screen index, with navigation available on demand. */
+.cabinet { max-width:none; padding:0; position:relative; }
+.cab-top { position:absolute; top:18px; right:24px; z-index:30; display:block; padding:0; border:0; }
+.cab-menu-button { display:block; margin-left:auto; min-width:76px; min-height:32px; padding:7px 11px; background:var(--panel); border:1px solid var(--line-strong); color:var(--ink); font:11px var(--mono); cursor:pointer; }
+.cab-menu-button:hover { background:var(--paper-2); }
+.cab-menu-button:focus-visible { outline:2px solid var(--red); outline-offset:3px; }
+.cab-top nav { position:absolute; top:42px; right:0; width:218px; padding:12px; background:var(--panel); border:1px solid var(--line-strong); display:grid; grid-template-columns:1fr; gap:0; box-shadow:0 7px 20px #00000012; }
+.cab-top nav a { display:block; padding:11px 12px; font-size:13px; border-bottom:1px solid var(--line); }
+.cab-top nav a:hover { background:var(--paper-2); }
+.cab-top .theme-toggle { margin:10px 0 0 10px; border-color:var(--line); }
+.cab-hero { padding:0; }
+.cab-overview { padding:0 28px; border:0; border-bottom:1px solid var(--line-strong); box-shadow:none; }
+.cab-overview-head { min-height:70px; padding:18px 108px 18px 0; }
+.cab-overview-head h1 { font-size:28px; }
+.cab-overview-head .cab-meta { margin-left:auto; }
+.cab-index { margin:0; padding:0 4vw; box-shadow:0 4px 0 var(--paper); }
+.cab-section { margin-left:4.5vw; margin-right:4.5vw; }
+.cab-end { margin-left:4.5vw; margin-right:4.5vw; }
+@media(min-width:1100px) {
+ .cab-hero { height:100svh; min-height:590px; }
+ .cab-overview { height:100%; display:grid; grid-template-rows:70px repeat(8,minmax(0,1fr)); }
+ .cab-drawer { min-height:0; padding:5px 0; grid-template-columns:110px minmax(0,1fr) 20px; gap:18px; }
+ .cab-miniatures { align-items:center; }
+ .cab-mini { padding:3px 4px 5px; min-height:0; }
+ .cab-mini svg { height:clamp(30px,6.1svh,83px); }
+ .cab-mini-name { font-size:clamp(9px,.68vw,11px); line-height:1.2; margin-top:2px; }
+ .cab-drawer-name { font-size:13px; }
+}
+@media(max-width:1099px) {
+ .cab-overview { min-height:100svh; padding:0 22px; }
+ .cab-drawer { padding:12px 0; }
+}
+@media(max-width:650px) {
+ .cabinet { padding:0; }
+ .cab-top { top:15px; right:16px; }
+ .cab-top nav { width:218px; gap:0; }
+ .cab-menu-button { min-height:32px; }
+ .cab-hero { padding:0; }
+ .cab-overview { padding:0 16px; }
+ .cab-overview-head { min-height:65px; padding:16px 90px 16px 0; }
+ .cab-overview-head h1 { font-size:25px; }
+ .cab-overview-head .cab-meta { display:none; }
+ .cab-index { margin:0; padding:0 7px; }
+ .cab-section, .cab-end { margin-left:16px; margin-right:16px; }
+}
 </style>
 </head>
 <body>
@@ -2912,17 +3034,19 @@ function specimen(name, gi) {
     case 'terminal': art=rect(36,26,128,74,'#e2e7da')+line(36,41,164,41)+path('M52 55L62 64L52 73 M74 74H93')+ (seed?repeat(3,i=>line(108,56+i*10,149-i*8,56+i*10)):'')+dot(45,34,2); break;
     case 'chat': art=path('M31 29H113V70H70L52 85V70H31Z M119 49H166V91H146L132 102V91H88V77')+repeat(3,i=>dot(51+i*20,49,3)); break;
   }
-  return `<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${art}</g></svg>`;
+  art = art.replaceAll(c, 'currentColor').replace(/fill="#[a-f0-9]{6}"/gi, 'fill="var(--specimen-fill, #e5e8df)"');
+  return `<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="color:var(--specimen-ink, ${c})"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${art}</g></svg>`;
 }
 const ProjectsIndex = {
   data() {
     const byName = Object.fromEntries(PROJECT_LINES.map(p => [p.name, p]));
     const seen = new Set();
     let serial = 0;
-    const groups = PROJECT_GROUPS.map((g, gi) => ({ ...g, items: g.names.filter(n => byName[n] && !seen.has(n) && seen.add(n)).map(n => ({ ...byName[n], serial: ++serial, drawing: specimen(n, gi) })) }));
+    const shades = ['#435b35', '#755331', '#634a7c', '#365b73', '#30685e', '#795039', '#646126', '#555178'];
+    const groups = PROJECT_GROUPS.map((g, gi) => ({ ...g, color: shades[gi], items: g.names.filter(n => byName[n] && !seen.has(n) && seen.add(n)).map(n => ({ ...byName[n], serial: ++serial, drawing: specimen(n, gi) })) }));
     const rest = PROJECT_LINES.filter(p => !seen.has(p.name));
     if (rest.length) groups.push({ id: 'etc', kj: '他', blurb: 'the rest', items: rest.map(p => ({ ...p, serial: ++serial, drawing: specimen(p.name, 8) })) });
-    return { groups, count: PROJECT_LINES.length, activeGroup: groups[0].id };
+    return { groups, count: PROJECT_LINES.length, activeGroup: groups[0].id, navigationOpen: false };
   },
   methods: {
     number(n) { return String(n).padStart(2, '0'); }
@@ -2935,23 +3059,23 @@ const ProjectsIndex = {
   },
   beforeUnmount() { this.sectionObserver?.disconnect(); },
   template: `
-<div class="cabinet">
+<div class="cabinet" @keydown.esc="navigationOpen = false">
   <header class="cab-top">
-
-    <nav aria-label="Main navigation"><router-link to="/">home</router-link><router-link to="/words">words</router-link><router-link to="/learn">writing</router-link><router-link to="/about">about</router-link><a href="/gallery/">gallery</a><a href="https://github.com/Lulzx" target="_blank" rel="noopener">github ↗</a><button class="theme-toggle" @click="$root.toggleTheme()" :aria-label="$root.dark ? 'Switch to light theme' : 'Switch to dark theme'" v-html="$root.dark ? ICO.sun : ICO.moon"></button></nav>
+    <button class="cab-menu-button" @click="navigationOpen = !navigationOpen" :aria-expanded="navigationOpen" aria-controls="cab-navigation">{{ navigationOpen ? 'Close −' : 'Menu +' }}</button>
+    <nav id="cab-navigation" v-show="navigationOpen" aria-label="Main navigation" @click="navigationOpen = false"><router-link to="/">home</router-link><router-link to="/words">words</router-link><router-link to="/learn">writing</router-link><router-link to="/about">about</router-link><a href="/gallery/">gallery</a><a href="https://github.com/Lulzx" target="_blank" rel="noopener">github ↗</a><button class="theme-toggle" @click="$root.toggleTheme()" :aria-label="$root.dark ? 'Switch to light theme' : 'Switch to dark theme'" v-html="$root.dark ? ICO.sun : ICO.moon"></button></nav>
   </header>
   <div class="cab-hero">
     <div class="cab-overview" aria-label="Overview of all projects">
       <div class="cab-overview-head"><h1>Projects</h1><span class="cab-meta">Index / 01–{{ count }}</span></div>
-      <div v-for="g in groups" :key="g.id" class="cab-drawer">
+      <div v-for="g in groups" :key="g.id" class="cab-drawer" :style="{ '--group-color': g.color }">
         <a :href="'#group-' + g.id" class="cab-drawer-name">{{ g.id }}</a>
         <div class="cab-miniatures"><a v-for="p in g.items" :key="p.name" :href="'#project-' + p.name" class="cab-mini" :aria-label="p.name"><span class="cab-mini-drawing" v-html="p.drawing"></span><span class="cab-mini-name" aria-hidden="true">{{ p.name }}</span></a></div>
         <span class="cab-count">{{ number(g.items.length) }}</span>
       </div>
     </div>
   </div>
-  <nav class="cab-index" aria-label="Project categories"><a v-for="g in groups" :key="g.id" :href="'#group-' + g.id" :class="{ 'is-current': activeGroup === g.id }" :aria-current="activeGroup === g.id ? 'location' : undefined" @click="activeGroup = g.id">{{ g.id }}<sup>{{ number(g.items.length) }}</sup></a></nav>
-  <section v-for="(g, gi) in groups" :key="g.id" :id="'group-' + g.id" class="cab-section" :aria-labelledby="'heading-' + g.id">
+  <nav class="cab-index" aria-label="Project categories"><a v-for="g in groups" :key="g.id" :href="'#group-' + g.id" :style="{ '--group-color': g.color }" :class="{ 'is-current': activeGroup === g.id }" :aria-current="activeGroup === g.id ? 'location' : undefined" @click="activeGroup = g.id">{{ g.id }}<sup>{{ number(g.items.length) }}</sup></a></nav>
+  <section v-for="(g, gi) in groups" :key="g.id" :id="'group-' + g.id" class="cab-section" :style="{ '--group-color': g.color }" :aria-labelledby="'heading-' + g.id">
     <div class="cab-section-head"><span class="cab-id">{{ number(gi + 1) }}</span><div><h2 :id="'heading-' + g.id">{{ g.id }}<span class="kj" aria-hidden="true">{{ g.kj }}</span></h2><p>{{ g.blurb }}</p></div><span class="cab-count">{{ number(g.items.length) }} projects</span></div>
     <div class="cab-grid">
       <a v-for="p in g.items" :key="p.name" :id="'project-' + p.name" class="cab-card" :href="p.href" target="_blank" rel="noopener" :aria-labelledby="'title-' + p.name">
