@@ -1,0 +1,34 @@
+/* What the @ag/lightbox reads, mapped onto the site's own palette (see /assets/cabinet.css).
+   The original @ag/tokens file is Tailwind-flavoured; only its variables are needed here. */
+:root {
+  --brand: oklch(63% 0.08 145);
+  --alpha-hairline: 0.07;
+  --alpha-wash: 0.05;
+  --alpha-meta: 0.4;
+  --alpha-body: 0.55;
+  --alpha-title: 0.9;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-1: 150ms;
+  --dur-2: 300ms;
+  --dur-3: 500ms;
+  --dur-4: 700ms;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --sidebar: var(--panel);
+  --popover: var(--panel);
+  --popover-foreground: var(--ink);
+  --ring: var(--red);
+  --font-sans: var(--body);
+  --font-mono: var(--mono);
+  /* Flies under the sticky header (z 50), then owns the screen. */
+  --lb-z-fly: 40;
+  --lb-z: 100;
+}
+html.dark {
+  --brand: oklch(72% 0.09 145);
+  --alpha-hairline: 0.12;
+  --alpha-wash: 0.09;
+  --alpha-meta: 0.45;
+  --alpha-body: 0.62;
+  --alpha-title: 0.92;
+}

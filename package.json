@@ -4,9 +4,19 @@
   "type": "module",
   "scripts": {
     "generate:agents": "node scripts/generate-agent-assets.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "build:gallery": "rm -rf gallery/assets && vite build",
+    "dev:gallery": "vite"
   },
   "devDependencies": {
+    "@base-ui/react": "^1.8.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
     "wrangler": "4.125.0"
   }
 }

@@ -823,6 +823,58 @@ html.dark .cab-card:hover svg, html.dark .cab-card:focus-visible svg, html.dark 
  .cab-index { margin:0; padding:0 7px; }
  .cab-section, .cab-end { margin-left:16px; margin-right:16px; }
 }
+
+/* Instruments in motion: every specimen is a running mechanism. Loops pause offscreen and stop under reduced motion. */
+.cabinet svg .m { transform-box:fill-box; transform-origin:center; }
+.cabinet svg .m-piv { transform-box:view-box; }
+.cabinet svg .m, .cabinet svg .m-flow > * { animation-play-state:paused; }
+.cabinet .is-live svg .m, .cabinet .is-live svg .m-flow > * { animation-play-state:running; }
+.m-spin { animation:cabSpin var(--d,16s) linear infinite; animation-delay:calc(var(--i,0) * -1.7s); }
+.m-spin.m-rev { animation-direction:reverse; }
+.m-sway { animation:cabSway var(--d,2.4s) ease-in-out infinite alternate; animation-delay:calc(var(--i,0) * -.4s); }
+.m-sway.m-rev { animation-direction:alternate-reverse; }
+.m-pulse { animation:cabPulse var(--d,2.7s) ease-in-out infinite; animation-delay:calc(var(--i,0) * -.3s); }
+.m-blink { animation:cabBlink var(--d,1.3s) ease-in-out infinite; animation-delay:calc(var(--i,0) * -.22s); }
+.m-bob { animation:cabBob var(--d,2.6s) ease-in-out infinite alternate; animation-delay:calc(var(--i,0) * -.45s); }
+.m-beat { animation:cabBeat var(--d,2.2s) ease-in-out infinite; animation-delay:calc(var(--i,0) * -.3s); }
+.m-shuttle { animation:cabShuttle var(--d,3s) ease-in-out infinite alternate; animation-delay:calc(var(--i,0) * -.5s); }
+.m-shuttle.m-rev { animation-direction:alternate-reverse; }
+.m-grow { animation:cabGrow var(--d,.95s) ease-in-out infinite alternate; animation-delay:calc(var(--i,0) * -.14s); }
+.m-cursor { animation:cabCursor var(--d,2.8s) cubic-bezier(.16,1,.3,1) infinite alternate; }
+.m-scan-x { animation:cabScanX var(--d,2.6s) linear infinite; }
+.m-scan-y { animation:cabScanY var(--d,2.4s) ease-in-out infinite alternate; }
+.m-roll { animation:cabRoll var(--d,.9s) linear infinite; }
+.m-flow > * { stroke-dasharray:5 4; animation:cabFlow var(--d,2.4s) linear infinite; animation-delay:calc(var(--i,0) * -.35s); }
+.m-flow.m-rev > * { animation-direction:reverse; }
+@keyframes cabSpin { to { transform:rotate(360deg); } }
+@keyframes cabSway { from { transform:rotate(calc(var(--amp,7deg) * -1)); } to { transform:rotate(var(--amp,7deg)); } }
+@keyframes cabPulse { 0%,100% { opacity:.38; } 50% { opacity:1; } }
+@keyframes cabBlink { 0%,100% { opacity:.12; } 50% { opacity:1; } }
+@keyframes cabBob { from { transform:translateY(var(--amp,3px)); } to { transform:translateY(calc(var(--amp,3px) * -1)); } }
+@keyframes cabBeat { 0%,100% { transform:scale(1); } 50% { transform:scale(1.16); } }
+@keyframes cabShuttle { from { transform:translateX(calc(var(--amp,3px) * -1)); } to { transform:translateX(var(--amp,3px)); } }
+@keyframes cabGrow { from { transform:scaleY(.3); } to { transform:scaleY(1); } }
+@keyframes cabCursor { from { transform:translate(-9px,-7px); } to { transform:translate(0,0); } }
+@keyframes cabScanX { from { transform:translateX(0); } to { transform:translateX(110px); } }
+@keyframes cabScanY { from { transform:translateY(0); } to { transform:translateY(31px); } }
+@keyframes cabRoll { to { transform:translateX(-16px); } }
+@keyframes cabFlow { to { stroke-dashoffset:-18; } }
+/* Power-on: the overview draws itself once, drawer by drawer, then the mechanisms take over. */
+.cab-boot svg :is(path,rect,circle,ellipse):not(.m-flow > *) { animation:cabDraw 1s cubic-bezier(.16,1,.3,1) backwards; animation-delay:var(--boot,0ms); }
+.cab-boot svg .m-flow > * { animation:cabFade .5s ease-out backwards; animation-delay:calc(var(--boot,0ms) + .45s); }
+@keyframes cabDraw { 0% { opacity:0; stroke-dasharray:600; stroke-dashoffset:600; } 20% { opacity:1; } 100% { stroke-dasharray:600; stroke-dashoffset:0; } }
+@keyframes cabFade { from { opacity:0; } to { opacity:1; } }
+/* Who this is, and what the drawing under the pointer does. */
+.cab-overview-head { gap:18px; }
+.cab-byline { font:12px/1.5 var(--body); color:var(--muted); letter-spacing:-.01em; margin-right:auto; }
+.cab-byline b { color:var(--ink); font-weight:500; margin-right:8px; }
+.cab-inspect { gap:14px; }
+.cab-inspect-name { flex:none; max-width:30%; }
+.cab-inspect-text { flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--muted); font:12px/1.4 var(--body); letter-spacing:-.01em; }
+.cab-inspect-category { flex:none; }
+.cab-inspect-category:empty { display:none; }
+@media(max-width:650px) { .cab-byline span { display:none; } .cab-inspect-text { font-size:11px; } }
+@media(prefers-reduced-motion:reduce) { .cabinet svg .m, .cabinet svg .m-flow > *, .cab-boot svg * { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -2973,79 +3025,88 @@ function specimen(name, gi) {
   const dot = (x,y,r=4,fill=c) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}"/>`;
   const path = d => `<path d="${d}"/>`;
   const repeat = (n, fn) => Array.from({length:n}, (_,i)=>fn(i)).join('');
+  // Every instrument runs. Motion wrappers: a class names the movement, --i staggers it,
+  // and a pivot (in drawing units) is given when the part swings or turns around a point.
+  const mv = (k, inner, i=0, extra='') => `<g class="m ${k}"${i||extra?` style="${i?`--i:${i}`:''}${i&&extra?';':''}${extra}"`:''}>${inner}</g>`;
+  const piv = (k, inner, x, y, i=0, extra='') => mv('m-piv '+k, inner, i, `transform-origin:${x}px ${y}px${extra?';'+extra:''}`);
+  const flow = (inner, i=0, back=false) => mv(back?'m-flow m-rev':'m-flow', inner, i);
+  const pulse = (inner, i=0) => mv('m-pulse', inner, i);
+  const blink = (inner, i=0) => mv('m-blink', inner, i);
+  const bob = (inner, i=0) => mv('m-bob', inner, i);
+  const beat = (inner, i=0) => mv('m-beat', inner, i);
   let art='';
   switch(kind) {
-    case 'strata': art=repeat(3,i=>rect(39+i*49,24,24,61)+repeat(4,j=>rect(43+i*49,30+j*13,16,6,j<2?c:'none')))+path('M51 85V101H100V85 M100 101H149V85 M100 101V111'); break;
-    case 'workspace': art=rect(27,19,146,86)+path('M27 36H173 M76 36V105 M35 47H65 M35 57H60 M35 67H66')+repeat(3,i=>rect(87,45+i*18,29,12)+line(116,51+i*18,132,69))+rect(132,60,29,18,c); break;
-    case 'forecast': art=path('M30 24V98H176 M39 85L65 73L91 66L115 48 M115 48L166 23 M115 48L166 49 M115 48L166 76')+dot(39,85,3)+dot(65,73,3)+dot(91,66,3)+dot(115,48,5)+path('M115 18V93')+repeat(3,i=>dot(166,23+i*26,3)); break;
-    case 'numerics': art=path('M51 22H38V100H51 M149 22H162V100H149')+repeat(3,y=>repeat(3,x=>{let n=(x+y)%3;return n===0?dot(64+x*35,37+y*25,4):n===1?path(`M${59+x*35} ${37+y*25}h10m-5 -5v10`):rect(60+x*35,33+y*25,8,8)})); break;
-    case 'verify': art=path('M49 29H84L105 48V95H49Z M84 29V48H105 M60 60H88 M60 70H79 M118 45L140 36L162 45V65Q160 83 140 97Q120 83 118 65Z M129 64L138 73L153 54'); break;
-    case 'switchboard': art=repeat(3,i=>rect(25,23+i*29,28,16)+line(53,31+i*29,87,60))+dot(98,60,11)+path('M109 60H139V31H167 M139 60H167 M139 60V89H167')+repeat(3,i=>dot(171,31+i*29,4)); break;
-    case 'arrayfold': art=repeat(5,i=>rect(27+i*30,21,23,17,i%2?c:'none'))+path('M38 44V60H158V44 M98 60V77 M92 71L98 77L104 71')+rect(76,82,44,22,c); break;
-    case 'wasmmodule': art=path('M57 24H94V34a9 9 0 1 0 18 0V24H145V58H135a9 9 0 1 0 0 18H145V100H57Z')+path('M72 48L78 78L86 58L94 78L100 48 M111 78L120 49L130 78 M115 68H126'); break;
-    case 'schedule': art=repeat(3,i=>line(28,35+i*27,172,35+i*27))+rect(37,27,29,16,c)+rect(94,27,33,16)+rect(69,54,32,16)+rect(132,54,24,16,c)+rect(110,81,33,16)+path('M66 35L69 62 M101 62L110 89 M127 35L132 62'); break;
-    case 'searchpath': art=path('M26 60H52L78 27H107 M52 60L78 91H107 M52 60H96L119 44H151 M96 60L122 78H158')+dot(26,60,5)+dot(107,27,3)+dot(107,91,3)+dot(158,78,3)+dot(151,44,12,'#eef0e7')+path('M146 44L150 48L157 39'); break;
-    case 'vocabulary': art=rect(25,23,42,31)+path('M33 45L45 31L59 45 M45 31V47 M67 38H93')+rect(94,24,24,27,c)+path('M106 51V65H53V86 M106 65H153V86')+rect(40,86,26,20,c)+rect(139,86,26,20,c)+path('M67 97H82 M125 97H139'); break;
-    case 'parallel': art=path('M30 60H52V26H76 M52 60H76 M52 60V94H76 M123 26H148V60H174 M123 60H148 M123 94H148V60')+repeat(3,i=>rect(77,15+i*34,45,22)+path(`M86 ${26+i*34}l7 5l17 -12`)); break;
-    case 'markup': art=path('M40 25L27 36L40 47 M61 25L74 36L61 47 M55 21L46 51 M81 36H112V62H133 M112 62V92H133')+rect(133,52,37,20)+rect(133,82,37,20)+path('M36 65V97H95 M48 65V84H95'); break;
-    case 'mailboxes': art=repeat(3,i=>rect(27+i*54,36,40,53)+path(`M${33+i*54} 43h28v18h-28z m0 0l14 10l14 -10`))+path('M45 28V18H153V28 M99 18V28 M42 99H54 M96 99H108 M150 99H162'); break;
-    case 'superposition': art=path('M25 60H49 M150 60H175')+repeat(4,i=>path(`M49 60C75 ${8+i*32} 126 ${8+i*32} 150 60`))+dot(49,60,5)+dot(150,60,5)+path('M87 51L100 38L113 51L100 64Z M87 72L100 59L113 72L100 85Z'); break;
-    case 'retrieval': art=repeat(4,i=>rect(32,24+i*21,65,13,i===2?c:'none'))+path('M103 74H124 M117 68L124 74L117 80')+dot(145,49,22,'#eef0e7')+line(160,65,176,87)+path('M134 49H156 M145 38V60'); break;
-    case 'mdl': art=path('M33 31H78V91H33 M33 45H65 M33 59H72 M33 73H59 M33 87H68 M84 60H110')+rect(115,34,50,53)+path('M124 73V47H137Q147 47 147 56Q147 66 137 66H124 M148 73H157')+path('M44 19H151 M44 15V23 M151 15V23'); break;
-    case 'tokens': art=repeat(6,i=>rect(22+i*27,25,21,17,i%3===0?c:'none'))+path('M32 49V59H86V49 M113 49V59H167V49 M59 59V76 M140 59V76')+rect(32,80,55,22,c)+rect(113,80,55,22)+line(94,91,106,91); break;
-    case 'conversation': art=path('M69 17H130V40H103L91 50V40H69Z M100 50V58H49V70 M100 58H151V70 M24 70H74V93H53L42 102V93H24Z M126 70H176V93H155L144 102V93H126Z')+repeat(3,i=>dot(84+i*15,28,2))+path('M35 81H62 M138 81H163'); break;
-    case 'components': art=rect(29,23,57,32,c)+rect(99,23,71,15)+rect(99,47,71,8)+rect(29,68,35,32)+rect(76,68,94,32)+dot(46,83,7,'#eef0e7')+path('M88 79H151 M88 89H126'); break;
-    case 'pointer': art=path('M44 34H101 M44 46H81 M44 58H95 M36 23H118V85H36Z M108 53L145 83L129 86L122 103Z')+path('M147 27L155 19 M157 42H174 M144 53L153 61'); break;
-    case 'interfaces': art=repeat(4,y=>repeat(4,x=>rect(28+x*38,15+y*25,30,19)+ (x===y?dot(43+x*38,24+y*25,4):line(34+x*38,24+y*25,46+x*38,24+y*25)))); break;
-    case 'grammar': art=path('M35 28H47 M35 28V93H47 M164 28H152 M164 28V93H152')+rect(60,22,30,19)+rect(111,51,30,19,c)+rect(60,81,30,19)+path('M90 31H126V51 M126 70V90H90 M60 31H47 M60 90H47'); break;
-    case 'map': art=path('M25 33L73 22L125 37L177 23V92L125 106L73 91L25 104Z M73 22V91 M125 37V106')+path('M112 53C112 32 145 32 145 53Q145 68 128 83Q112 68 112 53Z')+dot(128,52,5)+path('M36 83L53 60L73 68L91 53'); break;
-    case 'wal': art=repeat(6,i=>rect(22+i*19,49,14,23,i===3?c:'none'))+path('M30 40V28H154V39 M148 33L154 39L160 33')+'<ellipse cx="159" cy="49" rx="19" ry="8"/>'+path('M140 49V89C140 100 178 100 178 89V49 M140 72C140 82 178 82 178 72'); break;
-    case 'pdfwrite': art=path('M49 19H101L122 40V101H49Z M101 19V40H122 M62 48H98 M62 60H90 M62 72H80 M93 87L99 71L145 25L156 36L110 82Z M99 71L110 82 M141 30L152 41'); break;
-    case 'document': art=path('M53 18H146V103H53Z M65 32H132 M65 40H111')+rect(65,50,67,35)+path('M65 62H132 M65 74H132 M87 50V85 M112 50V85 M65 94H113 M43 27V110H135'); break;
-    case 'codeedit': art=path('M34 22H117V99H34 M47 37L41 43L47 49 M62 37L68 43L62 49 M58 34L51 53 M46 64H99 M46 75H82 M46 86H91')+path('M127 28H170V83H127Z M137 41H160 M137 52H151 M137 63H157 M111 61H132 M120 53L112 61L120 69'); break;
-    case 'lanes': art=repeat(4,i=>path(`M27 ${24+i*24}H174`)+repeat(5,j=>rect(38+j*26,17+i*24,17,14,j===(i+1)%5?c:'none')))+path('M95 11V110 M90 104L95 110L100 104'); break;
+    case 'strata': art=repeat(3,i=>rect(39+i*49,24,24,61)+repeat(4,j=>j<2?pulse(rect(43+i*49,30+j*13,16,6,c),i*2+j):rect(43+i*49,30+j*13,16,6)))+flow(path('M51 85V101H100V85 M100 101H149V85 M100 101V111')); break;
+    case 'workspace': art=rect(27,19,146,86)+path('M27 36H173 M76 36V105 M35 47H65 M35 57H60 M35 67H66')+repeat(3,i=>rect(87,45+i*18,29,12)+flow(line(116,51+i*18,132,69),i))+pulse(rect(132,60,29,18,c)); break;
+    case 'forecast': art=path('M30 24V98H176 M39 85L65 73L91 66L115 48')+flow(path('M115 48L166 23 M115 48L166 49 M115 48L166 76'))+dot(39,85,3)+dot(65,73,3)+dot(91,66,3)+beat(dot(115,48,5))+path('M115 18V93')+repeat(3,i=>pulse(dot(166,23+i*26,3),i+1)); break;
+    case 'numerics': art=path('M51 22H38V100H51 M149 22H162V100H149')+repeat(3,y=>repeat(3,x=>{let n=(x+y)%3;return pulse(n===0?dot(64+x*35,37+y*25,4):n===1?path(`M${59+x*35} ${37+y*25}h10m-5 -5v10`):rect(60+x*35,33+y*25,8,8),x+y*3)})); break;
+    case 'verify': art=path('M49 29H84L105 48V95H49Z M84 29V48H105 M60 60H88 M60 70H79')+pulse(path('M118 45L140 36L162 45V65Q160 83 140 97Q120 83 118 65Z'))+beat(path('M129 64L138 73L153 54')); break;
+    case 'switchboard': art=repeat(3,i=>pulse(rect(25,23+i*29,28,16),i)+flow(line(53,31+i*29,87,60),i))+beat(dot(98,60,11))+flow(path('M109 60H139V31H167 M139 60H167 M139 60V89H167'))+repeat(3,i=>pulse(dot(171,31+i*29,4),i+3)); break;
+    case 'arrayfold': art=repeat(5,i=>i%2?pulse(rect(27+i*30,21,23,17,c),i):rect(27+i*30,21,23,17))+flow(path('M38 44V60H158V44 M98 60V77'))+path('M92 71L98 77L104 71')+beat(rect(76,82,44,22,c)); break;
+    case 'wasmmodule': art=bob(path('M57 24H94V34a9 9 0 1 0 18 0V24H145V58H135a9 9 0 1 0 0 18H145V100H57Z')+path('M72 48L78 78L86 58L94 78L100 48 M111 78L120 49L130 78 M115 68H126')); break;
+    case 'schedule': art=repeat(3,i=>line(28,35+i*27,172,35+i*27))+pulse(rect(37,27,29,16,c),0)+pulse(rect(94,27,33,16),2)+pulse(rect(69,54,32,16),1)+pulse(rect(132,54,24,16,c),3)+pulse(rect(110,81,33,16),4)+flow(path('M66 35L69 62 M101 62L110 89 M127 35L132 62')); break;
+    case 'searchpath': art=flow(path('M26 60H52L78 27H107 M52 60L78 91H107 M52 60H96L119 44H151 M96 60L122 78H158'))+dot(26,60,5)+pulse(dot(107,27,3),1)+pulse(dot(107,91,3),2)+pulse(dot(158,78,3),3)+beat(dot(151,44,12,'#eef0e7')+path('M146 44L150 48L157 39')); break;
+    case 'vocabulary': art=rect(25,23,42,31)+path('M33 45L45 31L59 45 M45 31V47')+flow(path('M67 38H93'))+pulse(rect(94,24,24,27,c))+flow(path('M106 51V65H53V86 M106 65H153V86'),1)+pulse(rect(40,86,26,20,c),2)+pulse(rect(139,86,26,20,c),4)+path('M67 97H82 M125 97H139'); break;
+    case 'parallel': art=flow(path('M30 60H52V26H76 M52 60H76 M52 60V94H76'))+flow(path('M123 26H148V60H174 M123 60H148 M123 94H148V60'),1)+repeat(3,i=>rect(77,15+i*34,45,22)+pulse(path(`M86 ${26+i*34}l7 5l17 -12`),i*2)); break;
+    case 'markup': art=pulse(path('M40 25L27 36L40 47 M61 25L74 36L61 47 M55 21L46 51'))+flow(path('M81 36H112V62H133 M112 62V92H133'))+pulse(rect(133,52,37,20),2)+pulse(rect(133,82,37,20),4)+path('M36 65V97H95 M48 65V84H95'); break;
+    case 'mailboxes': art=repeat(3,i=>bob(rect(27+i*54,36,40,53)+path(`M${33+i*54} 43h28v18h-28z m0 0l14 10l14 -10`),i))+path('M45 28V18H153V28 M99 18V28 M42 99H54 M96 99H108 M150 99H162'); break;
+    case 'superposition': art=path('M25 60H49 M150 60H175')+repeat(4,i=>flow(path(`M49 60C75 ${8+i*32} 126 ${8+i*32} 150 60`),i,i%2===1))+dot(49,60,5)+dot(150,60,5)+piv('m-spin',path('M87 51L100 38L113 51L100 64Z M87 72L100 59L113 72L100 85Z'),100,61.5,0,'--d:11s'); break;
+    case 'retrieval': art=repeat(4,i=>pulse(rect(32,24+i*21,65,13,i===2?c:'none'),i*2))+flow(path('M103 74H124'))+path('M117 68L124 74L117 80')+bob(dot(145,49,22,'#eef0e7')+line(160,65,176,87)+path('M134 49H156 M145 38V60')); break;
+    case 'mdl': art=path('M33 31H78V91H33 M33 45H65 M33 59H72 M33 73H59 M33 87H68')+flow(path('M84 60H110'))+rect(115,34,50,53)+pulse(path('M124 73V47H137Q147 47 147 56Q147 66 137 66H124 M148 73H157'))+path('M44 19H151 M44 15V23 M151 15V23'); break;
+    case 'tokens': art=repeat(6,i=>pulse(rect(22+i*27,25,21,17,i%3===0?c:'none'),i))+flow(path('M32 49V59H86V49 M113 49V59H167V49 M59 59V76 M140 59V76'))+pulse(rect(32,80,55,22,c),6)+pulse(rect(113,80,55,22),8)+line(94,91,106,91); break;
+    case 'conversation': art=path('M69 17H130V40H103L91 50V40H69Z M24 70H74V93H53L42 102V93H24Z M126 70H176V93H155L144 102V93H126Z')+repeat(3,i=>blink(dot(84+i*15,28,2),i))+flow(path('M100 50V58H49V70 M100 58H151V70'))+path('M35 81H62 M138 81H163'); break;
+    case 'components': art=pulse(rect(29,23,57,32,c),0)+pulse(rect(99,23,71,15),1)+pulse(rect(99,47,71,8),2)+pulse(rect(29,68,35,32),3)+pulse(rect(76,68,94,32),4)+dot(46,83,7,'#eef0e7')+path('M88 79H151 M88 89H126'); break;
+    case 'pointer': art=path('M44 34H101 M44 46H81 M44 58H95 M36 23H118V85H36Z')+mv('m-cursor',path('M108 53L145 83L129 86L122 103Z'))+blink(path('M147 27L155 19 M157 42H174 M144 53L153 61')); break;
+    case 'interfaces': art=repeat(4,y=>repeat(4,x=>pulse(rect(28+x*38,15+y*25,30,19)+(x===y?dot(43+x*38,24+y*25,4):line(34+x*38,24+y*25,46+x*38,24+y*25)),x+y))); break;
+    case 'grammar': art=path('M35 28H47 M35 28V93H47 M164 28H152 M164 28V93H152')+pulse(rect(60,22,30,19),0)+pulse(rect(111,51,30,19,c),3)+pulse(rect(60,81,30,19),6)+flow(path('M90 31H126V51 M126 70V90H90 M60 31H47 M60 90H47')); break;
+    case 'map': art=path('M25 33L73 22L125 37L177 23V92L125 106L73 91L25 104Z M73 22V91 M125 37V106')+bob(path('M112 53C112 32 145 32 145 53Q145 68 128 83Q112 68 112 53Z')+dot(128,52,5))+flow(path('M36 83L53 60L73 68L91 53')); break;
+    case 'wal': art=mv('m-shuttle',repeat(6,i=>rect(22+i*19,49,14,23,i===3?c:'none')))+path('M30 40V28H154V39 M148 33L154 39L160 33')+pulse('<ellipse cx="159" cy="49" rx="19" ry="8"/>'+path('M140 49V89C140 100 178 100 178 89V49 M140 72C140 82 178 82 178 72')); break;
+    case 'pdfwrite': art=path('M49 19H101L122 40V101H49Z M101 19V40H122 M62 48H98 M62 60H90 M62 72H80')+piv('m-sway',path('M93 87L99 71L145 25L156 36L110 82Z M99 71L110 82 M141 30L152 41'),93,87,0,'--amp:4deg'); break;
+    case 'document': art=path('M53 18H146V103H53Z M65 32H132 M65 40H111')+rect(65,50,67,35)+path('M65 62H132 M65 74H132 M87 50V85 M112 50V85 M65 94H113 M43 27V110H135')+mv('m-scan-y',line(65,52,132,52,'stroke-width="2.5" opacity=".7"')); break;
+    case 'codeedit': art=path('M34 22H117V99H34 M47 37L41 43L47 49 M62 37L68 43L62 49 M58 34L51 53')+pulse(path('M46 64H99'),0)+pulse(path('M46 75H82'),2)+pulse(path('M46 86H91'),4)+path('M127 28H170V83H127Z M137 41H160 M137 52H151 M137 63H157')+flow(path('M111 61H132'),0,true)+path('M120 53L112 61L120 69'); break;
+    case 'lanes': art=repeat(4,i=>path(`M27 ${24+i*24}H174`)+repeat(5,j=>pulse(rect(38+j*26,17+i*24,17,14,j===(i+1)%5?c:'none'),(i*5+j)%9)))+mv('m-shuttle',path('M95 11V110 M90 104L95 110L100 104'),0,'--amp:52px;--d:6s'); break;
 
-    case 'bridge': art=repeat(4,i=>rect(27,30+i*16,30,8,i===seed%4?c:'none')+rect(145,30+i*16,27,8,i===(seed+1)%4?c:'none')+path(`M57 ${34+i*16} C89 ${34+i*16} 109 ${82-i*16} 145 ${82-i*16}`))+rect(89,42,22,32,'#e7ebdf'); break;
-    case 'molecule': art=repeat(7,i=>{let a=i*.897,x=100+44*Math.cos(a),y=60+37*Math.sin(a);return line(100,60,x,y)+dot(x,y,7,i%2?c:'#e6eadc')})+dot(100,60,12); break;
-    case 'wave': art=repeat(6,i=>path(`M25 ${36+i*9} C55 ${-5+i*12+seed} 65 ${125-i*5} 103 ${55+i*4} S145 ${10+i*12} 177 ${38+i*9}`)); break;
-    case 'pair': art=repeat(2,j=>repeat(8,i=>rect(26+i*19,40+j*24,15,18,(i+j)%3===0?c:'none')))+path('M28 30V24H174V30 M28 92V98H174V92'); break;
-    case 'chip': art=rect(70,30,60,60,'#e0e7d6')+repeat(5,i=>line(77+i*11,19,77+i*11,30)+line(77+i*11,90,77+i*11,102)+line(59,37+i*11,70,37+i*11)+line(130,37+i*11,141,37+i*11))+rect(83,43,34,34,c); break;
-    case 'pendulum': art=path('M38 95H163 M65 95V23H130 M96 23L125 66L95 91')+dot(125,66,8)+dot(95,91,7)+path('M137 39Q166 76 121 105'); break;
-    case 'image': art=rect(32,28,60,65)+rect(109,28,60,65)+path('M36 83L55 57L69 70L85 44 M114 83L132 54L146 67L161 47')+dot(48,43,4)+dot(126,42,4)+line(94,61,106,61); break;
-    case 'matrix': art=repeat(6,y=>repeat(9,x=>rect(39+x*14,20+y*14,9,9,(x*3+y+seed)%7<2?c:'none'))); break;
-    case 'tree': art=repeat(3,i=>{let x=45+i*55;return line(100,22,x,56)+dot(x,56,6)+repeat(2,j=>line(x,56,x-14+j*28,94)+rect(x-19+j*28,90,10,10,(i+j+seed)%3===0?c:'#eef0e7'))})+dot(100,22,7); break;
-    case 'loop': art=path('M63 32C20 32 20 90 63 90H136C178 90 178 32 136 32H63 M64 25L54 32L64 39 M135 83L145 90L135 97')+rect(72,45,56,30)+repeat(3,i=>line(81,53+i*8,112+(seed%2)*8,53+i*8)); break;
-    case 'trace': art=path('M27 91H58V71H80V49H112V28H173')+repeat(6,i=>dot(38+i*25,91-i*12,3))+path('M34 29H67 M34 36H56 M127 84H161 M142 91H161'); break;
-    case 'box': art=path('M100 20L150 43V88L100 109L50 86V43Z M50 43L100 66L150 43 M100 66V109')+path(seed?'M78 53V76L91 82 M111 80L126 73V51':'M75 32L126 55V76'); break;
-    case 'nodes': art=repeat(3,i=>repeat(3,j=>line(44,30+i*30,100,30+j*30)+line(100,30+i*30,157,30+j*30)))+repeat(3,i=>repeat(3,j=>dot(44+i*56,30+j*30,7,(i+j+seed)%3? '#e7e9e0':c))); break;
-    case 'stack': art=repeat(4,i=>rect(52+i*3,22+i*21,91,15,i==seed%4?c:'#eef0e7')+dot(131+i*3,29+i*21,2)); break;
-    case 'compress': art=repeat(5,i=>rect(24,23+i*17,25+(i+seed)%3*8,10))+repeat(5,i=>line(60,28+i*17,113,43+i*8))+rect(115,34,58,53,'#e3e7db')+repeat(3,i=>rect(124+i*14,45,8,30,i==seed%3?c:'none')); break;
-    case 'chess': art=path('M72 99H132L124 88H81Z M85 88L91 61L75 56L87 34L101 37L108 24L123 43L125 62L116 87 M86 44H106')+dot(112,44,2)+ (seed?path('M40 35H62V51H44Z M143 58H174V76H157L148 84V76H143Z'):''); break;
-    case 'grid': art=repeat(5,y=>repeat(6,x=>rect(52+x*17,19+y*17,17,17,(x===0||y===0||x===5||y===4)?'#dce3d1':'none')))+rect(87,54,14,14,c)+dot(113,79,4)+path('M77 45H110V60'); break;
-    case 'curve': art=path('M35 17V97H172 M42 85C77 86 69 19 109 35S136 91 166 30 M72 82L130 19')+dot(102,47,5); break;
-    case 'window': art=rect(35,23,130,78,'#e9ede1')+line(35,38,165,38)+repeat(3,i=>dot(43+i*7,31,1.5))+ (seed===3?repeat(3,i=>rect(45+i*38,49,30,39,i===1?c:'none')):seed===4?path('M54 53H117 M54 63H100 M54 73H89 M124 67L139 80L131 81L127 91Z'):repeat(4,i=>rect(47,49+i*11,50+((i+seed)*13)%49,5,i%2?c:'none'))); break;
-    case 'sound': art=repeat(23,i=>{let h=8+Math.abs(Math.sin(i*.7+seed)*Math.cos(i*.21))*66;return rect(31+i*6,60-h/2,3,h,i%4===0?'none':c)}); break;
-    case 'gate': art=rect(44,20,114,86)+rect(60,34,82,58)+rect(77,46,48,34,'#e3e8d9')+line(23,60,96,60)+dot(96,60,5)+path('M151 53L159 60L151 67')+ (seed===3?path('M93 46V38a9 9 0 0 1 18 0V46'):''); break;
-    case 'rings': art=repeat(6,i=>`<ellipse cx="100" cy="60" rx="${17+i*10}" ry="${10+i*7}" transform="rotate(${i*13},100,60)"/>`)+dot(100,60,4); break;
-    case 'field': art=repeat(9,i=>path(`M25 ${24+i*9}C95 ${24+i*7} 73 59 111 59S158 ${10+i*13} 179 ${8+i*13}`))+rect(72,31,13,59,'#e3e9dd'); break;
-    case 'vortex': art=repeat(5,j=>path('M33 63C33 7 164 7 164 65C164 110 56 106 56 61C56 26 143 27 143 64C143 87 77 90 77 61C77 45 121 45 121 62').replace('<path','<path transform="rotate('+j*7+' 100 60)"')); break;
-    case 'swarm': art=path('M45 78L86 28L149 48L129 94Z M45 78L149 48 M86 28L129 94')+[[45,78],[86,28],[149,48],[129,94]].map(([x,y])=>line(x-8,y-6,x+8,y+6)+line(x+8,y-6,x-8,y+6)+dot(x-8,y-6,3)+dot(x+8,y+6,3)+dot(x+8,y-6,3)+dot(x-8,y+6,3)).join(''); break;
-    case 'duck': art=path('M65 62Q52 84 84 88H113Q133 78 113 65V40Q113 22 96 26Q79 29 86 46L72 49L86 55V64Z M89 88V100H76 M107 88V100H120')+dot(100,37,2)+path('M48 49C47 10 139 7 148 50 M139 44L148 52L153 40'); break;
-    case 'cell': art='<ellipse cx="100" cy="60" rx="67" ry="35" transform="rotate(-12 100 60)" fill="#e1e9d8"/><ellipse cx="100" cy="60" rx="59" ry="28" transform="rotate(-12 100 60)"/>'+path('M73 58Q90 30 109 61T130 58 M71 65Q90 85 111 55T133 64 M165 50Q191 38 182 14')+repeat(10,i=>dot(55+(i*17)%90,44+(i*13)%32,2)); break;
-    case 'rat': art=path('M65 76C29 105 20 62 40 67 M64 75Q52 49 81 46Q111 35 135 64L155 78L135 85H80Z M84 84L78 96H92 M120 84L126 95H137 M143 78L167 72 M144 82L166 86')+dot(122,55,11,'#e1e6d9')+dot(138,70,2)+dot(155,78,2); break;
-    case 'fit': art=path('M35 35H81V51H101V72H81V90H35Z M164 35H120V51H102V72H120V90H164Z')+path('M48 19H151 M48 14V24 M151 14V24 M49 106H151'); break;
-    case 'terrain': art=repeat(6,i=>path(`M29 ${44+i*10}L61 ${21+i*10}L93 ${41+i*8}L125 ${23+i*9}L174 ${40+i*10}`))+line(102,30,102,69)+dot(102,30,6); break;
-    case 'branch': art=repeat(3,i=>rect(37,20+i*31,60,19,i==1?'#e0e7d6':'none'))+path('M97 60H122V29H142 M122 60V91H142')+rect(142,20,28,18,c)+rect(142,82,28,18); break;
-    case 'log': art=repeat(6,i=>rect(29,20+i*14,55,8,i===seed?c:'none'))+path('M90 61H111L120 42H144 M111 61L120 85H144')+rect(144,31,26,24)+rect(144,73,26,24,c); break;
-    case 'pages': art=rect(63,20,71,85,'#e0e5d8')+rect(56,15,71,85,'#f2f4ed')+path('M109 15V34H127')+repeat(5,i=>line(69,43+i*10,110-(i+seed)%3*9,43+i*10))+rect(69,82,12+seed*10,5,c); break;
-    case 'chain': art='<rect x="42" y="42" width="67" height="34" rx="17" transform="rotate(-25 75 59)"/><rect x="92" y="42" width="67" height="34" rx="17" transform="rotate(-25 125 59)"/>'+dot(100,60,5); break;
-    case 'barcode': art=repeat(28,i=>rect(44+i*4,36,1+(i%3),47+(i%7===0?6:0),i%4===0?'none':c))+path('M37 30V23H48 M153 23H166V30 M37 90V97H48 M153 97H166V90'); break;
-    case 'mirror': art=path('M100 19V105 M80 34H46V88H80L59 61Z M120 34H154V88H120L141 61Z')+line(86,60,114,60)+dot(100,60,4); break;
-    case 'film': art=rect(26,33,75,55)+repeat(5,i=>rect(31+i*14,37,6,4)+rect(31+i*14,80,6,4))+path('M56 49L76 60L56 72Z M109 60H129 M122 54L129 60L122 66')+rect(139,44,34,32,c); break;
-    case 'camera': art=rect(60,27,80,69,'#e0e6d7')+dot(100,58,22,'#f0f2e9')+dot(100,58,12)+repeat(4,i=>rect(52,37+i*14,8,5)+rect(140,37+i*14,8,5))+path('M153 32Q166 43 153 54 M162 23Q185 43 162 63'); break;
-    case 'van': art=path('M43 82V43H122L149 62V82H43Z M123 45V63H147 M54 52H77V68H54Z M85 52H109V68H85Z')+dot(66,83,10,'#f0f2e8')+dot(129,83,10,'#f0f2e8')+dot(66,83,3)+dot(129,83,3)+path('M27 101H176 M25 22H175 M32 17V27 M48 17V27 M64 17V27 M80 17V27 M96 17V27 M112 17V27 M128 17V27 M144 17V27 M160 17V27'); break;
-    case 'terminal': art=rect(36,26,128,74,'#e2e7da')+line(36,41,164,41)+path('M52 55L62 64L52 73 M74 74H93')+ (seed?repeat(3,i=>line(108,56+i*10,149-i*8,56+i*10)):'')+dot(45,34,2); break;
-    case 'chat': art=path('M31 29H113V70H70L52 85V70H31Z M119 49H166V91H146L132 102V91H88V77')+repeat(3,i=>dot(51+i*20,49,3)); break;
+    case 'bridge': art=repeat(4,i=>pulse(rect(27,30+i*16,30,8,i===seed%4?c:'none'),i)+pulse(rect(145,30+i*16,27,8,i===(seed+1)%4?c:'none'),i+4)+flow(path(`M57 ${34+i*16} C89 ${34+i*16} 109 ${82-i*16} 145 ${82-i*16}`),i))+rect(89,42,22,32,'#e7ebdf'); break;
+    case 'molecule': art=piv('m-spin',repeat(7,i=>{let a=i*.897,x=100+44*Math.cos(a),y=60+37*Math.sin(a);return line(100,60,x,y)+dot(x,y,7,i%2?c:'#e6eadc')}),100,60,0,'--d:30s')+beat(dot(100,60,12)); break;
+    case 'wave': art=repeat(6,i=>flow(path(`M25 ${36+i*9} C55 ${-5+i*12+seed} 65 ${125-i*5} 103 ${55+i*4} S145 ${10+i*12} 177 ${38+i*9}`),i)); break;
+    case 'pair': art=repeat(2,j=>repeat(8,i=>(i+j)%3===0?pulse(rect(26+i*19,40+j*24,15,18,c),i+j):rect(26+i*19,40+j*24,15,18)))+path('M28 30V24H174V30 M28 92V98H174V92'); break;
+    case 'chip': art=rect(70,30,60,60,'#e0e7d6')+repeat(5,i=>line(77+i*11,19,77+i*11,30)+line(77+i*11,90,77+i*11,102)+line(59,37+i*11,70,37+i*11)+line(130,37+i*11,141,37+i*11))+beat(rect(83,43,34,34,c),0); break;
+    case 'pendulum': art=path('M38 95H163 M65 95V23H130')+piv('m-sway',path('M96 23L125 66L95 91')+dot(125,66,8)+dot(95,91,7),96,23,0,'--amp:9deg;--d:2.1s')+flow(path('M137 39Q166 76 121 105')); break;
+    case 'image': art=rect(32,28,60,65)+rect(109,28,60,65)+flow(path('M36 83L55 57L69 70L85 44'))+flow(path('M114 83L132 54L146 67L161 47'),1)+blink(dot(48,43,4),0)+blink(dot(126,42,4),3)+line(94,61,106,61); break;
+    case 'matrix': art=repeat(6,y=>repeat(9,x=>(x*3+y+seed)%7<2?pulse(rect(39+x*14,20+y*14,9,9,c),(x*5+y*3)%9):rect(39+x*14,20+y*14,9,9))); break;
+    case 'tree': art=repeat(3,i=>{let x=45+i*55;return flow(line(100,22,x,56),i)+pulse(dot(x,56,6),i+1)+repeat(2,j=>flow(line(x,56,x-14+j*28,94),i+j+1)+((i+j+seed)%3===0?pulse(rect(x-19+j*28,90,10,10,c),i*2+j+3):rect(x-19+j*28,90,10,10,'#eef0e7')))})+beat(dot(100,22,7)); break;
+    case 'loop': art=flow(path('M63 32C20 32 20 90 63 90H136C178 90 178 32 136 32H63'))+path('M64 25L54 32L64 39 M135 83L145 90L135 97')+rect(72,45,56,30)+repeat(3,i=>pulse(line(81,53+i*8,112+(seed%2)*8,53+i*8),i*2)); break;
+    case 'trace': art=flow(path('M27 91H58V71H80V49H112V28H173'))+repeat(6,i=>pulse(dot(38+i*25,91-i*12,3),i))+path('M34 29H67 M34 36H56 M127 84H161 M142 91H161'); break;
+    case 'box': art=bob(path('M100 20L150 43V88L100 109L50 86V43Z M50 43L100 66L150 43 M100 66V109')+flow(path(seed?'M78 53V76L91 82 M111 80L126 73V51':'M75 32L126 55V76'))); break;
+    case 'nodes': art=repeat(3,i=>repeat(3,j=>flow(line(44,30+i*30,100,30+j*30),(i+j)%3)+flow(line(100,30+i*30,157,30+j*30),(i+j+1)%3)))+repeat(3,i=>repeat(3,j=>(i+j+seed)%3?dot(44+i*56,30+j*30,7,'#e7e9e0'):pulse(dot(44+i*56,30+j*30,7,c),i+j))); break;
+    case 'stack': art=repeat(4,i=>pulse(rect(52+i*3,22+i*21,91,15,i==seed%4?c:'#eef0e7')+dot(131+i*3,29+i*21,2),i*2)); break;
+    case 'compress': art=mv('m-shuttle',repeat(5,i=>rect(24,23+i*17,25+(i+seed)%3*8,10)))+repeat(5,i=>flow(line(60,28+i*17,113,43+i*8),i))+rect(115,34,58,53,'#e3e7db')+repeat(3,i=>pulse(rect(124+i*14,45,8,30,i==seed%3?c:'none'),i*2)); break;
+    case 'chess': art=bob(path('M72 99H132L124 88H81Z M85 88L91 61L75 56L87 34L101 37L108 24L123 43L125 62L116 87 M86 44H106')+dot(112,44,2))+(seed?pulse(path('M40 35H62V51H44Z'),0)+pulse(path('M143 58H174V76H157L148 84V76H143Z'),4):''); break;
+    case 'grid': art=repeat(5,y=>repeat(6,x=>rect(52+x*17,19+y*17,17,17,(x===0||y===0||x===5||y===4)?'#dce3d1':'none')))+mv('m-shuttle',rect(87,54,14,14,c)+dot(113,79,4),0,'--amp:6px;--d:3.4s')+path('M77 45H110V60'); break;
+    case 'curve': art=path('M35 17V97H172')+flow(path('M42 85C77 86 69 19 109 35S136 91 166 30'))+piv('m-sway',path('M72 82L130 19'),102,47,0,'--amp:6deg;--d:3s')+beat(dot(102,47,5)); break;
+    case 'window': art=rect(35,23,130,78,'#e9ede1')+line(35,38,165,38)+repeat(3,i=>blink(dot(43+i*7,31,1.5),i))+ (seed===3?repeat(3,i=>pulse(rect(45+i*38,49,30,39,i===1?c:'none'),i*2)):seed===4?path('M54 53H117 M54 63H100 M54 73H89')+mv('m-cursor',path('M124 67L139 80L131 81L127 91Z')):repeat(4,i=>pulse(rect(47,49+i*11,50+((i+seed)*13)%49,5,i%2?c:'none'),i*2))); break;
+    case 'sound': art=repeat(23,i=>{let h=8+Math.abs(Math.sin(i*.7+seed)*Math.cos(i*.21))*66;return mv('m-grow',rect(31+i*6,60-h/2,3,h,i%4===0?'none':c),i%7)}); break;
+    case 'gate': art=rect(44,20,114,86)+rect(60,34,82,58)+pulse(rect(77,46,48,34,'#e3e8d9'))+flow(line(23,60,96,60))+beat(dot(96,60,5))+blink(path('M151 53L159 60L151 67'))+ (seed===3?bob(path('M93 46V38a9 9 0 0 1 18 0V46')):''); break;
+    case 'rings': art=repeat(6,i=>piv(i%2?'m-spin m-rev':'m-spin',`<ellipse cx="100" cy="60" rx="${17+i*10}" ry="${10+i*7}" transform="rotate(${i*13},100,60)"/>`,100,60,i,`--d:${14+i*5}s`))+beat(dot(100,60,4)); break;
+    case 'field': art=repeat(9,i=>flow(path(`M25 ${24+i*9}C95 ${24+i*7} 73 59 111 59S158 ${10+i*13} 179 ${8+i*13}`),i))+pulse(rect(72,31,13,59,'#e3e9dd')); break;
+    case 'vortex': art=repeat(5,j=>piv('m-spin',path('M33 63C33 7 164 7 164 65C164 110 56 106 56 61C56 26 143 27 143 64C143 87 77 90 77 61C77 45 121 45 121 62').replace('<path','<path transform="rotate('+j*7+' 100 60)"'),100,60,j,`--d:${26-j*4}s`)); break;
+    case 'swarm': art=flow(path('M45 78L86 28L149 48L129 94Z M45 78L149 48 M86 28L129 94'))+[[45,78],[86,28],[149,48],[129,94]].map(([x,y],k)=>bob(line(x-8,y-6,x+8,y+6)+line(x+8,y-6,x-8,y+6)+dot(x-8,y-6,3)+dot(x+8,y+6,3)+dot(x+8,y-6,3)+dot(x-8,y+6,3),k)).join(''); break;
+    case 'duck': art=bob(path('M65 62Q52 84 84 88H113Q133 78 113 65V40Q113 22 96 26Q79 29 86 46L72 49L86 55V64Z M89 88V100H76 M107 88V100H120')+dot(100,37,2))+flow(path('M48 49C47 10 139 7 148 50'))+path('M139 44L148 52L153 40'); break;
+    case 'cell': art='<ellipse cx="100" cy="60" rx="67" ry="35" transform="rotate(-12 100 60)" fill="#e1e9d8"/><ellipse cx="100" cy="60" rx="59" ry="28" transform="rotate(-12 100 60)"/>'+flow(path('M73 58Q90 30 109 61T130 58 M71 65Q90 85 111 55T133 64'))+piv('m-sway',path('M165 50Q191 38 182 14'),165,50,0,'--amp:10deg;--d:1.6s')+repeat(10,i=>blink(dot(55+(i*17)%90,44+(i*13)%32,2),i%5)); break;
+    case 'rat': art=piv('m-sway',path('M65 76C29 105 20 62 40 67'),65,76,0,'--amp:7deg;--d:1.9s')+path('M64 75Q52 49 81 46Q111 35 135 64L155 78L135 85H80Z M84 84L78 96H92 M120 84L126 95H137 M143 78L167 72 M144 82L166 86')+dot(122,55,11,'#e1e6d9')+blink(dot(138,70,2),4)+beat(dot(155,78,2)); break;
+    case 'fit': art=mv('m-shuttle',path('M35 35H81V51H101V72H81V90H35Z'))+mv('m-shuttle m-rev',path('M164 35H120V51H102V72H120V90H164Z'))+path('M48 19H151 M48 14V24 M151 14V24 M49 106H151'); break;
+    case 'terrain': art=repeat(6,i=>flow(path(`M29 ${44+i*10}L61 ${21+i*10}L93 ${41+i*8}L125 ${23+i*9}L174 ${40+i*10}`),i))+line(102,30,102,69)+bob(dot(102,30,6)); break;
+    case 'branch': art=repeat(3,i=>pulse(rect(37,20+i*31,60,19,i==1?'#e0e7d6':'none'),i*2))+flow(path('M97 60H122V29H142 M122 60V91H142'))+pulse(rect(142,20,28,18,c),6)+pulse(rect(142,82,28,18),8); break;
+    case 'log': art=repeat(6,i=>pulse(rect(29,20+i*14,55,8,i===seed?c:'none'),i))+flow(path('M90 61H111L120 42H144 M111 61L120 85H144'))+pulse(rect(144,31,26,24),6)+pulse(rect(144,73,26,24,c),8); break;
+    case 'pages': art=rect(63,20,71,85,'#e0e5d8')+bob(rect(56,15,71,85,'#f2f4ed')+path('M109 15V34H127')+repeat(5,i=>line(69,43+i*10,110-(i+seed)%3*9,43+i*10))+pulse(rect(69,82,12+seed*10,5,c))); break;
+    case 'chain': art=piv('m-sway','<rect x="42" y="42" width="67" height="34" rx="17" transform="rotate(-25 75 59)"/>',75,59,0,'--amp:5deg')+piv('m-sway m-rev','<rect x="92" y="42" width="67" height="34" rx="17" transform="rotate(-25 125 59)"/>',125,59,0,'--amp:5deg')+beat(dot(100,60,5)); break;
+    case 'barcode': art=repeat(28,i=>rect(44+i*4,36,1+(i%3),47+(i%7===0?6:0),i%4===0?'none':c))+path('M37 30V23H48 M153 23H166V30 M37 90V97H48 M153 97H166V90')+mv('m-scan-x',line(46,30,46,97,'stroke-width="2.5" opacity=".75"')); break;
+    case 'mirror': art=path('M100 19V105')+pulse(path('M80 34H46V88H80L59 61Z'),0)+pulse(path('M120 34H154V88H120L141 61Z'),4)+flow(line(86,60,114,60))+beat(dot(100,60,4)); break;
+    case 'film': art=rect(26,33,75,55)+mv('m-shuttle',repeat(5,i=>rect(31+i*14,37,6,4)+rect(31+i*14,80,6,4)),0,'--amp:5px')+pulse(path('M56 49L76 60L56 72Z'))+flow(path('M109 60H129'))+path('M122 54L129 60L122 66')+pulse(rect(139,44,34,32,c),4); break;
+    case 'camera': art=rect(60,27,80,69,'#e0e6d7')+dot(100,58,22,'#f0f2e9')+beat(dot(100,58,12))+repeat(4,i=>rect(52,37+i*14,8,5)+rect(140,37+i*14,8,5))+blink(path('M153 32Q166 43 153 54'),0)+blink(path('M162 23Q185 43 162 63'),2); break;
+    case 'van': art=bob(path('M43 82V43H122L149 62V82H43Z M123 45V63H147 M54 52H77V68H54Z M85 52H109V68H85Z')+dot(66,83,10,'#f0f2e8')+dot(129,83,10,'#f0f2e8')+dot(66,83,3)+dot(129,83,3))+path('M27 101H176 M25 22H175')+mv('m-roll',repeat(10,i=>line(32+i*16,17,32+i*16,27))); break;
+    case 'terminal': art=rect(36,26,128,74,'#e2e7da')+line(36,41,164,41)+path('M52 55L62 64L52 73 M74 74H93')+blink(rect(96,68,6,11,c),0)+ (seed?repeat(3,i=>pulse(line(108,56+i*10,149-i*8,56+i*10),i*2)):'')+dot(45,34,2); break;
+    case 'chat': art=path('M31 29H113V70H70L52 85V70H31Z M119 49H166V91H146L132 102V91H88V77')+repeat(3,i=>blink(dot(51+i*20,49,3),i)); break;
   }
   art = art.replaceAll(c, 'currentColor').replace(/fill="#[a-f0-9]{6}"/gi, 'fill="var(--specimen-fill, #e5e8df)"');
   return `<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="color:var(--specimen-ink, ${c})"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${art}</g></svg>`;
@@ -3059,18 +3120,30 @@ const ProjectsIndex = {
     const groups = PROJECT_GROUPS.map((g, gi) => ({ ...g, color: shades[gi], items: g.names.filter(n => byName[n] && !seen.has(n) && seen.add(n)).map(n => ({ ...byName[n], serial: ++serial, drawing: specimen(n, gi) })) }));
     const rest = PROJECT_LINES.filter(p => !seen.has(p.name));
     if (rest.length) groups.push({ id: 'etc', kj: '他', blurb: 'the rest', items: rest.map(p => ({ ...p, serial: ++serial, drawing: specimen(p.name, 8) })) });
-    return { groups, count: PROJECT_LINES.length, activeGroup: groups[0].id, navigationOpen: false };
+    return { groups, count: PROJECT_LINES.length, activeGroup: groups[0].id, navigationOpen: false, inspected: null };
   },
   methods: {
-    number(n) { return String(n).padStart(2, '0'); }
+    number(n) { return String(n).padStart(2, '0'); },
+    inspect(p, g) { this.inspected = p ? { name: p.name, text: p.text, group: g.id } : null; }
   },
   mounted() {
     this.sectionObserver = new IntersectionObserver(entries => {
       for (const entry of entries) if (entry.isIntersecting) this.activeGroup = entry.target.id.slice(6);
     }, { rootMargin: '-60px 0px -65% 0px', threshold: 0 });
     this.$el.querySelectorAll('.cab-section').forEach(section => this.sectionObserver.observe(section));
+    // Mechanisms only run while their drawing is on screen.
+    this.liveObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) entry.target.classList.toggle('is-live', entry.isIntersecting);
+    }, { rootMargin: '120px 0px' });
+    this.$el.querySelectorAll('.cab-mini, .cab-card').forEach(el => this.liveObserver.observe(el));
+    // Power-on: the overview draws itself once on arrival.
+    const overview = this.$el.querySelector('.cab-overview');
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      overview.classList.add('cab-boot');
+      this.bootTimer = setTimeout(() => overview.classList.remove('cab-boot'), 2500);
+    }
   },
-  beforeUnmount() { this.sectionObserver?.disconnect(); },
+  beforeUnmount() { this.sectionObserver?.disconnect(); this.liveObserver?.disconnect(); clearTimeout(this.bootTimer); },
   template: `
 <div class="cabinet" @keydown.esc="navigationOpen = false">
   <header class="cab-top">
@@ -3079,12 +3152,13 @@ const ProjectsIndex = {
   </header>
   <div class="cab-hero">
     <div class="cab-overview" aria-label="Overview of all projects">
-      <div class="cab-overview-head"><h1>Projects</h1><span class="cab-meta">Index / 01–{{ count }}</span></div>
-      <div v-for="g in groups" :key="g.id" class="cab-drawer" :style="{ '--group-color': g.color }">
+      <div class="cab-overview-head"><h1>Projects</h1><p class="cab-byline"><b>lulzx</b><span>Software engineer. Building quiet systems.</span></p><span class="cab-meta">Index / 01–{{ count }}</span></div>
+      <div v-for="(g, gi) in groups" :key="g.id" class="cab-drawer" :style="{ '--group-color': g.color }">
         <a :href="'#group-' + g.id" class="cab-drawer-name">{{ g.id }}</a>
-        <div class="cab-miniatures"><a v-for="p in g.items" :key="p.name" :href="'#project-' + p.name" class="cab-mini" :aria-label="p.name"><span class="cab-mini-drawing" v-html="p.drawing"></span><span class="cab-mini-name" aria-hidden="true">{{ p.name }}</span></a></div>
+        <div class="cab-miniatures"><a v-for="(p, pi) in g.items" :key="p.name" :href="'#project-' + p.name" class="cab-mini" :aria-label="p.name" :style="{ '--boot': (gi * 90 + pi * 45) + 'ms' }" @mouseenter="inspect(p, g)" @focus="inspect(p, g)" @mouseleave="inspect(null)" @blur="inspect(null)"><span class="cab-mini-drawing" v-html="p.drawing"></span><span class="cab-mini-name" aria-hidden="true">{{ p.name }}</span></a></div>
         <span class="cab-count">{{ number(g.items.length) }}</span>
       </div>
+      <div class="cab-inspect" aria-live="polite"><span class="cab-inspect-name">{{ inspected ? inspected.name : '' }}</span><span class="cab-inspect-text">{{ inspected ? inspected.text : '' }}</span><span class="cab-inspect-category">{{ inspected ? inspected.group : '' }}</span></div>
     </div>
   </div>
   <nav class="cab-index" aria-label="Project categories"><a v-for="g in groups" :key="g.id" :href="'#group-' + g.id" :style="{ '--group-color': g.color }" :class="{ 'is-current': activeGroup === g.id }" :aria-current="activeGroup === g.id ? 'location' : undefined" @click="activeGroup = g.id">{{ g.id }}<sup>{{ number(g.items.length) }}</sup></a></nav>
