@@ -5,8 +5,9 @@
   "scripts": {
     "generate:agents": "node scripts/generate-agent-assets.mjs",
     "test": "node --test tests/*.test.mjs",
-    "build:gallery": "rm -rf gallery/assets && vite build",
-    "dev:gallery": "vite"
+    "build:gallery": "node scripts/build-story.mjs && rm -rf gallery/assets && vite build",
+    "dev:gallery": "vite",
+    "build:story": "node scripts/build-story.mjs"
   },
   "devDependencies": {
     "@base-ui/react": "^1.8.0",
