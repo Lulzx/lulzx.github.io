@@ -880,7 +880,7 @@ html.dark .cab-card:hover svg, html.dark .cab-card:focus-visible svg, html.dark 
 <body>
 <div id="app"><!-- AGENT_SSR_START -->
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header"><div class="container header-inner"><div class="nav-wrap"><nav class="nav"><a href="/words"><span class="en">words</span></a><a href="/"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
+<header class="site-header"><div class="container header-inner"><div class="nav-wrap"><nav class="nav"><a href="/"><span class="en">projects</span></a><a href="/learn"><span class="en">learn</span></a><a href="/about"><span class="en">about</span></a><a href="/gallery/"><span class="en">gallery</span></a></nav></div></div></header>
 <main id="main">
   <section class="section container"><div class="head-row"><h2>Projects</h2></div><p class="page-intro">Compilers, simulations, and tools by lulzx.</p><div class="ssr-projects"><p><a href="https://github.com/Lulzx/cuda-metal">cuda-metal</a>: CUDA compiler and runtime for Apple Silicon: it compiles and runs CUDA kernels on the M-series GPU.</p>
   <p><a href="https://github.com/Lulzx/box3d-metal">box3d-metal</a>: a Metal compute backend for Box3D on Apple Silicon, packaged as a reproducible overlay with tests and benchmarks.</p>
@@ -2583,7 +2583,6 @@ const ICO = {
 // ---- static content ----
 const NAV = [
     { to: '/', label: 'home', kj: 'ホーム' },
-    { to: '/words', label: 'words', kj: '言葉' },
     { to: '/learn', label: 'writing', kj: '記録' },
     { to: '/about', label: 'about', kj: '略歴' }
 ];
@@ -3148,7 +3147,7 @@ const ProjectsIndex = {
 <div class="cabinet" @keydown.esc="navigationOpen = false">
   <header class="cab-top">
     <button class="cab-menu-button" @click="navigationOpen = !navigationOpen" :aria-expanded="navigationOpen" aria-controls="cab-navigation">{{ navigationOpen ? 'Close −' : 'Menu +' }}</button>
-    <nav id="cab-navigation" v-show="navigationOpen" aria-label="Main navigation" @click="navigationOpen = false"><router-link to="/">home</router-link><router-link to="/words">words</router-link><router-link to="/learn">writing</router-link><router-link to="/about">about</router-link><a href="/gallery/">gallery</a><a href="https://github.com/Lulzx" target="_blank" rel="noopener">github ↗</a><button class="theme-toggle" @click="$root.toggleTheme()" :aria-label="$root.dark ? 'Switch to light theme' : 'Switch to dark theme'" v-html="$root.dark ? ICO.sun : ICO.moon"></button></nav>
+    <nav id="cab-navigation" v-show="navigationOpen" aria-label="Main navigation" @click="navigationOpen = false"><router-link to="/">home</router-link><router-link to="/learn">writing</router-link><router-link to="/about">about</router-link><a href="/gallery/">gallery</a><a href="https://github.com/Lulzx" target="_blank" rel="noopener">github ↗</a><button class="theme-toggle" @click="$root.toggleTheme()" :aria-label="$root.dark ? 'Switch to light theme' : 'Switch to dark theme'" v-html="$root.dark ? ICO.sun : ICO.moon"></button></nav>
   </header>
   <div class="cab-hero">
     <div class="cab-overview" aria-label="Overview of all projects">
