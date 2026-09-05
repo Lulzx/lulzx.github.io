@@ -278,11 +278,19 @@ export function gestureMove(
         p: next.grab.p * dragProgress(dy, ctx.vh),
       },
     })
-  } else {
-    // Sideways is the track's, and the track is a scroll container. A finger never
-    // gets here (touch-action hands horizontal panning straight to the browser); a
-    // MOUSE does, and it drags the scroller by the same amount, so the platform's
-    // own snap decides where it lands.
+  } else if (next.type === "mouse") {
+    // Sideways is the track's, and the track is a scroll container. A MOUSE is the
+    // one pointer the engine has to carry, because no browser drag-scrolls a mouse.
+    //
+    // A FINGER gets here too, which the comment here used to deny, and that was the
+    // bug: `touch-action: pan-x` lets the browser pan, it does not stop pointer
+    // events being dispatched, and the axis locks at INTENT (6px) several moves
+    // before the compositor commits. Every one of those moves wrote `scrollLeft` on
+    // a scroller the compositor was also moving, and set `data-stepping`, which
+    // turns the snap magnets OFF mid-gesture. Then the platform claimed the pan,
+    // `pointercancel` arrived, the magnets came back on between two slides and the
+    // release path glided to the slide being LEFT. A swipe that fought back.
+    // Only a mouse, so the two never share the axis. Pen pans like a finger.
     effects.push({ kind: "scroll", dx: mx })
   }
   return { gesture: next, effects }
@@ -372,7 +380,10 @@ export function gestureUp(
       ? { kind: "exit", vel: vy }
       : { kind: "cancel", vel: vy, zoomed: false }
   }
-  return { kind: "snap" }
+  // The mouse dragged the scroller by hand and something has to land it. A finger
+  // never moved it: the browser did, and `mandatory` with `scroll-snap-stop: always`
+  // is already landing it. Gliding on top of that is a second mover arriving late.
+  return g.type === "mouse" ? { kind: "snap" } : { kind: "resume" }
 }
 
 export type TapIntent =

@@ -70,6 +70,7 @@ import {
   fit,
   GLIDE,
   GLIDE_ENTRY,
+  GLIDE_ENTRY_MIN,
   GLIDE_MAX,
   GLIDE_MIN,
   GONE,
@@ -87,10 +88,15 @@ import {
   SLIDE_GAP,
   type SourceView,
   STILL,
+  SWIPE_END,
+  SWIPE_SURGE,
+  SWIPE_SURGE_DECAY,
+  SWIPE_SURGE_MIN,
   sharpScale,
   sourceView,
   stageBand,
-  swipeSlides,
+  swipeCommitPx,
+  swipeGive,
   type Tunings,
   type View,
   WHEEL_GUARD,
@@ -110,6 +116,7 @@ import {
   phaseFeed,
   phaseStart,
 } from "@/registry/base-nova/lib/lightbox-wheel-phase"
+import { Copy } from "@/registry/base-nova/ui/copy"
 import "./lightbox.css"
 
 export type Source = {
@@ -166,8 +173,11 @@ export interface LightboxProps {
   renderRail?: (entry: Entry, facts: Facts) => React.ReactNode
   onOpenChange?: (id: string | null) => void
   /** A mono trace of pointer, gesture and dispatch decisions on the stage, for
-   *  device sign-off: what the engine saw and decided, as it happened. */
-  debug?: boolean
+   *  device sign-off: what the engine saw and decided, as it happened. A string is a
+   *  BUILD ID and is printed as the first line: a trace is worthless as evidence if
+   *  nobody can tell which build produced it, and a stale buffer looks exactly like a
+   *  fresh one. Pass a commit SHA. */
+  debug?: boolean | string
   /** What the dialog is announced as, after the count. */
   label?: string
   children: React.ReactNode
@@ -212,6 +222,12 @@ const THUMB_H = 32
  *  throw crosses its neighbour and is already looking at the next one by the time
  *  anything commits. */
 const LOADED = 2
+/** Trace entries kept. An entry can be a whole trajectory table, so this is far fewer
+ *  screens than it looks, and a debug buffer that discards the interesting part while
+ *  the reader scrolls to it is worse than none. */
+const TRACE_LINES = 60
+/** Module scope on purpose: the trace survives the dialog it came from. */
+let TRACE: string[] = []
 const FRAME_GUTTER = 32
 /** The rail beside the media at lg (px), under it below (share of the stage). The
  *  css reads both from the root (--lb-rail-w, --lb-rail-h). */
@@ -581,7 +597,7 @@ type StageProps = {
   onIndex: (index: number) => void
   onFacts: (f: Facts) => void
   onClosed: () => void
-  debug: boolean
+  debug: boolean | string
 }
 
 const POSE_EPS: Pose = { x: 0.5, y: 0.5, s: 0.001, p: 0.002 }
@@ -645,14 +661,18 @@ function Stage(props: StageProps) {
   const [announce, setAnnounce] = React.useState({ text: "", n: 0 })
   const [caption, setCaption] = React.useState<React.ReactNode>(null)
   // The debug trace: the engine pushes lines, React sees them once per frame.
-  const [log, setLog] = React.useState<string[]>([])
-  const logRef = React.useRef<string[]>([])
+  const [log, setLog] = React.useState<string[]>(TRACE)
+  const logRef = React.useRef<string[]>(TRACE)
   const logRaf = React.useRef(0)
   const pushTrace = React.useCallback((m: string) => {
     logRef.current = [
-      ...logRef.current.slice(-15),
+      ...logRef.current.slice(-TRACE_LINES),
       `${(performance.now() / 1000).toFixed(2)} ${m}`,
     ]
+    // The buffer OUTLIVES the stage. It used to die with the dialog, which is the
+    // one moment someone is reaching for it: a bug is reproduced, the lightbox
+    // closes, and the evidence goes with it.
+    TRACE = logRef.current
     if (logRaf.current === 0)
       logRaf.current = requestAnimationFrame(() => {
         logRaf.current = 0
@@ -954,7 +974,18 @@ function Stage(props: StageProps) {
     // the platform's; only a KEY, a button or a thumbnail is animated here, because
     // `scroll-behavior: smooth` has no duration and reads as a crawl next to the rest
     // of this thing. The same spring the pose uses, so a step feels like a step.
-    const slotW = () => trackEl.clientWidth + SLIDE_GAP
+    /** A slide's pitch, CACHED. `clientWidth` is a layout read, and this is asked for
+     *  four or five times per wheel event, each one interleaved with a `scrollLeft`
+     *  write — which is a forced synchronous layout, per event, over every mounted
+     *  slide. Measured with it uncached: wheel events arrived 33 ms apart carrying
+     *  189 px each, because the browser had coalesced four frames' worth while the
+     *  page reflowed. No motion rule survives being fed that. The slides are
+     *  viewport-wide, so only the viewport can change this. */
+    let slot = 0
+    const measureSlot = () => {
+      slot = trackEl.clientWidth + SLIDE_GAP
+    }
+    const slotW = () => slot
     const landedSlot = () =>
       Math.min(
         L.current.ids.length - 1,
@@ -972,14 +1003,45 @@ function Stage(props: StageProps) {
       aimAt(i)
       L.current.onIndex(i)
     }
+    /** THE TRACK HAS ONE WRITER, and this is its two terms. `base` is where the
+     *  machine has the track: a resting slide, or a glide in flight. `swipeTravel` is
+     *  the hand's live offset from it, in px, and it is zero whenever no hand is on
+     *  the track. Everything writes their sum.
+     *
+     *  Splitting them is what lets a commit be seamless. The old shape had the hand
+     *  drive scrollLeft directly until a slide was chosen and the glide take it over
+     *  after, so one motion was two different things and a re-aim mid-flight was the
+     *  hand and the machine writing the same number. Here a commit re-bases: the glide
+     *  is aimed at the new slide FROM WHERE THE PICTURES ARE, the hand's offset resets
+     *  to zero, their sum does not move a pixel, and the fingers keep being felt for
+     *  the whole flight. */
+    let base = 0
+    let swipeTravel = 0
     let glide = 0
+    /** What the slide costs, and how far the pictures lean on the way to it. Bought,
+     *  they lean nothing: they are ON the slide, and leaning off one they have already
+     *  arrived at, toward one they cannot buy, is the drift with a life of its own. */
+    const swipeLine = () => swipeCommitPx(slotW())
+    const give = () => (swipeDone ? 0 : swipeGive(swipeTravel, swipeLine()))
+    const paintTrack = () => {
+      const n = L.current.ids.length
+      trackEl.scrollLeft = clamp(base + give(), 0, (n - 1) * slotW())
+    }
+    /** Hand the track back to the machine where it stands. Any path that takes over
+     *  from a hand calls this, and nothing after it can jump. */
+    const rebase = () => {
+      base = trackEl.scrollLeft
+      swipeTravel = 0
+    }
     const stopGlide = () => {
       if (!glide) return
       cancelAnimationFrame(glide)
       glide = 0
       // Cut short between two slides: the magnets come straight back on, and the
-      // browser takes it to the nearest one. Nothing here has to decide which.
-      delete trackEl.dataset.stepping
+      // browser takes it to the nearest one. Nothing here has to decide which — but
+      // not while a hand is still on the track, where a mandatory container reads
+      // every 1:1 write as a rest and drags the pictures off the fingers.
+      if (!swipe) delete trackEl.dataset.stepping
     }
     /** The track arrives at slide `i`. `vx` is the speed it already had, in px per ms,
      *  so a swipe that commits with the fingers still moving continues at their speed
@@ -988,11 +1050,23 @@ function Stage(props: StageProps) {
      *  container treats every frame of a JS scroll as a rest and would fight it. */
     const glideTo = (i: number, vx = 0) => {
       stopGlide()
+      // MAGNETS DOWN BEFORE ANYTHING READS THE SCROLLER. `scroll-snap-type: mandatory`
+      // re-snaps the container at the next layout, and reading `scrollLeft` forces
+      // that layout — so a read taken between `stopGlide` handing the magnets back and
+      // this move setting them down again does not observe the position, it MOVES it,
+      // to the nearest slide. Mid-flight that is a jump of up to half a picture,
+      // backwards, and it is the seesaw at the start of a gesture.
+      trackEl.dataset.stepping = ""
+      // Derived from the ground truth, every time. The browser moves this scroller
+      // too (a finger's pan, a snap, a resize), and a `base` remembered across that
+      // is a stale number the next glide would jump from.
+      base = trackEl.scrollLeft - give()
       const to = i * slotW()
-      const from = trackEl.scrollLeft
+      const from = base
       const d = to - from
       if (reduced || Math.abs(d) < 0.5) {
-        trackEl.scrollLeft = to
+        base = to
+        paintTrack()
         commitIndex(i)
         return
       }
@@ -1003,16 +1077,16 @@ function Stage(props: StageProps) {
         GLIDE_MIN,
         GLIDE_MAX,
       )
-      const m0 = clamp(
-        vx * ms,
-        -GLIDE_ENTRY * Math.abs(d),
-        GLIDE_ENTRY * Math.abs(d),
-      )
-      trackEl.dataset.stepping = ""
+      // In multiples of the move's own average speed, so the bounds read as shapes
+      // rather than as pixel arithmetic, and a hand pulling the other way still
+      // leaves toward the slide instead of away from it.
+      const m0 = d * clamp((vx * ms) / d, GLIDE_ENTRY_MIN, GLIDE_ENTRY)
       const t0 = performance.now()
       const step = (t: number) => {
         const s = Math.min(1, (t - t0) / ms)
-        trackEl.scrollLeft = from + glide_(d, m0, s)
+        base = from + glide_(d, m0, s)
+        paintTrack()
+        shootGlide()
         if (s < 1) {
           glide = requestAnimationFrame(step)
           return
@@ -1020,9 +1094,15 @@ function Stage(props: StageProps) {
         // Exactly home, at a time that was known before it started, and on a snap
         // point, so handing the magnets back is a no-op the reader cannot see.
         glide = 0
-        trackEl.scrollLeft = to
-        delete trackEl.dataset.stepping
+        base = to
+        paintTrack()
+        shootGlide()
+        if (!swipe) delete trackEl.dataset.stepping
         commitIndex(i)
+        // One gesture, one table. A swipe still under the fingers has bought a slide,
+        // not finished: reporting here would cut the trace at the first commit and
+        // throw away the half a reader calls slow.
+        if (!swipe) report(`landed on ${i}`)
       }
       glide = requestAnimationFrame(step)
     }
@@ -1302,6 +1382,8 @@ function Stage(props: StageProps) {
       const n = ids.length
       const d = to - index
       if (d === 0) return
+      // A key is a hand too, and it takes the track off the wheel's.
+      endSwipe()
       const step = Math.abs(d) === 1
       // A press chains onto the step already in flight: where the track is HEADING is
       // what the next one counts from. Counting from the committed index instead, which
@@ -1580,7 +1662,9 @@ function Stage(props: StageProps) {
     }
     const onDown = (e: PointerEvent) => {
       S.input = "pointer"
-      // A hand on the track always wins over a glide it started itself.
+      // A hand on the track always wins over a glide it started itself, and over a
+      // wheel gesture still holding an offset: one hand at a time.
+      endSwipe()
       stopGlide()
       if (chromeTarget(e.target)) return
       // The native control strip owns its pointers: a scrub is not a drag; the rest
@@ -1610,7 +1694,10 @@ function Stage(props: StageProps) {
     }
     const onMove = (e: PointerEvent) => {
       if (!G?.pts.has(e.pointerId)) return
-      if (G.samples.length === 0) rootEl.setPointerCapture(e.pointerId)
+      // Capture is implicit for touch and pen, and taking it while the compositor is
+      // still deciding whether the pan is the scroller's is a way to be cancelled.
+      if (G.samples.length === 0 && e.pointerType === "mouse")
+        rootEl.setPointerCapture(e.pointerId)
       const next = gestureMove(G, inputOf(e, { hand: handOf(e) }), gestureCtx())
       G = next.gesture
       applyGesture(next.effects)
@@ -1673,8 +1760,22 @@ function Stage(props: StageProps) {
         }
       }
     }
+    /** `pointercancel` is the PLATFORM taking the gesture, which is not the reader
+     *  ending it. It arrives mid-swipe, the instant the scroller claims the pan, with
+     *  the finger still on the glass. Running the release there re-armed the magnets
+     *  between two slides and glided to `landedSlot()` — which under half a slide of
+     *  travel IS the slide being left, so a swipe visibly went and came back.
+     *
+     *  A sideways gesture the browser has taken is simply dropped: it is carrying it
+     *  now, and it lands it. Everything else is a real interruption and still ends. */
     const onCancel = (e: PointerEvent) => {
       trace(`cancel ${e.pointerType} #${e.pointerId}`)
+      if (G?.pts.has(e.pointerId) && G.axis === "x" && G.mode === "fit") {
+        G = null
+        endGesture()
+        resume()
+        return
+      }
       onUp(e)
     }
     const onUp = (e: PointerEvent) => {
@@ -1736,38 +1837,183 @@ function Stage(props: StageProps) {
     let wheelPhase = phaseStart()
     /** The axis this wheel stream belongs to, once its travel has said. */
     let streamAxis: "x" | "y" | null = null
-    /** Is a wheel stream live on the track? While the fingers are on the glass the
-     *  track follows them 1:1 and the slide is a FUNCTION of how far they have come:
-     *  one as soon as they pass SWIPE_COMMIT, one more for every whole slide after
-     *  that. Total travel, never a counter that resets — a counter makes every
-     *  SWIPE_COMMIT of finger buy a whole slide, which is a 5x gain wearing a
-     *  threshold's clothes, and it is why one motion once jumped five.
+    /** Is a wheel stream live on the track? The track follows the fingers 1:1 off the
+     *  slide it is ANCHORED to, and every SWIPE_COMMIT px of finger buys the next one:
+     *  the anchor moves, the offset goes back to zero, and the pictures glide the rest
+     *  of the way while the hand keeps steering. Same price for the first slide, the
+     *  fifth, and the one straight back the way it came.
+     *
+     *  What it replaced was a slide read off the TOTAL travel since the stream opened.
+     *  That is an absolute map wearing a threshold's clothes, and it is asymmetric:
+     *  measured, continuing cost a whole slide of finger where reversing cost 7 px, so
+     *  one direction crawled and the other fired instantly, and a hand that wobbled 7
+     *  px mid-drag had the slide it just bought taken back off it.
      *
      *  Nothing here detects a release. The hand stops paying the moment the device
      *  starts coasting, which is a thing the phase detector CAN see, and being wrong
-     *  about it costs a slide of travel, never a wrong destination. */
+     *  about it costs a threshold of travel, never a wrong destination. */
     let swipe = false
-    /** The slide the stream opened on, how far the fingers have come since, and the
-     *  slide that travel currently asks for. */
-    let swipeOrigin = 0
-    let swipeTravel = 0
-    let swipeAt = 0
-    /** The hand is done and the glide has been handed the answer. */
-    let swipeLanded = false
+    /** The slide the offset is measured from, and the offset. `swipeHand` is the whole
+     *  stream's travel and is read by nothing but the recorder. `swipeDone` is the
+     *  gesture having bought its one slide: from there it moves nothing and buys
+     *  nothing, and `swipeEnv` is the decaying envelope that tells a hand coming back
+     *  from the tail that is still arriving. */
+    let swipeAnchor = 0
+    let swipeHand = 0
+    let swipeDone = false
+    let swipeEnv = 0
     let swipeTimer = 0
-    const landSwipe = (vx: number) => {
-      if (swipeLanded) return
-      swipeLanded = true
-      glideTo(swipeAt, vx)
+
+    // ---- the trajectory recorder (debug only). What the hand asked for against what
+    // the pictures actually did, sample by sample, so "it feels slow" becomes a number.
+    //
+    // It records NUMBERS ONLY while the gesture runs and formats once at the end. An
+    // instrument that reads the DOM or touches React per event becomes the thing it is
+    // measuring: this component has already been slowed to a crawl once by a trace
+    // that called getComputedStyle on every wheel event.
+    type Shot = { t: number; dx: number; sum: number; at: number }
+    let shots: Shot[] = []
+    let shotT0 = 0
+    let shotFrom = 0
+    let shotWhy = ""
+    /** Why the LIVE gesture opened, held separately from the recording's copy: the
+     *  next gesture's reason was being written over the one still being reported, so
+     *  nearly every table blamed a split that belonged to the gesture after it. */
+    let swipeWhy = ""
+    /** Wheel arrivals only. A glide frame shares a timestamp with the event that
+     *  started it, and those zero gaps dragged the median to 1 ms and printed
+     *  "1000Hz" over a stream running at thirty. */
+    let shotEvents: number[] = []
+    /** Frames the PAGE actually drew, against the events it was fed. Chrome dispatches
+     *  wheel aligned to the frame, so the two rates are normally the same number and
+     *  the interesting case is when they are not: equal and low is the renderer over
+     *  budget (a 165 ms move gets five frames, and five frames across a whole picture
+     *  is the jag), while events slower than frames is the device. Guessing between
+     *  those two cost a round. */
+    let shotFrames = 0
+    let shotRaf = 0
+    const shotTick = () => {
+      shotFrames++
+      shotRaf = requestAnimationFrame(shotTick)
+    }
+    /** `at` is the value that was JUST WRITTEN, never a read back off the element.
+     *  Reading `scrollLeft` after writing it forces a synchronous layout, and doing
+     *  that once per wheel event made the instrument the thing it was measuring. */
+    const shoot = (dx: number, sum: number, at: number, wheel = true) => {
+      if (!L.current.debug) return
+      const now = performance.now()
+      if (!shots.length) {
+        shotT0 = now
+        shotFrom = swipeAnchor
+        shotWhy = swipeWhy
+        shotFrames = 0
+        shotEvents = []
+        shotRaf = requestAnimationFrame(shotTick)
+      }
+      const t = Math.round(now - shotT0)
+      if (wheel) shotEvents.push(t)
+      shots.push({ t, dx: Math.round(dx), sum, at })
+    }
+    /** Sample the LANDING, where the hand has stopped asking for anything and the
+     *  pictures are still moving. This is the half a reader calls slow. */
+    const shootGlide = () => {
+      if (!L.current.debug || !shots.length) return
+      shoot(0, (shots[shots.length - 1] as Shot).sum, base + give(), false)
+    }
+    /** How many rows a table gets. Enough to see a shape, few enough to paste. */
+    const TRACE_ROWS = 16
+    /** One gesture, compressed. The header carries the verdict and the health of the
+     *  input stream itself; the table is evenly downsampled, because the shape of the
+     *  two columns is the point and every row of it never was.
+     *
+     *  `@` is the median gap between events and the most important number here: this
+     *  device emits every 8 ms, so anything above that is the PAGE dropping frames,
+     *  and a rule fed 33 ms lumps of 189 px cannot be judged at all. */
+    const report = (why: string) => {
+      cancelAnimationFrame(shotRaf)
+      shotRaf = 0
+      if (!L.current.debug || shots.length < 2) {
+        shots = []
+        return
+      }
+      const w = slotW()
+      const last = shots[shots.length - 1] as Shot
+      const first = shots[0] as Shot
+      const hand = Math.abs(last.sum) / w
+      const moved = (last.at - first.at) / w
+      const gaps = shotEvents
+        .slice(1)
+        .map((t, i) => t - (shotEvents[i] as number))
+        .sort((a, b) => a - b)
+      const gap = Math.max(1, (gaps[gaps.length >> 1] ?? 0) as number)
+      // A wheel arrives once per display frame, so the median gap is the REFRESH RATE
+      // and 33 ms is a 30 Hz screen, not a fault. Dropped frames are IRREGULAR: it is
+      // the spread that says the page stalled, never the rate.
+      const worst = (gaps[gaps.length - 1] ?? 0) as number
+      const rate = `@${gap}ms ${Math.round(1000 / gap)}Hz${
+        worst > 2.5 * gap ? ` JANK ${worst}ms` : ""
+      }`
+      const maxDx = Math.max(...shots.map((s) => Math.abs(s.dx)))
+      // The pictures walking BACKWARDS against the hand is the shape of a snap-back
+      // under a finger still moving, so it is measured, not named: the worst single
+      // retreat, in slides.
+      let back = 0
+      for (let i = 1; i < shots.length; i++) {
+        const d = ((shots[i] as Shot).at - (shots[i - 1] as Shot).at) / w
+        if (Math.sign(d) === -Math.sign(last.sum)) back = Math.max(back, -d)
+      }
+      const step = Math.max(1, Math.ceil(shots.length / TRACE_ROWS))
+      const rows = shots
+        .filter((_, i) => i % step === 0 || i === shots.length - 1)
+        .map(
+          (s) =>
+            `${String(s.t).padStart(5)}${String(s.dx).padStart(6)}${((s.sum / w) * 100).toFixed(0).padStart(6)}${(((s.at - first.at) / w) * 100).toFixed(0).padStart(6)}`,
+        )
+      L.current.trace(
+        [
+          `── ${shotFrom}→${swipeAnchor} (${shotWhy}) · ${last.t}ms · ${shots.length}ev ${rate} · ${Math.round((shotFrames * 1000) / Math.max(1, last.t))}fps · maxdx ${maxDx}`,
+          `   hand ${hand.toFixed(2)} · pics ${moved.toFixed(2)} · ${(Math.abs(last.sum) / Math.max(1, last.t)).toFixed(2)}px/ms · back ${back.toFixed(2)} · ${why}`,
+          `   ms    dx hand%track%  (% of a slide, from the start)`,
+          ...rows,
+        ].join("\n"),
+      )
+      shots = []
+    }
+    /** The slide, bought — one per gesture, and the gesture is spent. The pictures do
+     *  not move on this line: the glide is aimed at the new anchor from exactly where
+     *  they stand, and the offset that paid for it is gone. */
+    const buySlide = (dir: number, vx: number) => {
+      const next = clamp(swipeAnchor + dir, 0, L.current.ids.length - 1)
+      if (next === swipeAnchor) {
+        // The end of the reel. Hold the offset at the line so the lean cannot run off
+        // an edge with nothing behind it.
+        swipeTravel = dir * swipeLine()
+        return
+      }
+      swipeDone = true
+      swipeAnchor = next
+      rebase()
+      // The chrome moves with the decision, not with the arrival: the counter is the
+      // answer to the gesture, and a stream opening on top of this one anchors here.
+      aimAt(next)
+      trace(`swipe → ${next}`)
+      glideTo(next, vx)
     }
     const endSwipe = () => {
       if (!swipe) return
-      landSwipe(0)
       swipe = false
+      clearTimeout(swipeTimer)
+      // Whatever the hand had offered and not paid for goes back. Rebase first, or
+      // the offset would be added on top of the slide it is being wound back to.
+      rebase()
+      glideTo(swipeAnchor, 0)
+      if (!glide) report(`ended on ${swipeAnchor}`)
     }
     const armSwipeEnd = () => {
       clearTimeout(swipeTimer)
-      swipeTimer = window.setTimeout(endSwipe, wheelPhase.endsIn)
+      // A fixed window, not the phase's own: a swipe is over when the DEVICE stops
+      // sending, which is a fact, and the phase has no say in anything here.
+      swipeTimer = window.setTimeout(endSwipe, SWIPE_END)
     }
     const wheelCtx = (): WheelCtx => {
       const { fitted, band, zoomMax, entry } = L.current
@@ -1855,65 +2101,63 @@ function Stage(props: StageProps) {
         streamAxis === "x"
       ) {
         e.preventDefault()
-        const w = slotW()
-        const n = L.current.ids.length
         const dx = wheelPx(e.deltaX, e.deltaMode, ctx.band.h)
-        // A coast is a hand that has let go. The phase detector is asked this one
-        // question and nothing else, and being wrong about it costs a slide's worth
-        // of travel, never a wrong destination.
-        const coasting = fed.read.momentum && !fed.read.interrupted
-        // A landed stream is over the moment a hand comes back: there is nothing to
-        // time out and no window to sit inside, which is what used to swallow every
-        // quick second swipe.
-        if (swipe && swipeLanded && !coasting) swipe = false
+        // Only ever a hint, to hand the glide a speed. It decides nothing.
+        const vx = fed.read.velocity.x
+        // A tail only ever decays, so a delta twice the envelope of the ones before it
+        // is a hand back on the glass. It is the one thing a wheel stream says
+        // plainly, unlike the release, which it never says at all.
+        const surge =
+          Math.abs(dx) > Math.max(SWIPE_SURGE_MIN, SWIPE_SURGE * swipeEnv)
+        swipeEnv = Math.max(Math.abs(dx), swipeEnv * SWIPE_SURGE_DECAY)
+        const split = swipe && swipeDone && surge
+        if (split) endSwipe()
         if (!swipe) {
-          // Leftover coast from a gesture already answered is not a new one.
-          if (coasting) return
-          stopGlide()
+          // Named in the trace, because a long swoop taking two pictures instead of
+          // one can only be this: the motion accelerated hard enough mid-tail to read
+          // as a hand coming back, and got charged twice for one intent.
+          // A gesture that opens while the last one's glide is still running: read
+          // that one out now, or its rows and this one's share a table and the totals
+          // are nonsense (one read 385x gain off two spliced streams).
+          report("cut short by the next")
+          swipeWhy = split ? "SURGE SPLIT" : "new stream"
+          // `swipe` first, and the magnets down before `rebase` or `landedSlot` reads
+          // the scroller: with mandatory snap live a read re-snaps it, and mid-flight
+          // that is the picture jumping backwards to the slide it just left.
           swipe = true
-          swipeLanded = false
+          stopGlide()
+          trackEl.dataset.stepping = ""
+          swipeDone = false
+          swipeHand = 0
+          swipeEnv = Math.abs(dx)
           // From where the track is HEADING, so a swipe onto a step still in flight
           // counts from the slide it is going to, not one it is flying over.
-          swipeOrigin = S.aimIndex ?? landedSlot()
-          swipeAt = swipeOrigin
-          swipeTravel = 0
-          trackEl.dataset.stepping = ""
+          swipeAnchor = S.aimIndex ?? landedSlot()
+          rebase()
         }
         armSwipeEnd()
-        if (coasting) {
-          // The hand has let go, so it stops buying slides here: a throw's momentum
-          // carries several slides' worth of deltas and the reader can no longer
-          // steer. If the hand did not travel far enough on its own, a real throw is
-          // still worth one, so where its momentum was HEADING is projected, the way
-          // UIKit does it, instead of waiting to watch it arrive.
-          if (swipeAt === swipeOrigin) {
-            const thrown = swipeTravel + project(0, fed.read.velocity.x)
-            if (swipeSlides(thrown, w) > 0)
-              swipeAt = clamp(swipeOrigin + Math.sign(thrown), 0, n - 1)
-          }
-          if (!swipeLanded)
-            trace(
-              `swipe → ${swipeAt} thrown from ${(swipeTravel / w).toFixed(2)} v ${fed.read.velocity.x.toFixed(2)}`,
-            )
-          landSwipe(fed.read.velocity.x)
+        swipeHand += dx
+        // SPENT. The slide is bought, the pictures are on it, and the half-second of
+        // deltas the device is still sending moves nothing. Letting them lean toward
+        // a slide they could not buy is the drift past the snap point; letting them
+        // buy one is the slot machine. Both were the same line of code.
+        if (swipeDone) {
+          shoot(dx, swipeHand, base)
           return
         }
-        // Under the fingers, 1:1. macOS has already put its own acceleration in these
-        // deltas; a gain on top of it is a second acceleration, and it felt like one.
+        // EVERY DELTA IS TRAVEL, the hand's and the device's alike, and nothing asks
+        // which is which. The web does not report a release, so the phase has to be
+        // inferred from the shape of the decay, and that inference lands wherever it
+        // lands: measured on two swipes of the same speed, one was called coasting at
+        // 142 ms while its deltas were still GROWING, the other at 674 ms in the
+        // middle of a 1 px dribble.
         swipeTravel += dx
-        trackEl.scrollLeft = clamp(
-          swipeOrigin * w + swipeTravel,
-          0,
-          (n - 1) * w,
-        )
-        const to = clamp(
-          swipeOrigin + Math.sign(swipeTravel) * swipeSlides(swipeTravel, w),
-          0,
-          n - 1,
-        )
-        if (to === swipeAt) return
-        swipeAt = to
-        trace(`swipe → ${to} at ${(swipeTravel / w).toFixed(2)}`)
+        if (Math.abs(swipeTravel) >= swipeLine())
+          buySlide(Math.sign(swipeTravel), vx)
+        // 1:1 under the band. macOS has already put its own acceleration in these
+        // deltas, and a gain on top of it is a second acceleration that felt like one.
+        paintTrack()
+        shoot(dx, swipeHand, base + give())
         return
       }
       e.preventDefault()
@@ -2197,6 +2441,7 @@ function Stage(props: StageProps) {
         const { band, fitted, index } = L.current
         sync()
         // The slides are viewport-wide, so a resize moves every snap point.
+        measureSlot()
         stopGlide()
         trackEl.scrollTo({ left: index * slotW(), behavior: "instant" })
         // The crop is in layer px and the trigger moved with the page: re-measured
@@ -2221,6 +2466,7 @@ function Stage(props: StageProps) {
     // writer of data-z and --lb-p.
     rootEl.dataset.z = S.z
     // The scroller starts under the opened slide, before anything paints.
+    measureSlot()
     trackEl.scrollTo({ left: L.current.index * slotW(), behavior: "instant" })
     if (!rest) {
       const sv = source()
@@ -2241,6 +2487,7 @@ function Stage(props: StageProps) {
       clearTimeout(wheelTimer)
       clearTimeout(scrollTimer)
       if (glide) cancelAnimationFrame(glide)
+      if (shotRaf) cancelAnimationFrame(shotRaf)
       if (passRaf) cancelAnimationFrame(passRaf)
       if (hasSnapEvents)
         trackEl.removeEventListener("scrollsnapchange", onScrollSettled)
@@ -2457,7 +2704,17 @@ function Stage(props: StageProps) {
       <div className="ag-lb-live" aria-live="polite">
         <span key={announce.n}>{announce.text}</span>
       </div>
-      {debug && <Debug lines={log} />}
+      {debug && (
+        <Debug
+          lines={log}
+          build={typeof debug === "string" ? debug : undefined}
+          onClear={() => {
+            TRACE = []
+            logRef.current = []
+            setLog([])
+          }}
+        />
+      )}
       {rail && renderRail && (
         <Rail inert={sheet} stage={stage}>
           <div className="ag-lb-facts">{factsLine(facts)}</div>
@@ -2499,7 +2756,15 @@ function Stage(props: StageProps) {
 
 /** The debug trace on the stage: the engine's decisions as they happened, plus any
  *  error the page threw. Mono, read-only, for a device in hand. */
-function Debug({ lines }: { lines: string[] }) {
+function Debug({
+  lines,
+  build,
+  onClear,
+}: {
+  lines: string[]
+  build?: string
+  onClear: () => void
+}) {
   const [errors, setErrors] = React.useState<string[]>([])
   React.useEffect(() => {
     const onError = (e: ErrorEvent) => {
@@ -2527,10 +2792,37 @@ function Debug({ lines }: { lines: string[] }) {
       window.removeEventListener("unhandledrejection", onReject)
     }
   }, [])
+  // The build, and the wall clock the buffer was READ at. Together they say which
+  // code produced this and whether the reader is looking at a fresh run or the same
+  // lines they copied five minutes ago, which is a mistake no amount of care avoids
+  // when every trace looks alike.
+  const text = [
+    ...(build
+      ? [`build ${build} · read ${new Date().toLocaleTimeString()}`]
+      : []),
+    ...errors,
+    ...lines,
+  ].join("\n")
   return (
-    <pre className="ag-lb-debug" aria-hidden>
-      {[...errors, ...lines].join("\n") || "debug · waiting for a pointer"}
-    </pre>
+    // `data-lb-chrome` is what stops a press here reaching the stage. Without it the
+    // press to COPY was a press on the backdrop, so the lightbox closed, the overlay
+    // went with it, and the clipboard kept whatever it had from the last attempt. A
+    // reader then pastes an old trace believing it is the new one, and no amount of
+    // reloading fixes what looks like a stale page.
+    <div className="ag-lb-debug" data-lb-chrome>
+      <div className="ag-lb-debug-bar">
+        {/* The registry's own copy control, not a second one written here: an item
+            that hand-rolls what it already ships is how two behaviours diverge. */}
+        <Copy value={text} label />
+        {/* The buffer is the reader's, and only they say when it goes. It used to
+            clear itself when the lightbox closed, which is exactly when someone is
+            reaching for it. */}
+        <button type="button" className="ag-lb-debug-btn" onClick={onClear}>
+          clear
+        </button>
+      </div>
+      <pre aria-hidden>{text || "debug · waiting for a pointer"}</pre>
+    </div>
   )
 }
 

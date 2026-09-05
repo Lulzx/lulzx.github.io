@@ -58,37 +58,115 @@ export const PINCH_PASSED = 1.067
  *  is what the arrow keys feel like, and the swipe uses it too, because the platform's
  *  own snap settle is ~950 ms across a slide in Chromium (deltas decaying 0.92 a frame
  *  until the last one is under a pixel) and no faster on macOS WebKit. */
-export const GLIDE = 220
-export const GLIDE_MIN = 130
-export const GLIDE_MAX = 300
-/** The steepest entry a move will take from the speed handed to it, as a multiple of
- *  the average speed it needs. A swipe commits with the fingers still moving, so the
- *  move has to leave at the speed the track already had or the handover is a stall
- *  followed by a shove. WebKit's snap does the same thing, capping the first frame at
- *  half the remaining distance; past that a fast throw sails through and comes back. */
+export const GLIDE = 165
+export const GLIDE_MIN = 100
+export const GLIDE_MAX = 225
+/** A move LEAVES, and the entry tangent says how hard, as a multiple of the average
+ *  speed the move needs. Both ends matter.
+ *
+ *  The floor is why: handed a slow hand's speed, the cubic below is a smoothstep, and
+ *  a smoothstep starts at a standstill. Measured on a real swipe, the handover speed
+ *  was 6% of the move's own average, so the pictures hung for a beat and then bolted.
+ *  Never slower than a quadratic ease-out: out at twice the average, easing in.
+ *
+ *  The cap is the monotonicity bound. m0 = 3d is exactly cubic ease-out; past it the
+ *  cubic turns back on itself before it arrives, and the pictures would visibly
+ *  retreat at the end of every fast throw. */
+export const GLIDE_ENTRY_MIN = 2
 export const GLIDE_ENTRY = 3
 
-/** Share of a slide a wheel gesture must travel before the next slide is CHOSEN, with
- *  the hand still on the glass, and again for every slide after that. Embla's number:
- *  it commits past `clamp(20% of the viewport, 50, 225)` px, which on a wide screen is
- *  about this. Swiper's 0.5 is not comparable, being applied at release; a threshold
- *  crossed mid-gesture has to be lower, because the reader sees the answer at once
- *  instead of finding out after they let go. Nothing detects a release, so nothing
- *  has to. */
+/** Share of a slide a wheel gesture must travel to buy the next one, with the hand
+ *  still on the glass. Embla's number: it commits past `clamp(20% of the viewport,
+ *  50, 225)` px, which on a wide screen is about this. Swiper's 0.5 is not
+ *  comparable, being applied at release; a threshold crossed mid-gesture has to be
+ *  lower, because the reader sees the answer at once instead of finding out after
+ *  they let go. Nothing detects a release, so nothing has to.
+ *
+ *  It is the price of EVERY slide, because the gesture re-anchors on each one: the
+ *  first, the fifth and the one straight back the other way all cost exactly this
+ *  much finger. The alternative, a slide read off the TOTAL travel from a fixed
+ *  origin, is not a threshold at all but an absolute map, and it is asymmetric in a
+ *  way a hand feels immediately: measured, the second slide cost a full slide of
+ *  finger while undoing the first cost 7 px. */
 export const SWIPE_COMMIT = 0.18
 
-/** How many slides a swipe has asked for, from how far the fingers have come and how
- *  wide a slide is. ONE as soon as they are SWIPE_COMMIT of the way, and one more for
- *  every whole slide after that, so travel and slides stay one for one.
+/** A swipe PROJECTS NOTHING. There was a `THROW` constant here, the distance a release
+ *  would coast per px/ms, and every version of it was wrong for the same reason: on a
+ *  wheel there is nothing to project. A trackpad's momentum arrives as deltas, all of
+ *  it, and the binder spends it as it comes. Exact beats estimated, it costs one fewer
+ *  constant, and a flick delivers about as much again as the hand did, so speed buys
+ *  distance without a coefficient existing anywhere. Do not reintroduce it.
  *
- *  A function of the TOTAL travel, never a counter that resets on each commit. Reset
- *  it and every SWIPE_COMMIT of finger buys a whole slide, which is a 5x gain wearing
- *  a threshold's clothes: one ordinary motion then jumps five pictures. */
-export function swipeSlides(travel: number, slideW: number): number {
-  assert(slideW > 0, `a slide has no width: ${slideW}`)
-  // The epsilon is not a fudge. 1.18 + 0.82 is 1.9999999999999998 in binary, and a
-  // reader who has come exactly one slide and a threshold has asked for two.
-  return Math.floor(Math.abs(travel) / slideW + 1 - SWIPE_COMMIT + 1e-9)
+ *  (A POINTER release is different and still projects: `project` above, off `MOMENTUM`,
+ *  because a finger that lifts really does stop sending and the coast is ours to run.) */
+
+/** ONE GESTURE BUYS ONE SLIDE. Cross the line and the pictures go there and stay
+ *  there; everything the device sends afterwards is ignored until the stream is over.
+ *
+ *  Skipping several on a hard flick was tried twice, flat-priced and then on a
+ *  doubling ladder, and both are a slot machine. The boundary between one and two sits
+ *  at some number of pixels of finger, and a reader cannot feel pixels of finger:
+ *  measured, 0.46 slides of travel took one picture and 0.63 took two, which is
+ *  correct arithmetic and indistinguishable to the hand that did it. Worse, the same
+ *  rule is what let a gesture keep leaning toward a slide it had not bought, which is
+ *  the drift past the snap point that made the whole thing feel alive.
+ *
+ *  Every native pager decided this the same way: UIScrollView's `isPagingEnabled`,
+ *  Android's `PagerSnapHelper`, Embla with `skipSnaps` off. Three pictures is three
+ *  flicks, and three flicks is a second's work and never a surprise. */
+
+/** The pictures LEAN toward the next slide, by this share of the line, and the lean is
+ *  the only thing that says how close it is. It is QUADRATIC in the progress, and that
+ *  is the whole design.
+ *
+ *  A trackpad's tail is why. It emits 1-3 px events for HALF A SECOND after a gesture
+ *  is over, and they are indistinguishable from a slow deliberate drag — same
+ *  magnitude, same cadence — so no rule can tell them apart. Three attempts tried:
+ *  a phase detector guessing the release, a magnitude floor, an asymptoting band.
+ *
+ *  They differ in exactly one thing, DISTANCE. A deliberate drag goes the whole line;
+ *  a tail goes a fraction of it. So the lean is squared, and the fraction is squared
+ *  with it. Measured on a swipe that had already arrived, its tail then crept 56 px
+ *  past the slide over 520 ms and yanked back: the same tail leans 5 px here, which
+ *  is nothing to see and nothing to wind back. It also reads better at the other end,
+ *  where the neighbour accelerates in as the line comes up. */
+export const SWIPE_LEAN = 0.85
+export function swipeGive(travel: number, line: number): number {
+  assert(line > 0, `a swipe line of ${line}`)
+  const t = Math.min(1, Math.abs(travel) / line)
+  return Math.sign(travel) * SWIPE_LEAN * line * t * t
+}
+
+/** A swipe is over after this long without a wheel event. Shorter than the wheel
+ *  session's own window, which is doubled while a hand may still be down because
+ *  ending a zoom early is bad. Ending a swipe early is nearly free: the give winds
+ *  back, the slides it bought are already bought, and a hand that comes back starts
+ *  from scratch, which is what it should do anyway. */
+export const SWIPE_END = 110
+
+/** A gesture that has already bought its slide is over, but the device keeps sending
+ *  for most of a second. A tail only ever DECAYS, so a delta this many times the
+ *  envelope of the ones before it is a hand back on the glass and a new gesture — the
+ *  one thing about a wheel stream that can be read without guessing, unlike the
+ *  release, which cannot. Without it a second flick inside the first one's tail does
+ *  nothing at all. */
+export const SWIPE_SURGE = 2
+export const SWIPE_SURGE_MIN = 4
+/** How fast the envelope forgets, per event. */
+export const SWIPE_SURGE_DECAY = 0.9
+
+/** Embla's numbers, all three of them. A SHARE of the slide, but clamped in absolute
+ *  px, because a share alone stops being a gesture on a wide screen: 18% of a 1560px
+ *  slide is 280px of finger, and a reader making small deliberate trackpad movements
+ *  never gets there. Measured: 766 ms of hand, 0.123 slides, release at 0.17 px/ms,
+ *  projected to 277px against a 281px line, and the pictures did not move.
+ *
+ *  The floor matters on a phone for the same reason in reverse: 18% of a narrow slide
+ *  is a few px, and a tap with a tremor in it should not page. */
+export const SWIPE_COMMIT_MIN = 50
+export const SWIPE_COMMIT_MAX = 225
+export function swipeCommitPx(slideW: number): number {
+  return clamp(SWIPE_COMMIT * slideW, SWIPE_COMMIT_MIN, SWIPE_COMMIT_MAX)
 }
 
 export const SLIDE_VELOCITY = 0.5
@@ -365,13 +443,11 @@ export function stageBand(vv: Band, blocks: readonly Obstruction[]): Band {
 /** The position along a move, `s` from 0 to 1. A cubic Hermite between where the track
  *  is (moving at the speed it was handed) and where it belongs (at rest).
  *
- *  This is the shape a magnet has and a spring does not. Handed nothing, it
- *  ACCELERATES to the halfway point and eases in: the slide pulls the track toward
- *  itself, which is what a key press should feel like. Handed the speed a swipe had
- *  when it committed, it continues at that speed and eases out, so the handover is
- *  invisible. Either way it is exactly home at s = 1, with no asymptote to crawl down.
- *
- *  `m0` is the entry tangent: the speed at s = 0 in the same units as `d`. */
+ *  This is the shape a magnet has and a spring does not: it is exactly home at s = 1,
+ *  with no asymptote to crawl down. `m0` is the entry tangent, the speed at s = 0 in
+ *  the same units as `d`, and it is what the move feels like leaving. Held between
+ *  GLIDE_ENTRY_MIN and GLIDE_ENTRY it always goes at once and eases in; handed more
+ *  than a swipe's own speed it simply continues at it, so the handover is invisible. */
 export function glide(d: number, m0: number, s: number): number {
   const s2 = s * s
   const s3 = s2 * s

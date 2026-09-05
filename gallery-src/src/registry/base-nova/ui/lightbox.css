@@ -534,7 +534,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* A video thumb says so: one small mark, the page's own color, no second hue. */
+/* A video thumb says so: one small mark, no second hue. This is ink over MEDIA, not
+   over a surface, so it cannot follow the theme: the photograph under it is the same
+   photograph in light and dark, and a mark that flipped to dark ink would vanish on
+   half the thumbnails. What it can do is stay off the ceiling. Pure #fff is the
+   brightest pixel a screen has, and nothing in this repo needs to be that; the
+   drop-shadow is what makes it legible on a pale still, not the last 3%. */
 .ag-lb-thumb[data-kind="video"]::after {
   content: "";
   position: absolute;
@@ -542,7 +547,7 @@
   bottom: 3px;
   width: 7px;
   height: 8px;
-  background: #fff;
+  background: oklch(0.97 0 0);
   clip-path: polygon(0 0, 100% 50%, 0 100%);
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.6));
 }
@@ -564,7 +569,6 @@
   max-width: calc(100% - 16px);
   margin: 0;
   padding: 6px 8px;
-  overflow: hidden;
   border-radius: 6px;
   background: color-mix(in oklab, var(--background) 88%, transparent);
   color: var(--foreground);
@@ -572,7 +576,49 @@
   font-size: 10px;
   line-height: 1.35;
   white-space: pre;
-  pointer-events: none;
+  /* A trajectory table is taller than a log, and the point of one is handing it to
+     someone else, so this scrolls and takes a pointer instead of ignoring it. Bounded
+     in BOTH axes: at full height it covered the picture it was recording. */
+  max-height: 40vh;
+  max-inline-size: min(calc(100% - 16px), 42ch);
+  overflow: auto;
+  pointer-events: auto;
+  overscroll-behavior: contain;
+}
+.ag-lb-debug pre {
+  margin: 0;
+  /* One tap selects the lot, which is the only usable clipboard on a phone. */
+  user-select: all;
+  -webkit-user-select: all;
+}
+/* A header, not a floating pair of buttons. It stays put while the trace scrolls
+   under it, because a buffer worth reading is longer than the box and a copy control
+   that scrolls away cannot be reached; but it is OPAQUE and full width, or the lines
+   passing behind it read as part of it. */
+.ag-lb-debug-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  /* Out to the padding edges, so nothing shows down the sides. */
+  margin: -6px -8px 6px;
+  padding: 4px 6px;
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+.ag-lb-debug-btn {
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--muted-foreground);
+  font: inherit;
+  cursor: pointer;
+}
+.ag-lb-debug-btn:hover {
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
 }
 
 /* Reduced motion: the spring assumes its target at once (STILL), the scrim sits at

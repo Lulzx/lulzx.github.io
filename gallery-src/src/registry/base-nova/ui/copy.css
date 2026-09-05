@@ -1,0 +1,39 @@
+/* The copy control. Quiet until wanted, and it never moves: the mark and the word
+   both keep their box when the state flips, so a press does not shift the row it
+   sits in. */
+
+.ag-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.375rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color 120ms ease,
+    background-color 120ms ease;
+}
+.ag-copy:hover {
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+.ag-copy:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+/* Confirmation is the one place this component raises its voice, and it lowers it
+   again by itself. */
+.ag-copy[data-copied] {
+  color: var(--brand, var(--foreground));
+}
+/* The word is fixed-width so "copy" and "copied" cannot shuffle the row. */
+.ag-copy > span {
+  display: inline-block;
+  min-width: 3.25em;
+  text-align: left;
+}

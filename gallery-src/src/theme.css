@@ -18,6 +18,8 @@
   --popover: var(--panel);
   --popover-foreground: var(--ink);
   --ring: var(--red);
+  --border: var(--line);
+  --muted-foreground: var(--muted);
   --font-sans: var(--body);
   --font-mono: var(--mono);
   /* Flies under the sticky header (z 50), then owns the screen. */
