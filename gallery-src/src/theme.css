@@ -160,14 +160,14 @@ html.dark .site-header { background-color: #2c2921; }
   --mount: #93643c;
 }
 html.dark {
-  --paper: #2d241c;
-  --panel: #34291f;
-  --ink: #f6ead6;
-  --muted: #cdbb9d;
-  --line: #b6996b44;
-  --red: #dbbd87;
-  --album-ground: #403125;
-  --mount: #765133;
+  --paper: #493321;
+  --panel: #453324;
+  --ink: #fff4df;
+  --muted: #d6c2a4;
+  --line: #b6996b55;
+  --red: #e5c58b;
+  --album-ground: #65472e;
+  --mount: #93643c;
 }
 body, html.dark body {
   background-color: var(--album-ground);
@@ -270,3 +270,43 @@ body::after {
   .print { padding: 10px 10px 0; }
   .print figcaption { min-height: 38px; padding: 0; }
 }
+
+/* Daylight paper and the original brown album share the same baked texture. */
+:root:not(.dark) {
+  color-scheme: light;
+  --paper: #f1e7d2;
+  --panel: #f8f0df;
+  --ink: #383b32;
+  --muted: #6e6555;
+  --line: #9b8e7355;
+  --red: #69724f;
+  --album-ground: #f1e7d2;
+}
+html.dark { color-scheme: dark; }
+html:not(.dark) body {
+  background-color: var(--album-ground);
+  background-image: linear-gradient(#fff8e5ad,#fff8e5ad),var(--paper-texture);
+  background-blend-mode: normal,multiply;
+}
+html:not(.dark) body::after {
+  background: linear-gradient(90deg,#89724712,transparent 12%,transparent 88%,#89724712);
+  box-shadow: none;
+}
+html:not(.dark) .site-header { background: #fff8e526; border-color: var(--line); }
+html:not(.dark) .book-intro,
+html:not(.dark) .chapter-prose,
+html:not(.dark) .margin-note { color: var(--muted); text-shadow: none; }
+html:not(.dark) .scrapbook-preface { color: var(--ink); text-shadow: none; }
+html:not(.dark) .chapter-heading h2 { text-shadow: none; }
+html:not(.dark) .album-mark,
+html:not(.dark) .chapter-number,
+html:not(.dark) .postmark { color: var(--red); }
+html:not(.dark) .contents,
+html:not(.dark) .colophon { border-color: var(--line); }
+html:not(.dark) .contents summary { color: var(--ink); }
+html:not(.dark) .contents a:hover { color: var(--red); }
+html:not(.dark) .pencil-stars { color: #9b8245; }
+html:not(.dark) .postage { box-shadow: 1px 2px 3px #51412a26; }
+html:not(.dark) .print { box-shadow: 1px 3px 5px #493a2429,3px 12px 17px -11px #33291675; }
+html:not(.dark) .print:hover { box-shadow: 1px 4px 7px #493a2433,4px 15px 19px -10px #33291675; }
+html:not(.dark) .loading-print { background: var(--panel); border-color: #faf6ec; }
