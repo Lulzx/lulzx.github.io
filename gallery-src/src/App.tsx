@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { AlbumMark, ChapterKeepsake, PrintDetails } from './Decorations'
 import { Lightbox, LightboxTrigger, type Entry } from '@/registry/base-nova/ui/lightbox'
 
 // The scrapbook keeps an explicit editorial image order in story.md. gallery/story.json is generated from gallery-src/story.md
@@ -64,15 +65,18 @@ export function App() {
       <article className="book" id="top" aria-label="The Long Way Round, a traveller’s scrapbook">
         <h1 className="sr-only">The Long Way Round: a traveller’s scrapbook</h1>
         <div className="book-intro"><span>{entries.size} photographs / {story.chapters.length} chapters</span><span>Tap a print to look closer</span></div>
+        <AlbumMark />
         <div className="scrapbook-preface">{story.preface.map((p, i) => <p key={i}>{p}</p>)}</div>
         <details className="contents"><summary>Find a page <span>+</span></summary><nav aria-label="Scrapbook chapters">{story.chapters.map((ch, i) => <a key={i} href={`#ch-${i + 1}`}><span>{String(i + 1).padStart(2, '0')}</span>{ch.title}</a>)}</nav></details>
         {story.chapters.map((ch, i) => {
           const photos = ch.blocks.flatMap(b => b.type === 'figure' ? [b.image] : b.type === 'group' ? b.images : [])
           return <section className="chapter" key={i} id={`ch-${i + 1}`}>
+            <ChapterKeepsake chapter={i} />
             <header className="chapter-heading"><span className="chapter-number">{String(i + 1).padStart(2, '0')}</span><h2>{ch.title}</h2><span className="chapter-count">{photos.length} prints</span></header>
             {ch.blocks.filter(b => b.type === 'text').map((b, j) => b.type === 'text' && <p className="chapter-prose" key={j}>{b.text}</p>)}
             <div className="scrap-photos">
               {photos.map((img, j) => <figure className={`print print-${j % 6}`} style={{ '--span': [5, 3, 4, 3, 3, 3, 3, 4, 5, 3][j % 10] } as React.CSSProperties} key={img.id}>
+                <PrintDetails chapter={i} index={j} />
                 <Tile img={img} entry={entries.get(img.id)!} eager={i === 0 && j < 3} />
                 <figcaption><span>{String(i + 1).padStart(2, '0')} / {String(j + 1).padStart(2, '0')}</span><span className="print-mark">{labels[img.id]?.label}</span></figcaption>
               </figure>)}

@@ -65,3 +65,208 @@ html.dark{--paper:#292720;--panel:#333128;--ink:#eee5d3;--muted:#b7ac96;--line:#
 .book{margin-top:0}.scrapbook-preface{padding-top:5px}
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* Ephemera stays in the margins, leaving the photographs and controls clear. */
+.album-mark, .chapter-keepsake, .margin-note, .pressed-sprig,
+.pencil-stars, .paperclip, .photo-corner { pointer-events: none; user-select: none; }
+.album-mark { position: absolute; right: 13%; top: 75px; width: 210px; color: var(--red); transform: rotate(-8deg); }
+.album-mark svg { display: block; width: 100%; opacity: .6; }
+.album-mark span { display: block; margin-top: -12px; font: 24px var(--hand); }
+.chapter { position: relative; }
+.chapter-keepsake { position: absolute; right: 7%; top: 85px; width: 170px; height: 145px; z-index: 1; }
+.postage { width: 104px; padding: 9px; background: #e4d9b9; color: #626a48; transform: rotate(11deg); outline: 1px dashed #a29777; outline-offset: -4px; box-shadow: 1px 2px 2px #3c33141a; }
+.postage::before { content: ''; position: absolute; inset: 6px; border: 1px solid #79805d66; }
+.postage > span { font: 5px var(--mono); letter-spacing: .08em; display: block; text-align: center; padding: 4px 0; }
+.postage svg { display: block; width: 100%; }
+.postage small { display: block; font: 11px var(--hand); text-align: center; }
+.postmark { width: 135px; position: absolute; left: 47px; top: 52px; transform: rotate(-14deg); opacity: .4; color: var(--ink); }
+.keepsake-1 .postage { transform: rotate(-9deg); background: #dedfc8; }
+.keepsake-2 .postage { transform: rotate(6deg); background: #e6d4bc; color: #816d4f; }
+.margin-note { position: absolute; right: -3px; top: -78px; max-width: 160px; color: var(--muted); font: 24px/1.05 var(--hand); transform: rotate(-8deg); text-align: center; }
+.margin-note svg { width: 74px; height: 30px; display: block; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 1.2; }
+.pressed-sprig { position: absolute; bottom: -18px; left: -25px; width: 57px; height: 140px; transform: rotate(var(--leaf-turn)); z-index: 1; }
+.pressed-sprig svg { width: 100%; height: 100%; filter: drop-shadow(1px 2px 1px #3d3b2426); }
+.stem { fill: none; stroke: #7e7650; stroke-width: 1.4; }
+.leaf { fill: #8d9161; stroke: #737d4f; stroke-width: .6; opacity: .88; }
+.vein { fill: none; stroke: #d2c79c; stroke-width: .8; }
+.pencil-stars { position: absolute; right: -21px; top: -30px; width: 51px; color: #a18b4f; transform: rotate(15deg); z-index: 1; }
+.pencil-stars svg { width: 100%; stroke: currentColor; stroke-width: 1.2; }
+.paperclip { position: absolute; left: 19px; top: -23px; width: 20px; height: 60px; border: 2px solid #898579; border-radius: 12px 12px 9px 9px; transform: rotate(-14deg); z-index: 1; box-shadow: 1px 1px 1px #3d362c33, inset 1px 0 #e4decf; }
+.paperclip::after { content: ''; position: absolute; left: 4px; top: 5px; width: 8px; height: 42px; border: 2px solid #898579; border-bottom: 0; border-radius: 7px 7px 0 0; }
+.photo-corner { position: absolute; width: 25px; height: 25px; z-index: 1; background: linear-gradient(135deg,#bbad8877,#e9dfc3); box-shadow: -1px -1px 1px #55432622; clip-path: polygon(0 0,100% 0,0 100%); }
+.corner-top { top: 5px; left: 5px; }
+.corner-bottom { bottom: 34px; right: 5px; transform: rotate(180deg); }
+.print:nth-child(10n+4)::before { display: none; }
+@media (min-width: 1100px) {
+  .chapter-prose { max-width: min(530px, 53%); }
+  .chapter-heading { padding-right: 0; }
+  .scrap-photos { padding-top: 48px; row-gap: 63px; }
+}
+@media (min-width: 768px) and (max-width: 1099px) {
+  .album-mark { right: 7%; width: 155px; }
+  .album-mark span { font-size: 21px; }
+  .chapter-keepsake { right: 0; top: 80px; transform: scale(.8); transform-origin: right top; }
+  .chapter-prose { max-width: 64%; }
+}
+@media (max-width: 767px) {
+  .album-mark { display: none; }
+  .chapter-keepsake { width: 80px; height: 90px; right: -5px; top: 96px; transform: scale(.57); transform-origin: right top; }
+  .chapter-prose { padding-right: 65px; min-height: 125px; }
+  .postmark { display: none; }
+  .margin-note { font-size: 21px; top: -48px; right: 3px; }
+  .margin-note svg { width: 42px; height: 18px; }
+  .pressed-sprig { left: -17px; width: 44px; height: 108px; }
+  .pencil-stars { right: -12px; width: 37px; }
+  .scrap-photos { row-gap: 65px; }
+}
+.print { isolation: isolate; }
+.coffee-ring { position: absolute; width: 122px; height: 115px; left: -95px; top: 2px; border: 4px solid #94733d13; border-right-color: #94733d2a; border-bottom-color: #94733d20; border-radius: 48% 52% 46% 53%; transform: rotate(-18deg); box-shadow: 0 0 2px #94733d18,inset 0 0 0 2px #94733d09; }
+@media(max-width:767px){.coffee-ring{display:none}}
+@media(max-width:767px){.chapter-keepsake{width:120px;right:0;transform:scale(.5)}}
+
+/* The texture belongs to the paper itself, so it scrolls with the photographs. */
+:root {
+  --paper-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='.13' intercept='.87'/%3E%3CfeFuncG type='linear' slope='.13' intercept='.87'/%3E%3CfeFuncB type='linear' slope='.13' intercept='.87'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Cpath d='M0 0h256v256H0z' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+body::before { display: none; }
+body {
+  background-color: #d9cfb8;
+  background-image: var(--paper-texture);
+  background-size: 768px 768px;
+  background-blend-mode: multiply;
+}
+.book {
+  background-color: #f1e7cf;
+  background-image: linear-gradient(90deg, #73623f15, transparent 4%, #fffaf015 48%, transparent 94%, #73623f12), var(--paper-texture);
+  background-size: 100% 100%, 768px 768px;
+  background-blend-mode: multiply;
+  box-shadow: inset 10px 0 12px -12px #6d5939aa, -2px 0 5px #594a2d16, 2px 0 7px #594a2d12;
+}
+.site-header { background-color: #e3dac5; background-image: var(--paper-texture); background-size: 768px 768px; background-blend-mode: multiply; }
+html.dark body { background-color: #23211a; }
+html.dark .book { background-color: #383329; }
+html.dark .site-header { background-color: #2c2921; }
+
+/* An aged travel album: tobacco cloth, warm mounts, and chalky handwriting. */
+:root {
+  --paper: #493321;
+  --panel: #453324;
+  --ink: #fff4df;
+  --muted: #d6c2a4;
+  --line: #b6996b55;
+  --red: #e5c58b;
+  --print: #ecdcc0;
+  --album-ground: #65472e;
+  --mount: #93643c;
+}
+html.dark {
+  --paper: #2d241c;
+  --panel: #34291f;
+  --ink: #f6ead6;
+  --muted: #cdbb9d;
+  --line: #b6996b44;
+  --red: #dbbd87;
+  --album-ground: #403125;
+  --mount: #765133;
+}
+body, html.dark body {
+  background-color: var(--album-ground);
+  background-image: var(--paper-texture);
+  background-size: 850px 850px;
+  background-blend-mode: multiply;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(90deg,#100b0870,transparent 14%,transparent 86%,#100b0870);
+  box-shadow: inset 0 0 100px #160e0829;
+}
+.book, html.dark .book {
+  background: transparent;
+  box-shadow: none;
+  padding-top: 20px;
+}
+.book::before { display: none; }
+.site-header, html.dark .site-header {
+  background: #21170f33;
+  border-bottom-color: #e6cd9820;
+}
+.book-intro { color: #d7c3a2; letter-spacing: .16em; }
+.scrapbook-preface { color: #f0dfc1; font-size: 26px; text-shadow: 0 2px 2px #1a0e0a66; }
+.album-mark { color: #edd4a6; }
+.contents { border-color: #edd4a62e; }
+.contents summary { color: #e9d9bb; }
+.contents a:hover { color: #fff5e4; }
+.chapter { padding-top: 54px; }
+.chapter-heading { gap: 22px; margin-bottom: 20px; }
+.chapter-heading h2 { font: 700 clamp(30px,3.4vw,47px)/1.18 'Kalam',var(--hand); letter-spacing: -.035em; transform: rotate(-1deg); text-shadow: 1px 3px 2px #190e0955; }
+.chapter-number { border: 0; padding: 0; font: 400 31px var(--hand); color: #e0c492; transform: rotate(-10deg); }
+.chapter-count { opacity: .75; }
+.chapter-prose { color: #e2cfae; font: 400 21px/1.48 var(--hand); margin-left: 54px; text-shadow: 0 1px 1px #21160c; }
+.chapter-keepsake { opacity: .88; top: 105px; }
+.postage { box-shadow: 2px 5px 5px #180d0866; }
+.postmark { color: #ead6b1; opacity: .55; }
+.print {
+  background-color: var(--mount);
+  background-image: linear-gradient(135deg,#ebbc774a,transparent 15%,#170d0640 95%),var(--paper-texture);
+  background-size: 100% 100%,550px 550px;
+  background-blend-mode: soft-light,multiply;
+  padding: 11px;
+  border: 1px solid #3b2115;
+  box-shadow: inset 0 1px 2px #f6c88e88,inset 0 -2px 4px #2e160f99,2px 6px 7px #180d09a1,5px 16px 22px -12px #120905bd;
+}
+.print:hover { box-shadow: inset 0 1px 2px #f6c88e88,3px 9px 13px #180d09a1,7px 19px 28px -10px #120905bd; }
+.tile { background: #35271d; box-shadow: 0 0 3px 1px #211209a6; }
+.tile::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 14px #10090640; }
+.print figcaption { background: #efeadc; min-height: 48px; padding: 7px 10px; color: #4e4435; box-shadow: inset 0 -2px 7px #71604b20; }
+.print-mark { font-size: 21px; }
+.print::before { opacity: .85; box-shadow: 1px 2px 2px #29180d55; }
+.margin-note { color: #f0d8af; text-shadow: 0 1px 2px #1c0d09; }
+.pencil-stars { color: #f6d18f; }
+.corner-top { top: 8px; left: 8px; }
+.corner-bottom { bottom: 53px; right: 8px; }
+.colophon { border-color: #edd4a638; }
+.loading-print { background: #69513a; border-color: #a87849; }
+@media (max-width: 767px) {
+  body::after { background: linear-gradient(90deg,#100b0830,transparent 7%,transparent 93%,#100b0830); box-shadow: none; }
+  .book { margin-inline: 3px; padding-inline: 24px; }
+  .chapter { padding-top: 38px; }
+  .chapter-heading { gap: 15px; }
+  .chapter-heading h2 { font-size: 29px; }
+  .chapter-number { font-size: 25px; }
+  .chapter-prose { font-size: 20px; margin-left: 0; }
+  .chapter-keepsake { top: 110px; }
+  .scrapbook-preface { font-size: 23px; }
+  .print { padding: 8px; }
+  .print figcaption { min-height: 43px; padding: 6px 8px; }
+  .print-mark { font-size: 19px; }
+}
+
+/* Loose photographic prints on the aged album backing. */
+.print {
+  background: #faf6ec;
+  border: 0;
+  padding: 12px 12px 0;
+  box-shadow: 1px 3px 4px #180d0959,3px 10px 14px -7px #180d0999;
+}
+.print:hover {
+  box-shadow: 1px 4px 6px #180d0959,4px 14px 19px -7px #180d0999;
+}
+.tile { box-shadow: none; }
+.tile::after { display: none; }
+.print figcaption {
+  background: transparent;
+  box-shadow: none;
+  min-height: 43px;
+  padding: 0;
+  color: #777063;
+}
+.corner-top { top: 5px; left: 5px; }
+.corner-bottom { bottom: 34px; right: 5px; }
+@media(max-width:767px){
+  .print { padding: 10px 10px 0; }
+  .print figcaption { min-height: 38px; padding: 0; }
+}
