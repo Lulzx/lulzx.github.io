@@ -5,71 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gallery · The Long Way Round</title>
-  <meta name="description" content="A made-up story with timeless wisdom, told in chapters through photographs.">
+  <meta name="description" content="A travel scrapbook by lulzx. Photographs, loose pages, and the long way round.">
   <meta name="theme-color" content="#EFEEEA">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23718334'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Yuji+Syuku&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-:root{--paper:#EFEEEA;--paper2:#E7E6E1;--panel:#F6F5F2;--black:#1B1B1D;--ink:#1B1B1D;--ink-soft:#3B3B3D;--muted:#6F7072;--faint:#7E7E79;--line:#D2D1CD;--line-strong:#ABABA6;--red:#C9252B;--red-text:#A81C22;--stripe:repeating-linear-gradient(-45deg,var(--red) 0 9px,transparent 9px 18px);--disp:'Oswald','Arial Narrow',sans-serif;--body:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN',-apple-system,sans-serif;--jp:'Yuji Syuku','Hiragino Mincho ProN',serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--maxw:1180px}
-html.dark{--paper:#131314;--paper2:#1A1A1C;--panel:#19191B;--black:#0C0C0D;--ink:#ECECEA;--ink-soft:#C9C9C6;--muted:#929290;--faint:#85858A;--line:#2A2A2C;--line-strong:#434346;--red:#E23636;--red-text:#E5484D}
-*{margin:0;padding:0;box-sizing:border-box}
-:focus-visible{outline:2px solid var(--red);outline-offset:3px}
-::selection{background:var(--red);color:#fff}
-@keyframes crawl{to{background-position:25.46px 0}}
-@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}}
-body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-html.dark body::before{opacity:.08}
-.container{max-width:var(--maxw);margin:0 auto;padding:0 34px;position:relative;z-index:1}
-@media (max-width:640px){.container{padding:0 20px}}
-.site-header{position:sticky;top:0;z-index:50;background:var(--black);color:#ECECEA}
-.site-header::before{content:"";display:block;height:7px;background-image:var(--stripe);background-color:var(--paper);animation:crawl 18s linear infinite}
-.header-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
-.brand{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--disp);font-weight:500;font-size:1rem;letter-spacing:.14em;text-transform:uppercase;color:#ECECEA;text-decoration:none}
-.brand .seal{width:24px;height:24px;color:var(--red);flex:none}
-.nav{display:flex;align-items:center;gap:1.4rem}
-.nav a{color:#A5A5A2;text-decoration:none;font-family:var(--disp);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;position:relative;padding:.2rem 0}
-.nav a:hover{color:#ECECEA}
-.nav a.here{color:#ECECEA}
-.nav a.here::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:3px;background:var(--red)}
-.theme-toggle{background:none;border:1px solid #3A3A3D;cursor:pointer;color:#A5A5A2;width:32px;height:32px;display:grid;place-items:center}
-.theme-toggle:hover{color:#ECECEA;border-color:#A5A5A2}
-.theme-toggle svg{width:17px;height:17px}
-@media (max-width:720px){.nav{gap:.9rem}.nav a{font-size:.62rem;letter-spacing:.14em}}
-.page-head{padding:3rem 0 0;text-align:center}
-.page-head .eyebrow{display:flex;align-items:center;justify-content:center;gap:1rem;color:var(--red-text);font-family:var(--disp);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase}
-.page-head .eyebrow .kj{font-family:var(--jp);font-size:1.05rem;color:var(--ink);letter-spacing:0}
-.page-head .eyebrow::before,.page-head .eyebrow::after{content:"";width:44px;height:5px;border-top:1px solid var(--red);border-bottom:1px solid var(--red)}
-.page-head h1{font-family:var(--disp);font-weight:600;font-size:clamp(1.9rem,3.8vw,2.8rem);letter-spacing:.03em;text-transform:uppercase;line-height:1.12;margin-top:1.1rem}
-.page-head p{margin:1rem auto 0;max-width:60ch;color:var(--ink-soft);font-size:1rem}
-.rule{max-width:200px;margin:2.2rem auto 0;height:5px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
-.loading{text-align:center;padding:3rem 0;font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.book{max-width:var(--maxw);margin:0 auto;padding:1rem 34px 5rem;position:relative;z-index:1}
-.chapter{max-width:720px;margin:0 auto;padding:3.4rem 0 0}
-.chapter.preface{padding-top:2.6rem}
-.chapter.preface .ch-p{color:var(--ink-soft);font-style:normal}
-.ch-kicker{font:500 .74rem var(--mono);letter-spacing:.06em;color:var(--muted);margin:0 0 1.3rem;text-transform:lowercase}
-.book .ch-kicker a{color:inherit;text-decoration:none;border-bottom:0}
-.book .ch-kicker a:hover{color:var(--red-text)}
-.ch-p{font-size:1.05rem;line-height:1.75;color:var(--ink);margin:0 0 1.3rem;max-width:66ch}
-.figure{margin:2rem 0 2.2rem}
-.figure figcaption{font:400 .82rem var(--mono);letter-spacing:.01em;color:var(--muted);margin-top:.6rem;line-height:1.5}
-.group{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:10px;margin:2rem 0 2.2rem}
-.tile{display:block;border:2px solid var(--ink);background:var(--black);cursor:zoom-in;position:relative;overflow:hidden}
-.tile img{width:100%;display:block;aspect-ratio:var(--ar,auto);object-fit:cover;background:#101011;opacity:0;transition:opacity .3s ease, filter .15s steps(2,end)}
-.tile img.ld{opacity:1}
-.group .tile img{filter:grayscale(.25) contrast(1.03)}
-.group .tile:hover img{filter:grayscale(0) contrast(1)}
-.tile::after{content:"";position:absolute;top:4px;right:4px;width:10px;height:10px;border-top:2px solid transparent;border-right:2px solid transparent}
-.tile:hover::after{border-color:var(--red)}
-.colophon{max-width:720px;margin:4rem auto 0;padding-top:1.4rem;border-top:1px solid var(--line-strong);font:500 .7rem var(--disp);letter-spacing:.3em;text-transform:uppercase;color:var(--muted);text-align:center}
-@media (max-width:760px){.book{padding:.6rem 20px 4rem}.chapter{padding-top:2.6rem}.group{gap:6px}.group[data-n="4"],.group[data-n="5"],.group[data-n="6"]{grid-template-columns:repeat(2,1fr)}.ch-p{font-size:1rem}}
-@media (max-width:640px){.header-inner{height:54px}.page-head{padding:2rem 0 0}}
-::-webkit-scrollbar{width:0}
-</style>
-<link rel="stylesheet" href="/assets/cabinet.css">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -81,16 +22,10 @@ html.dark body::before{opacity:.08}
     </div>
   </header>
 
-  <div class="container">
-    <div class="page-head">
-      <div class="eyebrow"><span class="kj" aria-hidden="true">写真</span> gallery</div>
-      <h1>The Long Way Round</h1>
-      <p>A made-up story told through real photographs, arranged in chapters. Open any image to view it; arrow keys, swipe or scroll walk the whole book, and ? lists every key.</p>
-    </div>
-    <div class="rule"></div>
-  </div>
-
+  <main>
   <div id="gallery"><div class="loading">Loading images&hellip;</div></div>
+
+  </main>
 
   <script>
     // ----- theme (shares the main site's persisted preference) -----
@@ -102,7 +37,7 @@ html.dark body::before{opacity:.08}
       document.documentElement.classList.toggle('dark', dark);
       toggleBtn.innerHTML = dark ? SUN : MOON;
       const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', dark ? '#1d221e' : '#eeefea');
+      if (meta) meta.setAttribute('content', dark ? '#292720' : '#e9e2d3');
     }
 
     let dark = false;

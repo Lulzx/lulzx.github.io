@@ -1,391 +1,327 @@
 # The Long Way Round
 
-> The photographs in this book are real. The person walking through them is not. Somewhere between the two is a story about a walker who left home with a notebook and one rule: write down what the day said, not what you wanted it to say. What follows is the notebook, tidied a little, and the pictures that were in the same pocket.
+> I travelled, and I took photographs. These are the things I brought back: wide views, small details, and all the ordinary life between them.
 
-## what the balcony taught
+## The view from here
 
-The walker began on a balcony, because every long road begins somewhere embarrassingly comfortable. There was a railing, a string of lights, and mountains that did not care who was looking at them. The first note in the book reads: the view is not yours. You are allowed to stand in it.
+Mountains beyond a balcony. A river between the hills. The wide views come first; there will be time for the things growing beside the path.
 
-![The balcony, the first morning. The mountains had been there all along.](#1)
+[[ 17846156580077770 17854171884061482 17889313319921628 17919556145706460 17994610658206425 18004845860009058 ]]
 
-For a week the walker did nothing but look. Rivers, a field of white flowers, a wooden hut under a range that went blue at the edges. It felt like cheating to enjoy it. It was not cheating. It was the whole job.
+[[ 18028862374721262 18234281905241780 18241611250174217 18006974140965359 17979249836465158 17983325798350231 ]]
 
-[[ #2-#13 ]]
+[[ 17990026631300487 18026348869841153 18029103046657826 18043321930577307 18067532959423168 18169366837288972 ]]
 
-There is a certain kind of evening light that makes everything look forgiven. The walker learned to stop for it. Beaches with wooden posts, a park going dark, a lizard on a branch minding its own business. Later, on the road, the walker would miss these easy days and be glad of having sat still in them.
+[[ 18171022321290490 18292015690148207 18325394851099201 17936289638826842 18047574505710752 18048437605632662 ]]
 
-[[ #14-#22 ]]
+[[ 18012074276408324 18023959259482674 18030770531023334 17874472578136122 18033970175494727 18036882638305210 ]]
 
-![Three boats, going nowhere in particular. A good example to follow.](#23)
+[[ 18037596482106142 18040856290999075 18046030630738591 18062591731623189 18097820539426740 17914725555013033 ]]
 
-[[ #24-#30 ]]
+[[ 18020394074655547 18054161993112144 18068448727677280 18074281918738055 18111905974457554 18048134852053375 ]]
 
-## the small ones
+[[ 18164237914306920 17989059620801240 18037182857276249 18039896258212072 18042090707415285 18057019220133872 ]]
 
-The second note is about scale. A rooster pecked at a glass door as if it had a grievance with the architecture. A millipede crossed the sand with more purpose than most people manage before noon. The walker understood, slowly, that the world is mostly small things going about their business, and that a life is made of the same.
+[[ 18066225875495381 18075086662681293 18091536733576689 18062463452103689 17981372585839445 18009014618777901 ]]
 
-[[ #31-#36 ]]
+[[ 17855558760508265 17862378279462103 17877036840283701 17941476161918332 18071097731280073 18104136118570210 ]]
 
-![A laptop facing the sea. Work does not mind where it is done, but the worker does.](#37)
+[[ 18138971491421703 18075410975078444 ]]
 
-There was a bus with strangers in it, a bar with a skull-shaped glass, a forest with a pole in it for no reason anyone could name. The walker ate sushi and broth and fried fish, and wrote down each meal, because the body keeps its own diary and it is rude to ignore it.
+## Down to the water
 
-[[ #38-#48 ]]
+From the hills, the eye follows the water. Boats at the shore, pools of blue, a line of sea beneath the sky. The photographs get quieter here.
 
-[[ #49-#55 ]]
+[[ 17880105977898627 17923504340699615 17936244656754741 17980594439526552 18034672564602182 18126647140312627 ]]
 
-A moth hung upside down. Two frogs sat on a lily pad, underwater, unbothered by the wrong side of the surface. The walker wrote: patience is not waiting. It is being fully where you are while the waiting happens.
+[[ 18211747912255457 17898693734922183 17944657352741906 17985989567580430 17993316323454125 17996734946518113 ]]
 
-[[ #56-#60 ]]
+[[ 18005385398269398 18016383979997883 18034051831725034 18054916567502706 18070420627447215 18086467129402680 ]]
 
-## the lights come on
+[[ 17851392417108533 18016607966017928 17914856420919428 18320141191130862 18334044028137791 17968918241607087 ]]
 
-Nights in that country were lit like a festival that nobody had announced. Bridges over calm rivers, gardens strung with bulbs, a city glowing under a crescent moon. The walker stood on a hill above it and felt small in the useful way, the way that makes room.
+[[ 18032105747097131 18033441260057310 18054789106677811 17880753231104051 18033067385169120 18038621096067459 ]]
 
-![The city at dusk, seen from above. Every window is somebody's evening.](#82)
+[[ 18460631809007896 17988299174592534 18002010326682487 17964153902845120 17869596204223924 17952587849786594 ]]
 
-[[ #61-#70 ]]
+[[ 18031571057538247 18047110715206244 18024542675416557 18074883133779358 17878713288296755 18335081497094722 ]]
 
-There were tea plantations combed into rows, a stone foot on a platform looking out at nothing, a latte with a leaf drawn into it. Somewhere in the notebook the walker copied a line from a stranger: you are not late, you are just here.
+[[ 17849610318450750 18383902480140552 17886282522348152 18067134325980953 18110015869545055 17903869098252075 ]]
 
-[[ #71-#81 ]]
+[[ 18500651815067408 ]]
 
-[[ #83-#86 ]]
+## A path through the trees
 
-## the crossing
+Away from the open water, the view closes in. Trunks, shade, a bend in the path. Sometimes the frame holds a whole forest. Sometimes just the way through it.
 
-A ferry carried the walker across a sea that had turned the colour of the sky. The word on its side was SEATRAN, which is a sensible name for a boat and a poor name for a feeling, but the walker used it for both.
+[[ 17939145896727551 17979713291326065 18004596683108894 18009624748862021 18089973190373783 18240600649226105 ]]
 
-![The ferry at sunset. Everyone on board was leaving something.](#87)
+[[ 17845671963120550 17907900548862547 17978744213467302 17996982071160308 18030166096743308 18058800004446522 ]]
 
-On the far shore there were temples with birds wheeling over them and tea fields dyed pink by evening. The notebook says: crossings are short. It is the packing and the unpacking that take a life.
+[[ 18101081800340469 18216022225256496 18220337803269055 17937253859818511 17965473836724799 17973152030576937 ]]
 
-[[ #88-#96 ]]
+[[ 17994162425394587 18004489859577363 18096382357411623 17997278336356789 18010090265182433 18061304767555654 ]]
 
-## the animals were not impressed
+[[ 18105493966383819 17852780937211348 17867504676118580 17901388157914551 17915449388950387 17935813553758404 ]]
 
-The walker went south, where it rains sideways and the animals have opinions. An ostrich looked down a long neck at the camera. A monkey sat on a scooter as if it had bought it. A rabbit ate something off the floor and refused to say what.
+[[ 18003862811536183 18032002325096282 18034592713991849 18231159985273673 18047212882870810 18245367142248763 ]]
 
-[[ #97-#105 ]]
+[[ 17846164773275192 17872504368090393 17877751788130040 17996970044674555 18072630742543529 18136815640356507 ]]
 
-![An ostrich, unimpressed. The walker wrote: it is a relief to be nobody to someone.](#106)
+[[ 18263160376221733 18353278321185117 18047691080065762 18155255611336840 17875034199258748 17921531453917516 ]]
 
-Boats went up a green river full of people leaning to look. There were cafés with tin roofs, a dessert with a cherry, a sign asking everyone to please stand in Q. The walker stood in Q. It is not a bad thing, standing in a line with strangers who all want the same small thing.
+[[ 18038354717347234 17896432167113034 18076839640580560 18094178839521192 18357900460134073 17928022451995118 ]]
 
-[[ #107-#121 ]]
+[[ 18062641327944190 18493040275021826 17881087614272384 17903557344160549 17916110262086568 17924586870050674 ]]
 
-[[ #122-#128 ]]
+[[ 17957094326926206 17976342623835699 18040082984625851 18069746533931077 18088998121606697 18148602466333089 ]]
 
-![The monkey on the scooter. Confidence is mostly deciding that the seat is yours.](#129)
+[[ 18065418334984167 18066612919807569 17866344441404896 17895476214248531 18007449008604645 18016134341737238 ]]
 
-Deer grazed, a camel stood in a place with no water, a black and white dog kept watch on a rock in the mist. The notebook says that animals do not wonder whether they are living correctly. This is either the wisdom or the trap, the walker was not sure, and left the line as it was.
+[[ 18087920854590792 18118161118467480 18130973704390650 17978741288886061 18038959130405811 17893972878342870 ]]
 
-[[ #130-#140 ]]
+[[ 17950707465020930 18116901979521210 ]]
 
-## cafés and the open laptop
+## Out on the road
 
-The walker was not on holiday. There was work, and the work travelled too, in a laptop that went from café to café collecting stickers and crumbs. A breakfast with steak and beans. A wall of hotel names. A courtyard with wooden balconies where nobody was in a hurry.
+The roads belong in the book too. Bus windows, boats, a train at the platform. All those in-between places have their own view.
 
-[[ #141-#150 ]]
+[[ 17930101526783394 17977359620373781 18001784693153969 18017328910884280 17872755938962394 17846715123106543 ]]
 
-![A yellow sign in the trees: slow, children at play. Good advice for anyone.](#151)
+[[ 17885182301972230 18049819894549359 18235795699218663 18236414314218700 18290200021156833 17860541013125214 ]]
 
-There were temples again, gold in the day and coloured lights at night. A red insect with a blue head. A construction site with planks laid across mud like a sentence still being written. The walker learned to work in the morning and walk in the afternoon, and to forgive the days that came out the other way round.
+[[ 18049024153720614 18049865875615139 18050696350720323 17913834773957649 18015050555222965 17996005289503493 ]]
 
-[[ #152-#164 ]]
+[[ 18119522281379628 18043915132966763 18120744409392170 18249937849277537 18037658750598206 17878352250164728 ]]
 
-[[ #165-#175 ]]
+[[ 18085184107537138 17996775401616561 17895907287210210 18045609017218589 17913295080157438 18083857924881896 ]]
 
-## up where the snow begins
+[[ 18091448584682911 17875392588311003 18094028671656581 ]]
 
-Then north, and up, until the trees gave out and the snow came in. People walked a bright path below a peak. A lake held a single boat. A whole town sat in a bowl of mountains with a cloud for a lid.
+## Into the streets
 
-![People on a snow path. From far enough away every journey looks easy.](#181)
+Then the buildings crowd together. Wires cross the sky. There are shops, signs, painted walls and people going about their day. More to look at than fits in one photograph.
 
-[[ #176-#180 ]]
+[[ 17849990406070158 17982279245288036 17991073937511374 17996841650331807 18003102392107441 18027348442635347 ]]
 
-[[ #182-#195 ]]
+[[ 18387031240000770 18016573168754274 18007671146146766 18018605350816831 18020652535767694 18034829434722349 ]]
 
-The walker took a bus that smelled of oranges and looked out at a street full of wires, and then, from a plane at night, at a city drawn in light with a red wing across it. The notebook says: you will not remember the arrivals. You will remember the windows.
+[[ 18045523327508420 18061173295487171 18072386197449417 18110578495347712 18237140182218044 18015783611073079 ]]
 
-[[ #196-#210 ]]
+[[ 18228014302279583 18028198559065303 17904002885915903 18103264933414905 18142953046333601 18117362152384867 ]]
 
-## what the deer knew
+[[ 17880939942108780 18046943483502316 18042580318991201 17888750031193675 18054637037085487 18076906492631491 ]]
 
-In the new year the walker slowed down. Two monkeys sat against an orange wall like old men outside a shop. A herd of deer stood in the grass and did not run, which felt like being trusted. The bridges were stone and the archways had lanterns in them.
+[[ 18042434267126275 17845856736437291 17874675060306076 17893190712197743 17944399775844122 17965623704884937 ]]
 
-![A deer with antlers, standing among the others. It did not need to be first.](#213)
+[[ 18032139119648386 18296424286217989 17905406202234004 18024407561723724 17893017255307572 18060610304580781 ]]
 
-[[ #211-#212 ]]
+[[ 18085422454862918 18115992352516406 18413654134109860 ]]
 
-[[ #214-#220 ]]
+## Doors left in the frame
 
-Spring came in with domes lit blue at night, orange roofs from above, a green train sliding through a forest. The walker started to understand that a place does not need you to be impressed by it. It only needs you to be there, in whatever weather you brought.
+The camera keeps coming back to buildings: a wooden cabin, a courtyard, a roof against the hillside. Then it moves inside, to the light on a wall and the things set beside a window.
 
-[[ #221-#232 ]]
+[[ 17999730509145398 18000934610489674 18266963800087257 17914069766766114 17906252690878230 17941474139756859 ]]
 
-[[ #233-#241 ]]
+[[ 17957083025700276 17981014355423467 18012198995028570 18014608490060239 18023842708876427 18029712196773782 ]]
 
-![A peacock on the rocks. Nobody taught it to be that colour.](#242)
+[[ 18033644323731244 18049635148491537 18292654657196219 18316107508189272 18368897293073030 18349965298100585 ]]
 
-[[ #243-#249 ]]
+[[ 17975594360559466 18050359789654076 18063789553514064 18078390106494084 18008487575572434 18018076133228215 ]]
 
-## the cabin
+[[ 18008897240474182 18018717641631117 18032618831377048 18046462034486097 18048485306042588 18073563973613577 ]]
 
-For a month the walker lived in a cabin on a slope and did not go anywhere. This turned out to be the hardest leg of the journey. The moon was very white. The lamp was very orange. A snail crossed the moss in the time it took to make tea.
+[[ 17876594112255856 17975078972683314 18051189892938953 17989245770637376 18117857320444128 18178789384315473 ]]
 
-[[ #250-#262 ]]
+[[ 17915391519094182 18038273186552180 18038555675280324 18043225070169022 18129831724414798 18340038448080941 ]]
 
-![One person on a rock, looking at a valley. The valley did not need an audience, but it had one.](#270)
+[[ 18380709034137953 18501489961034338 18079225762773382 18081380113663446 18026705111695465 18070709723510413 ]]
 
-There were prayer flags strung across a hillside and a wooden shack on turquoise water that had been falling down for years and had not finished yet. The notebook says: you do not have to arrive anywhere to have travelled. Sitting still is also a distance.
+[[ 17894637054163268 17918950614141414 17974978685764506 18040434845382761 18138622618426319 18406931029118080 ]]
 
-[[ #263-#269 ]]
+## A table somewhere
 
-[[ #271-#278 ]]
+Between the views are tables. Coffee, bowls, a pizza, something bright on a plate. These pages leave room for the ordinary business of stopping to eat.
 
-## the black dog
+[[ 18003246869155911 17866341246046635 18046309562102888 18037817851560038 18069295459905505 17902379319123791 ]]
 
-A black dog appeared on the second week of summer and decided to come along. It crossed a wooden bridge ahead of the walker, lay down in a stream, sat on a beach with its back to the camera, and led the way down a path through the pines as if it had been hired.
+[[ 18021893468754178 18314983018104900 18068415005267643 18007999625065617 17997492833362191 18244376206212179 ]]
 
-![The black dog on the bridge. It never once looked back to check.](#285)
+[[ 18063559066617475 18050548784053147 17923877354817061 18092671381383014 18078687586825400 18014442995089239 ]]
 
-[[ #279-#284 ]]
+[[ 18090400258397913 18050469305004464 18376074349178406 17980017611735805 18024785902730426 18033097864591462 ]]
 
-[[ #286-#300 ]]
+[[ 18035090773536504 17996021396373715 17999993783338960 18019624063806396 18014487014698058 18007174508713744 ]]
 
-There were monkeys on a branch and a red crab on the rocks, a full moon over a hillside, a temple lit white against the dark. A cow grazed under the mountains and could not have been more content. The walker wrote: the dog is not loyal to me. It is loyal to the walk. That is the better kind.
+[[ 18023586728444333 18185647627314230 18074622127764306 18176295736339771 18386231956120554 18024864673672324 ]]
 
-[[ #301-#312 ]]
+[[ 18114545866517420 18095486134480234 18120243130508473 18079158946998346 18027248992865926 18050802217959604 ]]
 
-[[ #313-#321 ]]
+[[ 17896438559868266 17845180560118723 17939746502803969 18059646485275951 18061386613872783 17955534758941557 ]]
 
-## rain on the go-karts
+[[ 17843760168514180 17859227889513502 18019903775648705 17978680685866720 18010128508851506 18211238998251527 ]]
 
-July rained. A go-kart track filled up until the tyres floated, with WOW OPEN painted on a kart that was not going anywhere. The walker found this funny and then found it wise. Most of what we build for speed spends its life waiting.
+[[ 17902307777829251 17941202807759788 18323226415110999 18223793545283754 17905824905932803 18042341029967819 ]]
 
-![The flooded go-kart track. Open, in the sense that nothing was stopping you.](#326)
+[[ 18044905819757173 18364217296106982 18453399478034109 17893942224095810 18021246371540155 18067236580668817 ]]
 
-[[ #322-#325 ]]
+[[ 18082352479554732 18085767871522016 18255094837273132 18048027254177089 18053479925023307 18064323880870228 ]]
 
-[[ #327-#335 ]]
+[[ 18078683344859475 17902199472249379 18066660613661427 18499228084050055 18265066516252871 17972723228760393 ]]
 
-A fly rested on a leaf. A bee worked a daisy. Two birds sat on a bar in the wind. A monkey walked a power line above a concrete building, and the walker watched it the whole way across, and it did not fall, and that was the afternoon.
+[[ 17858226027046949 17931891791908349 17938838921856695 17993327165391435 18142861009306965 17975469713804430 ]]
 
-[[ #336-#341 ]]
+[[ 18049396388319210 18016890407720459 18005687774104098 18014070632423677 18067146184905712 18076150619299202 ]]
 
-## the valley of terraces
+## The laptop came too
 
-In August the walker came to a valley cut into steps, with coloured houses stacked on the terraces and a river taking the slow route through. There were rabbits in a barn, a bar with a neon plane on the wall, a restaurant painted pink from floor to ceiling.
+A screen on a table, with another view behind it. The work setup changes from room to room. The laptop is the familiar object in the frame.
 
-[[ #342-#352 ]]
+[[ 18001412426125168 18311978608185746 17848154892106786 18034506808638986 18163435999310351 17928924218991262 ]]
 
-![Terraced fields under cloud. Somebody's grandfather cut every one of those steps.](#364)
+[[ 18039159257219595 ]]
 
-[[ #353-#363 ]]
+## Company along the way
 
-A monkey sat on a railing holding a small flag. Sheep grazed a hillside, a horse grazed another, a spider sat in the exact middle of its web. The walker wrote: a valley teaches you that flat ground is a decision, not a gift.
+Dogs, cats, monkeys, birds. Some look straight into the camera; others carry on. Their photographs sit together here, including the very small creatures that needed a closer look.
 
-[[ #365-#376 ]]
+[[ 18307704124225567 17876753079147142 18356691103194018 17884917522254746 18065452214000044 17888194563287699 ]]
 
-[[ #377-#388 ]]
+[[ 17884208541361607 18024009176324374 18033103058408801 17931568599030776 18036823955061804 18327566794121001 ]]
 
-## a match and a clock
+[[ 18011958431105269 18064285261617130 18064987807616602 18069007084726440 18032168816527789 18050834207202666 ]]
 
-Autumn came in the colour of a struck match. The walker met a golden retriever at a fair who looked straight into the lens with total faith, and a cat asleep on a wooden bench who did not look at anything. Someone stood at the edge of a waterfall in a black jacket and did not jump and did not leave.
+[[ 18085034410720308 18399904099103999 18375226711179155 18061300307065566 17967334100837187 17996878748230372 ]]
 
-![A golden retriever at the fair, looking straight back. This is what trust looks like from the outside.](#396)
+[[ 17966365379883655 18038989262366370 18040257731057283 18520540504025476 18379660507136309 18017707562184839 ]]
 
-[[ #389-#395 ]]
+[[ 18008381131986932 17898252200941967 18012712538101308 17888554949980921 17909030849973185 17925653987798554 ]]
 
-[[ #397-#400 ]]
+[[ 17935712603846246 18009943958260033 18115112641344830 17890791156080964 18044759528103985 18076791022719441 ]]
 
-![One match, lit. The whole night is in there somewhere.](#401)
+[[ 18075629204052137 17948234213975079 17869263357121119 17906904770995395 18024254483379417 17974348013604561 ]]
 
-There was a vintage clock on a wooden wall, a carved figure with a crown, a full moon behind a tree. The notebook says: a match and a clock are the same lesson. Both burn down. One of them keeps score.
+[[ 18014143096902979 17975615351567647 18029678929745069 18075440095490424 17895150390198827 18058234064344245 ]]
 
-[[ #402-#413 ]]
+[[ 18077999377518612 18042719734985094 18022980098688348 17956518506662988 18083875747777433 18056857621612074 ]]
 
-[[ #414-#422 ]]
+[[ 18030879962231576 18057132040817929 17969043740948851 18056612671639840 17984375105560499 17856461115069577 ]]
 
-## the city in winter
+[[ 18018276182093722 18030705523997757 18009654289982824 18004323275228796 18084641143882398 17884530014976064 ]]
 
-The walker went to a city for the cold months and found it full of small mercies. A clock tower against a hard blue sky. A brick tunnel with arches inside arches. A cat on a leather couch who had never been outdoors and had no plans to start.
+[[ 17967242456658770 18220587310252377 17998658348462403 18079375105459855 17900427264257968 17967199487658117 ]]
 
-[[ #423-#434 ]]
+[[ 17882581431039449 18019414132802359 18024012962276138 17996729015268641 18050720872680991 17964323798871185 ]]
 
-![A brick tunnel, arch after arch. The way out is the same shape as the way in.](#446)
+[[ 18045474113211254 18064855241005044 18325281157235039 18234994714287608 17931757020034433 18056392738547591 ]]
 
-[[ #435-#445 ]]
+[[ 17894286708247841 18058864112378733 18057243974447172 18042618596301514 18076029340838195 18061489193574885 ]]
 
-There was a campfire, a subway station with a wet floor, a board with red and blue pieces that looked like a game and might have been. The walker sat by the fire and wrote: winter is not the absence of the journey. It is the part where you find out what you brought.
+[[ 18075102341079689 18051287090239102 ]]
 
-[[ #447-#455 ]]
+## Small things, up close
 
-## the chipmunk's orange
+Leaves, blossoms, moss and the beads of water caught on them. After so many distant hills, the photographs turn towards what is within reach.
 
-In January a chipmunk found an orange and ate it in the dirt with both hands. The walker watched for twenty minutes. Nothing in the notebook that year is truer than what it wrote next: happiness is usually smaller than you and busy.
+[[ 18049177409421344 17877365475301842 18033250276877037 18048212561170301 17886492915254277 17884013843944816 ]]
 
-![The chipmunk and the orange. It did not share and it was right not to.](#458)
+[[ 17988015920774301 17986538540600032 17995414952381655 18054387727584140 18003667334771296 17864252973411617 ]]
 
-[[ #456-#457 ]]
+[[ 18014218394732651 18021575234720780 17845631106435156 17994605078742345 18325894522164937 18077353342513377 ]]
 
-[[ #459-#468 ]]
+[[ 18051865087867241 17871415161019835 18236802649295363 18015918521436287 18082930432555080 18083333011604331 ]]
 
-![The same chipmunk, still at it.](#469)
+[[ 18028686749038276 17984745335671977 17903117844223614 18264633673168608 18025310120251593 18040740257223065 ]]
 
-Yellow flowers came up in a field near the buildings, a dog slept on a rusted couch in the sun, a neon sign said Snax Bar. The walker ate at the Snax Bar. It was fine. It was better than fine, actually, because it was exactly what it said.
+[[ 18027906956422922 18125864338369855 18012415718515197 18008333512994070 18010363381976631 17891065017235634 ]]
 
-[[ #470-#479 ]]
+[[ 17954128080005789 17854076460049823 17909852220207495 17871400794138686 18115665847503730 17849402631209327 ]]
 
-## snow
+[[ 17997655340481755 18061678604362352 18022579138671738 18037063081728943 17898284666848922 18053460274755280 ]]
 
-February brought snow and with it the two silhouettes on the dock, the four pairs of boots standing in a row, the sunglasses left on a stump at sunset as if their owner had simply evaporated. The walker rode with motorcyclists down a dirt road into the pink and wrote nothing at all that night, which is its own kind of note.
+## Things worth keeping
 
-[[ #480-#490 ]]
+A painted face, a strange little object, a light hanging from the ceiling. The scraps that do not describe a whole place, but give it a particular texture.
 
-![Four pairs of boots in the snow. Their owners were somewhere warmer, arguing about lunch.](#497)
+[[ 18523336990043566 18030916342667865 18418326346077501 18163715815323768 18062438101597907 18102048796516832 ]]
 
-[[ #491-#496 ]]
+[[ 17928291791929150 18402421684025211 18172607860338851 18304804417201250 18033604576610995 17977634645362643 ]]
 
-[[ #498-#500 ]]
+[[ 18049222859153801 18088035889643931 18325809622155036 18047730338087211 18025834091411168 18075347489493244 ]]
 
-![Sunglasses on a stump at sunset. Left there on purpose, the walker decided.](#501)
+[[ 17884381854127099 18103179754335733 17883140376152492 18093950920657023 18027807386198781 18064729621462301 ]]
 
-There was a hand on the ground, a wooden tower with a dome in the fog, a moon coming through cloud over a mountain. The notebook says: snow makes everything a first draft. Walk on it anyway.
+[[ 18284822833196861 17866446423378051 18052441933622818 17887598354970327 17859402849223093 17996261600247069 ]]
 
-[[ #502-#512 ]]
+[[ 18155816536376613 17885428776063071 18020616866691773 17931266142040212 17850505965078832 18042217538370978 ]]
 
-[[ #513-#523 ]]
+[[ 17891062827228662 18091312951666085 18024948620439208 17980413632691403 18060250084893041 18177127360311666 ]]
 
-## bare feet on the ledge
+[[ 17945061551742931 18005202464727383 18077052089090595 18050090072281424 18297595954217599 18328089004097231 ]]
 
-In March the walker took its shoes off on a wooden ledge above a forest and left them off for a long time. There was a tea house in the sun. There was a framed photo of a van on a mountain road, which the walker liked more than most of the actual roads.
+[[ 17905075976858118 17925678923907525 17942229645045906 18522795844050320 18314535877128357 17959090367681685 ]]
 
-![Bare feet on a ledge over the forest. The shoes had nothing to add.](#531)
+[[ 18037074277889913 18050776375955045 18062849656946156 18024723524530783 18114153202448392 18050903510497818 ]]
 
-[[ #524-#530 ]]
+[[ 18035330993353691 18015630934950861 17984210348524302 18089107900518432 17872543047410450 18007400651389283 ]]
 
-[[ #532-#543 ]]
+[[ 18042448622524140 18004234271692731 18004303697548306 17854716864238595 ]]
 
-## the village of blossoms
+## When the light changes
 
-April is the month the mountains apologise. Trees went white and pink under peaks that were still holding their snow. Sheep came down a narrow alley between painted houses as if they had somewhere to be. A door had a moon and stars painted on it.
+The same shapes become silhouettes. Trees against orange, hills fading into blue, a moon above the ridge. The sky takes up more of the photograph.
 
-[[ #544-#555 ]]
+[[ 17874946586936654 17994053939093932 18034214731586410 18036556888567790 18306147766119219 18317490898111869 ]]
 
-![A golden retriever in the blossoms. Some creatures are simply built for spring.](#556)
+[[ 18324268540100127 18393529495060574 18395901010021066 18010185829871835 18388658617051500 17914607960842468 ]]
 
-[[ #557-#565 ]]
+[[ 18024306073859247 18035192353711214 18394885093065185 18006563303225471 18279066670204894 18006994424228277 ]]
 
-![A hand petting a white dog. The dog is doing the more important work.](#566)
+[[ 18020848712490059 18034555744787015 18041903224764827 18344851762104343 17993808413484894 18003556565608525 ]]
 
-There were bird's nests among the blossom, an ant on a mossy rock, a mural of a frog with a halo painted on a boulder. Somebody was reading a book about psychedelic experience in the open air, and the walker wrote: the mountains are the original version of that.
+[[ 18030394931022542 18172042168305516 17866896984158169 18029331038327089 18001413245653368 18030874793228645 ]]
 
-[[ #567-#575 ]]
+[[ 18028074392065649 18067646833653233 18036606470352218 18097007878473842 18016058429494611 18023289272644459 ]]
 
-[[ #576-#585 ]]
+[[ 18055837736018467 18067155409862103 18069625948866596 18071865316747248 18077712274652750 18080201527625252 ]]
 
-## cats in trees
+[[ 18108066529421289 18345826522144337 18349023319198072 17853609498423599 17855292207407733 17864355135286691 ]]
 
-The cats of that village lived in trees. One peered through the branches with enormous eyes. One sat on a limb with a snow peak behind it, like a calendar that had got out of hand. The walker gave up trying to photograph them properly and just took what they allowed.
+[[ 17875042863317035 18077791585624523 18079308556672393 18091368721599078 18096423622535837 18141109513387721 ]]
 
-![A cat in a tree, watching. It knew exactly how it looked.](#605)
+[[ 18502620658006987 18283845691269515 18048912722274309 18066428029973027 18109402879543167 18340458946200253 ]]
 
-[[ #586-#604 ]]
+[[ 18074040377173175 ]]
 
-A campsite went orange at sunset. A calf rested in the grass. A man in a brown jacket stood in front of a cabin with the peaks behind him and looked like he had just decided something. The notebook says: you will know the place is finished with you when you start photographing the same tree twice.
+## The lights come on
 
-[[ #606-#620 ]]
+Windows, lamps, streets after dark. The colours gather in smaller places now. The last pages are full of things still lit up.
 
-![The man and the cabin. He looked like someone who had made up his mind.](#621)
+[[ 17880492698901009 17973856022389748 17984285978252552 17991840599120173 18015542929869611 18023604028699917 ]]
 
-[[ #622-#624 ]]
+[[ 18026742880601688 18033298582610008 18035261476572543 18104320102353601 18393490135011504 18006950038947393 ]]
 
-## the hourglass
+[[ 18026825095685881 17842756026126586 17878692650996171 17890877792954702 18021396466911236 18054282463510271 ]]
 
-May was hot and strange. The walker went underwater and watched a small fish decide against it. There was a table with an hourglass on it, a jar, a glass of something amber, and the sand went through the neck at exactly the speed it always had.
+[[ 18091604077384765 18249873466238711 18276092755086737 17966558555540052 18052850491485666 18251768566234698 ]]
 
-![An hourglass on a wooden table. It did not hurry for the walker and it will not hurry for you.](#630)
+[[ 17860114041136622 18005591180426926 18010827947517159 18042033286786887 18051525712628142 17919760550909835 ]]
 
-[[ #625-#629 ]]
+[[ 17934943673830372 17974740512697969 17982065405510647 17994856430412552 18004862909271869 18009499913181375 ]]
 
-[[ #631-#646 ]]
+[[ 17855654637194469 17862031722169022 17937630836849438 17995073090641810 18050975473669204 18265148644174057 ]]
 
-## chess in the fog
+[[ 17932834880860887 17877441756067815 17942043920850325 17859419310224991 18048168529987283 18066243805661151 ]]
 
-Summer fog came down over the cabin and the walker learned chess from someone who was very patient and always won. A pizza went cold on a rock outside. A beetle the colour of oil sat on a red wall. Two monarch butterflies shared a purple cloth, wings folded, saying nothing.
+[[ 18339294343182947 17991442262746013 18090600187516464 17857743990285909 17925551138991782 18167453152320933 ]]
 
-[[ #647-#661 ]]
+[[ 17854731261330277 17898806289111974 18057581777481611 18077865061631787 18111316762456526 18154027450355526 ]]
 
-![The chessboard, mid-game. Losing slowly to a good teacher is the fastest way to learn.](#662)
+[[ 17886002832234103 18050163281337176 18394051594111426 17956407605925538 18047987747350142 18061357268092944 ]]
 
-[[ #663-#666 ]]
+[[ 18063664145002091 18078137011702844 18178015192317007 18063622880012089 17844925443531670 17851007289455885 ]]
 
-![The same board, set for another one.](#667)
+[[ 18066351059131386 18062626061600732 18109588390549322 18367878355144538 17851896345538675 18056869151146937 ]]
 
-There was a stone face in the undergrowth, smiling at a joke made centuries ago. The notebook says: every game ends in the same position. Play well anyway.
-
-[[ #668-#673 ]]
-
-## the flood
-
-In July the street outside flooded at night and people in life jackets waded past a half-drowned car. A heron in the forest went on being yellow. A horse-drawn carriage stood lit up in the trees like something that had wandered out of a different story.
-
-![A flooded street at night. Everyone in the picture is helping someone.](#675)
-
-[[ #674 ]]
-
-[[ #676-#682 ]]
-
-The walker, indoors, looked at paintings of eyes and women with mushroom hair and a frog at sunset, and wrote: when the water comes, the only question is who you wade towards.
-
-[[ #683-#688 ]]
-
-## the postal box
-
-August was green in every direction. Tea plantations, a stream cutting a field, a house with a blue roof. Turkeys walked a gravel yard. A blue snake lay coiled on wet stone and the walker stepped very carefully around it, which is the only correct response to a snake or to most advice.
-
-[[ #689-#700 ]]
-
-![A monkey on a rock above the valley. Same view as the balcony, a long time later.](#703)
-
-[[ #701-#702 ]]
-
-[[ #704-#715 ]]
-
-There was a red postal box leaning on a blue wall with a number painted on it. The walker put a letter in it addressed to nobody in particular. The notebook says: a letter with no address still gets somewhere. It gets out of you.
-
-![The postal box. Red, weathered, still working.](#728)
-
-[[ #716-#727 ]]
-
-[[ #729-#742 ]]
-
-## the city by the sea
-
-September was a big city by the sea, loud and kind. A festival came down the street at night with a garlanded god and drums and dogs. A family sat in the open boot of a red car on a wet road. A train pulled into a station where fifteen people were going home at once.
-
-[[ #743-#751 ]]
-
-![The procession at night. The walker was carried along, which is the point of a procession.](#752)
-
-[[ #753-#759 ]]
-
-![A family in the back of a car at night, going nowhere, together.](#760)
-
-On a wall there was a mural for a hundred years of a showman with a moustache. A white cat walked along a mossy wall. The walker ate mango risotto and looked at the sea and wrote the second to last note: the city does not know you are leaving. Be grateful. It means you can come back.
-
-[[ #761-#773 ]]
-
-## the last page
-
-The walker came home in October to the same park, the same sparrow on the same ledge, a sky doing nothing in particular. There was a pizza on a wooden table, which is how it had started, if you count the balcony as a kind of pizza. The last note in the book is short.
-
-![The sparrow on the ledge. It had not gone anywhere, and it had not needed to.](#777)
-
-[[ #774-#776 ]]
-
-[[ #778-#780 ]]
-
-It says: you went the long way round to find out the near way was also fine. Now you know both. Walk whichever one the day asks for.
+[[ 18073268966155836 18076457264064059 18080933107936697 18096425998713280 18124064008477338 ]]

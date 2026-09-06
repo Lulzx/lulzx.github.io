@@ -1,3 +1,5 @@
-# lulzx gallery
+# The Long Way Round
 
-A visual collection by lulzx. The gallery is image-led and has limited text. For engineering writing, use the [writing garden](https://lulzx.com/learn); for public software, use the [project index](https://lulzx.com/projects).
+A traveller’s scrapbook by lulzx. All 780 photographs are arranged in 13 visual chapters, from wide views and water to streets, tables, animals, small details, and evening light.
+
+[Open the scrapbook](https://lulzx.com/gallery/) to scroll through the prints or open any photograph in the full-screen viewer.

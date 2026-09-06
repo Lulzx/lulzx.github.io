@@ -27,5 +27,5 @@ test('static pages and SPA share the cabinet style', () => {
       assert.ok(read(`${dir}/${name}`).includes('href="/assets/cabinet.css"'), `${dir}/${name}`);
     }
   }
-  for (const dir of ['about','contact','privacy','developers','gallery']) assert.ok(read(`${dir}/index.html`).includes('href="/assets/cabinet.css"'), dir);
+  for (const dir of ['about','contact','privacy','developers']) assert.ok(read(`${dir}/index.html`).includes('href="/assets/cabinet.css"'), dir);
 });

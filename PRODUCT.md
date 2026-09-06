@@ -20,7 +20,7 @@ Minimal by default, auditable from source: the entire site is one hand-written H
 
 ## Operating Context
 
-Deployed at lulzx.com via GitHub Pages (branch master, CNAME), proxied by Cloudflare. Single-file Vue 3 + Vue Router SPA in `index.html`; `404.html` and `learn/index.html` are exact copies (SPA fallback). Per-item static HTML fallbacks in `words/` and `learn/`. `/gallery` is a standalone page loading remote images. The `notes/` directory is frozen by GitHub and must never serve content.
+Deployed at lulzx.com via GitHub Pages (branch master, CNAME), proxied by Cloudflare. Single-file Vue 3 + Vue Router SPA in `index.html`; `404.html` and `learn/index.html` are exact copies (SPA fallback). Per-item static HTML fallbacks in `words/` and `learn/`. `/gallery` is a standalone React scrapbook built from `gallery-src/` with `npm run build:gallery`, loading remote images. Its paper-and-print design is independent of the main site. Photo placement and chapter prose live in `gallery-src/story.md`; image labels live in `gallery/labels.json`. Preserve every manifest image exactly once when editing the sequence. The `notes/` directory is frozen by GitHub and must never serve content.
 
 ## Capabilities and Constraints
 
