@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Story</title>
-<meta name="description" content="How lulzx started building software and where the work is going: from a slow Pentium 4, coding Telegram bots on a phone, and a 4 GB ThinkPad E480 on Linux to compilers, Metal kernels, compression, proof, and whole-nervous-system simulations.">
+<meta name="description" content="How lulzx learned to build small software on machines that were too small for it: a slow Pentium 4, Telegram bots written on a phone, a 4 GB ThinkPad E480, and then compilers, Metal kernels, compression, proof, and simulated nervous systems.">
 <link rel="canonical" href="https://lulzx.com/story"><link rel="stylesheet" href="/assets/trust.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/cabinet.css">
@@ -33,12 +33,11 @@
     padding: 36px 24px 72px;
   }
 
-  /* Hero header */
+  /* Hero */
   .story-hero {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 28px;
-    padding-bottom: 32px;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 0 30px;
   }
   .story-eyebrow {
     font: 10px var(--mono);
@@ -59,28 +58,33 @@
   }
   .story-hero h1 {
     font-family: var(--body);
-    font-size: clamp(38px, 5.2vw, 64px);
+    font-size: clamp(38px, 5.6vw, 66px);
     font-weight: 500;
     line-height: 1.04;
     letter-spacing: -.055em;
     text-transform: none;
-    margin: 10px 0 14px;
+    margin: 12px 0 18px;
     color: var(--ink);
   }
   .story-lede {
-    font-size: clamp(17px, 1.6vw, 20px);
-    line-height: 1.65;
+    font-size: clamp(17px, 1.7vw, 20px);
+    line-height: 1.7;
     color: var(--ink-soft);
-    max-width: 66ch;
-    margin: 0;
+    margin: 0 0 14px;
+  }
+  .story-meta {
+    font: 11px var(--mono);
+    color: var(--muted);
+    letter-spacing: .04em;
   }
 
-  /* Overview instrument strip (6 eras) */
+  /* Era map */
   .era-strip {
     background: var(--panel);
     border: 1px solid var(--line-strong);
     box-shadow: 0 3px 0 var(--paper), 0 4px 0 var(--line-strong);
     padding: 18px 20px 16px;
+    margin-top: 10px;
   }
   .era-strip-head {
     display: flex;
@@ -96,18 +100,17 @@
   }
   .era-strip-grid {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 8px;
   }
   .era-tile {
     display: flex;
     flex-direction: column;
-    padding: 10px 11px 12px;
+    padding: 9px 9px 11px;
     border: 1px solid var(--line);
     background: var(--paper);
     text-decoration: none;
-    transition: transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
-    position: relative;
+    transition: transform .18s ease, background .18s ease, border-color .18s ease;
   }
   .era-tile:hover, .era-tile:focus-visible {
     transform: translateY(-2px);
@@ -121,7 +124,7 @@
     letter-spacing: .06em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .era-tile-top .era-dot {
     width: 6px;
@@ -131,22 +134,17 @@
   }
   .era-tile svg {
     width: 100%;
-    height: 64px;
+    height: 52px;
     display: block;
     margin: 4px 0 8px;
     color: var(--era-color, var(--red));
   }
   .era-tile-title {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 550;
     letter-spacing: -.02em;
     color: var(--ink);
     line-height: 1.25;
-  }
-  .era-tile-sub {
-    font: 10px/1.35 var(--mono);
-    color: var(--muted);
-    margin-top: 4px;
   }
 
   /* Sticky chapter index */
@@ -161,12 +159,12 @@
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     box-shadow: 0 4px 0 var(--paper);
-    margin: 12px 0 8px;
+    margin: 30px 0 8px;
   }
   .story-nav::-webkit-scrollbar { display: none; }
   .story-nav a {
     flex: 1 0 auto;
-    padding: 15px 16px;
+    padding: 14px 13px;
     font: 10px var(--mono);
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -183,21 +181,24 @@
     border-bottom-color: var(--era-color, var(--red));
   }
 
-  /* Chapters */
+  /* Chapters: one reading column, figures break out wider */
   .story-chapter {
-    padding: 56px 0 16px;
+    padding: 64px 0 24px;
     border-bottom: 1px solid var(--line);
     scroll-margin-top: 56px;
   }
-  .story-chapter:last-of-type {
-    border-bottom: 0;
+  .story-chapter:last-of-type { border-bottom: 0; }
+  .chapter-head, .prose, .story-notes {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .chapter-head {
     display: grid;
-    grid-template-columns: 46px 1fr auto;
+    grid-template-columns: 46px 1fr;
     gap: 16px;
     align-items: baseline;
-    margin-bottom: 26px;
+    margin-bottom: 28px;
   }
   .chapter-num {
     font: 10px var(--mono);
@@ -208,10 +209,10 @@
   }
   .chapter-head h2 {
     font-family: var(--body);
-    font-size: clamp(24px, 3vw, 33px);
+    font-size: clamp(26px, 3.2vw, 36px);
     font-weight: 500;
     letter-spacing: -.04em;
-    line-height: 1.18;
+    line-height: 1.15;
     text-transform: none;
     border: 0;
     margin: 0;
@@ -219,58 +220,67 @@
     color: var(--ink);
   }
   .chapter-tag {
+    display: block;
+    margin-top: 8px;
     font: 10px var(--mono);
     letter-spacing: .08em;
     text-transform: uppercase;
     color: var(--muted);
-    padding: 4px 9px;
-    border: 1px solid var(--line);
-    background: var(--panel);
   }
-
-  /* Two-column chapter body: prose + technical plate */
-  .chapter-grid {
-    display: grid;
-    grid-template-columns: 1.08fr .92fr;
-    gap: 34px;
-    align-items: start;
-  }
-  .chapter-grid.reverse {
-    grid-template-columns: .92fr 1.08fr;
-  }
-  .chapter-prose p {
-    font-size: 16px;
-    line-height: 1.88;
+  .prose p {
+    font-size: 17px;
+    line-height: 1.85;
     color: var(--ink-soft);
-    margin: 0 0 18px;
+    margin: 0 0 20px;
   }
-  .chapter-prose p:last-child {
-    margin-bottom: 0;
+  .prose h3 {
+    font-family: var(--body);
+    font-size: 21px;
+    font-weight: 550;
+    letter-spacing: -.03em;
+    text-transform: none;
+    color: var(--ink);
+    margin: 40px 0 12px;
+    border: 0;
+    padding: 0;
   }
-  .chapter-prose a, .specimen-card a.inline-link {
+  .prose a, .story-notes a, .plate-caption a {
     color: var(--ink);
     border-bottom: 1px solid var(--era-color, var(--red));
     text-decoration: none;
   }
-  .chapter-prose a:hover {
-    background: var(--paper-2);
-  }
-  .chapter-prose code {
-    font: .88em var(--mono);
+  .prose a:hover { background: var(--paper-2); }
+  .prose code {
+    font: .86em var(--mono);
     background: var(--paper-2);
     padding: 2px 6px;
     border: 1px solid var(--line);
   }
+  .prose sup a, .story-notes sup {
+    font: 10px var(--mono);
+    border: 0;
+    color: var(--era-color, var(--red));
+    padding: 0 1px;
+  }
+  .prose .short {
+    font-size: 21px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
 
-  /* Technical Figure Plate */
-  .tech-plate {
+  /* Figures */
+  .plate {
+    max-width: 920px;
+    margin: 34px auto 38px;
     background: var(--panel);
     border: 1px solid var(--line-strong);
-    padding: 16px 18px 18px;
+    padding: 14px 16px 16px;
   }
+  .plate.narrow { max-width: 680px; }
   .plate-bar {
     display: flex;
     justify-content: space-between;
+    gap: 12px;
     align-items: center;
     font: 9px var(--mono);
     letter-spacing: .08em;
@@ -280,27 +290,26 @@
     border-bottom: 1px solid var(--line);
   }
   .plate-canvas {
-    position: relative;
-    min-height: 210px;
-    display: grid;
-    place-items: center;
-    margin: 12px 0;
-    padding: 10px;
+    margin: 12px 0 0;
+    padding: 12px;
     background-color: var(--paper);
     background-image: radial-gradient(var(--line) .7px, transparent .7px);
     background-size: 12px 12px;
     border: 1px solid var(--line);
+    overflow-x: auto;
   }
   .plate-canvas svg {
+    display: block;
     width: 100%;
-    max-width: 440px;
+    min-width: 520px;
     height: auto;
+    margin: 0 auto;
     overflow: visible;
     color: var(--era-color, var(--red));
   }
   .plate-specs {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
     margin-top: 12px;
   }
@@ -324,63 +333,43 @@
     margin-top: 2px;
   }
   .plate-caption {
-    font: 11px/1.55 var(--mono);
+    font: 11.5px/1.6 var(--mono);
     color: var(--muted);
-    margin-top: 10px;
+    margin: 10px 2px 0;
   }
 
-  /* 3-card specimen grid for Rebuilding Black Boxes & Current Frontiers */
-  .tri-grid {
+  svg .t { font: 10.5px var(--mono); fill: var(--ink-soft); stroke: none; }
+  svg .ts { font: 9px var(--mono); fill: var(--muted); stroke: none; letter-spacing: .04em; }
+  svg .th { font: 9.5px var(--mono); fill: var(--muted); stroke: none; letter-spacing: .1em; }
+  svg .ta { fill: currentColor; }
+  svg .tb { font-size: 22px; font-weight: 600; }
+
+  /* Repo index */
+  .repo-index {
+    max-width: 920px;
+    margin: 34px auto 10px;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-    margin-top: 26px;
+    gap: 12px;
   }
-  .tri-card {
+  .repo-group {
     background: var(--panel);
     border: 1px solid var(--line-strong);
-    padding: 16px 18px 20px;
-    display: flex;
-    flex-direction: column;
+    padding: 14px 16px 16px;
   }
-  .tri-card .plate-bar {
-    margin-bottom: 8px;
-  }
-  .tri-canvas {
-    height: 148px;
-    display: grid;
-    place-items: center;
-    background-color: var(--paper);
-    background-image: radial-gradient(var(--line) .7px, transparent .7px);
-    background-size: 12px 12px;
-    border: 1px solid var(--line);
-    margin-bottom: 14px;
-  }
-  .tri-canvas svg {
-    width: 210px;
-    height: 126px;
-    max-width: 90%;
-    color: var(--era-color, var(--red));
-  }
-  .tri-card h3 {
-    font-size: 18px;
-    font-weight: 550;
-    letter-spacing: -.03em;
-    color: var(--ink);
-    margin: 0 0 8px;
-  }
-  .tri-card p {
-    font-size: 14px;
-    line-height: 1.72;
-    color: var(--ink-soft);
-    margin: 0 0 12px;
+  .repo-group h4 {
+    font: 10px var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
   }
   .repo-pills {
-    margin-top: auto;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    padding-top: 8px;
   }
   .repo-pill {
     font: 10px var(--mono);
@@ -397,9 +386,10 @@
     color: #f5f6ef;
   }
 
-  /* Closing ledger box */
+  /* Coda and notes */
   .story-coda {
-    margin-top: 44px;
+    max-width: 920px;
+    margin: 44px auto 0;
     padding: 24px 26px;
     background: var(--panel);
     border: 1px solid var(--line-strong);
@@ -416,7 +406,7 @@
   }
   .story-coda-links {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 8px;
   }
   .story-coda-links a {
@@ -431,45 +421,79 @@
     border-color: var(--red);
     background: var(--paper-2);
   }
+  .story-notes {
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 56px;
+  }
+  .story-notes h2 {
+    font: 11px var(--mono);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 0;
+    margin: 0 0 16px;
+    padding: 0;
+  }
+  .story-notes ol {
+    margin: 0;
+    padding-left: 22px;
+  }
+  .story-notes li {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    scroll-margin-top: 70px;
+  }
+  .story-notes li:target { background: var(--paper-2); }
 
-  /* SVG Mechanism Animations (matching cabinet) */
+  /* SVG mechanism animations */
   svg .m { transform-box: fill-box; transform-origin: center; }
   svg .m-piv { transform-box: view-box; }
   .m-spin { animation: cabSpin var(--d,14s) linear infinite; }
-  .m-spin.m-rev { animation-direction: reverse; }
   .m-sway { animation: cabSway var(--d,2.4s) ease-in-out infinite alternate; }
+  .m-wobble { animation: cabWobble var(--d,3s) ease-in-out infinite alternate; transform-origin: center bottom !important; }
   .m-pulse { animation: cabPulse var(--d,2.6s) ease-in-out infinite; animation-delay: calc(var(--i,0) * -.35s); }
   .m-blink { animation: cabBlink var(--d,1.3s) ease-in-out infinite; animation-delay: calc(var(--i,0) * -.25s); }
   .m-bob { animation: cabBob var(--d,2.5s) ease-in-out infinite alternate; animation-delay: calc(var(--i,0) * -.4s); }
   .m-beat { animation: cabBeat var(--d,2.2s) ease-in-out infinite; }
   .m-shuttle { animation: cabShuttle var(--d,2.8s) ease-in-out infinite alternate; }
-  .m-scan-x { animation: cabScanX var(--d,2.8s) ease-in-out infinite alternate; }
   .m-scan-y { animation: cabScanY var(--d,2.4s) ease-in-out infinite alternate; }
+  .m-grow { animation: cabGrow var(--d,9s) steps(9) infinite; transform-origin: left center !important; }
+  .m-feed { animation: cabFeed var(--d,4s) ease-in-out infinite; }
   .m-flow > * { stroke-dasharray: 5 4; animation: cabFlow var(--d,2.2s) linear infinite; }
   @keyframes cabSpin { to { transform: rotate(360deg); } }
   @keyframes cabSway { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+  @keyframes cabWobble { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
   @keyframes cabPulse { 0%,100% { opacity: .32; } 50% { opacity: 1; } }
   @keyframes cabBlink { 0%,100% { opacity: .12; } 50% { opacity: 1; } }
   @keyframes cabBob { from { transform: translateY(3px); } to { transform: translateY(-3px); } }
   @keyframes cabBeat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-  @keyframes cabShuttle { from { transform: translateX(-6px); } to { transform: translateX(6px); } }
-  @keyframes cabScanX { from { transform: translateX(0); } to { transform: translateX(68px); } }
-  @keyframes cabScanY { from { transform: translateY(0); } to { transform: translateY(28px); } }
+  @keyframes cabShuttle { from { transform: translateX(-14px); } to { transform: translateX(14px); } }
+  @keyframes cabScanY { from { transform: translateY(0); } to { transform: translateY(60px); } }
+  @keyframes cabGrow { from { transform: scaleX(.06); } to { transform: scaleX(1); } }
+  @keyframes cabFeed { 0% { transform: translateY(-22px); } 70%,100% { transform: translateY(0); } }
   @keyframes cabFlow { to { stroke-dashoffset: -18; } }
   @media (prefers-reduced-motion: reduce) {
     svg .m, svg .m-flow > * { animation: none !important; }
   }
 
-  @media (max-width: 960px) {
-    .era-strip-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .chapter-grid, .chapter-grid.reverse { grid-template-columns: 1fr; gap: 22px; }
-    .tri-grid { grid-template-columns: 1fr; }
+  @media (max-width: 1020px) {
+    .era-strip-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  }
+  @media (max-width: 860px) {
+    .repo-index { grid-template-columns: 1fr; }
     .story-coda { grid-template-columns: 1fr; }
+    .plate-specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 560px) {
-    .era-strip-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .chapter-head { grid-template-columns: 32px 1fr; }
-    .chapter-tag { grid-column: 2; justify-self: start; }
+    .story-shell { padding: 24px 16px 56px; }
+    .era-strip-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .chapter-head { grid-template-columns: 32px 1fr; gap: 12px; }
+    .prose p { font-size: 16.5px; }
+    .plate { padding: 12px; }
   }
 </style>
 </head>
@@ -490,375 +514,702 @@
 
 <main class="story-shell">
   <section class="story-hero">
-    <div>
-      <p class="story-eyebrow">Chronological field record · 2017 to 2026</p>
-      <h1>From a Pentium 4 and a phone screen to quiet systems.</h1>
-      <p class="story-lede">How growing up on constrained machines shaped what I build, why I walked away from bloated wrapper stacks, and the three problems I am chasing now across compilers, silicon, and living nervous systems.</p>
-    </div>
-
-    <!-- 6-Era Visual Instrument Strip -->
-    <div class="era-strip" aria-label="Six chapters of the story">
-      <div class="era-strip-head">
-        <span>Instrument log / 01 to 06</span>
-        <span>Select an era to jump ↓</span>
-      </div>
-      <div class="era-strip-grid">
-        <a class="era-tile" href="#era-01" style="--era-color: var(--c1)">
-          <div class="era-tile-top"><span>01 / 2017</span><span class="era-dot"></span></div>
-          <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="14" y="10" width="32" height="50" rx="3" fill="var(--specimen-fill)"/>
-            <line x1="20" y1="22" x2="36" y2="22"/><line x1="20" y1="29" x2="32" y2="29"/>
-            <g class="m m-blink"><circle cx="30" cy="50" r="2.5" fill="currentColor"/></g>
-            <g class="m m-flow"><path d="M46 35H104"/></g>
-            <rect x="104" y="14" width="42" height="42" rx="2" fill="var(--specimen-fill)"/>
-            <g class="m m-pulse"><rect x="112" y="22" width="26" height="8" fill="currentColor"/></g>
-            <rect x="112" y="36" width="26" height="12"/>
-          </svg>
-          <span class="era-tile-title">Pentium 4 &amp; Phone</span>
-          <span class="era-tile-sub">SSH · $5 VPS · bots</span>
-        </a>
-
-        <a class="era-tile" href="#era-02" style="--era-color: var(--c2)">
-          <div class="era-tile-top"><span>02 / E480</span><span class="era-dot"></span></div>
-          <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="18" y="8" width="124" height="54" rx="2" fill="var(--specimen-fill)"/>
-            <line x1="82" y1="8" x2="82" y2="62"/>
-            <line x1="82" y1="35" x2="142" y2="35"/>
-            <g class="m m-pulse"><rect x="24" y="14" width="52" height="42" fill="currentColor" opacity=".25"/></g>
-            <line x1="30" y1="24" x2="64" y2="24"/><line x1="30" y1="32" x2="58" y2="32"/><line x1="30" y1="40" x2="68" y2="40"/>
-            <g class="m m-blink"><rect x="90" y="16" width="18" height="11" fill="currentColor"/></g>
-            <rect x="90" y="42" width="44" height="12"/>
-          </svg>
-          <span class="era-tile-title">4 GB ThinkPad</span>
-          <span class="era-tile-sub">Linux · tiling WM</span>
-        </a>
-
-        <a class="era-tile" href="#era-03" style="--era-color: var(--c3)">
-          <div class="era-tile-top"><span>03 / 2019 to 24</span><span class="era-dot"></span></div>
-          <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <g class="m m-flow"><path d="M22 35L58 16L98 28L136 18 M22 35L62 54L102 46L136 52 M58 16L62 54 M98 28L102 46"/></g>
-            <circle cx="22" cy="35" r="4" fill="currentColor"/>
-            <circle cx="58" cy="16" r="3.5" fill="var(--specimen-fill)"/>
-            <circle cx="62" cy="54" r="3.5" fill="var(--specimen-fill)"/>
-            <circle cx="98" cy="28" r="3.5" fill="var(--specimen-fill)"/>
-            <g class="m m-beat"><circle cx="136" cy="18" r="6" fill="currentColor"/></g>
-          </svg>
-          <span class="era-tile-title">Vectors &amp; Verification</span>
-          <span class="era-tile-sub">HNSW · Rust · audits</span>
-        </a>
-
-        <a class="era-tile" href="#era-04" style="--era-color: var(--c4)">
-          <div class="era-tile-top"><span>04 / 2025</span><span class="era-dot"></span></div>
-          <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="20" y="14" width="46" height="42" fill="var(--specimen-fill)"/>
-            <path d="M30 28L24 35L30 42 M44 28L50 35L44 42 M39 25L35 45"/>
-            <g class="m m-flow"><path d="M66 35H96"/></g>
-            <rect x="96" y="14" width="44" height="42" fill="var(--specimen-fill)"/>
-            <g class="m m-pulse"><path d="M106 36L114 44L130 26" stroke-width="2"/></g>
-          </svg>
-          <span class="era-tile-title">Zero Black Boxes</span>
-          <span class="era-tile-sub">Compilers · VMs · C</span>
-        </a>
-
-        <a class="era-tile" href="#era-05" style="--era-color: var(--c5)">
-          <div class="era-tile-top"><span>05 / Metal</span><span class="era-dot"></span></div>
-          <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="46" y="10" width="68" height="50" rx="3" fill="var(--specimen-fill)"/>
-            <g class="m m-beat"><rect x="60" y="20" width="40" height="30" fill="currentColor"/></g>
-            <line x1="34" y1="22" x2="46" y2="22"/><line x1="34" y1="35" x2="46" y2="35"/><line x1="34" y1="48" x2="46" y2="48"/>
-            <line x1="114" y1="22" x2="126" y2="22"/><line x1="114" y1="35" x2="126" y2="35"/><line x1="114" y1="48" x2="126" y2="48"/>
-          </svg>
-          <span class="era-tile-title">Local Silicon</span>
-          <span class="era-tile-sub">CUDA→Metal · WebGPU</span>
-        </a>
-
-        <a class="era-tile" href="#era-06" style="--era-color: var(--c6)">
-          <div class="era-tile-top"><span>06 / Now</span><span class="era-dot"></span></div>
-          <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <ellipse cx="80" cy="35" rx="52" ry="22" fill="var(--specimen-fill)"/>
-            <g class="m m-flow"><path d="M44 35Q64 16 80 35T116 35 M48 40Q66 52 82 32T112 39"/></g>
-            <g class="m m-blink"><circle cx="58" cy="31" r="2.5" fill="currentColor"/></g>
-            <g class="m m-blink" style="--i:2"><circle cx="80" cy="35" r="3" fill="currentColor"/></g>
-            <g class="m m-blink" style="--i:4"><circle cx="102" cy="34" r="2.5" fill="currentColor"/></g>
-          </svg>
-          <span class="era-tile-title">Proof &amp; Connectomes</span>
-          <span class="era-tile-sub">MDL · zkVM · fly-brain</span>
-        </a>
-      </div>
-    </div>
+    <p class="story-eyebrow">Story / 2017 to 2026</p>
+    <h1>Small machines tell the truth.</h1>
+    <p class="story-lede">Most of what I believe about software I learned on machines that were too small for it. A small machine shows you what a program costs. A big one lets you forget.</p>
+    <p class="story-lede">This is how I got from a slow Pentium 4 to compilers, GPU kernels, and simulated nervous systems. It was less of a straight line than that sentence suggests. There was a stretch with no computer, a year of building things I didn't believe in, and three months where I wrote nothing. But the same few ideas kept coming back, and they showed up first on the smallest hardware.</p>
+    <p class="story-meta">About 20 minutes to read</p>
   </section>
 
-  <!-- Sticky Chapter Bar -->
+  <div class="era-strip" aria-label="Nine chapters of the story">
+    <div class="era-strip-head">
+      <span>Nine chapters</span>
+      <span>Jump to one ↓</span>
+    </div>
+    <div class="era-strip-grid">
+      <a class="era-tile" href="#era-01" style="--era-color: var(--c1)">
+        <div class="era-tile-top"><span>01</span><span class="era-dot"></span></div>
+        <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="18" y="8" width="44" height="56" rx="2" fill="var(--specimen-fill)"/>
+          <circle cx="40" cy="30" r="12"/>
+          <g class="m m-spin m-piv" style="transform-origin:40px 30px;--d:3s"><path d="M40 19V41 M29 30H51"/></g>
+          <g class="m m-blink"><circle cx="28" cy="54" r="2.5" fill="currentColor"/></g>
+          <rect x="76" y="10" width="70" height="44" rx="2" fill="var(--specimen-fill)"/>
+          <rect x="84" y="36" width="54" height="7"/>
+          <g class="m m-grow"><rect x="85" y="37" width="52" height="5" fill="currentColor"/></g>
+          <path d="M111 54V62 M98 63H124"/>
+        </svg>
+        <span class="era-tile-title">A slow computer</span>
+      </a>
+      <a class="era-tile" href="#era-02" style="--era-color: var(--c1)">
+        <div class="era-tile-top"><span>02</span><span class="era-dot"></span></div>
+        <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="14" y="10" width="32" height="50" rx="3" fill="var(--specimen-fill)"/>
+          <line x1="20" y1="22" x2="36" y2="22"/><line x1="20" y1="29" x2="32" y2="29"/>
+          <g class="m m-blink"><circle cx="30" cy="50" r="2.5" fill="currentColor"/></g>
+          <g class="m m-flow"><path d="M46 35H104"/></g>
+          <rect x="104" y="14" width="42" height="42" rx="2" fill="var(--specimen-fill)"/>
+          <g class="m m-pulse"><rect x="112" y="22" width="26" height="8" fill="currentColor"/></g>
+          <rect x="112" y="36" width="26" height="12"/>
+        </svg>
+        <span class="era-tile-title">A phone and a $5 server</span>
+      </a>
+      <a class="era-tile" href="#era-03" style="--era-color: var(--c2)">
+        <div class="era-tile-top"><span>03</span><span class="era-dot"></span></div>
+        <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="18" y="8" width="124" height="54" rx="2" fill="var(--specimen-fill)"/>
+          <line x1="82" y1="8" x2="82" y2="62"/>
+          <line x1="82" y1="35" x2="142" y2="35"/>
+          <g class="m m-pulse"><rect x="24" y="14" width="52" height="42" fill="currentColor" opacity=".25"/></g>
+          <line x1="30" y1="24" x2="64" y2="24"/><line x1="30" y1="32" x2="58" y2="32"/><line x1="30" y1="40" x2="68" y2="40"/>
+          <g class="m m-blink"><rect x="90" y="16" width="18" height="11" fill="currentColor"/></g>
+          <rect x="90" y="42" width="44" height="12"/>
+        </svg>
+        <span class="era-tile-title">Four gigabytes</span>
+      </a>
+      <a class="era-tile" href="#era-04" style="--era-color: var(--c3)">
+        <div class="era-tile-top"><span>04</span><span class="era-dot"></span></div>
+        <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <g class="m m-flow"><path d="M22 35L58 16L98 28L136 18 M22 35L62 54L102 46L136 52 M58 16L62 54 M98 28L102 46"/></g>
+          <circle cx="22" cy="35" r="4" fill="currentColor"/>
+          <circle cx="58" cy="16" r="3.5" fill="var(--specimen-fill)"/>
+          <circle cx="62" cy="54" r="3.5" fill="var(--specimen-fill)"/>
+          <circle cx="98" cy="28" r="3.5" fill="var(--specimen-fill)"/>
+          <g class="m m-beat"><circle cx="136" cy="18" r="6" fill="currentColor"/></g>
+        </svg>
+        <span class="era-tile-title">Search before it had a name</span>
+      </a>
+      <a class="era-tile" href="#era-05" style="--era-color: var(--c3)">
+        <div class="era-tile-top"><span>05</span><span class="era-dot"></span></div>
+        <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="35" x2="58" y2="35" stroke-width="16" stroke-linecap="butt" stroke-dasharray="1.5 4.5"/>
+          <line x1="104" y1="35" x2="148" y2="35" stroke-width="16" stroke-linecap="butt" stroke-dasharray="1.5 4.5"/>
+          <path d="M62 52V58H100V52" />
+          <g class="m m-pulse"><circle cx="81" cy="35" r="3" fill="currentColor"/></g>
+        </svg>
+        <span class="era-tile-title">Three quiet months</span>
+      </a>
+      <a class="era-tile" href="#era-06" style="--era-color: var(--c3)">
+        <div class="era-tile-top"><span>06</span><span class="era-dot"></span></div>
+        <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <g class="m m-flow"><path d="M12 35H122"/></g>
+          <path d="M40 18V30 M40 40V52 M66 18V30 M66 40V52 M92 18V30 M92 40V52" stroke-width="3"/>
+          <g class="m m-beat"><circle cx="136" cy="35" r="11" fill="var(--specimen-fill)"/><path d="M131 35L135 39L142 31" stroke-width="2"/></g>
+        </svg>
+        <span class="era-tile-title">The detour</span>
+      </a>
+      <a class="era-tile" href="#era-07" style="--era-color: var(--c4)">
+        <div class="era-tile-top"><span>07</span><span class="era-dot"></span></div>
+        <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="20" y="14" width="46" height="42" fill="var(--specimen-fill)"/>
+          <path d="M30 28L24 35L30 42 M44 28L50 35L44 42 M39 25L35 45"/>
+          <g class="m m-flow"><path d="M66 35H96"/></g>
+          <rect x="96" y="14" width="44" height="42" fill="var(--specimen-fill)"/>
+          <g class="m m-pulse"><path d="M106 36L114 44L130 26" stroke-width="2"/></g>
+        </svg>
+        <span class="era-tile-title">Opening the boxes</span>
+      </a>
+      <a class="era-tile" href="#era-08" style="--era-color: var(--c5)">
+        <div class="era-tile-top"><span>08</span><span class="era-dot"></span></div>
+        <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="46" y="10" width="68" height="50" rx="3" fill="var(--specimen-fill)"/>
+          <g class="m m-beat"><rect x="60" y="20" width="40" height="30" fill="currentColor"/></g>
+          <line x1="34" y1="22" x2="46" y2="22"/><line x1="34" y1="35" x2="46" y2="35"/><line x1="34" y1="48" x2="46" y2="48"/>
+          <line x1="114" y1="22" x2="126" y2="22"/><line x1="114" y1="35" x2="126" y2="35"/><line x1="114" y1="48" x2="126" y2="48"/>
+        </svg>
+        <span class="era-tile-title">The copy tax</span>
+      </a>
+      <a class="era-tile" href="#era-09" style="--era-color: var(--c6)">
+        <div class="era-tile-top"><span>09</span><span class="era-dot"></span></div>
+        <svg viewBox="0 0 160 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <ellipse cx="80" cy="35" rx="52" ry="22" fill="var(--specimen-fill)"/>
+          <g class="m m-flow"><path d="M44 35Q64 16 80 35T116 35 M48 40Q66 52 82 32T112 39"/></g>
+          <g class="m m-blink"><circle cx="58" cy="31" r="2.5" fill="currentColor"/></g>
+          <g class="m m-blink" style="--i:2"><circle cx="80" cy="35" r="3" fill="currentColor"/></g>
+          <g class="m m-blink" style="--i:4"><circle cx="102" cy="34" r="2.5" fill="currentColor"/></g>
+        </svg>
+        <span class="era-tile-title">Where it's going</span>
+      </a>
+    </div>
+  </div>
+
   <nav class="story-nav" aria-label="Story chapters">
-    <a href="#era-01" style="--era-color: var(--c1)">01 · Pentium 4 &amp; Phone</a>
-    <a href="#era-02" style="--era-color: var(--c2)">02 · 4 GB ThinkPad</a>
-    <a href="#era-03" style="--era-color: var(--c3)">03 · Search &amp; Detours</a>
-    <a href="#era-04" style="--era-color: var(--c4)">04 · Black Boxes</a>
-    <a href="#era-05" style="--era-color: var(--c5)">05 · Local Silicon</a>
-    <a href="#era-06" style="--era-color: var(--c6)">06 · Three Frontiers</a>
+    <a href="#era-01" style="--era-color: var(--c1)">01 Slow computer</a>
+    <a href="#era-02" style="--era-color: var(--c1)">02 Phone</a>
+    <a href="#era-03" style="--era-color: var(--c2)">03 4 GB</a>
+    <a href="#era-04" style="--era-color: var(--c3)">04 Search</a>
+    <a href="#era-05" style="--era-color: var(--c3)">05 Quiet</a>
+    <a href="#era-06" style="--era-color: var(--c3)">06 Detour</a>
+    <a href="#era-07" style="--era-color: var(--c4)">07 Boxes</a>
+    <a href="#era-08" style="--era-color: var(--c5)">08 Copy tax</a>
+    <a href="#era-09" style="--era-color: var(--c6)">09 Now</a>
   </nav>
 
   <article>
-    <!-- CHAPTER 01 -->
+    <!-- 01 -->
     <section id="era-01" class="story-chapter" style="--era-color: var(--c1)">
       <div class="chapter-head">
-        <span class="chapter-num">01 / 06</span>
-        <h2>The Pentium 4 and a phone screen</h2>
-        <span class="chapter-tag">Origin · 2017</span>
+        <span class="chapter-num">01</span>
+        <div><h2>A slow computer</h2><span class="chapter-tag">Before 2017</span></div>
       </div>
-      <div class="chapter-grid">
-        <div class="chapter-prose">
-          <p>I grew up with a very slow Pentium 4 computer. Opening a heavy program meant listening to the fan spin up and watching the cursor stall until the disk finished thrashing. On a machine like that, you learn early that software has weight. Every extra process, every background updater, and every careless megabyte takes time out of your day.</p>
-          <p>For a stretch after that, I did not have a computer at all. In 2017 I started writing Telegram bots on my phone. The first one replied to messages with random quotes and took about an hour to put together. I deployed it from the phone by SSH-ing into a $5 server and running <code>python bot.py</code>.</p>
-          <p>When a process died at 3am from a timeout, garbage input, or an out-of-memory crash, I fixed it on the same small screen. That was where I learned to keep the queue, the cache, and the log outside a single run so a restart could pick the work back up without dropping a night of messages.</p>
+      <div class="prose">
+        <p>The first computer I grew up with was a very slow Pentium 4. Opening a heavy program meant listening to the fan spin up and watching the cursor stall while the disk thrashed. You could hear software load.</p>
+        <p>A kid with a fast computer learns that programs are free. You click, and a window appears. A kid with a slow one learns that every program has a price, and that you pay it in seconds of waiting. Every extra process, every background updater, and every careless megabyte showed up as time I didn't get back.</p>
+      </div>
+
+      <figure class="plate" aria-label="A Pentium 4 tower with a straining fan next to a monitor whose loading bar crawls, and a stack showing what the waiting is made of">
+        <div class="plate-bar"><span>Fig. 1 / What a program costs</span><span>Pentium 4</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 230" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Tower with spinning fan and blinking disk light, monitor with a stepped loading bar and hourglass, and a stacked bar of program, extra process, background updater, and careless megabytes">
+            <rect x="30" y="30" width="110" height="170" rx="4" fill="var(--specimen-fill)"/>
+            <text class="th" x="44" y="50">PENTIUM 4</text>
+            <circle cx="85" cy="100" r="30"/>
+            <g class="m m-spin m-piv" style="transform-origin:85px 100px;--d:2.4s">
+              <path d="M85 72V128 M57 100H113 M65 80L105 120 M105 80L65 120"/>
+            </g>
+            <circle cx="85" cy="100" r="6" fill="currentColor"/>
+            <rect x="50" y="150" width="70" height="8" rx="1"/>
+            <g class="m m-blink" style="--d:.5s"><circle cx="128" cy="154" r="3" fill="currentColor"/></g>
+            <text class="ts" x="50" y="180">disk thrashing</text>
+
+            <rect x="176" y="30" width="254" height="150" rx="4" fill="var(--specimen-fill)"/>
+            <rect x="190" y="44" width="226" height="112"/>
+            <rect x="212" y="62" width="182" height="74" fill="var(--paper)"/>
+            <line x1="212" y1="76" x2="394" y2="76"/>
+            <text class="t" x="222" y="98">opening...</text>
+            <rect x="222" y="110" width="160" height="12"/>
+            <g class="m m-grow"><rect x="224" y="112" width="156" height="8" fill="currentColor"/></g>
+            <g class="m m-sway" style="--d:1.6s"><path d="M350 86H364L350 100H364Z"/></g>
+            <path d="M303 180V196 M268 200H338"/>
+
+            <text class="th" x="468" y="44">WHAT THE WAIT IS MADE OF</text>
+            <path d="M468 196V62 M464 68L468 60L472 68"/>
+            <text class="ts" x="462" y="214">seconds</text>
+            <rect x="482" y="162" width="130" height="30" fill="currentColor" opacity=".18"/>
+            <text class="t" x="490" y="181">the program</text>
+            <rect x="482" y="128" width="130" height="30"/>
+            <text class="t" x="490" y="147">extra process</text>
+            <rect x="482" y="94" width="130" height="30"/>
+            <text class="t" x="490" y="113">background updater</text>
+            <g class="m m-pulse"><rect x="482" y="60" width="130" height="30" fill="currentColor" opacity=".3"/></g>
+            <rect x="482" y="60" width="130" height="30"/>
+            <text class="t" x="490" y="79">careless megabytes</text>
+          </svg>
         </div>
+      </figure>
 
-        <aside class="tech-plate" aria-label="Diagram: Phone SSH to $5 VPS with durable queue and log">
-          <div class="plate-bar">
-            <span>Plate 01 · Pocket deployment loop</span>
-            <span>SSH → $5 VPS</span>
-          </div>
-          <div class="plate-canvas">
-            <svg viewBox="0 0 380 185" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="A slow Pentium 4 fan on the left, a handheld phone terminal in the middle sending SSH commands, and a $5 VPS on the right persisting queue, cache, and log files outside the process">
-              <!-- Pentium 4 stall box -->
-              <rect x="14" y="22" width="86" height="136" rx="3" fill="var(--specimen-fill)"/>
-              <text x="24" y="38" font-family="monospace" font-size="8.5" fill="currentColor" stroke="none">PENTIUM 4</text>
-              <circle cx="57" cy="84" r="24"/>
-              <g class="m m-spin m-piv" style="transform-origin:57px 84px;--d:9s">
-                <path d="M57 62V106 M35 84H79 M42 69L72 99 M72 69L42 99"/>
-              </g>
-              <circle cx="57" cy="84" r="5" fill="currentColor"/>
-              <rect x="24" y="122" width="66" height="10" rx="1"/>
-              <g class="m m-pulse"><rect x="26" y="124" width="54" height="6" fill="currentColor"/></g>
-              <text x="24" y="146" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">I/O THRASH</text>
-
-              <!-- Phone SSH terminal -->
-              <rect x="132" y="18" width="76" height="144" rx="8" fill="var(--specimen-fill)"/>
-              <line x1="158" y1="26" x2="182" y2="26"/>
-              <rect x="140" y="34" width="60" height="104" rx="2"/>
-              <text x="145" y="48" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">$ ssh vps</text>
-              <text x="145" y="60" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">python</text>
-              <text x="145" y="70" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">  bot.py</text>
-              <g class="m m-blink"><rect x="145" y="78" width="6" height="9" fill="currentColor"/></g>
-              <!-- Virtual keypad grid -->
-              <line x1="140" y1="112" x2="200" y2="112"/>
-              <line x1="140" y1="125" x2="200" y2="125"/>
-              <line x1="160" y1="112" x2="160" y2="138"/>
-              <line x1="180" y1="112" x2="180" y2="138"/>
-              <circle cx="170" cy="150" r="4"/>
-
-              <!-- Flow lines from phone to VPS -->
-              <g class="m m-flow">
-                <path d="M208 66H252"/>
-                <path d="M252 115H208"/>
-              </g>
-              <path d="M247 62L253 66L247 70"/>
-              <path d="M213 111L207 115L213 119"/>
-
-              <!-- $5 VPS & External State -->
-              <rect x="254" y="18" width="112" height="144" rx="3" fill="var(--specimen-fill)"/>
-              <text x="264" y="34" font-family="monospace" font-size="8.5" fill="currentColor" stroke="none">$5 VPS · STATE</text>
-              <rect x="266" y="44" width="88" height="28" rx="2"/>
-              <text x="274" y="61" font-family="monospace" font-size="8" fill="currentColor" stroke="none">bot.py (worker)</text>
-              <g class="m m-flow"><path d="M310 72V86"/></g>
-              <g class="m m-pulse" style="--i:1"><rect x="266" y="88" width="88" height="18" rx="2" fill="currentColor" opacity=".22"/></g>
-              <rect x="266" y="88" width="88" height="18" rx="2"/>
-              <text x="274" y="100" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">01 · disk queue</text>
-              <rect x="266" y="111" width="88" height="18" rx="2"/>
-              <text x="274" y="123" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">02 · ack cache</text>
-              <rect x="266" y="134" width="88" height="18" rx="2"/>
-              <text x="274" y="146" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">03 · replay log</text>
-            </svg>
-          </div>
-          <div class="plate-specs">
-            <div class="spec-cell"><span class="k">First machine</span><span class="v">Pentium 4 CPU</span></div>
-            <div class="spec-cell"><span class="k">2017 workstation</span><span class="v">Phone + SSH client</span></div>
-            <div class="spec-cell"><span class="k">Production box</span><span class="v">$5 Linux VPS</span></div>
-            <div class="spec-cell"><span class="k">Core lesson</span><span class="v">State outside the run</span></div>
-          </div>
-        </aside>
+      <div class="prose">
+        <p>I didn't think of that as a lesson at the time. I thought the computer was bad. But it left a habit I still have. Before I ask what a piece of software does, I ask what it costs to run. Most people rarely need to ask that question. On a machine like that one, you ask it every day.</p>
       </div>
     </section>
 
-    <!-- CHAPTER 02 -->
-    <section id="era-02" class="story-chapter" style="--era-color: var(--c2)">
+    <!-- 02 -->
+    <section id="era-02" class="story-chapter" style="--era-color: var(--c1)">
       <div class="chapter-head">
-        <span class="chapter-num">02 / 06</span>
-        <h2>Four gigabytes on a ThinkPad E480</h2>
-        <span class="chapter-tag">Linux &amp; Tiling · 4096 MB</span>
+        <span class="chapter-num">02</span>
+        <div><h2>Programming on a phone</h2><span class="chapter-tag">2017</span></div>
       </div>
-      <div class="chapter-grid reverse">
-        <aside class="tech-plate" aria-label="Diagram: ThinkPad E480 4GB memory budget and 3-pane tiling window manager">
-          <div class="plate-bar">
-            <span>Plate 02 · 4096 MB memory ceiling &amp; tiling slices</span>
-            <span>ThinkPad E480</span>
-          </div>
-          <div class="plate-canvas">
-            <svg viewBox="0 0 380 185" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="A 3-pane tiling window manager layout above a strict 4096 MB RAM budget bar">
-              <!-- Tiling screen frame -->
-              <rect x="24" y="14" width="332" height="114" rx="3" fill="var(--specimen-fill)"/>
-              <!-- Left pane: Editor -->
-              <rect x="32" y="22" width="154" height="98" rx="1"/>
-              <text x="40" y="35" font-family="monospace" font-size="8" fill="currentColor" stroke="none">[1] src/main.rs</text>
-              <line x1="40" y1="46" x2="130" y2="46"/>
-              <line x1="40" y1="56" x2="162" y2="56"/>
-              <line x1="48" y1="66" x2="148" y2="66"/>
-              <line x1="48" y1="76" x2="120" y2="76"/>
-              <line x1="40" y1="86" x2="96" y2="86"/>
-              <g class="m m-blink"><rect x="102" y="81" width="6" height="8" fill="currentColor"/></g>
+      <div class="prose">
+        <p>For a while after that I didn't have a computer at all. When you want to program and you don't have a computer, you find out what you can do with what you have. I had a phone.</p>
+        <p>In 2017 I started writing Telegram bots on it. The first one replied to messages with random quotes and took about an hour to put together. I deployed it from the phone by SSH-ing into a $5 server and typing <code>python bot.py</code>. That was the whole deployment pipeline.</p>
+      </div>
 
-              <!-- Top-right pane: Test runner -->
-              <rect x="192" y="22" width="156" height="46" rx="1"/>
-              <text x="200" y="35" font-family="monospace" font-size="8" fill="currentColor" stroke="none">[2] test output</text>
-              <g class="m m-pulse"><rect x="200" y="43" width="94" height="7" fill="currentColor"/></g>
-              <line x1="200" y1="57" x2="270" y2="57"/>
-
-              <!-- Bottom-right pane: Notes & memory watch -->
-              <rect x="192" y="74" width="156" height="46" rx="1"/>
-              <text x="200" y="87" font-family="monospace" font-size="8" fill="currentColor" stroke="none">[3] notes / rss</text>
-              <line x1="200" y1="97" x2="320" y2="97"/>
-              <line x1="200" y1="107" x2="290" y2="107"/>
-
-              <!-- ThinkPad TrackPoint dot in keyboard base -->
-              <path d="M14 134H366L374 146H6Z" fill="var(--specimen-fill)"/>
-              <g class="m m-beat"><circle cx="190" cy="140" r="3" fill="currentColor"/></g>
-
-              <!-- 4 GB RAM bar -->
-              <text x="24" y="164" font-family="monospace" font-size="8" fill="currentColor" stroke="none">RAM BUDGET: 4096 MB TOTAL</text>
-              <rect x="24" y="169" width="332" height="10" rx="1"/>
-              <rect x="26" y="171" width="48" height="6" fill="currentColor"/>
-              <g class="m m-pulse"><rect x="78" y="171" width="92" height="6" fill="currentColor" opacity=".55"/></g>
-            </svg>
-          </div>
-          <div class="plate-specs">
-            <div class="spec-cell"><span class="k">Laptop</span><span class="v">ThinkPad E480</span></div>
-            <div class="spec-cell"><span class="k">Hard ceiling</span><span class="v">4 GB DDR4 RAM</span></div>
-            <div class="spec-cell"><span class="k">Environment</span><span class="v">Linux + Tiling WM</span></div>
-            <div class="spec-cell"><span class="k">Layout rule</span><span class="v">Code · Tests · Notes</span></div>
-          </div>
-        </aside>
-
-        <div class="chapter-prose">
-          <p>Later I got a ThinkPad E480 with 4 GB of RAM. Four gigabytes left no room for a heavy desktop operating system, so I moved to Linux out of necessity. If the system ate two gigabytes at idle, I had nothing left for the browser, the editor, and the code I was trying to run.</p>
-          <p>That constraint pushed me through different Linux distributions and deep into how the operating system was put together. I stripped out services I did not need, watched memory numbers in a terminal, and switched to a tiling window manager.</p>
-          <p>A tiling desktop gives every window a slice of the screen instead of letting them stack into a pile. One pane held the file I was editing, one held the test output, and one held my notes. If a change could not fit in that layout, I was holding two jobs at once. Living inside 4 GB taught me to check what a tool costs before inviting it onto the machine.</p>
+      <figure class="plate" aria-label="A phone running an SSH session to a five dollar server that keeps a disk queue, an ack cache, and a replay log">
+        <div class="plate-bar"><span>Fig. 2 / The whole pipeline</span><span>Phone, SSH, $5 VPS</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="124 10 252 160" style="max-width:520px;min-width:0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Phone terminal typing ssh vps and python bot.py, connected to a server that holds the worker plus a disk queue, ack cache, and replay log">
+            <rect x="132" y="18" width="76" height="144" rx="8" fill="var(--specimen-fill)"/>
+            <line x1="158" y1="26" x2="182" y2="26"/>
+            <rect x="140" y="34" width="60" height="104" rx="2"/>
+            <text x="145" y="48" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">$ ssh vps</text>
+            <text x="145" y="60" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">python</text>
+            <text x="145" y="70" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">  bot.py</text>
+            <g class="m m-blink"><rect x="145" y="78" width="6" height="9" fill="currentColor"/></g>
+            <line x1="140" y1="112" x2="200" y2="112"/>
+            <line x1="140" y1="125" x2="200" y2="125"/>
+            <line x1="160" y1="112" x2="160" y2="138"/>
+            <line x1="180" y1="112" x2="180" y2="138"/>
+            <circle cx="170" cy="150" r="4"/>
+            <g class="m m-flow"><path d="M208 66H252"/><path d="M252 115H208"/></g>
+            <path d="M247 62L253 66L247 70"/>
+            <path d="M213 111L207 115L213 119"/>
+            <rect x="254" y="18" width="112" height="144" rx="3" fill="var(--specimen-fill)"/>
+            <text x="264" y="34" font-family="monospace" font-size="8.5" fill="currentColor" stroke="none">$5 VPS / STATE</text>
+            <rect x="266" y="44" width="88" height="28" rx="2"/>
+            <text x="274" y="61" font-family="monospace" font-size="8" fill="currentColor" stroke="none">bot.py (worker)</text>
+            <g class="m m-flow"><path d="M310 72V86"/></g>
+            <g class="m m-pulse" style="--i:1"><rect x="266" y="88" width="88" height="18" rx="2" fill="currentColor" opacity=".22"/></g>
+            <rect x="266" y="88" width="88" height="18" rx="2"/>
+            <text x="274" y="100" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">01 disk queue</text>
+            <rect x="266" y="111" width="88" height="18" rx="2"/>
+            <text x="274" y="123" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">02 ack cache</text>
+            <rect x="266" y="134" width="88" height="18" rx="2"/>
+            <text x="274" y="146" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">03 replay log</text>
+          </svg>
         </div>
+      </figure>
+
+      <div class="prose">
+        <p>A bot on a server keeps running after you put the phone down. That is the point of it, and it is also where the trouble starts, because processes die. Mine died at 3am from timeouts, from garbage input, and from running out of memory. I fixed them on the same small screen I wrote them on.</p>
+        <p>Do that enough times and the question changes. At first you ask how to keep the process alive. Eventually you ask what should happen when it dies, and that turns out to be the more useful question. My answer was to keep the queue, the cache, and the log outside any single run. Then a crash costs a restart. The new process reads where the old one stopped and picks the work back up, and nobody loses a night of messages.</p>
+      </div>
+
+      <figure class="plate" aria-label="Two timelines of a night. In the first, state lives inside the process and messages that arrive after a 3am crash are lost. In the second, messages land in a log on disk and the restarted process resumes from it.">
+        <div class="plate-bar"><span>Fig. 3 / Where the state lives</span><span>One night, two designs</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 260" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Timeline comparison of a crash at 3am with and without state outside the process">
+            <text class="th" x="40" y="30">STATE INSIDE THE PROCESS</text>
+            <rect x="40" y="42" width="270" height="18" fill="currentColor" opacity=".25"/>
+            <rect x="40" y="42" width="270" height="18"/>
+            <text class="ts" x="48" y="55">bot.py running</text>
+            <path d="M320 40L340 62 M340 40L320 62" stroke-width="2.2"/>
+            <circle cx="366" cy="51" r="5" stroke-dasharray="2 2"/>
+            <circle cx="392" cy="51" r="5" stroke-dasharray="2 2"/>
+            <circle cx="418" cy="51" r="5" stroke-dasharray="2 2"/>
+            <rect x="450" y="42" width="160" height="18" fill="currentColor" opacity=".25"/>
+            <rect x="450" y="42" width="160" height="18"/>
+            <text class="ts" x="458" y="55">restart, empty memory</text>
+            <text class="t" x="352" y="84">messages lost</text>
+
+            <line x1="30" y1="112" x2="620" y2="112" stroke-dasharray="2 4" opacity=".5"/>
+
+            <text class="th" x="40" y="142">QUEUE, CACHE, AND LOG OUTSIDE THE RUN</text>
+            <rect x="40" y="154" width="270" height="18" fill="currentColor" opacity=".25"/>
+            <rect x="40" y="154" width="270" height="18"/>
+            <text class="ts" x="48" y="167">bot.py running</text>
+            <path d="M320 152L340 174 M340 152L320 174" stroke-width="2.2"/>
+            <circle cx="366" cy="163" r="5" fill="currentColor"/>
+            <circle cx="392" cy="163" r="5" fill="currentColor"/>
+            <circle cx="418" cy="163" r="5" fill="currentColor"/>
+            <g class="m m-flow"><path d="M366 170V198 M392 170V198 M418 170V198"/></g>
+            <rect x="450" y="154" width="160" height="18" fill="currentColor" opacity=".25"/>
+            <rect x="450" y="154" width="160" height="18"/>
+            <text class="ts" x="458" y="167">restart, resume</text>
+            <rect x="40" y="200" width="570" height="16"/>
+            <g class="m m-pulse"><rect x="42" y="202" width="400" height="12" fill="currentColor" opacity=".2"/></g>
+            <text class="ts" x="48" y="211">log on disk</text>
+            <g class="m m-flow"><path d="M470 200V174"/></g>
+            <path d="M466 180L470 173L474 180"/>
+            <text class="t" x="484" y="194">read last entry</text>
+
+            <text class="ts" x="40" y="246">evening</text>
+            <text class="ts" x="318" y="246">3am</text>
+            <text class="ts" x="570" y="246">morning</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>I've been relearning that rule at larger scales ever since. It shows up again at the end of this story, attached to software much bigger than a quote bot.</p>
       </div>
     </section>
 
-    <!-- CHAPTER 03 -->
-    <section id="era-03" class="story-chapter" style="--era-color: var(--c3)">
+    <!-- 03 -->
+    <section id="era-03" class="story-chapter" style="--era-color: var(--c2)">
       <div class="chapter-head">
-        <span class="chapter-num">03 / 06</span>
-        <h2>Search, distribution, and the wrapper detour</h2>
-        <span class="chapter-tag">2018 to 2024</span>
+        <span class="chapter-num">03</span>
+        <div><h2>Four gigabytes</h2><span class="chapter-tag">ThinkPad E480, Linux</span></div>
       </div>
-      <div class="chapter-grid">
-        <div class="chapter-prose">
-          <p>With a working Linux setup and a $5 VPS, I spent the next few years building things a single person could run end to end. In 2018 I rewrote my Python bots in Node.js and learned the hard way what nested callbacks do to a codebase. Between 2019 and 2020 I got pulled into information retrieval: indexing Telegram archives in <a href="https://github.com/Lulzx/discover">discover</a>, building a quiet book search interface in <a href="https://github.com/Lulzx/shoten">shoten</a>, and experimenting with vectors, embeddings, and HNSW nearest-neighbor search in <a href="https://github.com/Lulzx/sentence-similarity-search">sentence-similarity-search</a> before the rest of the industry started calling all of that work AI. Alongside the search tools, I built automated Telegram deal and price-tracking pipelines that had to stay up under real traffic. In 2021 I burned out, wrote nothing for three months, and came back clearer.</p>
-          <p>In 2023 I picked up Rust to rewrite my command-line tools. The compiler forced me to name the owner, the error, and the lifetime before the first happy path would build. In 2024 I tested the standard startup and agency playbook: Nuxt and Vercel AI wrappers, content-repurposing pipelines, autonomous agent templates, DeFi liquidation bots, and smart-contract bug bounties with <a href="https://github.com/Lulzx/immunefi-cli">immunefi-cli</a>. That stretch taught me what I actually cared about. Gluing heavy JavaScript stacks onto remote APIs felt fragile and hollow. By contrast, finding a real replay bug in a protocol or keeping a bot alive at 3am rewarded reading the raw source and verifying every invariant from first principles.</p>
+      <div class="prose">
+        <p>Later I got a ThinkPad E480 with 4 GB of RAM. If the operating system ate two gigabytes at idle, that left two for the browser, the editor, and whatever I was trying to build. So I moved to Linux. The choice came from arithmetic more than taste.</p>
+        <p>Necessity is a stricter teacher than curiosity, because it doesn't let you stop when you get bored. I went through one Linux distribution after another. I stripped out services I didn't need and watched memory numbers in a terminal to see what each change bought me. I learned how an operating system is put together by taking pieces of one out.</p>
+        <p>I also switched to a tiling window manager.<sup><a href="#note-1" id="ref-1">1</a></sup> Mine held three panes: the file I was editing, the test output, and my notes. The layout turned into a discipline. If a change couldn't fit in three panes, I was probably doing two jobs at once.</p>
+      </div>
+
+      <figure class="plate" aria-label="A three pane tiling layout above a 4096 megabyte memory budget bar">
+        <div class="plate-bar"><span>Fig. 4 / Three panes, four gigabytes</span><span>ThinkPad E480</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 380 185" style="max-width:640px;min-width:0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Editor pane on the left, test output and notes panes on the right, and a RAM bar below">
+            <rect x="24" y="14" width="332" height="114" rx="3" fill="var(--specimen-fill)"/>
+            <rect x="32" y="22" width="154" height="98" rx="1"/>
+            <text x="40" y="35" font-family="monospace" font-size="8" fill="currentColor" stroke="none">[1] src/main.rs</text>
+            <line x1="40" y1="46" x2="130" y2="46"/>
+            <line x1="40" y1="56" x2="162" y2="56"/>
+            <line x1="48" y1="66" x2="148" y2="66"/>
+            <line x1="48" y1="76" x2="120" y2="76"/>
+            <line x1="40" y1="86" x2="96" y2="86"/>
+            <g class="m m-blink"><rect x="102" y="81" width="6" height="8" fill="currentColor"/></g>
+            <rect x="192" y="22" width="156" height="46" rx="1"/>
+            <text x="200" y="35" font-family="monospace" font-size="8" fill="currentColor" stroke="none">[2] test output</text>
+            <g class="m m-pulse"><rect x="200" y="43" width="94" height="7" fill="currentColor"/></g>
+            <line x1="200" y1="57" x2="270" y2="57"/>
+            <rect x="192" y="74" width="156" height="46" rx="1"/>
+            <text x="200" y="87" font-family="monospace" font-size="8" fill="currentColor" stroke="none">[3] notes</text>
+            <line x1="200" y1="97" x2="320" y2="97"/>
+            <line x1="200" y1="107" x2="290" y2="107"/>
+            <path d="M14 134H366L374 146H6Z" fill="var(--specimen-fill)"/>
+            <g class="m m-beat"><circle cx="190" cy="140" r="3" fill="currentColor"/></g>
+            <text x="24" y="164" font-family="monospace" font-size="8" fill="currentColor" stroke="none">RAM BUDGET: 4096 MB TOTAL</text>
+            <rect x="24" y="169" width="332" height="10" rx="1"/>
+            <rect x="26" y="171" width="48" height="6" fill="currentColor"/>
+            <g class="m m-pulse"><rect x="78" y="171" width="92" height="6" fill="currentColor" opacity=".55"/></g>
+          </svg>
         </div>
+        <div class="plate-specs">
+          <div class="spec-cell"><span class="k">Laptop</span><span class="v">ThinkPad E480</span></div>
+          <div class="spec-cell"><span class="k">Ceiling</span><span class="v">4 GB RAM</span></div>
+          <div class="spec-cell"><span class="k">System</span><span class="v">Linux, tiling WM</span></div>
+          <div class="spec-cell"><span class="k">Panes</span><span class="v">Code, tests, notes</span></div>
+        </div>
+      </figure>
 
-        <aside class="tech-plate" aria-label="Diagram: HNSW vector graph search and first-principles source audit gate">
-          <div class="plate-bar">
-            <span>Plate 03 · Retrieval graphs vs. wrapper stacks</span>
-            <span>2019 → 2024 pivot</span>
-          </div>
-          <div class="plate-canvas">
-            <svg viewBox="0 0 380 185" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Left: HNSW multi-layer nearest-neighbor search graph; Right: source verification gate filtering out fragile wrapper dependencies">
-              <!-- HNSW layered graph on left -->
-              <text x="18" y="24" font-family="monospace" font-size="8" fill="currentColor" stroke="none">HNSW VECTOR INDEX (2019 to 20)</text>
-              <polygon points="18,62 56,36 168,36 136,62" fill="var(--specimen-fill)"/>
-              <polygon points="18,108 56,82 168,82 136,108" fill="var(--specimen-fill)"/>
-              <polygon points="18,154 56,128 168,128 136,154" fill="var(--specimen-fill)"/>
-              <g class="m m-flow">
-                <path d="M52 49L118 47L118 95L88 98L88 142L126 140"/>
-              </g>
-              <circle cx="52" cy="49" r="3.5" fill="currentColor"/>
-              <circle cx="118" cy="47" r="3.5" fill="currentColor"/>
-              <circle cx="118" cy="95" r="3.5" fill="currentColor"/>
-              <circle cx="88" cy="98" r="3.5" fill="currentColor"/>
-              <g class="m m-beat"><circle cx="126" cy="140" r="5.5" fill="currentColor"/></g>
-
-              <line x1="190" y1="16" x2="190" y2="168" stroke-dasharray="3 3"/>
-
-              <!-- Source verification gate on right -->
-              <text x="206" y="24" font-family="monospace" font-size="8" fill="currentColor" stroke="none">FIRST-PRINCIPLES FILTER (2023 to 24)</text>
-              <rect x="206" y="38" width="66" height="24" rx="2" opacity=".45"/>
-              <text x="213" y="53" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">api wrapper</text>
-              <line x1="206" y1="38" x2="272" y2="62"/>
-
-              <rect x="206" y="76" width="156" height="36" rx="2" fill="var(--specimen-fill)"/>
-              <text x="216" y="92" font-family="monospace" font-size="8" fill="currentColor" stroke="none">rustc + source audit</text>
-              <text x="216" y="104" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">owner · lifetime · invariant</text>
-              <g class="m m-flow"><path d="M284 112V132"/></g>
-              <g class="m m-pulse"><rect x="206" y="132" width="156" height="26" rx="2" fill="currentColor" opacity=".2"/></g>
-              <rect x="206" y="132" width="156" height="26" rx="2"/>
-              <path d="M218 145L224 151L235 139" stroke-width="2"/>
-              <text x="244" y="148" font-family="monospace" font-size="8" fill="currentColor" stroke="none">verified binary / PoC</text>
-            </svg>
-          </div>
-          <div class="plate-caption">
-            Early retrieval projects (<a href="https://github.com/Lulzx/discover">discover</a>, <a href="https://github.com/Lulzx/shoten">shoten</a>, <a href="https://github.com/Lulzx/sentence-similarity-search">sentence-similarity-search</a>) and the 2023 to 2024 pivot from wrapper apps to strict ownership and source audits.
-          </div>
-        </aside>
+      <div class="prose">
+        <p>What the ThinkPad taught me was to check what a tool costs before inviting it onto the machine. Tools are easy to install and hard to evict. Each one wants a little memory and a little of the screen, and on 4 GB you notice every one of them.</p>
       </div>
     </section>
 
-    <!-- CHAPTER 04 -->
-    <section id="era-04" class="story-chapter" style="--era-color: var(--c4)">
+    <!-- 04 -->
+    <section id="era-04" class="story-chapter" style="--era-color: var(--c3)">
       <div class="chapter-head">
-        <span class="chapter-num">04 / 06</span>
-        <h2>Rebuilding the black boxes</h2>
-        <span class="chapter-tag">First Principles · 2025 to 2026</span>
+        <span class="chapter-num">04</span>
+        <div><h2>Search before it had a name</h2><span class="chapter-tag">2018 to 2020</span></div>
       </div>
-      <div class="chapter-prose" style="max-width: 78ch;">
-        <p>Once I walked away from wrapper code, I started opening the boxes I had been told to treat as finished infrastructure. Every time a tool felt bloated or opaque, I asked how many lines the actual mechanism took if I threw away the framework.</p>
+      <div class="prose">
+        <p>A Linux laptop and a $5 server turn out to be enough to build things one person can run end to end. I spent the next few years doing that.</p>
+        <p>In 2018 I rewrote my Python bots in Node.js and learned what nested callbacks do to a codebase. Each callback looks harmless when you write it. Then you look up and the code is a staircase heading off the right edge of the screen, and errors fall through the gaps between the steps.</p>
       </div>
 
-      <!-- 3 Illustrated Specimen Plates for Chapter 04 -->
-      <div class="tri-grid">
-        <div class="tri-card">
-          <div class="plate-bar"><span>04.A / Compilers &amp; VMs</span><span>Self-hosted</span></div>
-          <div class="tri-canvas">
-            <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M45 25H82L102 44V95H45Z M82 25V44H102 M56 58H86 M56 69H76"/>
-              <g class="m m-flow"><path d="M102 62H124"/></g>
-              <g class="m m-pulse"><path d="M124 44L148 34L172 44V66Q170 86 148 98Q126 86 124 66Z" fill="var(--specimen-fill)"/></g>
-              <g class="m m-beat"><path d="M137 65L146 74L161 55" stroke-width="2"/></g>
-            </svg>
-          </div>
-          <h3>Compilers, JITs, and VMs</h3>
-          <p>Built a C compiler from first principles on the premise that you trust no compiler you have not verified, alongside interaction-calculus runtimes, self-hosting compilers, a tracing JIT, and compact virtual machines for BEAM and TON.</p>
+      <figure class="plate narrow" aria-label="Six nested callbacks drawn as a staircase of indented code, with five err arguments">
+        <div class="plate-bar"><span>Fig. 5 / The staircase</span><span>Node.js, 2018</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 250" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Indented callback code stepping to the right, with a staircase outline and a bracket marking five error arguments">
+            <path d="M14 26V50H48V74H82V98H116V122H150V146H184V170H218V194" opacity=".6"/>
+            <text class="t" x="22" y="42">bot.on('message', (msg) =&gt; {</text>
+            <text class="t" x="56" y="66">db.find(msg.from, (err, user) =&gt; {</text>
+            <text class="t" x="90" y="90">api.fetch(user.query, (err, res) =&gt; {</text>
+            <text class="t" x="124" y="114">parse(res, (err, items) =&gt; {</text>
+            <text class="t" x="158" y="138">db.save(items, (err) =&gt; {</text>
+            <text class="t" x="192" y="162">reply(msg, items, (err) =&gt; {</text>
+            <text class="t ta" x="226" y="186">// the actual work</text>
+            <text class="t" x="22" y="226">}) }) }) }) }) })</text>
+            <path d="M452 56V156" />
+            <path d="M446 56H452 M446 156H452"/>
+            <text class="t" x="464" y="100">five err arguments,</text>
+            <text class="t" x="464" y="116">five places to</text>
+            <text class="t" x="464" y="132">forget one</text>
+            <g class="m m-bob"><circle cx="440" cy="186" r="4" fill="currentColor"/></g>
+            <g class="m m-flow"><path d="M470 186H600"/></g>
+            <text class="ts" x="500" y="206">off the edge</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>Between 2019 and 2020 I got pulled into information retrieval. I indexed Telegram archives in <a href="https://github.com/Lulzx/discover">discover</a>, built a quiet book search interface in <a href="https://github.com/Lulzx/shoten">shoten</a>, and experimented with vectors, embeddings, and HNSW nearest-neighbor search<sup><a href="#note-2" id="ref-2">2</a></sup> in <a href="https://github.com/Lulzx/sentence-similarity-search">sentence-similarity-search</a>. This was before the rest of the industry started calling that kind of work AI. To me it looked like the obvious way to find things. Turn each piece of text into a point. When someone asks a question, turn the question into a point too, and look for its nearest neighbors.</p>
+      </div>
+
+      <figure class="plate" aria-label="Three stacked graph layers. A search enters at the sparse top layer, takes long hops, then drops to denser layers and takes shorter hops until it reaches the nearest point to the query.">
+        <div class="plate-bar"><span>Fig. 6 / Finding the nearest point</span><span>HNSW, 2019 to 2020</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 270" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Layered nearest neighbor graph with a search path descending from top to bottom">
+            <polygon points="110,82 170,30 490,30 430,82" fill="var(--specimen-fill)"/>
+            <polygon points="110,162 170,110 490,110 430,162" fill="var(--specimen-fill)"/>
+            <polygon points="110,242 170,190 490,190 430,242" fill="var(--specimen-fill)"/>
+
+            <g opacity=".45">
+              <path d="M210 56L300 46L400 62"/>
+              <path d="M190 140L240 124L290 150L340 128L388 146L420 124 M240 124L340 128 M290 150L388 146"/>
+              <path d="M160 226L190 206L222 230L250 200L280 224L310 204L340 232L366 210L392 226L420 200L446 212 M190 206L250 200 M310 204L366 210 M280 224L340 232"/>
+            </g>
+            <circle cx="210" cy="56" r="4" fill="currentColor"/>
+            <circle cx="300" cy="46" r="3.5" fill="var(--paper)"/>
+            <circle cx="400" cy="62" r="3.5" fill="currentColor"/>
+            <g fill="var(--paper)">
+              <circle cx="190" cy="140" r="3"/><circle cx="240" cy="124" r="3"/><circle cx="290" cy="150" r="3"/><circle cx="340" cy="128" r="3"/><circle cx="420" cy="124" r="3"/>
+              <circle cx="160" cy="226" r="2.6"/><circle cx="190" cy="206" r="2.6"/><circle cx="222" cy="230" r="2.6"/><circle cx="250" cy="200" r="2.6"/><circle cx="280" cy="224" r="2.6"/><circle cx="310" cy="204" r="2.6"/><circle cx="340" cy="232" r="2.6"/><circle cx="366" cy="210" r="2.6"/><circle cx="420" cy="200" r="2.6"/><circle cx="446" cy="212" r="2.6"/>
+            </g>
+            <circle cx="388" cy="146" r="3.5" fill="currentColor"/>
+                        <g class="m m-flow" style="--d:1.6s">
+              <path d="M210 56L300 46L400 62" stroke-width="2.2"/>
+              <path d="M400 62V140" />
+              <path d="M400 140L388 146" stroke-width="2.2"/>
+              <path d="M388 146V224" />
+              <path d="M388 224L392 226" stroke-width="2.2"/>
+            </g>
+            <g class="m m-beat"><circle cx="392" cy="226" r="6" fill="currentColor"/></g>
+            <path d="M408 236l4 -8 4 8 -8 -5h8z" fill="currentColor"/>
+
+            <text class="ts" x="196" y="22">entry</text>
+            <text class="t" x="500" y="60">layer 2</text>
+            <text class="ts" x="500" y="74">few points, long hops</text>
+            <text class="t" x="500" y="140">layer 1</text>
+            <text class="ts" x="500" y="154">more points, shorter hops</text>
+            <text class="t" x="500" y="220">layer 0</text>
+            <text class="ts" x="500" y="234">every point</text>
+            <text class="ts" x="424" y="258">nearest to the query</text>
+          </svg>
+        </div>
+        <p class="plate-caption">From <a href="https://github.com/Lulzx/discover">discover</a>, <a href="https://github.com/Lulzx/shoten">shoten</a>, and <a href="https://github.com/Lulzx/sentence-similarity-search">sentence-similarity-search</a>. Most of the points never get looked at.</p>
+      </figure>
+
+      <div class="prose">
+        <p>Alongside the search tools I built automated Telegram deal and price-tracking pipelines that had to stay up under real traffic. Real traffic keeps arriving while you're fixing things. So the rule from the phone came back with more weight behind it. State lived outside the process, and a restart picked up where the last run stopped.</p>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section id="era-05" class="story-chapter" style="--era-color: var(--c3)">
+      <div class="chapter-head">
+        <span class="chapter-num">05</span>
+        <div><h2>Three quiet months</h2><span class="chapter-tag">2021</span></div>
+      </div>
+      <div class="prose">
+        <p class="short">In 2021 I burned out and wrote nothing for three months.</p>
+        <p>There isn't much to report from inside those months. What I can say is that I came back clearer.</p>
+      </div>
+
+      <figure class="plate narrow" aria-label="A row of weekly tick marks with a three month gap in the middle">
+        <div class="plate-bar"><span>Fig. 7 / The gap</span><span>2021</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 140" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Tick marks for weeks of work, a blank stretch of three months, then tick marks again">
+            <line x1="30" y1="62" x2="250" y2="62" stroke-width="26" stroke-linecap="butt" stroke-dasharray="2 7"/>
+            <line x1="400" y1="62" x2="610" y2="62" stroke-width="26" stroke-linecap="butt" stroke-dasharray="2 7"/>
+            <line x1="258" y1="62" x2="392" y2="62" stroke-dasharray="1 6" opacity=".5"/>
+            <g class="m m-pulse" style="--d:4s"><circle cx="325" cy="62" r="4" fill="currentColor"/></g>
+            <path d="M258 90V98H392V90"/>
+            <text class="t" x="325" y="118" text-anchor="middle">three months, nothing written</text>
+            <text class="ts" x="30" y="30">writing</text>
+            <text class="ts" x="400" y="30">writing again</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>A gap like that does one useful thing. When you stop completely, you can't drift back into work on momentum. You have to pick each thing up again on purpose, and some things you leave where they fell.</p>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section id="era-06" class="story-chapter" style="--era-color: var(--c3)">
+      <div class="chapter-head">
+        <span class="chapter-num">06</span>
+        <div><h2>The detour</h2><span class="chapter-tag">2023 to 2024</span></div>
+      </div>
+      <div class="prose">
+        <p>In 2023 I picked up Rust to rewrite my command-line tools. Rust has a reputation for being hard, and the hardness has a specific shape. Before the first happy path would build, the compiler made me name the owner of each value, the error each call could return, and how long each reference lived. Most languages let you discover those things in production. Rust makes you settle them at your desk. After years of fixing bots at 3am, that seemed like a good trade.</p>
+      </div>
+
+      <figure class="plate" aria-label="Two paths to a working program. In the first, the code passes three gates, owner, error, and lifetime, before it builds. In the second, it builds first and the same questions arrive later as crashes.">
+        <div class="plate-bar"><span>Fig. 8 / When the questions get asked</span><span>Rust, 2023</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 230" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Gates labelled owner, error, lifetime placed before a build step on the top path, and crash marks after the build step on the bottom path">
+            <text class="th" x="30" y="30">AT THE DESK</text>
+            <g class="m m-flow"><path d="M30 72H462"/></g>
+            <g stroke-width="3">
+              <path d="M170 50V62 M170 82V94"/><path d="M270 50V62 M270 82V94"/><path d="M370 50V62 M370 82V94"/>
+            </g>
+            <text class="t" x="170" y="112" text-anchor="middle">owner</text>
+            <text class="t" x="270" y="112" text-anchor="middle">error</text>
+            <text class="t" x="370" y="112" text-anchor="middle">lifetime</text>
+            <rect x="466" y="52" width="140" height="40" fill="var(--specimen-fill)"/>
+            <g class="m m-beat"><path d="M482 72L490 80L504 64" stroke-width="2"/></g>
+            <text class="t" x="514" y="76">it builds</text>
+
+            <line x1="30" y1="134" x2="610" y2="134" stroke-dasharray="2 4" opacity=".5"/>
+
+            <text class="th" x="30" y="160">IN PRODUCTION</text>
+            <path d="M30 192H170"/>
+            <rect x="170" y="172" width="120" height="40" fill="var(--specimen-fill)"/>
+            <text class="t" x="196" y="196">it builds</text>
+            <path d="M290 192H610" stroke-dasharray="3 5"/>
+            <g class="m m-blink" style="--i:0;--d:2s"><path d="M366 182L382 202 M382 182L366 202" stroke-width="2.2"/></g>
+            <g class="m m-blink" style="--i:2;--d:2s"><path d="M446 182L462 202 M462 182L446 202" stroke-width="2.2"/></g>
+            <g class="m m-blink" style="--i:4;--d:2s"><path d="M526 182L542 202 M542 182L526 202" stroke-width="2.2"/></g>
+            <text class="ts" x="420" y="224">the same three questions, at 3am</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>Then in 2024 I tried doing what you're supposed to do. I tested the standard startup and agency playbook: Nuxt and Vercel AI wrappers, content-repurposing pipelines, autonomous agent templates, DeFi liquidation bots, and smart-contract bug bounties with <a href="https://github.com/Lulzx/immunefi-cli">immunefi-cli</a>.</p>
+        <p>It was useful in the way a failed experiment is useful. It showed me what I cared about by showing me what I didn't. Gluing heavy JavaScript stacks onto remote APIs felt fragile and hollow. Fragile, because every layer belonged to someone else and could change under me. Hollow, because when it worked I couldn't point to the part that was mine.</p>
+      </div>
+
+      <figure class="plate" aria-label="Left, a tall wobbling stack where only a thin top layer is your own code. Right, a source file being read line by line against a list of invariants, one of which fails with a replay bug.">
+        <div class="plate-bar"><span>Fig. 9 / Two kinds of work</span><span>2024</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 260" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Wrapper stack versus reading protocol source">
+            <text class="th" x="40" y="26">THE WRAPPER</text>
+            <g class="m m-wobble">
+              <rect x="60" y="40" width="190" height="16" fill="currentColor" opacity=".35"/>
+              <text class="ts" x="70" y="52">your code</text>
+              <rect x="60" y="60" width="190" height="36" fill="var(--specimen-fill)"/>
+              <text class="t" x="70" y="82">UI framework</text>
+              <rect x="60" y="100" width="190" height="36" fill="var(--specimen-fill)"/>
+              <text class="t" x="70" y="122">AI SDK</text>
+              <rect x="60" y="140" width="190" height="36" fill="var(--specimen-fill)"/>
+              <text class="t" x="70" y="162">hosted API</text>
+              <rect x="60" y="180" width="190" height="36" fill="var(--specimen-fill)"/>
+              <text class="t" x="70" y="202">remote model</text>
+            </g>
+            <path d="M262 60H270V216H262"/>
+            <text class="ts" x="276" y="134">someone</text>
+            <text class="ts" x="276" y="146">else's</text>
+
+            <line x1="330" y1="20" x2="330" y2="240" stroke-dasharray="3 3"/>
+
+            <text class="th" x="356" y="26">READING THE SOURCE</text>
+            <rect x="356" y="40" width="120" height="176" fill="var(--specimen-fill)"/>
+            <g opacity=".7">
+              <line x1="368" y1="58" x2="450" y2="58"/><line x1="376" y1="72" x2="460" y2="72"/><line x1="376" y1="86" x2="440" y2="86"/>
+              <line x1="368" y1="100" x2="456" y2="100"/><line x1="376" y1="114" x2="452" y2="114"/><line x1="384" y1="128" x2="440" y2="128"/>
+              <line x1="376" y1="142" x2="460" y2="142"/><line x1="368" y1="156" x2="430" y2="156"/><line x1="376" y1="170" x2="452" y2="170"/>
+              <line x1="376" y1="184" x2="444" y2="184"/><line x1="368" y1="198" x2="420" y2="198"/>
+            </g>
+            <g class="m m-scan-y" style="--d:3.2s"><rect x="360" y="64" width="112" height="16" fill="currentColor" opacity=".18"/></g>
+            <text class="t" x="496" y="72">invariant 1</text>
+            <path d="M584 64L590 70L600 58" stroke-width="2"/>
+            <text class="t" x="496" y="112">invariant 2</text>
+            <path d="M584 104L590 110L600 98" stroke-width="2"/>
+            <text class="t" x="496" y="152">invariant 3</text>
+            <g class="m m-beat"><path d="M584 142L598 156 M598 142L584 156" stroke-width="2.2"/></g>
+            <text class="t ta" x="496" y="176">replay bug</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>The work that felt real that year was the other kind. Finding a real replay bug in a protocol meant reading the raw source and checking every invariant myself. Keeping a bot alive at 3am had asked the same of me years earlier. Neither lets you treat anything as a black box, and that turned out to be what I liked. I want work where I'm expected to understand all of it.</p>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section id="era-07" class="story-chapter" style="--era-color: var(--c4)">
+      <div class="chapter-head">
+        <span class="chapter-num">07</span>
+        <div><h2>Opening the boxes</h2><span class="chapter-tag">Compilers, files, hardware</span></div>
+      </div>
+      <div class="prose">
+        <p>Once I stopped writing wrappers, I started opening the boxes I'd been told to treat as finished infrastructure. I used one test. Whenever a tool felt bloated or opaque, I asked how many lines the actual mechanism would take if I threw away the framework around it.</p>
+        <p>The answer was usually far fewer than I expected. The core idea of most software is small. What makes it big is everything that grows around the idea: compatibility layers, configuration, options for cases you'll never hit. Those are real needs for somebody. But if you want to understand the thing, you can set them aside, and what's left often fits in one file.</p>
+        <p>Compilers were the first boxes I opened. I wrote a C compiler from first principles in <a href="https://github.com/Lulzx/sectorc">sectorc</a>, a Zig implementation of the interaction-calculus runtime in <a href="https://github.com/Lulzx/hvm">hvm</a>, self-hosting compilers for <a href="https://github.com/Lulzx/arturo-compiler">Arturo</a>, <a href="https://github.com/Lulzx/tacitj">J</a>, and <a href="https://github.com/Lulzx/bendc">Bend 2</a>, a tracing JIT for Wren in <a href="https://github.com/Lulzx/WrenJIT">WrenJIT</a>, an array-scheduling operating system in <a href="https://github.com/Lulzx/tacit">tacit</a>, and minimal virtual machines for Erlang's BEAM (<a href="https://github.com/Lulzx/beam.zig">beam.zig</a>) and TON (<a href="https://github.com/Lulzx/zig-tvm">zig-tvm</a>).</p>
+        <p>A compiler looks like magic until you write one. Then it looks like a series of translations, each simple enough to check by hand.</p>
+      </div>
+
+      <figure class="plate" aria-label="A compiler as five stages: source text, tokens, a syntax tree, machine instructions, and the running result">
+        <div class="plate-bar"><span>Fig. 10 / A compiler, unboxed</span><span>Five translations</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 200" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="return 2 plus 3 becomes tokens, then a plus node with children 2 and 3, then mov, add, and ret instructions, then the value 5">
+            <g class="th"><text x="22" y="30">SOURCE</text><text x="146" y="30">TOKENS</text><text x="270" y="30">TREE</text><text x="394" y="30">INSTRUCTIONS</text><text x="530" y="30">RESULT</text></g>
+            <rect x="18" y="44" width="104" height="120" fill="var(--specimen-fill)"/>
+            <text class="t" x="28" y="100">return 2 + 3;</text>
+            <rect x="142" y="44" width="104" height="120" fill="var(--specimen-fill)"/>
+            <g class="t">
+              <rect x="154" y="56" width="50" height="18" fill="none" stroke="currentColor"/><text x="160" y="69">return</text>
+              <rect x="154" y="80" width="22" height="18" fill="none" stroke="currentColor"/><text x="161" y="93">2</text>
+              <rect x="182" y="80" width="22" height="18" fill="none" stroke="currentColor"/><text x="189" y="93">+</text>
+              <rect x="154" y="104" width="22" height="18" fill="none" stroke="currentColor"/><text x="161" y="117">3</text>
+              <rect x="182" y="104" width="22" height="18" fill="none" stroke="currentColor"/><text x="190" y="117">;</text>
+            </g>
+            <rect x="266" y="44" width="104" height="120" fill="var(--specimen-fill)"/>
+            <path d="M318 82L296 120 M318 82L340 120"/>
+            <circle cx="318" cy="76" r="11" fill="var(--paper)"/>
+            <text class="t ta" x="314" y="80">+</text>
+            <circle cx="294" cy="126" r="10" fill="var(--paper)"/>
+            <text class="t" x="291" y="130">2</text>
+            <circle cx="342" cy="126" r="10" fill="var(--paper)"/>
+            <text class="t" x="339" y="130">3</text>
+            <rect x="390" y="44" width="116" height="120" fill="var(--specimen-fill)"/>
+            <text class="t" x="400" y="84">mov eax, 2</text>
+            <text class="t" x="400" y="104">add eax, 3</text>
+            <text class="t" x="400" y="124">ret</text>
+            <rect x="526" y="44" width="96" height="120" fill="var(--specimen-fill)"/>
+            <g class="m m-beat"><text class="t ta tb" x="566" y="112">5</text></g>
+            <g class="m m-flow"><path d="M122 104H142 M246 104H266 M370 104H390 M506 104H526"/></g>
+            <text class="ts" x="18" y="190">each arrow is a step small enough to test on its own</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>Machine learning got the same treatment. I wrote reverse-mode automatic differentiation on plain NumPy in <a href="https://github.com/Lulzx/nabla">nabla</a>, a neural network in roughly 600 lines of Zig in <a href="https://github.com/Lulzx/nn.zig">nn.zig</a>, and a fast BPE tokenizer core in Rust in <a href="https://github.com/Lulzx/blaze-bpe">blaze-bpe</a>. Strip a neural network down that far and the mystery goes away. What's left is multiplication, addition, and the chain rule run backwards.</p>
+        <p>Everyday files were next. <a href="https://github.com/Lulzx/tinypdf">tinypdf</a> creates real PDFs in under 400 lines of TypeScript with zero dependencies. <a href="https://github.com/Lulzx/zpdf">zpdf</a> does zero-copy SIMD text extraction in Zig. <a href="https://github.com/Lulzx/zs3">zs3</a> is S3 storage with no dependencies, and <a href="https://github.com/Lulzx/walsync">walsync</a> streams SQLite write-ahead logs across machines.</p>
+      </div>
+
+      <figure class="plate narrow" aria-label="Bar chart of lines of code: tinypdf under 400 lines of TypeScript, the printer program 400 lines of C, nn.zig about 600 lines of Zig">
+        <div class="plate-bar"><span>Fig. 11 / How big the mechanism is</span><span>Lines of code</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 200" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Three horizontal bars on a scale from 0 to 700 lines">
+            <g class="ts">
+              <text x="164" y="24">0</text><text x="282" y="24">200</text><text x="408" y="24">400</text><text x="533" y="24">600</text>
+            </g>
+            <g opacity=".35"><path d="M170 32V172 M296 32V172 M421 32V172 M547 32V172" stroke-dasharray="2 4"/></g>
+            <text class="t" x="20" y="60">tinypdf</text>
+            <text class="ts" x="20" y="74">PDFs, TypeScript</text>
+            <rect x="170" y="50" width="243" height="24" fill="currentColor" opacity=".3"/>
+            <path d="M170 50H413 M170 74H413 M170 50V74" />
+            <path d="M413 50V74" stroke-dasharray="3 3"/>
+            <text class="ts" x="422" y="66">under 400</text>
+            <text class="t" x="20" y="110">printer</text>
+            <text class="ts" x="20" y="124">driver, C</text>
+            <rect x="170" y="100" width="251" height="24" fill="currentColor" opacity=".55"/>
+            <rect x="170" y="100" width="251" height="24"/>
+            <text class="ts" x="430" y="116">400</text>
+            <text class="t" x="20" y="160">nn.zig</text>
+            <text class="ts" x="20" y="174">neural net, Zig</text>
+            <g class="m m-pulse"><rect x="170" y="150" width="377" height="24" fill="currentColor" opacity=".45"/></g>
+            <rect x="170" y="150" width="377" height="24"/>
+            <text class="ts" x="556" y="166">about 600</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>Then hardware. When I bought a Brother HL-L2440DW laser printer, I reverse-engineered its compressed 1-bit raster format and wrote a 400-line C program (<a href="https://github.com/Lulzx/brother-hl-l2440dw">brother-hl-l2440dw</a>) that prints over raw TCP without Brother's driver.</p>
+        <p>A printer driver feels like part of the furniture. Underneath it there's a format: rows of black and white dots, compressed and sent down a socket. Once you know the format, the driver is a short program.</p>
+      </div>
+
+      <figure class="plate" aria-label="A letter A drawn in 1-bit pixels, one row written as runs of white and black, sent over a TCP socket to a laser printer that feeds out a page">
+        <div class="plate-bar"><span>Fig. 12 / What a printer driver is</span><span>1-bit raster over TCP</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 220" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Pixel bitmap, run length encoded row, socket, and printer">
+            <text class="th" x="30" y="30">PAGE AS DOTS</text>
+            <rect x="30" y="42" width="100" height="100" fill="var(--paper)"/>
+            <path d="M70 42h10v10h-10zM80 42h10v10h-10zM60 52h10v10h-10zM70 52h10v10h-10zM80 52h10v10h-10zM90 52h10v10h-10zM60 62h10v10h-10zM90 62h10v10h-10zM50 72h10v10h-10zM60 72h10v10h-10zM90 72h10v10h-10zM100 72h10v10h-10zM50 82h10v10h-10zM100 82h10v10h-10zM40 92h10v10h-10zM50 92h10v10h-10zM100 92h10v10h-10zM110 92h10v10h-10zM40 102h10v10h-10zM50 102h10v10h-10zM60 102h10v10h-10zM70 102h10v10h-10zM80 102h10v10h-10zM90 102h10v10h-10zM100 102h10v10h-10zM110 102h10v10h-10zM40 112h10v10h-10zM110 112h10v10h-10zM30 122h10v10h-10zM40 122h10v10h-10zM110 122h10v10h-10zM120 122h10v10h-10zM30 132h10v10h-10zM120 132h10v10h-10z" fill="currentColor" stroke="none"/>
+            <rect x="30" y="102" width="100" height="10" stroke-width="2"/>
+            <text class="th" x="170" y="30">ONE ROW, COMPRESSED</text>
+            <text class="ts" x="170" y="80">row 5  0110000110</text>
+            <text class="t ta" x="170" y="111">row 6  0111111110</text>
+            <path d="M136 107H162"/>
+            <text class="t" x="170" y="132">white 1, black 8,</text>
+            <text class="t" x="170" y="148">white 1</text>
+            <g class="m m-flow"><path d="M300 104H450"/></g>
+            <text class="ts" x="330" y="94">raw TCP socket</text>
+            <rect x="454" y="70" width="160" height="70" rx="4" fill="var(--specimen-fill)"/>
+            <rect x="476" y="58" width="116" height="12" fill="var(--specimen-fill)"/>
+            <g class="m m-blink"><circle cx="596" cy="88" r="3" fill="currentColor"/></g>
+            <text class="ts" x="466" y="92">HL-L2440DW</text>
+            <path d="M474 140H594"/>
+            <g class="m m-feed">
+              <rect x="490" y="140" width="88" height="56" fill="var(--paper)"/>
+              <path d="M528 152L522 176 M528 152L534 176 M524 168H532" stroke-width="2"/>
+            </g>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>When I fought a dead programmer on an AI-Thinker ESP32-CAM, I wrote self-contained MJPEG streaming firmware (<a href="https://github.com/Lulzx/esp32-cam-web-streamer">esp32-cam-web-streamer</a>) that serves video straight to any browser on the local network, with no cloud account. When I wanted a 3D-printed part to fit an irregular opening on the first print, I built <a href="https://github.com/Lulzx/reality-fit">reality-fit</a>. It goes from a 10-second webcam scan next to a paper marker to a fitted mesh.</p>
+        <p>Every one of these started with the same small irritation: a tool that wanted more from me than the job required. And every time, the job turned out to be smaller than the tool.</p>
+      </div>
+
+      <div class="repo-index" aria-label="Repositories from this chapter">
+        <div class="repo-group">
+          <h4>Compilers and VMs</h4>
           <div class="repo-pills">
             <a class="repo-pill" href="https://github.com/Lulzx/sectorc">sectorc</a>
             <a class="repo-pill" href="https://github.com/Lulzx/hvm">hvm</a>
-            <a class="repo-pill" href="https://github.com/Lulzx/bendc">bendc</a>
             <a class="repo-pill" href="https://github.com/Lulzx/arturo-compiler">arturo-compiler</a>
             <a class="repo-pill" href="https://github.com/Lulzx/tacitj">tacitj</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/bendc">bendc</a>
             <a class="repo-pill" href="https://github.com/Lulzx/WrenJIT">WrenJIT</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/tacit">tacit</a>
             <a class="repo-pill" href="https://github.com/Lulzx/beam.zig">beam.zig</a>
             <a class="repo-pill" href="https://github.com/Lulzx/zig-tvm">zig-tvm</a>
           </div>
         </div>
-
-        <div class="tri-card">
-          <div class="plate-bar"><span>04.B / Zero-Dep Formats &amp; ML</span><span>Under 600 LOC</span></div>
-          <div class="tri-canvas">
-            <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="26" y="22" width="56" height="76" fill="var(--specimen-fill)"/>
-              <line x1="36" y1="38" x2="72" y2="38"/><line x1="36" y1="50" x2="66" y2="50"/><line x1="36" y1="62" x2="72" y2="62"/>
-              <g class="m m-scan-y"><line x1="32" y1="34" x2="76" y2="34" stroke-width="2.5"/></g>
-              <g class="m m-flow"><path d="M82 60H114"/></g>
-              <g class="m m-shuttle">
-                <rect x="116" y="42" width="14" height="36" fill="var(--specimen-fill)"/>
-                <rect x="136" y="42" width="14" height="36" fill="currentColor" opacity=".35"/>
-                <rect x="156" y="42" width="14" height="36" fill="var(--specimen-fill)"/>
-              </g>
-            </svg>
-          </div>
-          <h3>Files, Storage, and Autograd</h3>
-          <p>Real PDF creation in under 400 lines of TypeScript, zero-copy SIMD PDF extraction and S3 storage in Zig, SQLite WAL streaming across machines, reverse-mode autograd on NumPy, and a neural network in 600 lines of Zig.</p>
+        <div class="repo-group">
+          <h4>Files and learning</h4>
           <div class="repo-pills">
             <a class="repo-pill" href="https://github.com/Lulzx/tinypdf">tinypdf</a>
             <a class="repo-pill" href="https://github.com/Lulzx/zpdf">zpdf</a>
@@ -869,187 +1220,319 @@
             <a class="repo-pill" href="https://github.com/Lulzx/blaze-bpe">blaze-bpe</a>
           </div>
         </div>
-
-        <div class="tri-card">
-          <div class="plate-bar"><span>04.C / Bare Hardware</span><span>No driver bloat</span></div>
-          <div class="tri-canvas">
-            <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="28" y="36" width="68" height="48" rx="2" fill="var(--specimen-fill)"/>
-              <path d="M40 36V20H84V36 M40 84V100H84V84"/>
-              <g class="m m-pulse"><line x1="46" y1="90" x2="78" y2="90"/><line x1="46" y1="95" x2="70" y2="95"/></g>
-              <g class="m m-flow"><path d="M96 60H124"/></g>
-              <rect x="124" y="30" width="52" height="60" rx="3" fill="var(--specimen-fill)"/>
-              <circle cx="150" cy="60" r="16"/>
-              <g class="m m-beat"><circle cx="150" cy="60" r="7" fill="currentColor"/></g>
-            </svg>
-          </div>
-          <h3>Printers, Cameras, and Parts</h3>
-          <p>Reverse-engineered Brother's compressed 1-bit HBP raster format into 400 lines of C to print over raw TCP without a driver, flashed an ESP32-CAM to stream MJPEG over LAN with no cloud, and turned a 10-second webcam scan into first-try 3D-printed parts.</p>
+        <div class="repo-group">
+          <h4>Hardware</h4>
           <div class="repo-pills">
             <a class="repo-pill" href="https://github.com/Lulzx/brother-hl-l2440dw">brother-hl-l2440dw</a>
             <a class="repo-pill" href="https://github.com/Lulzx/esp32-cam-web-streamer">esp32-cam-web-streamer</a>
             <a class="repo-pill" href="https://github.com/Lulzx/reality-fit">reality-fit</a>
-            <a class="repo-pill" href="https://github.com/Lulzx/charmera">charmera</a>
-            <a class="repo-pill" href="https://github.com/Lulzx/rememberbox-reader">rememberbox-reader</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 05 -->
-    <section id="era-05" class="story-chapter" style="--era-color: var(--c5)">
+    <!-- 08 -->
+    <section id="era-08" class="story-chapter" style="--era-color: var(--c5)">
       <div class="chapter-head">
-        <span class="chapter-num">05 / 06</span>
-        <h2>Refusing hardware ceilings</h2>
-        <span class="chapter-tag">Apple Silicon &amp; WebGPU</span>
+        <span class="chapter-num">08</span>
+        <div><h2>The copy tax</h2><span class="chapter-tag">Apple Silicon and WebGPU, 2024 onward</span></div>
       </div>
-      <div class="chapter-grid">
-        <div class="chapter-prose">
-          <p>In 2024 I moved my daily work onto Apple Silicon. On my old setups, every GPU workload paid a copy tax across the bus. Unified memory meant the CPU and GPU shared one pool of RAM, so a 14-inch laptop could hold weights and run passes that used to require a remote server.</p>
-          <p>The reflex from the 4 GB ThinkPad came right back: make the local machine do what people assume needs a cluster. I built a CUDA compiler and runtime for Apple Silicon GPUs in <a href="https://github.com/Lulzx/cuda-metal">cuda-metal</a>, emulated double-precision arithmetic on Metal GPUs that lack hardware FP64 in <a href="https://github.com/Lulzx/VF64-metal">VF64-metal</a>, and brought scientific solvers like GROMACS (<a href="https://github.com/Lulzx/gromacs-metal">gromacs-metal</a>), WarpX plasma simulations (<a href="https://github.com/Lulzx/warpx-metal">warpx-metal</a>), PeleLMeX combustion (<a href="https://github.com/Lulzx/pele-metal">pele-metal</a>), and Box3D physics (<a href="https://github.com/Lulzx/box3d-metal">box3d-metal</a>) onto the M-series GPU.</p>
-          <p>For language and speech models, I wrote fused Metal kernels in Zig with no Python or PyTorch (<a href="https://github.com/Lulzx/tiny-kernel">tiny-kernel</a>), ran a 2-bit 27B model locally at 20 tokens per second (<a href="https://github.com/Lulzx/bonsai-mlx">bonsai-mlx</a>), and pushed full speech recognition (<a href="https://github.com/Lulzx/phonon-web">phonon-web</a>) and language models (<a href="https://github.com/Lulzx/barunlm-35m-browser">barunlm-35m-browser</a>) entirely into the browser over WebGPU and WebAssembly.</p>
+      <div class="prose">
+        <p>In 2024 I moved my daily work onto Apple Silicon. On my old setups every GPU workload paid a copy tax. Data crossed the bus to the GPU, got processed, and crossed back. Unified memory means the CPU and GPU share one pool of RAM,<sup><a href="#note-3" id="ref-3">3</a></sup> so a 14-inch laptop could hold model weights and run passes that used to require a remote server.</p>
+      </div>
+
+      <figure class="plate" aria-label="Left, a CPU and GPU with separate memories and data shuttling across a bus between them. Right, a CPU and GPU both reading from one shared memory pool.">
+        <div class="plate-bar"><span>Fig. 13 / The copy tax</span><span>Separate vs. unified memory</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 230" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Diagram comparing separate CPU and GPU memory with a copy bus against a single unified pool">
+            <text class="th" x="30" y="28">SEPARATE MEMORY</text>
+            <rect x="30" y="44" width="100" height="46" fill="var(--specimen-fill)"/><text class="t" x="66" y="72">CPU</text>
+            <rect x="30" y="112" width="100" height="46"/><text class="t" x="62" y="140">RAM</text>
+            <path d="M80 90V112"/>
+            <rect x="196" y="44" width="100" height="46" fill="var(--specimen-fill)"/><text class="t" x="232" y="72">GPU</text>
+            <rect x="196" y="112" width="100" height="46"/><text class="t" x="224" y="140">VRAM</text>
+            <path d="M246 90V112"/>
+            <path d="M130 135H196" stroke-dasharray="3 3"/>
+            <g class="m m-shuttle" style="--d:1.4s"><rect x="153" y="128" width="20" height="14" fill="currentColor"/></g>
+            <text class="t" x="98" y="186">copy in, compute, copy out</text>
+
+            <line x1="330" y1="20" x2="330" y2="210" stroke-dasharray="3 3"/>
+
+            <text class="th" x="360" y="28">UNIFIED MEMORY</text>
+            <rect x="370" y="44" width="100" height="46" fill="var(--specimen-fill)"/><text class="t" x="406" y="72">CPU</text>
+            <rect x="510" y="44" width="100" height="46" fill="var(--specimen-fill)"/><text class="t" x="546" y="72">GPU</text>
+            <g class="m m-flow"><path d="M420 90V118 M560 90V118"/></g>
+            <g class="m m-pulse"><rect x="370" y="118" width="240" height="46" fill="currentColor" opacity=".22"/></g>
+            <rect x="370" y="118" width="240" height="46"/>
+            <text class="t" x="384" y="146">one pool: weights, cache, particles</text>
+            <text class="t" x="420" y="186">nothing to copy</text>
+          </svg>
         </div>
+      </figure>
 
-        <aside class="tech-plate" aria-label="Diagram: Unified memory pool shared between CPU, Metal GPU, and browser WebGPU">
-          <div class="plate-bar">
-            <span>Plate 05 · Unified memory &amp; kernel bridges</span>
-            <span>Zero PCIe copy tax</span>
+      <div class="prose">
+        <p>The reflex from the 4 GB ThinkPad came right back. People assume certain work needs a cluster. Often that assumption is an old hardware fact nobody went back to check.</p>
+        <p>So I checked. I built a CUDA compiler and runtime for Apple Silicon GPUs in <a href="https://github.com/Lulzx/cuda-metal">cuda-metal</a>. Metal GPUs lack hardware double precision, so I emulated it in <a href="https://github.com/Lulzx/VF64-metal">VF64-metal</a>.<sup><a href="#note-4" id="ref-4">4</a></sup> That opened the door to scientific solvers: GROMACS (<a href="https://github.com/Lulzx/gromacs-metal">gromacs-metal</a>), WarpX plasma simulations (<a href="https://github.com/Lulzx/warpx-metal">warpx-metal</a>), PeleLMeX combustion (<a href="https://github.com/Lulzx/pele-metal">pele-metal</a>), and Box3D physics (<a href="https://github.com/Lulzx/box3d-metal">box3d-metal</a>), all on the M-series GPU.</p>
+      </div>
+
+      <figure class="plate narrow" aria-label="A 64-bit double drawn as sign, exponent, and mantissa, and below it the same value held as a high float plus a low float">
+        <div class="plate-bar"><span>Fig. 14 / A double without doubles</span><span>VF64-metal</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 180" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="FP64 bit layout above two FP32 values hi and lo">
+            <text class="th" x="40" y="26">WHAT THE SOLVER WANTS: ONE 64-BIT DOUBLE</text>
+            <rect x="40" y="38" width="560" height="28" fill="var(--specimen-fill)"/>
+            <rect x="40" y="38" width="9" height="28" fill="currentColor" opacity=".5"/>
+            <path d="M145 38V66"/>
+            <text class="ts" x="62" y="56">exponent</text>
+            <text class="ts" x="160" y="56">mantissa, 52 bits</text>
+            <text class="th" x="40" y="104">WHAT THE GPU HAS: 32-BIT FLOATS</text>
+            <rect x="40" y="116" width="270" height="28" fill="currentColor" opacity=".3"/>
+            <rect x="40" y="116" width="270" height="28"/>
+            <text class="t" x="52" y="134">hi</text>
+            <text class="t" x="320" y="135">+</text>
+            <g class="m m-pulse"><rect x="336" y="116" width="264" height="28" fill="currentColor" opacity=".18"/></g>
+            <rect x="336" y="116" width="264" height="28"/>
+            <text class="t" x="348" y="134">lo: the rounding error of hi</text>
+            <text class="ts" x="40" y="168">value = hi + lo, kept unevaluated</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>For language and speech models, I wrote fused Metal kernels in Zig with no Python or PyTorch (<a href="https://github.com/Lulzx/tiny-kernel">tiny-kernel</a>), ran a 2-bit 27B model locally at 20 tokens per second (<a href="https://github.com/Lulzx/bonsai-mlx">bonsai-mlx</a>), and pushed full speech recognition (<a href="https://github.com/Lulzx/phonon-web">phonon-web</a>) and a language model (<a href="https://github.com/Lulzx/barunlm-35m-browser">barunlm-35m-browser</a>) entirely into the browser over WebGPU and WebAssembly.</p>
+      </div>
+
+      <figure class="plate" aria-label="Unified memory pool shared by Zig Metal kernels, the CUDA bridge and science solvers, and browser WebGPU">
+        <div class="plate-bar"><span>Fig. 15 / One pool, many engines</span><span>Metal and WebGPU</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 380 185" style="max-width:640px;min-width:0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Memory pool holding a 2-bit 27B model, FP64 pairs, solver data, and WebGPU buffers, each read directly by an engine below">
+            <rect x="24" y="20" width="332" height="58" rx="3" fill="var(--specimen-fill)"/>
+            <text x="36" y="36" font-family="monospace" font-size="8.5" fill="currentColor" stroke="none">SHARED MEMORY (WEIGHTS, KV CACHE, PARTICLES)</text>
+            <g class="m m-pulse"><rect x="36" y="44" width="68" height="22" fill="currentColor" opacity=".3"/></g>
+            <rect x="36" y="44" width="68" height="22"/>
+            <text x="44" y="58" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">27B 2-bit</text>
+            <rect x="114" y="44" width="74" height="22"/>
+            <text x="122" y="58" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">FP64 hi+lo</text>
+            <g class="m m-pulse" style="--i:2"><rect x="198" y="44" width="72" height="22" fill="currentColor" opacity=".3"/></g>
+            <rect x="198" y="44" width="72" height="22"/>
+            <text x="206" y="58" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">PME / PIC</text>
+            <rect x="280" y="44" width="64" height="22"/>
+            <text x="288" y="58" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">WebGPU</text>
+            <g class="m m-flow"><path d="M70 78V110 M151 78V110 M234 78V110 M312 78V110"/></g>
+            <rect x="24" y="110" width="92" height="54" rx="2" fill="var(--specimen-fill)"/>
+            <text x="32" y="128" font-family="monospace" font-size="8" fill="currentColor" stroke="none">tiny-kernel</text>
+            <text x="32" y="142" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">Zig + Metal</text>
+            <rect x="128" y="110" width="124" height="54" rx="2" fill="var(--specimen-fill)"/>
+            <text x="138" y="128" font-family="monospace" font-size="8" fill="currentColor" stroke="none">cuda-metal, VF64</text>
+            <text x="138" y="142" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">GROMACS, WarpX</text>
+            <rect x="264" y="110" width="92" height="54" rx="2" fill="var(--specimen-fill)"/>
+            <text x="272" y="128" font-family="monospace" font-size="8" fill="currentColor" stroke="none">phonon-web</text>
+            <text x="272" y="142" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">WASM + WebGPU</text>
+          </svg>
+        </div>
+        <div class="plate-specs">
+          <div class="spec-cell"><span class="k">GPU API</span><span class="v">Metal</span></div>
+          <div class="spec-cell"><span class="k">Double precision</span><span class="v">Emulated</span></div>
+          <div class="spec-cell"><span class="k">Local model</span><span class="v">27B at 20 tok/s</span></div>
+          <div class="spec-cell"><span class="k">Browser</span><span class="v">WebGPU + WASM</span></div>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>A speech recognizer in a browser tab is the inverse of the wrappers from 2024. The audio stays on the machine, and nothing depends on someone else's server staying up.</p>
+      </div>
+
+      <div class="repo-index" aria-label="Repositories from this chapter">
+        <div class="repo-group">
+          <h4>GPU bridges</h4>
+          <div class="repo-pills">
+            <a class="repo-pill" href="https://github.com/Lulzx/cuda-metal">cuda-metal</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/VF64-metal">VF64-metal</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/tiny-kernel">tiny-kernel</a>
           </div>
-          <div class="plate-canvas">
-            <svg viewBox="0 0 380 185" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Unified memory pool accessed directly by CPU, Metal compute shaders, CUDA/SYCL bridges, and emulated FP64 pairs">
-              <!-- Unified memory pool block -->
-              <rect x="24" y="20" width="332" height="58" rx="3" fill="var(--specimen-fill)"/>
-              <text x="36" y="36" font-family="monospace" font-size="8.5" fill="currentColor" stroke="none">SHARED UNIFIED MEMORY POOL (WEIGHTS · KV CACHE · PARTICLES)</text>
-              <g class="m m-pulse"><rect x="36" y="44" width="68" height="22" fill="currentColor" opacity=".3"/></g>
-              <rect x="36" y="44" width="68" height="22"/>
-              <text x="44" y="58" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">27B 2-bit</text>
-
-              <rect x="114" y="44" width="74" height="22"/>
-              <text x="122" y="58" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">FP64 hi+lo</text>
-
-              <g class="m m-pulse" style="--i:2"><rect x="198" y="44" width="72" height="22" fill="currentColor" opacity=".3"/></g>
-              <rect x="198" y="44" width="72" height="22"/>
-              <text x="206" y="58" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">PME / PIC</text>
-
-              <rect x="280" y="44" width="64" height="22"/>
-              <text x="288" y="58" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">WebGPU</text>
-
-              <!-- Direct zero-copy buses -->
-              <g class="m m-flow">
-                <path d="M70 78V110 M151 78V110 M234 78V110 M312 78V110"/>
-              </g>
-
-              <!-- Compute engines -->
-              <rect x="24" y="110" width="92" height="54" rx="2" fill="var(--specimen-fill)"/>
-              <text x="32" y="128" font-family="monospace" font-size="8" fill="currentColor" stroke="none">tiny-kernel</text>
-              <text x="32" y="142" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">Zig + Metal</text>
-
-              <rect x="128" y="110" width="124" height="54" rx="2" fill="var(--specimen-fill)"/>
-              <text x="138" y="128" font-family="monospace" font-size="8" fill="currentColor" stroke="none">cuda-metal · VF64</text>
-              <text x="138" y="142" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">GROMACS · WarpX</text>
-
-              <rect x="264" y="110" width="92" height="54" rx="2" fill="var(--specimen-fill)"/>
-              <text x="272" y="128" font-family="monospace" font-size="8" fill="currentColor" stroke="none">phonon-web</text>
-              <text x="272" y="142" font-family="monospace" font-size="7.5" fill="currentColor" stroke="none">WASM + WebGPU</text>
-            </svg>
+        </div>
+        <div class="repo-group">
+          <h4>Science on the laptop</h4>
+          <div class="repo-pills">
+            <a class="repo-pill" href="https://github.com/Lulzx/gromacs-metal">gromacs-metal</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/warpx-metal">warpx-metal</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/pele-metal">pele-metal</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/box3d-metal">box3d-metal</a>
           </div>
-          <div class="plate-specs">
-            <div class="spec-cell"><span class="k">Architecture</span><span class="v">Apple Silicon Metal</span></div>
-            <div class="spec-cell"><span class="k">Double precision</span><span class="v">Virtual FP64 harness</span></div>
-            <div class="spec-cell"><span class="k">Local inference</span><span class="v">27B @ ~20 tok/s</span></div>
-            <div class="spec-cell"><span class="k">Client runtime</span><span class="v">WebGPU + Rust WASM</span></div>
+        </div>
+        <div class="repo-group">
+          <h4>Models, local</h4>
+          <div class="repo-pills">
+            <a class="repo-pill" href="https://github.com/Lulzx/bonsai-mlx">bonsai-mlx</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/phonon-web">phonon-web</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/barunlm-35m-browser">barunlm-35m-browser</a>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
 
-    <!-- CHAPTER 06 -->
-    <section id="era-06" class="story-chapter" style="--era-color: var(--c6)">
+    <!-- 09 -->
+    <section id="era-09" class="story-chapter" style="--era-color: var(--c6)">
       <div class="chapter-head">
-        <span class="chapter-num">06 / 06</span>
-        <h2>Where the work is going now</h2>
-        <span class="chapter-tag">Current Direction · 3 Threads</span>
+        <span class="chapter-num">09</span>
+        <div><h2>Where the work is going</h2><span class="chapter-tag">Now</span></div>
       </div>
-      <div class="chapter-prose" style="max-width: 78ch;">
-        <p>After rebuilding compilers, virtual machines, and GPU kernels from scratch, the questions I care about shifted. Three threads run through almost everything I am building now.</p>
+      <div class="prose">
+        <p>After rebuilding compilers, virtual machines, and GPU kernels, the questions I care about shifted. Three threads run through almost everything I'm building now.</p>
+
+        <h3>Learning that can be checked</h3>
+        <p>The first is learning through compression, search, and proof instead of brute-force scale. Scaling a transformer is expensive, and an unverified model will cheerfully invent a plausible lie. Those two problems point the same way. A learner that has to compress what it sees has to find the pattern, because memorizing costs too many bits.<sup><a href="#note-5" id="ref-5">5</a></sup> And an answer that comes with something a machine can check doesn't need you to trust whoever produced it.</p>
+        <p>In <a href="https://github.com/Lulzx/solon">solon</a>, I built a language learner around Minimum Description Length with no transformer, no gradients, and no backpropagation, to test how far pure compression goes when data is scarce. In <a href="https://github.com/Lulzx/supsearch">supsearch</a>, <a href="https://github.com/Lulzx/ontogenesis">ontogenesis</a>, and <a href="https://github.com/Lulzx/progen">progen</a>, program synthesis engines solve benchmarks and invent reusable lambda-calculus vocabulary without calling a language model. In <a href="https://github.com/Lulzx/gavel">gavel</a>, reinforcement learning policies are scored by Bend's proof checker rather than by a learned reward model that can be gamed.</p>
       </div>
 
-      <div class="tri-grid">
-        <!-- Thread 1: Compression, Search, Proof -->
-        <div class="tri-card">
-          <div class="plate-bar"><span>06.A / Compression &amp; Proof</span><span>0 LLM calls at check</span></div>
-          <div class="tri-canvas">
-            <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <!-- Raw observations compressing into minimal rule + proof check -->
-              <rect x="20" y="22" width="44" height="76" fill="var(--specimen-fill)"/>
-              <line x1="28" y1="34" x2="56" y2="34"/><line x1="28" y1="46" x2="52" y2="46"/><line x1="28" y1="58" x2="56" y2="58"/><line x1="28" y1="70" x2="48" y2="70"/><line x1="28" y1="82" x2="54" y2="82"/>
-              <g class="m m-flow"><path d="M64 60H96"/></g>
-              <g class="m m-pulse"><rect x="96" y="38" width="36" height="44" fill="currentColor" opacity=".28"/></g>
-              <rect x="96" y="38" width="36" height="44"/>
-              <text x="103" y="63" font-family="monospace" font-size="8" fill="currentColor" stroke="none">MDL</text>
-              <g class="m m-flow"><path d="M132 60H152"/></g>
-              <g class="m m-beat"><circle cx="166" cy="60" r="14" fill="var(--specimen-fill)"/><path d="M159 60L164 65L174 54" stroke-width="2"/></g>
-            </svg>
-          </div>
-          <h3>Learning as Compression &amp; Proof</h3>
-          <p>Scaling a transformer is expensive, and an unverified model will cheerfully invent a plausible lie. I am building MDL learners with no transformer or backprop (<a class="inline-link" href="https://github.com/Lulzx/solon">solon</a>), zero-token program synthesizers (<a class="inline-link" href="https://github.com/Lulzx/supsearch">supsearch</a>, <a class="inline-link" href="https://github.com/Lulzx/ontogenesis">ontogenesis</a>), RL environments scored by a proof checker (<a class="inline-link" href="https://github.com/Lulzx/gavel">gavel</a>), a post-quantum RV64I zkVM (<a class="inline-link" href="https://github.com/Lulzx/open-magnetar">open-magnetar</a>), and an incremental compiler for evidence-backed docs (<a class="inline-link" href="https://github.com/Lulzx/claim-wire">claim-wire</a>).</p>
+      <figure class="plate narrow" aria-label="Stacked bars of model bits plus data bits for three learners. Memorizing gives a long model. A model that is too simple leaves the data expensive. Finding the pattern gives the shortest total.">
+        <div class="plate-bar"><span>Fig. 16 / Learning as compression</span><span>Illustrative</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 210" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Three stacked horizontal bars comparing total description length">
+            <rect x="170" y="18" width="14" height="10" fill="currentColor" opacity=".6"/><text class="ts" x="190" y="27">bits to write the model</text>
+            <rect x="370" y="18" width="14" height="10" fill="currentColor" opacity=".15" /><rect x="370" y="18" width="14" height="10"/><text class="ts" x="390" y="27">bits to write the data with it</text>
+            <text class="t" x="20" y="70">memorize it all</text>
+            <rect x="170" y="56" width="300" height="22" fill="currentColor" opacity=".6"/>
+            <rect x="470" y="56" width="30" height="22" fill="currentColor" opacity=".15"/><rect x="170" y="56" width="330" height="22"/>
+            <text class="t" x="20" y="120">too simple</text>
+            <rect x="170" y="106" width="40" height="22" fill="currentColor" opacity=".6"/>
+            <rect x="210" y="106" width="300" height="22" fill="currentColor" opacity=".15"/><rect x="170" y="106" width="340" height="22"/>
+            <text class="t ta" x="20" y="170">find the pattern</text>
+            <rect x="170" y="156" width="100" height="22" fill="currentColor" opacity=".6"/>
+            <rect x="270" y="156" width="90" height="22" fill="currentColor" opacity=".15"/><rect x="170" y="156" width="190" height="22"/>
+            <g class="m m-beat"><circle cx="384" cy="167" r="11" fill="var(--paper)"/><path d="M378 167L382 171L390 162" stroke-width="2"/></g>
+            <text class="ts" x="404" y="171">shortest total wins</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>The same insistence on machine-checked truth runs through <a href="https://github.com/Lulzx/open-magnetar">open-magnetar</a>, a post-quantum RV64I zero-knowledge VM over binary fields that uses only standard hashes, and <a href="https://github.com/Lulzx/claim-wire">claim-wire</a>, an incremental compiler that treats every number in a Markdown document as a typed build target traceable to the run that produced it. A number in a document should be as checkable as a function in a program.</p>
+
+        <h3>Biology and physics as programs</h3>
+        <p>The second thread is compiling living and physical systems into runnable, differentiable code. Once you have a fast simulator and exact gradients, you can treat biology and physics like programs. You can run them, inspect them, and change one thing to see what happens.</p>
+        <p>In <a href="https://github.com/Lulzx/fly-brain">fly-brain</a>, the complete connectome of a fruit fly, 165,122 neurons and 104 million synapses, runs as a spiking brain inside a physics-simulated body in the browser. The question it asks is easy to state. Which behaviours come from the wiring diagram alone, and which need rules from outside the graph?</p>
+      </div>
+
+      <figure class="plate" aria-label="A connectome of firing neurons sending motor commands to a simulated fly body, which sends sensory signals back">
+        <div class="plate-bar"><span>Fig. 17 / A brain in a body</span><span>fly-brain</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 240" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Spiking network on the left connected in a loop to a fly drawn from above on the right">
+            <text class="th" x="30" y="28">CONNECTOME</text>
+            <ellipse cx="150" cy="120" rx="118" ry="74" fill="var(--specimen-fill)"/>
+            <g opacity=".45">
+              <path d="M70 110L110 80L160 96L210 78L240 118L200 150L150 160L104 146Z M110 80L150 160 M160 96L200 150 M70 110L240 118 M104 146L210 78"/>
+            </g>
+            <g fill="currentColor">
+              <g class="m m-blink" style="--i:0"><circle cx="70" cy="110" r="4"/></g>
+              <g class="m m-blink" style="--i:1"><circle cx="110" cy="80" r="4"/></g>
+              <g class="m m-blink" style="--i:2"><circle cx="160" cy="96" r="4"/></g>
+              <g class="m m-blink" style="--i:3"><circle cx="210" cy="78" r="4"/></g>
+              <g class="m m-blink" style="--i:4"><circle cx="240" cy="118" r="4"/></g>
+              <g class="m m-blink" style="--i:5"><circle cx="200" cy="150" r="4"/></g>
+              <g class="m m-blink" style="--i:6"><circle cx="150" cy="160" r="4"/></g>
+              <g class="m m-blink" style="--i:7"><circle cx="104" cy="146" r="4"/></g>
+            </g>
+            <text class="ts" x="70" y="216">165,122 neurons, 104M synapses</text>
+
+            <g class="m m-flow"><path d="M280 96C340 70 400 70 450 92"/><path d="M450 148C400 170 340 170 280 144"/></g>
+            <path d="M444 86L452 93L442 96"/>
+            <path d="M286 150L278 144L288 140"/>
+            <text class="t" x="324" y="66">motor commands</text>
+            <text class="t" x="340" y="186">senses</text>
+
+            <text class="th" x="480" y="28">SIMULATED BODY</text>
+            <g class="m m-sway m-piv" style="transform-origin:540px 120px;--d:.6s">
+              <path d="M528 104L496 84 M528 120L492 120 M528 136L496 158 M552 104L584 84 M552 120L588 120 M552 136L584 158"/>
+            </g>
+            <ellipse cx="510" cy="112" rx="14" ry="38" transform="rotate(-24 510 112)" fill="var(--paper)" opacity=".8"/>
+            <ellipse cx="570" cy="112" rx="14" ry="38" transform="rotate(24 570 112)" fill="var(--paper)" opacity=".8"/>
+            <ellipse cx="540" cy="128" rx="16" ry="40" fill="var(--specimen-fill)"/>
+            <circle cx="540" cy="78" r="12" fill="var(--specimen-fill)"/>
+            <circle cx="534" cy="74" r="3" fill="currentColor"/><circle cx="546" cy="74" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p>In <a href="https://github.com/Lulzx/worm-sim">worm-sim</a>, <a href="https://github.com/Lulzx/occam-worm">occam-worm</a>, and <a href="https://github.com/Lulzx/molecular-compiler">molecular-compiler</a>, connectomes and molecular profiles of <em>C. elegans</em> are compiled into differentiable simulations to search for compact local neural update rules that predict causal responses in animals the model hasn't seen. The same first-principles simulation work extends to whole <em>E. coli</em> cells (<a href="https://github.com/Lulzx/life-sim">life-sim</a>), magnetic nozzles and tokamak plasma (<a href="https://github.com/Lulzx/helicon">helicon</a>, <a href="https://github.com/Lulzx/driftmap">driftmap</a>, <a href="https://github.com/Lulzx/plasma-tsu-tomo">plasma-tsu-tomo</a>), GPS-denied drone swarms (<a href="https://github.com/Lulzx/skein">skein</a>), urban microclimates (<a href="https://github.com/Lulzx/urbancool-jax">urbancool-jax</a>), and lithium-ion battery degradation (<a href="https://github.com/Lulzx/BatteryUDE.jl">BatteryUDE.jl</a>).</p>
+
+        <h3>Agents inside deterministic walls</h3>
+        <p>The third thread is autonomous software guarded by hard deterministic boundaries. I build agent environments (<a href="https://github.com/Lulzx/helium">helium</a>, <a href="https://github.com/Lulzx/carry-terminal">carry-terminal</a>, <a href="https://github.com/Lulzx/mimo-build">mimo-build</a>), capability sandboxes (<a href="https://github.com/Lulzx/caplock">caplock</a>), declarative deployment engines (<a href="https://github.com/Lulzx/alchemy-celld">alchemy-celld</a>), and self-running media and commerce pipelines. They all follow the rule I learned on my phone in 2017, adjusted for a new kind of process: never let a probabilistic step hold state or custody.</p>
+        <p>A language model has a lot in common with a bot process at 3am. It will usually do the right thing. Sometimes it won't, and you won't be awake when that happens. So the model proposes and deterministic code decides. Deterministic code owns the log (<a href="https://github.com/Lulzx/memo">memo</a>), the grammar (<a href="https://github.com/Lulzx/typed-inference">typed-inference</a>), the permissions, and the verification gate. When the model is wrong, the damage stops at the gate, and the log still says exactly what happened.</p>
+      </div>
+
+      <figure class="plate" aria-label="A model proposes an action. A deterministic gate checks grammar, permissions, and verification. Accepted actions are appended to a log. Rejected ones go back to the model.">
+        <div class="plate-bar"><span>Fig. 18 / The model proposes, code decides</span><span>Custody in code</span></div>
+        <div class="plate-canvas">
+          <svg viewBox="0 0 640 230" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Model box with dashed border, arrow to a gate with three checks, arrow to an append-only log, and a return arrow for rejected proposals">
+            <rect x="24" y="64" width="140" height="80" rx="10" fill="var(--specimen-fill)" stroke-dasharray="5 4"/>
+            <text class="t" x="40" y="98">model</text>
+            <text class="ts" x="40" y="114">probabilistic</text>
+            <text class="ts" x="40" y="128">holds nothing</text>
+            <g class="m m-flow"><path d="M164 104H226"/></g>
+            <path d="M220 99L227 104L220 109"/>
+            <text class="ts" x="170" y="94">proposal</text>
+
+            <rect x="228" y="40" width="170" height="128" fill="var(--specimen-fill)"/>
+            <text class="th" x="242" y="60">DETERMINISTIC GATE</text>
+            <rect x="242" y="72" width="142" height="24"/><text class="t" x="252" y="88">grammar</text>
+            <rect x="242" y="102" width="142" height="24"/><text class="t" x="252" y="118">permissions</text>
+            <rect x="242" y="132" width="142" height="24"/><text class="t" x="252" y="148">verify</text>
+            <g class="m m-blink" style="--i:0"><circle cx="370" cy="84" r="3.5" fill="currentColor"/></g>
+            <g class="m m-blink" style="--i:2"><circle cx="370" cy="114" r="3.5" fill="currentColor"/></g>
+            <g class="m m-blink" style="--i:4"><circle cx="370" cy="144" r="3.5" fill="currentColor"/></g>
+
+            <g class="m m-flow"><path d="M398 104H452"/></g>
+            <path d="M446 99L453 104L446 109"/>
+            <text class="ts" x="404" y="94">accepted</text>
+
+            <text class="th" x="456" y="36">APPEND-ONLY LOG</text>
+            <rect x="456" y="46" width="160" height="22"/>
+            <rect x="456" y="72" width="160" height="22"/>
+            <rect x="456" y="98" width="160" height="22"/>
+            <g class="m m-pulse"><rect x="456" y="124" width="160" height="22" fill="currentColor" opacity=".3"/></g>
+            <rect x="456" y="124" width="160" height="22"/>
+            <g class="ts"><text x="464" y="61">0041 ok</text><text x="464" y="87">0042 ok</text><text x="464" y="113">0043 rejected</text><text x="464" y="139">0044 ok</text></g>
+
+            <path d="M312 168V200H94V144" stroke-dasharray="4 4"/>
+            <path d="M89 150L94 143L99 150"/>
+            <text class="t" x="128" y="194">rejected: try again</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="repo-index" aria-label="Repositories from this chapter">
+        <div class="repo-group">
+          <h4>Compression and proof</h4>
           <div class="repo-pills">
             <a class="repo-pill" href="https://github.com/Lulzx/solon">solon</a>
             <a class="repo-pill" href="https://github.com/Lulzx/supsearch">supsearch</a>
             <a class="repo-pill" href="https://github.com/Lulzx/ontogenesis">ontogenesis</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/progen">progen</a>
             <a class="repo-pill" href="https://github.com/Lulzx/gavel">gavel</a>
             <a class="repo-pill" href="https://github.com/Lulzx/open-magnetar">open-magnetar</a>
             <a class="repo-pill" href="https://github.com/Lulzx/claim-wire">claim-wire</a>
           </div>
         </div>
-
-        <!-- Thread 2: Differentiable Biology & Physics -->
-        <div class="tri-card">
-          <div class="plate-bar"><span>06.B / Living &amp; Physical Code</span><span>165,122 neurons</span></div>
-          <div class="tri-canvas">
-            <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <ellipse cx="100" cy="60" rx="68" ry="34" transform="rotate(-8 100 60)" fill="var(--specimen-fill)"/>
-              <g class="m m-flow">
-                <path d="M52 62Q78 32 102 60T148 54"/>
-                <path d="M56 68Q84 86 106 56T144 66"/>
-              </g>
-              <g class="m m-blink"><circle cx="68" cy="52" r="3" fill="currentColor"/></g>
-              <g class="m m-blink" style="--i:1"><circle cx="96" cy="48" r="3.5" fill="currentColor"/></g>
-              <g class="m m-blink" style="--i:2"><circle cx="104" cy="68" r="3" fill="currentColor"/></g>
-              <g class="m m-blink" style="--i:3"><circle cx="130" cy="58" r="3.5" fill="currentColor"/></g>
-            </svg>
-          </div>
-          <h3>Executable Biology &amp; Physics</h3>
-          <p>Running the full 165,122-neuron fruit fly connectome inside a simulated body in the browser (<a class="inline-link" href="https://github.com/Lulzx/fly-brain">fly-brain</a>), compiling <em>C. elegans</em> connectomes into differentiable models to find minimal causal neural update rules (<a class="inline-link" href="https://github.com/Lulzx/worm-sim">worm-sim</a>, <a class="inline-link" href="https://github.com/Lulzx/occam-worm">occam-worm</a>, <a class="inline-link" href="https://github.com/Lulzx/molecular-compiler">molecular-compiler</a>), and simulating whole cells, plasma, microclimates, and Li-ion degradation.</p>
+        <div class="repo-group">
+          <h4>Living and physical systems</h4>
           <div class="repo-pills">
             <a class="repo-pill" href="https://github.com/Lulzx/fly-brain">fly-brain</a>
-            <a class="repo-pill" href="https://github.com/Lulzx/occam-worm">occam-worm</a>
             <a class="repo-pill" href="https://github.com/Lulzx/worm-sim">worm-sim</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/occam-worm">occam-worm</a>
             <a class="repo-pill" href="https://github.com/Lulzx/molecular-compiler">molecular-compiler</a>
             <a class="repo-pill" href="https://github.com/Lulzx/life-sim">life-sim</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/helicon">helicon</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/driftmap">driftmap</a>
             <a class="repo-pill" href="https://github.com/Lulzx/plasma-tsu-tomo">plasma-tsu-tomo</a>
+            <a class="repo-pill" href="https://github.com/Lulzx/skein">skein</a>
             <a class="repo-pill" href="https://github.com/Lulzx/urbancool-jax">urbancool-jax</a>
             <a class="repo-pill" href="https://github.com/Lulzx/BatteryUDE.jl">BatteryUDE.jl</a>
           </div>
         </div>
-
-        <!-- Thread 3: Deterministic Custody Around Agents -->
-        <div class="tri-card">
-          <div class="plate-bar"><span>06.C / Guarded Loops</span><span>Custody in code</span></div>
-          <div class="tri-canvas">
-            <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="26" y="22" width="52" height="76" fill="var(--specimen-fill)"/>
-              <g class="m m-pulse"><rect x="34" y="32" width="36" height="10" fill="currentColor"/></g>
-              <rect x="34" y="50" width="36" height="10"/>
-              <rect x="34" y="68" width="36" height="10"/>
-              <g class="m m-flow"><path d="M78 60H114"/></g>
-              <rect x="114" y="26" width="60" height="68" fill="var(--specimen-fill)"/>
-              <rect x="126" y="42" width="36" height="36"/>
-              <g class="m m-beat"><circle cx="144" cy="60" r="5" fill="currentColor"/></g>
-            </svg>
-          </div>
-          <h3>Deterministic Boundaries</h3>
-          <p>When orchestrating parallel coding agents (<a class="inline-link" href="https://github.com/Lulzx/helium">helium</a>, <a class="inline-link" href="https://github.com/Lulzx/carry-terminal">carry-terminal</a>, <a class="inline-link" href="https://github.com/Lulzx/mimo-build">mimo-build</a>), sandboxing dependencies (<a class="inline-link" href="https://github.com/Lulzx/caplock">caplock</a>), or reconciling infrastructure (<a class="inline-link" href="https://github.com/Lulzx/alchemy-celld">alchemy-celld</a>), the 2017 phone-bot rule holds: deterministic code owns the log (<a class="inline-link" href="https://github.com/Lulzx/memo">memo</a>), grammar (<a class="inline-link" href="https://github.com/Lulzx/typed-inference">typed-inference</a>), and custody.</p>
+        <div class="repo-group">
+          <h4>Agents and custody</h4>
           <div class="repo-pills">
             <a class="repo-pill" href="https://github.com/Lulzx/helium">helium</a>
             <a class="repo-pill" href="https://github.com/Lulzx/carry-terminal">carry-terminal</a>
@@ -1062,15 +1545,25 @@
         </div>
       </div>
 
-      <!-- Coda -->
       <div class="story-coda">
-        <p>I opened this repository in September 2017 with the description "My website to tell my story." The machines got faster and the problems moved from quote bots on a phone screen to compilers, GPU kernels, and whole-brain connectomes, but the bias never changed: keep the footprint small, read the source, and own the stack from the bytes up.</p>
+        <p>I opened this site's repository in September 2017 with the description "My website to tell my story." The machines got faster since then. The problems moved from quote bots on a phone screen to compilers, GPU kernels, and whole-brain connectomes. The bias stayed where the Pentium 4 put it: keep the footprint small, read the source, and own the stack from the bytes up.</p>
         <div class="story-coda-links">
           <a href="/">Browse all projects →</a>
           <a href="/learn">Read the writing garden →</a>
           <a href="/gallery/">View photographs →</a>
         </div>
       </div>
+
+      <aside class="story-notes" id="notes">
+        <h2>Notes</h2>
+        <ol>
+          <li id="note-1">A tiling window manager arranges windows so they never overlap. Each new window takes a share of the screen and the others shrink to make room. You stop dragging windows around and start deciding how many things you're looking at. <a href="#ref-1" aria-label="Back to text">↩</a></li>
+          <li id="note-2">HNSW stands for hierarchical navigable small world. It builds a stack of graphs over the points, sparse at the top and dense at the bottom. A search starts at the top and takes long hops toward the query, then drops a layer and takes shorter ones. <a href="#ref-2" aria-label="Back to text">↩</a></li>
+          <li id="note-3">On a typical desktop the GPU has its own memory, and anything it works on has to be copied there first. For a large model the weights alone can be bigger than that separate memory. <a href="#ref-3" aria-label="Back to text">↩</a></li>
+          <li id="note-4">The trick is to hold one double as the unevaluated sum of two single-precision floats, a high part and a low part, and to write arithmetic that carries the rounding error of each operation into the low part. Each double operation costs several float operations, but it runs on hardware with no doubles at all. <a href="#ref-4" aria-label="Back to text">↩</a></li>
+          <li id="note-5">Minimum Description Length scores a model by the bits needed to write down the model plus the bits needed to write down the data using that model. A model that memorizes is long. A model that's too simple leaves the data expensive to encode. The shortest total wins. <a href="#ref-5" aria-label="Back to text">↩</a></li>
+        </ol>
+      </aside>
     </section>
   </article>
 </main>
